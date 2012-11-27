@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  program_name: MyString
+  program_title: MyString
+  program_url: MyString
+  creater: one
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>
+
+two:
+  program_name: MyString
+  program_title: MyString
+  program_url: MyString
+  creater: one
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>

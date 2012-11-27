@@ -1,0 +1,13 @@
+<h1>Welcome to NUCATS Assist</h1>
+
+<p>NUCATS Assist provides tools for investigators, reviewers and administrators to run various types of reviews and competitions including pilot projects, research awards, and reviews. </p>
+
+<p> Below is a list of available competitions and projects. If the application period is open, an 'Apply' button will appear to the left of the competition name. To view additional information or access existing your submissions, reviews, etc, click the listing for a competition. You will be prompted to login. After logging in, you will be presented with more options.</p>
+
+<br />
+
+<h1>Listing of current and recent competitions</h1>
+
+<%= render(:partial => 'shared/project_selection_list', :locals=>{:projects=>@projects}) %>
+
+How to: <%= link_to( "Site instructions", image_path("../docs/NUCATS_Assist_Instructions.pdf"), :title=>"NUCATS Pilot Proposal Web Site Instructions/Help/HowTo") %><br />

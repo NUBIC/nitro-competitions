@@ -1,0 +1,73 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  project: one
+  applicant: one
+  submitter: two
+  submission_title: MyString
+  submission_status: Pending
+  is_human_subjects_research: true
+  is_irb_approved: true
+  irb_study_num: STU00001234
+  use_nucats_cru: false
+  use_vertebrate_animals: false
+  direct_project_cost: 5000
+  is_new: true
+  use_nmh: true
+  not_new_explanation: MyString
+  other_funding_sources: TheJones
+  is_conflict: false
+  effort_approver: one
+  effort_approval_at: 2009-09-28 20:54:54
+  effort_approver_ip: 127.0.0.1
+  department_administrator: one
+  core_manager: one
+  application_document_id: 1
+  budget_document_id: 1
+  other_support_document_id: 1
+  document1_id: 1
+  submission_category: PopTarts
+  cost_sharing_amount: 10
+  cost_sharing_organization: NUCATS
+  received_previous_support: false
+  previous_support_description: none
+  committee_review_approval: true
+  abstract: ThisIsTheTimeForAllGoodPeople
+  submission_at: 2009-09-28 20:54:54
+  completion_at: 2009-09-28 20:54:54
+
+two:
+  project: one
+  applicant: one
+  submitter: one
+  submission_title: MyString
+  submission_status: Pending
+  is_human_subjects_research: true
+  is_irb_approved: true
+  irb_study_num: STU00001234
+  use_nucats_cru: false
+  use_vertebrate_animals: false
+  direct_project_cost: 5000
+  is_new: true
+  use_nmh: true
+  not_new_explanation: MyString
+  other_funding_sources: TheJones
+  is_conflict: false
+  effort_approver: two
+  effort_approval_at: 2009-09-28 20:54:54
+  effort_approver_ip: 127.0.0.1
+  department_administrator: one
+  core_manager: one
+  application_document_id: 1
+  budget_document_id: 1
+  other_support_document_id: 1
+  document1_id: 1
+  submission_category: PopTarts
+  cost_sharing_amount: 10
+  cost_sharing_organization: NUCATS
+  received_previous_support: false
+  previous_support_description: none
+  committee_review_approval: true
+  abstract: ThisIsTheTimeForAllGoodPeople
+  submission_at: 2009-09-28 20:54:54
+  completion_at: 2009-09-28 20:54:54

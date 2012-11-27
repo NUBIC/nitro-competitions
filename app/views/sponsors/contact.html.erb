@@ -1,0 +1,33 @@
+<h2>Contact Info for  <%=h [@contact.name,@contact.name_suffix,@contact.degrees].compact.join(", ") %></h2>
+
+<p>
+  <b>Email:</b>
+  <%= mail_to(@contact.email, @contact.email,
+				:subject => "From NUCATS Assist", 
+				:title=>"Send email to #{@contact.name}") unless @contact.email.blank? %>
+</p>
+
+<p>
+  <b>Work phone:</b>
+  <%=h @contact.business_phone %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @contact.title %>
+</p>
+
+<p>
+  <b>Primary department:</b>
+  <%=h @contact.primary_department %>
+</p>
+
+<p>
+  <b>Campus:</b>
+  <%=h @contact.campus %>
+</p>
+
+<p>
+  <b>Campus Address:</b>
+  <%=h @contact.campus_address %>
+</p>

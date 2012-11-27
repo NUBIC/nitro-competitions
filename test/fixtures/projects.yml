@@ -1,0 +1,95 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  project_name: MyString
+  project_title: MyStringAloneIsNotLongEnough
+  project_description: MyString
+  project_url: MyString
+  program: one
+  initiation_date: <%= Date.today %>
+  submission_open_date: <%= Date.today %>
+  submission_close_date: <%= Date.today %>
+  review_start_date: <%= Date.today %>
+  review_end_date: <%= Date.today %>
+  project_period_start_date: <%= Date.today %>
+  project_period_end_date: <%= Date.today %>
+  status: MyString
+  min_budget_request: 5000
+  max_budget_request: 100000
+  max_assigned_reviewers_per_proposal: 2
+  max_assigned_proposals_per_reviewer: 2
+  applicant_wording: Principal Investigator
+  creater: one
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>
+
+two:
+  project_name: MyString2
+  project_title: MyString2AloneIsNotLongEnough
+  project_description: MyString
+  project_url: MyString
+  program: one
+  initiation_date: 2009-09-28
+  submission_open_date: 2009-09-28
+  submission_close_date: 2009-09-28
+  review_start_date: 2009-09-28
+  review_end_date: 2009-09-28
+  project_period_start_date: 2009-09-28
+  project_period_end_date: 2009-09-28
+  status: MyString
+  min_budget_request: 1000
+  max_budget_request: 2000
+  max_assigned_reviewers_per_proposal: 2
+  max_assigned_proposals_per_reviewer: 2
+  applicant_wording: Principal Investigator
+  creater: one
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>
+
+three:
+  id: 3
+  project_name: MyString3
+  project_title: MyString3
+  project_description: MyString
+  project_url: MyString
+  program: one
+  initiation_date: 2009-09-28
+  submission_open_date: 2009-09-28
+  submission_close_date: 2009-09-28
+  review_start_date: 2009-09-28
+  review_end_date: 2009-09-28
+  project_period_start_date: 2009-09-28
+  project_period_end_date: 2009-09-28
+  status: MyString
+  min_budget_request: 1000
+  max_budget_request: 2000
+  max_assigned_reviewers_per_proposal: 2
+  max_assigned_proposals_per_reviewer: 2
+  applicant_wording: Principal Investigator
+  creater: one
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>
+
+four:
+  id: 1
+  project_name: MyString4
+  project_title: MyString4
+  project_description: MyString
+  project_url: MyString
+  program: one
+  initiation_date: 2009-09-28
+  submission_open_date: 2009-09-28
+  submission_close_date: 2009-09-28
+  review_start_date: 2009-09-28
+  review_end_date: 2009-09-28
+  project_period_start_date: 2009-09-28
+  project_period_end_date: 2009-09-28
+  status: MyString
+  min_budget_request: 1000
+  max_budget_request: 2000
+  max_assigned_reviewers_per_proposal: 2
+  max_assigned_proposals_per_reviewer: 2
+  applicant_wording: Principal Investigator
+  creater: one
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>

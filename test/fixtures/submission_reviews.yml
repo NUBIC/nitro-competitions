@@ -1,0 +1,37 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  submission: one
+  reviewer: two
+  review_score: 1.5
+  review_text: MyText
+  review_doc: 
+  review_status: MyString
+  review_completed_at: 2009-09-30 16:02:57
+  innovation_score: 1
+  impact_score: 1
+  scope_score: 1
+  team_score: 1
+  environment_score: 1
+  budget_score: 1
+  completion_score: 1
+  overall_score: 1
+  other_score: 1
+
+two:
+  submission: two
+  reviewer: two
+  review_score: 1.5
+  review_text: MyText
+  review_doc: 
+  review_status: MyString
+  review_completed_at: 2009-09-30 16:02:57
+  innovation_score: 1
+  impact_score: 1
+  scope_score: 1
+  team_score: 1
+  environment_score: 1
+  budget_score: 1
+  completion_score: 1
+  overall_score: 1
+  other_score: 1

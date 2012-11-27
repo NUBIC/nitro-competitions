@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  submission: one
+  user: two
+  role: MyString
+  username: MyString
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+
+two:
+  submission: two
+  user: two
+  role: MyString
+  username: MyString
+  first_name: MyString
+  last_name: MyString
+  email: MyString

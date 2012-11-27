@@ -1,0 +1,26 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  file_content_type: html/text
+  file_file_name: MyString
+  created_id: 1
+  created_ip: MyString
+  updated_id: 1
+  updated_ip: MyString
+
+two:
+  file_content_type: html/text
+  file_file_name: MyString
+  created_id: 1
+  created_ip: MyString
+  updated_id: 1
+  updated_ip: MyString
+
+three:
+  id: 3
+  file_content_type: html/text
+  file_file_name: MyString
+  created_id: 1
+  created_ip: MyString
+  updated_id: 1
+  updated_ip: MyString

@@ -1,0 +1,65 @@
+users:
+  pgreenld:
+    first_name: Phil
+    last_name: Greenland
+    password: pgreenld
+    portals:
+      - NUCATSassist:
+  tch554:
+    first_name: Leong
+    last_name: Chew
+    password: tch554
+    portals:
+      - NUCATSassist:
+  seidman:
+    first_name: David
+    last_name: Seidman
+    password: seidman
+    portals:
+      - NUCATSassist:
+  ccg359:
+    first_name: Cara
+    last_name: Crosby
+    password: ccg359
+    portals:
+      - NUCATSassist:
+  dml370:
+    first_name: Donald
+    last_name: Lloyd-Jones
+    password: dml370
+    portals:
+      - NUCATSassist:
+  admin:
+    first_name: Admin
+    last_name: Admin
+    password: admin
+    portals:
+      - NUCATSassist:
+  wakibbe:
+    first_name: Warren
+    last_name: Kibbe
+    password: demo
+    portals:
+      - NUCATSassist:
+  chisholm:
+    first_name: Rex
+    last_name: Chisholm
+    password: chisholm
+    portals:
+      - NUCATSassist:
+  user:
+    password: user
+    portals:
+      - NUCATSassist:
+  jab155:
+    first_name: Jim
+    last_name: Bray
+    password: jab155
+    portals:
+      - NUCATSassist:
+  cac286:
+    first_name: Cynthia
+    last_name: Csernansky
+    password: cac286
+    portals:
+      - NUCATSassist:

@@ -1,0 +1,1 @@
+page["key_personnel_#{(params[:index]||0)}"].remove 

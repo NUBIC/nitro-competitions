@@ -1,0 +1,621 @@
+<table>
+	<tr><td class="title">
+		<%= f.hidden_field :program_id %>
+	    <%= f.label "Competition Name" %></td>
+		<td class="notes" colspan="2"><%= f.text_field :project_name, :size=>20 %> Short, no space name for the competition. This is the name that will appear in the URL for the competition, like 'https://grants.nubic.northwestern.edu/competitions/cti/spring2011' where spring2011 is the competition name </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label "Competition Title" %></td>
+		<td class="notes" colspan="2"><%= f.text_field :project_title, :size=>80 %> Descriptive Title. Required</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label "Competition URL"  %></td>
+		<td class="notes" colspan="2"> <%= f.text_field :project_url, :size=>80 %> URL for more information about the competition</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :project_url_label, "Competition URL label" %></td>
+		<td class="notes" colspan="2"><%= f.text_field :project_url_label, :size=>80 %> 'Competition RFA' is the default.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :initiation_date  %></td>
+		<td class="notes" colspan="2"> <%= f.text_field :initiation_date, :size=>15 %> Date this competition will first appear on NUCATS Assist (this web site)</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :submission_open_date  %></td>
+		<td class="notes" colspan="2"> <%= f.text_field :submission_open_date, :size=>15 %> Date when applicants can first start to apply for the competition</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :submission_close_date  %></td>
+		<td class="notes" colspan="2"> <%= f.text_field :submission_close_date, :size=>15 %> Last date (at midnight that day) when the applicants can submit their submission</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :submission_modification_date  %></td>
+		<td class="notes" colspan="2"> <%= f.text_field :submission_modification_date, :size=>15 %> Last date (at midnight that day) when the applicants can modify their submission. By default the same as the submission_close_date but you can make it later to give applicants a chance to modify existing proposals.</td>
+	</tr>
+	
+	<tr><td class="title">
+	    <%= f.label :review_start_date  %></td>
+		<td class="notes" colspan="2"> <%= f.text_field :review_start_date, :size=>15 %> Start of the Review process. Date when the reviewers can first access the review form.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :review_end_date %></td>
+		<td class="notes" colspan="2"><%= f.text_field :review_end_date, :size=>15 %> End of the Review process. Final date when the reviewers can change the review form.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :project_period_start_date %></td>
+		<td class="notes" colspan="2"><%= f.text_field :project_period_start_date, :size=>15 %> When the project funding starts. Informational only.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :project_period_end_date %></td>
+		<td class="notes" colspan="2"><%= f.text_field :project_period_end_date, :size=>15 %> When the project funding ends. Informational only.</td>
+	</tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Select elements to require / show
+	  </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :require_era_commons_name %></td>
+		<td class="notes" colspan="2"><%= f.check_box :require_era_commons_name %>
+		Check to require a <b>ERA Commons name</b> for the principal investigator. This is the unique investigator name given by the NIH for any investigator applying for federal money as 'key personnel'
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :show_effort_approver %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_effort_approver %>
+		Check to include the <b>effort approver</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :effort_approver_title %></td>
+		<td class="notes" colspan="2"><%= f.text_field :effort_approver_title, :size=>80 %> If you include the 'effort approver' item, please enter the proper wording. This would be 'Chair' for most competitions, 'Facility Committee Chair' for the OR competition, 'Mentor' for training awards</td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_department_administrator %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_department_administrator %>
+		Check to include the <b>department administrator</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :department_administrator_title %></td>
+		<td class="notes" colspan="2"><%= f.text_field :department_administrator_title, :size=>80 %> If you include the 'department administrator' item, please enter the proper wording. This would be 'Financial contact' for most competitions</td>
+	</tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Customize wording of data fields for this competition
+	  </td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :applicant_wording %></td>
+		<td class="notes" colspan="2"><%= f.text_field :applicant_wording, :size=>80 %> 'Principal Investigator' is the default. The OR core facilities competition uses 'Core Facilities Director'</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :applicant_abbreviation_wording %></td>
+		<td class="notes" colspan="2"><%= f.text_field :applicant_abbreviation_wording, :size=>80 %> 'PI' is the default. The OR core facilities competition uses 'Director'</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :title_wording %></td>
+		<td class="notes" colspan="2"><%= f.text_field :title_wording, :size=>80 %> 'Title of Project' is the default. The OR core facilities competition uses 'Request Title'</td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_other_funding_sources %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_other_funding_sources %>
+		Check to include the <b>other funding_sources</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :other_funding_sources_wording %></td>
+		<td class="notes" colspan="2"><%= f.text_field :other_funding_sources_wording, :size=>80 %> 'Other funding sources' for most competitions</td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_submission_category %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_submission_category %>
+		Check to include the <b>submission category</b> submission form item. Not used by most competitions.
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :category_wording, "Submission category wording" %></td>
+		<td class="notes" colspan="2"><%= f.text_field :category_wording, :size=>80 %>  OR uses 'Core Facility Name'</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :submission_category_description %></td>
+		<td class="notes" colspan="2"><%= f.text_field :submission_category_description, :size=>80 %>  OR default: 'Please enter the core you are making this submission for'</td>
+	</tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Customize template and help documentation URLs and wording
+	  </td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_application_doc %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_application_doc %>
+		Check to include the <b>application document</b> upload file form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :application_doc_name %></td>
+		<td class="notes" colspan="2"><%= f.text_field :application_doc_name, :size=>80  %> Label name for <b>application document</b> upload item. </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :application_doc_description %></td>
+		<td class="notes" colspan="2"><%= f.text_area :application_doc_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+		Descriptive text to help submitters/reviewers understand what should be in the <b>application document</b> 
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :application_template_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :application_template_url, :size=>80 %> URL for the <b>application template</b>, if it exists.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :application_template_url_label %></td>
+		<td class="notes" colspan="2"><%= f.text_field :application_template_url_label, :size=>80 %> label for the URL to the <b>application template</b></td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :application_info_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :application_info_url, :size=>80 %> URL for instructions for how to fill in the <b>application template</b>, if it exists.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :application_info_url_label %></td>
+		<td class="notes" colspan="2"><%= f.text_field :application_info_url_label, :size=>80 %> label for the URL to the <b>application instructions</b></td>
+	</tr>
+	
+	<tr><td class="title">
+	    <%= f.label :show_budget_form %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_budget_form %>
+		Check to include the <b>budget form</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :budget_template_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :budget_template_url, :size=>80 %> URL for the <b>budget template</b>, if it is shown.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :budget_template_url_label %></td>
+		<td class="notes" colspan="2"><%= f.text_field :budget_template_url_label, :size=>80 %> label for the URL to the <b>budget template</b></td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :budget_info_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :budget_info_url, :size=>80 %> URL for instructions for how to fill in the <b>budget template</b>, if it is shown.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :budget_info_url_label %></td>
+		<td class="notes" colspan="2"><%= f.text_field :budget_info_url_label, :size=>80 %> label for the URL to the <b>budget instructions</b></td>
+	</tr>
+	
+	<tr>
+	  <td id="title" colspan="3">
+		Documents and manage co-investigators
+	  </td>
+	</tr>
+	
+	<tr><td class="title">
+	    <%= f.label :show_manage_biosketches %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_manage_biosketches %>
+		Check to include the ability to include an NIH <b>biosketch</b> document as an uploadable file for the PI and co-investigators
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_manage_coinvestigators %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_manage_coinvestigators %>
+		Check to include the ability to include <b>co-investigators</b> in the submission (part of the Edit Documents form)
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_manage_other_support %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_manage_other_support %>
+		Check to include the <b>NIH Other Support</b> document as an uploadable file
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :manage_other_support_text %></td>
+		<td class="notes" colspan="2"><%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %> text to include with the <b>NIH Other Support</b> document item</td>
+	</tr>
+	
+	<tr><td class="title">
+	    <%= f.label :show_document1 %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_document1 %>
+		Check to include <b>document1</b> as an uploadable file
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document1_name %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document1_name, :size=>80  %> Label name for <b>Document1</b> document upload item. For instance, 'OSR-1'. Label used for submitters and reviewers. </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :document1_description %></td>
+		<td class="notes" colspan="2"><%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+		Descriptive text to help submitters/reviewers understand what to find in <b>document 1</b>
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document1_template_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document1_template_url, :size=>80   %>
+		Enter url to the template file for <b>document1</b>, if it exists
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document1_info_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document1_info_url, :size=>80   %>
+		Enter url to additional info/instructions for how to fill in file for <b>document1</b>, if it exists
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_document2 %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_document2 %>
+		Check to include <b>document2</b> as an uploadable file
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document2_name %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document2_name, :size=>80  %> Label name for <b>document2</b> document upload item. For instance, 'OSR-1'. Label used for submitters and reviewers. </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :document2_description %></td>
+		<td class="notes" colspan="2"><%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+		Descriptive text to help submitters/reviewers understand what to find in <b>document 1</b>
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document2_template_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document2_template_url, :size=>80   %>
+		Enter url to the template file for <b>document2</b>, if it exists
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document2_info_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document2_info_url, :size=>80   %>
+		Enter url to additional info/instructions for how to fill in file for <b>document2</b>, if it exists
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_document3 %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_document3 %>
+		Check to include <b>document3</b> as an uploadable file
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document3_name %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document3_name, :size=>80  %> Label name for <b>document3</b> document upload item. For instance, 'OSR-1'. Label used for submitters and reviewers. </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :document3_description %></td>
+		<td class="notes" colspan="2"><%= f.text_area :document3_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+		Descriptive text to help submitters/reviewers understand what to find in <b>document 3</b>
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document3_template_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document3_template_url, :size=>80   %>
+		Enter url to the template file for <b>document 3</b>, if it exists
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document3_info_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document3_info_url, :size=>80   %>
+		Enter url to additional info/instructions for how to fill in file for <b>document 3</b>, if it exists
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_document4 %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_document4 %>
+		Check to include <b>document 4</b> as an uploadable file
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document4_name %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document4_name, :size=>80  %> Label name for <b>document 4</b> document upload item. For instance, 'OSR-1'. Label used for submitters and reviewers. </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :document4_description %></td>
+		<td class="notes" colspan="2"><%= f.text_area :document4_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+		Descriptive text to help submitters/reviewers understand what to find in <b>document 4</b>
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document4_template_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document4_template_url, :size=>80   %>
+		Enter url to the template file for <b>document 4</b>, if it exists
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :document4_info_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :document4_info_url, :size=>80   %>
+		Enter url to additional info/instructions for how to fill in file for <b>document 4</b>, if it exists
+	</td></tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Direct Cost item, wording and budget request limits
+	  </td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_project_cost %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_project_cost %>
+		Check to include "project cost item" in the submission form
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :direct_project_cost_wording %></td>
+		<td class="notes" colspan="2"><%= f.text_field :direct_project_cost_wording, :size=>80 %> 'Project Budget Request, Directs Only' for most competitions</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :min_budget_request %></td>
+		<td class="notes" colspan="2"><%= f.text_field :min_budget_request, :size=>15 %></td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :max_budget_request %></td>
+		<td class="notes" colspan="2"><%= f.text_field :max_budget_request, :size=>15 %></td>
+	</tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Select submission items to show
+	  </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :show_is_new %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_is_new %>
+		Check to include the <b>is new</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :is_new_wording %></td>
+		<td class="notes" colspan="2"><%= f.text_field :is_new_wording, :size=>80 %> 'Is this completely new work?' for most competitions</td>
+	</tr>
+
+	
+	<tr>
+	  <td id="title" colspan="3">
+		OR Core Facilities items
+	  </td>
+	</tr>
+	
+	<tr><td class="title">
+	    <%= f.label :show_core_manager %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_core_manager %>
+		Check to include the <b>Core Manager</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :show_cost_sharing_amount %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_cost_sharing_amount %>
+		Check to include the <b>cost sharing amount</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :show_cost_sharing_organization %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_cost_sharing_organization %>
+		Check to include the <b>cost sharing organization</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :show_received_previous_support %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_received_previous_support %>
+		Check to include the <b>Received Previous Support</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :show_previous_support_description %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_previous_support_description %>
+		Check to include the <b>Previous Support Description</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :show_committee_review_approval %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_committee_review_approval %>
+		Check to include the <b>Committee Review Approval</b> submission form item
+	</td></tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		CTI and NMF items
+	  </td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_abstract_field %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_abstract_field %>
+		Check to include an <b>abstract</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :abstract_text, "Abstract wording" %></td>
+		<td class="notes" colspan="2"><%= f.text_area :abstract_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %> text to include with the <b>abstract</b> submission form item</td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_human_subjects_research %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_human_subjects_research %>
+		Check to include the <b>human subjects research</b> submission form item
+	</td></tr>
+	<tr><td class="title">
+	    <%= f.label :human_subjects_research_text, "Human subjects research help wording" %></td>
+		<td class="notes" colspan="2"><%= f.text_area :human_subjects_research_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %> text to include with the <b>human subjects research</b> submission form item</td>
+	</tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_irb_approved %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_irb_approved %>
+		Check to include the <b>irb approved</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_irb_study_num %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_irb_study_num %>
+		Check to include the <b>irb study_num</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_nucats_cru %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_nucats_cru %>
+		Check to include the <b>use nucats_cru</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_nucats_cru_contact_name %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_nucats_cru_contact_name %>
+		Check to include the <b>nucats cru_contact_name</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_stem_cells %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_stem_cells %>
+		Check to include the <b>use stem_cells</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_embryonic_stem_cells %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_embryonic_stem_cells %>
+		Check to include the <b>use embryonic_stem_cells</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_vertebrate_animals %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_vertebrate_animals %>
+		Check to include the <b>use vertebrate_animals</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_iacuc_approved %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_iacuc_approved %>
+		Check to include the <b>iacuc approved</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_iacuc_study_num %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_iacuc_study_num %>
+		Check to include the <b>iacuc study_num</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_not_new_explanation %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_not_new_explanation %>
+		Check to include the <b>not new_explanation</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_nmh %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_nmh %>
+		Check to include the <b>use nmh</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_nmff %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_nmff %>
+		Check to include the <b>use nmff</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_va %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_va %>
+		Check to include the <b>use va</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_ric %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_ric %>
+		Check to include the <b>use ric</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_use_cmh %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_use_cmh %>
+		Check to include the <b>use cmh</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_is_conflict %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_is_conflict %>
+		Check to include the <b>is conflict</b> submission form item
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_conflict_explanation %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_conflict_explanation %>
+		Check to include the <b>conflict explanation</b> submission form item
+	</td></tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Reviewer limits
+	  </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :max_assigned_reviewers_per_proposal %></td>
+		<td class="notes" colspan="2"><%= f.text_field :max_assigned_reviewers_per_proposal, :size=>15 %></td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :max_assigned_proposals_per_reviewer %></td>
+		<td class="notes" colspan="2"><%= f.text_field :max_assigned_proposals_per_reviewer, :size=>15 %></td>
+	</tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Review form / summary access
+	  </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :show_composite_scores_to_applicants %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_composite_scores_to_applicants %>
+		Check to allow applicants to see the review composite scores
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_composite_scores_to_reviewers %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_composite_scores_to_reviewers %>
+		Check to allow reviewers to see other reviewers composite scores
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_review_summaries_to_applicants %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_review_summaries_to_applicants %>
+		Check to allow applicants to see the review write-up
+	</td></tr>
+
+	<tr><td class="title">
+	    <%= f.label :show_review_summaries_to_reviewers %></td>
+		<td class="notes" colspan="2"><%= f.check_box :show_review_summaries_to_reviewers %>
+		Check to allow reviewers to see other reviewers write-ups
+	</td></tr>
+
+	<tr>
+	  <td id="title" colspan="3">
+		Review Form Information
+	  </td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :review_guidance_url %></td>
+		<td class="notes" colspan="2"><%= f.text_field :review_guidance_url, :size=>80 %> URL to additional guidance to reviewers.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :overall_impact_title %></td>
+		<td class="notes" colspan="2"><%= f.text_field :overall_impact_title, :size=>80 %> Title for "Overall Impact" score item.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :overall_impact_description %></td>
+		<td class="notes" colspan="2"><%= f.text_area :overall_impact_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %> Short guidance for how to fill in "Overall Impact". You can include HTML formatting.</td>
+	</tr>
+	<tr><td class="title">
+	    <%= f.label :overall_impact_direction %></td>
+		<td class="notes" colspan="2"><%= f.text_area :overall_impact_direction, {:rows => 3, :cols => 80, :wrap=>"virtual"} %> Short additional guidance to the left of the "Overall Impact" text box. You can include HTML formatting.</td>
+	</tr>
+	<tr>
+		<th id="title" >Criterion</th>
+		<th id="title" colspan="2" >Criterion Description</th>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_impact_score %> <%= f.text_field :impact_title, :size=>40 %></td>
+		<td><%= f.text_area :impact_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_team_score %> <%= f.text_field :team_title, :size=>40 %></td>
+		<td><%= f.text_area :team_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_innovation_score %> <%= f.text_field :innovation_title, :size=>40 %></td>
+		<td><%= f.text_area :innovation_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_scope_score %> <%= f.text_field :scope_title, :size=>40 %></td>
+		<td><%= f.text_area :scope_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_environment_score %> <%= f.text_field :environment_title, :size=>40 %></td>
+		<td><%= f.text_area :environment_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_budget_score %> <%= f.text_field :budget_title, :size=>40 %></td>
+		<td><%= f.text_area :budget_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_other_score %> <%= f.text_field :other_title, :size=>40 %></td>
+		<td><%= f.text_area :other_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	<tr>
+		<td colspan="2"><%= f.check_box :show_completion_score %> <%= f.text_field :completion_title, :size=>40 %></td>
+		<td><%= f.text_area :completion_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
+	</tr>
+	    
+</table>

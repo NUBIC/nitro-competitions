@@ -1,0 +1,12 @@
+<h1>New project</h1>
+
+<% form_for(@project) do |f| %>
+  <%= f.error_messages %>
+
+	<%= render(:partial => 'project_form', :locals=>{:f=>f, :project=>@project}) %>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'List of all competitions', projects_path %>

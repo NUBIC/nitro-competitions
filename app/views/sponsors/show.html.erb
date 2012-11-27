@@ -1,0 +1,14 @@
+
+<%= render(:partial => 'sponsor_list', :locals=>{:sponsors=>@sponsors}) %>
+
+<% if @projects.length > 0 %>
+<h2>Listing of all competitions sponsored by <%= @sponsor.program_title %></h2>
+
+<%= render(:partial => 'shared/project_selection_list', :locals=>{:projects=>@projects}) %>
+<% else %>
+<h2>No valid competitions have been sponsored by <%= @sponsor.program_title %></h2>
+<% end %>
+
+<%= render(:partial => 'shared/admin_links') %>
+
+<br/>

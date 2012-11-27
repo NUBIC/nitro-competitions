@@ -1,0 +1,13 @@
+<h2>Reviewer Form for the application '<i><%= @submission_review.submission.submission_title %></i>' submitted by <i><%= @submission_review.submission.applicant.name %></i></h2>
+<p>
+After considering all of the  <%= link_to( "review criteria, considerations, and scoring guidance available here"+image_tag("hyperlink_blue.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px; margin-bottom:-3px;"), image_path(@submission_review.submission.project.review_guidance_url), :target=>"_blank", :title=>"Click to view additional materials on the review process in a new window") %>, please assign a final overall score, ranging from 1-9, following the current NIH guidelines below. You are encouraged to use the entire numerical scale. Please consider each of the review criteria below in the determination of scientific and technical merit, and give a separate score for each. An application does not need to be strong in all categories to be judged likely to have major scientific impact. Please write a short (1-3 sentence) critique for each criterion.
+</p>
+
+<% form_for(:submission_review,
+	:url =>project_reviewer_path(:project_id=>@submission_review.submission.project_id,:id=>@submission_review.id),
+	:html => { :method => :put }) do |f| %>
+	<!-- f and submission are existing variables passed in -->
+	<%= render(:partial => 'review_form', :locals=>{:f=>f, :submission_review=>@submission_review}) %>
+	<%= f.submit( 'Save/Update Scores' ) %>
+<% end %>
+<p>You will be able to change your scores and written critique at any time until the review period is over.</p>

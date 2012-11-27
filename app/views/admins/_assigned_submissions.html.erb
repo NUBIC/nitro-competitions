@@ -1,0 +1,8 @@
+<ul id='assigned_submission_list'>
+<% reviewer.submission_reviews.this_project(project.id).each do |item| %> 
+	<% domid = "submission_review_#{item.id}" %> 
+	<li class="assigned_submission" id='<%= domid %>'>
+		PI: <%= item.submission.applicant.name %>; Title: <%= truncate_words(item.submission.submission_title, 20) %></li> 
+	<%= draggable_element(domid, :ghosting=>true, :revert=>true) %>
+<% end %>
+</ul>

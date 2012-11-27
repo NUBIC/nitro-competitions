@@ -1,0 +1,8 @@
+<% if is_admin? %>
+<p>
+<%= link_to( image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;") + " Create new competition for sponsor #{current_project().program.program_title} (admins only)", new_project_path)   %>
+</p>
+<p>
+<%= link_to "View all submissions for #{current_project().project_title} (admins only)", submissions_project_admins_path(current_project().id) %>
+</p>
+<% end %>

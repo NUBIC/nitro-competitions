@@ -1,0 +1,578 @@
+$nu_purple:  #520063
+$header_color:  #666
+$page_background:  #fff
+$title_blue:  #226
+$table_title_blue:  #244
+$anchor_visited:  #666
+$anchor_hover:  #888
+$box_border:  #cccccc
+$biograph_darkgrey:  #555
+$header_background:  #A3A3A3
+$pagination_dark_text:  #000099
+$pagination_border:  1px solid $pagination_dark_text
+$pagination_active_text:  #ddd
+$radius:  6px
+$primary_heading_border:  2px
+$primary_background:  #8cc
+$primary_font_family:  Arial Narrow, Arial, Helvetica, Geneva, sans-serif
+$primary_font_size:  15px
+$primary_line_height:  18px
+$primary_text_color:  #333
+$secondary_font_family:  Arial Narrow, Arial, Helvetica, Geneva, sans-serif
+$secondary_font_size:  14px
+$secondary_text_color:  #333
+$tertiary_font_family:  Arial Narrow, Arial, Helvetica, Geneva, sans-serif
+$tertiary_font_size:  12px
+$tertiary_text_color:  #55A
+$heading_line_height: $primary_line_height + 6px
+$heading_font_size: $primary_font_size + 5px
+
+body
+  font-family: $primary_font_family
+  font-size: $primary_font_size
+  color: black
+  background-color: $page_background
+  line-height: 16px
+  margin-top: 0px
+  margin-left: 1em
+  min-width: 800px
+
+
+p, ol, ul, td
+  font-family: $primary_font_family
+  font-size: $primary_font_size
+  line-height: $primary_line_height
+
+
+p
+  padding: 2px 0px 2px 0px
+  margin: 2px 0px 2px 0px
+  color: black
+  font-size: $primary_font_size
+  font-family: $primary_font_family
+
+
+ul
+  margin-left: 0px
+  padding-left: 1em
+  padding-top: 0px
+  margin-top: 0px
+
+  &.squareBullets
+    list-style-type: square
+
+
+ol li
+  padding-bottom: 1em
+
+pre
+  background-color: #e3e3e3
+  padding: 0.5em
+  font-size: $secondary_font_size
+  line-height: $primary_line_height
+  margin-top: -2px
+
+
+h1, h2, h3
+  font-family: $primary_font_family
+  font-size: $heading_font_size
+  font-weight: bold
+  color: $title_blue
+  line-height: $heading_line_height
+  padding-bottom: 0px
+  margin-bottom: 4px
+  margin-top: 1em
+  padding-top: 0px
+
+.h1, .h2, .h3
+  font-family: $primary_font_family
+  font-size: $heading_font_size
+  font-weight: bold
+  color: $title_blue
+  line-height: $heading_line_height
+  padding: 0 0 0 0 
+  margin-bottom: 2px
+  margin-top: 0.25em
+
+
+h1, .h1
+  font-size: $heading_font_size + 2px
+  line-height: $heading_line_height + 2px
+  border-bottom: 3px
+
+h3, .h3
+  font-size: $heading_font_size - 2px
+  line-height: $heading_line_height - 3px
+
+
+a
+  color: black
+
+  &:visited
+    color: $anchor_visited
+
+  &:hover
+    color:  white
+    background-color: black
+
+
+.fieldWithErrors
+  padding: 2px
+  background-color: red
+  display: table
+
+#upper
+  text-transform: uppercase
+
+#errorExplanation
+  width: 400px
+  border: 2px solid red
+  padding: 7px
+  padding-bottom: 12px
+  margin-bottom: 20px
+  background-color: #f0f0f0
+
+  h2
+    text-align: left
+    font-weight: bold
+    padding: 5px 5px 5px 15px
+    font-size: $primary_font_size
+    margin: -7px
+    background-color: #c00
+    color: white
+
+  p
+    color: #333
+    margin-bottom: 0
+    padding: 5px
+
+  ul li
+    font-size: $primary_font_size - 1px
+    list-style: square
+
+
+a:hover
+  color: white
+  background-color: $anchor_hover
+
+
+#nci-logo
+  float: left
+  margin: 50px 0px 0px 10px
+  display: inline
+
+
+#unassigned_submissions
+  position: fixed 
+
+#footer-row
+  float: left
+  width: 995px
+  padding: 8px 0px 8px 0px
+  font-size: $primary_font_size
+  border-top-width: 1px
+  border-color: $box_border
+  background: $page_background
+
+table
+  border: 1px indigo solid
+
+td, th
+  margin: 0px
+  padding-top: 0.25em
+  padding-bottom: 0.25em
+  vertical-align: top
+  text-align: left
+
+table.wide
+  width: 95%
+
+table.lined 
+  border-bottom: 1px  solid indigo
+  border-collapse: collapse
+  font-size: $secondary_font_size
+  font-family: $secondary_font_family
+  tr
+    th
+      font-size: $secondary_font_size
+      font-family: $secondary_font_family
+      border-bottom: 1px solid indigo
+      border-right: 1px solid indigo
+      padding: 2px 4px 3px 5px /* top, right, bottom, and left */
+    td
+      font-size: $secondary_font_size
+      font-family: $secondary_font_family
+      border-bottom: 1px solid indigo
+      border-right: 1px solid indigo
+      padding: 2px 4px 3px 5px /* top, right, bottom, and left */
+      &.title
+        text-transform: uppercase
+      &.notes
+        font-size: $secondary_font_size
+        font-family: $secondary_font_family
+        color: $tertiary_text_color
+
+table.borderless
+  border: 0px
+  tr th,td 
+    padding-right: 0.8em
+    a
+      color: $title_blue
+      text-decoration: none
+
+table.compact
+  border: 0px
+  tr th,td 
+    margin: 0 0 0 0
+    padding: 0 0 0 0
+    padding-right: 0.8em
+    a
+      color: $title_blue
+      text-decoration: none
+
+
+td.list-left, th.list-left
+  padding-left: 1em
+
+td.list-right, th.list-right
+  padding-right: 1em
+  text-align: right
+
+td
+  &.list-title-left
+    padding-left: 1em
+    color: $table_title_blue
+    font-weight: bold
+
+  &.list-title-center
+    text-align: center
+
+  &.list-title-right
+    padding-right: 1em
+    text-align: right
+
+
+#listing
+  .list-title
+    color: $nu_purple
+    font-weight: bold
+
+  .list-title-center
+    color: $nu_purple
+    font-weight: bold
+    text-align: center
+
+  .list-title-right
+    color: $nu_purple
+    font-weight: bold
+    padding-right: 1em
+    text-align: right
+
+  .list-image
+    width: 60px
+    height: 70px
+
+  .list-actions
+    font-size: $primary_font_size - 2px
+    text-align: right
+    padding-left: 1em
+
+  .list-line-even
+    background: aliceblue
+    padding-bottom: 1em
+
+  .list-line-odd
+    background: lightyellow
+    padding-bottom: 1em
+
+
+#notice
+  border: 2px solid red
+  padding: 1em
+  padding-bottom: 2em
+  margin: 0px
+  background-color: lightyellow
+  font: bold smaller sans-serif
+
+
+div.notice
+  margin: 0px
+  padding: 4px
+  padding-left: 30px
+  color: green 
+  background-color: lightyellow
+  font-family: $primary_font_family
+  font-weight: bold
+  font-size: $primary_font_size + 2px
+  line-height: 24px
+
+  #errors
+    border: 2px solid red
+    padding: 2px
+    background-color: papayawhip
+    color: darkred 
+    display: table
+
+
+#banner
+  border-bottom: 1px solid #1c1079
+  margin-left: auto
+  margin-right: auto
+  width: 100%
+  height: 120px
+  vertical-align: bottom
+  text-align: center
+  font-size: $primary_font_size
+  display: block
+
+  a span
+    visibility: hidden
+
+  img
+    float: left
+    banner
+      width: 100%
+
+
+#columns
+  background: #141
+
+
+#main
+  display: inline
+  margin-left: 0px
+  margin-right: 610px
+  padding: 0px
+  width: 100%
+  height: auto
+  vertical-align: top
+  background-color: $page_background
+
+#title
+  margin: 0px
+  padding: 5px
+  padding-left: 20px
+  padding-bottom: 10px
+  font-family: $primary_font_family
+  font-size:  150%
+  font-weight: bold
+  color: $title_blue
+  line-height: 180%
+  background-color: lightyellow
+
+  a
+    padding: 5px
+    color: $title_blue
+    text-decoration: none
+    background: lightyellow
+
+    &:hover
+      background: yellow
+
+#add_key_personnel_link
+  font-family: $primary_font_family
+  font-size:  140%
+  font-weight: bold
+  padding: 5px
+  line-height: 180%
+
+#search
+  padding: 3px
+  padding-left: 115px
+  margin: 0px
+  color: white
+  font-size: $primary_font_size 
+  background-color: $nu_purple
+
+
+#niceline
+  padding-left: 50px
+  height: 8px
+  margin: 0px
+  color: white
+  font-size: $primary_font_size - 1px
+  background-color: $header_background
+
+
+#content
+  padding: 5px
+  padding-left: 15px
+  padding-right: 5px
+  overflow: hidden
+
+
+div.autoclear:after
+  display: block 
+  content: ' '
+  clear: both 
+  height: 0 
+  visibility: hidden 
+
+
+.inplaceeditor-form
+  input[type="text"]
+    width: 260px
+
+  textarea
+    width: 400px
+
+
+input, select, textarea
+  font-family: $secondary_font_family
+  font-size: $secondary_font_size 
+  font-weight: normal
+  color: black
+  padding: 0px
+  margin-top: 2px 
+
+textarea.narrow
+  width: 18em /*display: block; */ 
+
+input.narrow
+  width: 10em /*display: block; */ 
+
+input[disabled]
+  color: gray 
+
+
+select
+  vertical-align: middle
+
+  &[disabled]
+    color: gray 
+
+
+img
+  border: 0px
+
+
+form
+  margin: 1px 
+  display: inline
+
+
+.pagination
+  padding: 3px
+  margin: 3px
+
+  a
+    padding: 2px 5px 2px 5px
+    margin: 2px
+    border: 1px solid #aaaadd
+    text-decoration: none
+    color: $pagination_dark_text
+
+    &:hover, &:active
+      border: $pagination_border
+      color: $pagination_active_text
+
+  span
+    &.current
+      padding: 2px 5px 2px 5px
+      margin: 2px
+      border: $pagination_border
+      font-weight: bold
+      background-color: $pagination_dark_text
+      color: white
+
+    &.disabled
+      padding: 2px 5px 2px 5px
+      margin: 2px
+      border: 1px solid #eee
+      color: $pagination_active_text
+
+
+.form_text
+  color: $title_blue
+
+.required 
+  color: red
+  font-size: $primary_font_size
+  font-weight: bold
+  padding-right: 2px
+
+
+.no-gap 
+  margin-bottom: 0
+
+#compare
+  overflow: hidden
+  display: inline-block
+  position: relative
+  display: block
+
+  .sass, .css
+    width: 40%
+    border-radius: $radius
+    -webkit-border-radius: $radius
+    -moz-border-radius: $radius
+    padding: 0.7em
+    font-size: $primary_font_size
+    line-height: 1.2em
+    overflow: auto
+    border-style: solid
+    border-width: $primary_heading_border
+
+  .sass
+    background-color: #ffeeff
+    border-color: #ce4dd6
+    float: left
+
+  .css
+    background-color: #e0e0e0
+    border-color: #777777
+    float: right
+
+#header 
+  background: #d7dabd
+  clear: both
+
+#wrapper 
+  background: #f1f2ea url(../images/transparent.gif) repeat-y right
+  border: 1px solid gray
+
+.indented
+  margin-left: 20px
+  table
+    td, th 
+      padding-top: 0
+      padding-bottom: 0
+  
+
+#scores
+  padding-bottom: 1px
+  padding-top: 0px
+  .reviewer
+    background-color: $pagination_active_text
+    color: $nu_purple
+  .hanging-indent
+    text-indent: -70px
+    padding-left: 80px
+    padding-bottom: 5px
+    margin-top: 5px
+  ol 
+    li
+      padding: 5px 5px 2px 0px
+      margin: 5px 0 0 0
+  h2
+    padding-bottom: 1px
+    margin: 0 0 0 0
+  div.line
+    background-color: #226
+    line-height: $primary_line_height
+    margin: 10px 0 0 0
+  h3
+    padding-bottom: 5px
+    padding-top: 15px
+
+
+
+#footer 
+  background: #d7dabd
+
+.last 
+  margin-bottom: 0
+
+.clearing 
+  height: 0
+  clear: both

@@ -1,0 +1,187 @@
+<table class="lined" width="95%">
+<tr>
+	<td colspan="4" style="text-align:center;">
+		<p class="h2"><%= submission.project.program.program_title %></p>
+		<p class="h2"><%= submission.project.project_title %></p>
+	</td>
+</tr>
+<tr>
+  <td colspan="4"><p><%= submission.project.title_wording %></p>
+  <%=h submission.submission_title %>
+  </td>
+</tr>
+
+<% if submission.project.show_abstract_field %>
+<tr>
+  <td colspan="4"><p>Abstract</p>
+	<%= submission.abstract %>
+  </td>
+</tr>
+<% end %>
+
+<tr>
+  <td colspan="2"><p><%= submission.project.applicant_wording %></p>
+	  <%=h submission.applicant.name %>
+  </td>
+  <td colspan="2"><p>Degrees</p>
+    <%=h submission.applicant.degrees %>
+  </td>
+</tr>
+
+<tr>
+  <td colspan="2"><p>Rank</p>
+  <%=h submission.applicant.title %>
+  </td>
+  <td colspan="2" rowspan="2"><p>Address</p>
+	  <%=h submission.applicant.campus %><br/>
+	  <%=h submission.applicant.campus_address %><br/>
+  </td>
+</tr>
+
+<tr>
+  <td colspan="2"><p>Department</p>
+  <%=h submission.applicant.primary_department %>
+  </td>
+</tr>
+<tr>
+  <td colspan="2"><p>Telephone</p>
+  <%=h submission.applicant.business_phone %>
+  </td>
+  <td colspan="2"><p>Email</p>
+  <%=h submission.applicant.email %>
+  </td>
+</tr>
+
+<% if submission.project.show_core_manager || submission.project.show_department_administrator %>
+<tr>
+  <% if submission.project.show_core_manager %>
+  <td colspan="2"><p>Core Manager</p>
+	<%= submission.core_manager.name unless submission.core_manager.blank? %> 
+  </td>
+  <% end %>
+  <% if submission.project.show_department_administrator %>
+  <td colspan="2"><p><%= submission.project.department_administrator_title %></p>
+	  <%=h submission.department_administrator.name unless submission.department_administrator.blank? %>
+  </td>
+  <% end %>
+  <% unless submission.project.show_core_manager or submission.project.show_department_administrator %>
+    <td colspan="2"><p>&nbsp;</p></td>
+  <% end %>
+</tr>
+<% end %>
+
+<tr>
+  <% if submission.project.show_effort_approver %>
+  <td colspan="2"><p><%= submission.project.effort_approver_title %></p>
+	  <%=h submission.effort_approver.name unless submission.effort_approver.blank? %>
+  </td>
+  <% end %>
+  <td colspan="2"><p>Submitted by</p>
+	<%= submission.submitter.name unless submission.submitter.blank? %> 
+  </td>
+</tr>
+
+<% if submission.project.show_human_subjects_research or submission.project.show_irb_approved or submission.project.show_irb_study_num or submission.project.show_use_nucats_cru %>
+<tr>
+  <td><p>Human Subjects Research</p>
+  <%= long_format_boolean submission.is_human_subjects_research %>
+  </td>
+  <td><p>IRB Approved</p>
+  <%= long_format_boolean submission.is_irb_approved %>
+  </td>
+  <td><p>IRB Study</p>
+	  <%= submission.irb_study_num %>
+  </td>
+  <td><p>Uses NUCATS CRU?</p>
+  <%=long_format_boolean submission.use_nucats_cru %> Contact: <%= submission.nucats_cru_contact_name %>
+  </td>
+</tr>
+<% end %>
+
+<% if submission.project.show_use_stem_cells or submission.project.show_use_embryonic_stem_cells %>
+<tr>
+  <td colspan="2"><p>Does the research use stem cells?</p>
+  <%= long_format_boolean submission.use_stem_cells %>
+  </td>
+  <td colspan="2"><p>Does the research use embryonic stem cells? </p>
+  <%= long_format_boolean submission.use_embryonic_stem_cells %>
+  </td>
+</tr>
+<% end %>
+<% if submission.project.show_use_vertebrate_animals or submission.project.show_iacuc_approved %>
+<tr>
+  <td colspan="2"><p>Vertebrate Animals</p>
+  <%= long_format_boolean submission.use_vertebrate_animals %>
+  </td>
+  <td colspan="2"><p>Has IACUC Approval? (not required)</p>
+  <%= long_format_boolean submission.is_iacuc_approved %> IACUC#: <%=h submission.iacuc_study_num %>
+  </td>
+</tr>
+<% end %>
+<tr>
+  <td colspan="2"><p>Proposed Period of Support</p>
+  <%= submission.project.project_period_start_date.to_s(:justdate) %> to <%= submission.project.project_period_end_date.to_s(:justdate) %>
+  </td>
+  <td colspan="2">
+	<% if submission.project.show_project_cost %>
+	<p><%= submission.project.direct_project_cost_wording %></p>
+	  $<%= submission.direct_project_cost %>
+	<% end %>
+  </td>
+</tr>
+
+
+<% if submission.project.show_cost_sharing_amount or submission.project.show_cost_sharing_organization %>
+<tr>
+  <td colspan="2"><p>Cost Sharing Amount</p>
+	  $<%= submission.cost_sharing_amount %>
+  </td>
+  <td colspan="2"><p>Cost Sharing Organization(s)</p>
+	  <pre><%= submission.cost_sharing_organization %></pre>
+  </td>
+</tr>
+<% end %>
+
+<% if submission.project.show_received_previous_support or submission.project.show_previous_support_description %>
+<tr>
+  <td colspan="2"><p>Received previous support from this competition?</p>
+	  <%=long_format_boolean submission.received_previous_support %>
+  </td>
+  <td colspan="2"><p>Detailed description of previous support</p>
+	  <%= submission.previous_support_description %>
+  </td>
+</tr>
+<% end %>
+
+<% if submission.project.show_is_new or submission.project.show_not_new_explanation %>
+<tr>
+  <td colspan="2"><p><%= submission.project.is_new_wording %></p>
+	  <%=long_format_boolean submission.is_new %> &nbsp; <% if submission.project.show_not_new_explanation %> If not, please explain: <%=h submission.not_new_explanation %> <% end %>
+  </td>
+  <td colspan="2"> <% if submission.project.show_use_nmh or submission.project.show_use_nmff or submission.project.show_use_va or submission.project.show_use_ric or submission.project.show_use_cmh %> <p>Will this project require facilities, resources or patients at any of the following: </p>
+	NMH: <%= long_format_boolean submission.use_nmh %> &nbsp; &nbsp; 
+	NMFF: <%= long_format_boolean submission.use_nmff %> &nbsp; &nbsp; 
+	VA: <%= long_format_boolean submission.use_va %> &nbsp; &nbsp; 
+	RIC: <%= long_format_boolean submission.use_ric %> &nbsp; &nbsp; 
+	CMH: <%= long_format_boolean submission.use_cmh %> &nbsp; &nbsp; 
+	<% end %>&nbsp; 
+  </td>
+</tr>
+<% end %>
+
+<% if submission.project.show_other_funding_sources %>
+<tr>
+  <td colspan="4"><p>Are there alternative sources of funding. If so, please explain.</p>
+	  <%=h submission.other_funding_sources %> &nbsp;
+  </td>
+</tr>
+<% end %>
+<% if submission.project.show_is_conflict %>
+<tr>
+  <td colspan="4"><p>Are there any potential conflicts of interest? If so, please explain.</p>
+	<%=long_format_boolean submission.is_conflict %> <%=h submission.conflict_explanation %>
+  </td>
+</tr>
+<% end %>
+</table>
+

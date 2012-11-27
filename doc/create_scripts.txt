@@ -1,0 +1,281 @@
+# REquirements are at http://wiki.bioinformatics.northwestern.edu/index.php/nucats_assist
+
+#csv parser, for importing data in the rake tasks
+sudo gem install fastercsv
+
+# for netid authentication
+sudo gem install schema_qualified_tables
+sudo gem install bcdatabase
+sudo gem install bcsec --source http://download.bioinformatics.northwestern.edu/gems/
+#followed this by 
+script/plugin install svn+ssh://lovie.bioinformatics.northwestern.edu/svnrep/projects/bcsecurity/ruby/trunk/rails-plugin
+
+#rename to bcsec to make it clearer:
+
+cd vendor/plugins
+mv rails-plugin bcsec
+
+#installing rspec
+
+ruby script/plugin install git://github.com/dchelimsky/rspec.git
+ruby script/plugin install git://github.com/dchelimsky/rspec-rails.git
+ruby script/generate rspec
+
+
+#install PrinceXML and princely
+
+http://www.princexml.com/download/
+
+tar zxf filename.tar.gz
+
+script/plugin install git://github.com/mbleigh/princely.git
+
+need to make a change to princely/lib/princely/pdf_helper.rb : 
+	make_and_send_pdf:49 
+		was: make_pdf(options),
+		now: make_pdf(options).force_encoding('BINARY'),
+
+
+# I made PostgreSQL the default and got rid of the 'sample' files
+
+--PostgreSQL commands
+-- add this line to pg_hba.conf so you can connect to it on the local machine without a password, if you so desire
+
+local  all    nucats_assist   trust
+
+-- now login to postgres using psql. You need to be logged in as the user that controls the Postgres database. postgres is the default user
+
+psql postgres
+
+-- create the user (role)
+-- for a little bit of security, create a role. user is an alias for role that also specifies that the role is permitted to login
+-- see http://www.postgresql.org/docs/8.4/interactive/sql-createuser.html
+
+CREATE USER nucats_assist with createdb;
+
+-- unfortunately as of Rails 2.2, the user must be a superuser to run tests
+CREATE USER nucats_assist with createdb;
+ALTER USER nucats_assist with superuser;
+ALTER USER nucats_assist with login;
+ALTER USER nucats_assist with superuser;
+
+
+
+-- now switch to the new user
+\connect - nucats_assist
+
+-- now create the database
+
+create database nucats_assist_development;
+create database nucats_assist_test;
+create database nucats_assist_production;
+
+# create rails app
+rails -d postgresql nucats_assist
+cd nucats_assist
+bbedit config/database.yml
+
+#make sure you have a section that looks like:
+
+development:
+  adapter: postgresql
+  database: nucats_assist_development
+  username: nucats_assist
+
+test:
+  adapter: postgresql
+  database: nucats_assist_test
+  username: nucats_assist
+
+
+# create the scaffold which creates the views, models and controller
+script/generate model user identity_url:string first_name:string last_name:string middle_name:string email:string degrees:string name_suffix:string business_phone:string title:string employee_id:integer primary_department:string campus:string address:text city:string postal_code:string state:string country:string 
+script/generate scaffold applicant username:string first_name:string last_name:string middle_name:string email:string degrees:string name_suffix:string business_phone:string title:string employee_id:integer primary_department:string campus:string address:text city:string postal_code:string state:string country:string 
+
+# then delete the applicant model, migration script, and tests. redirect all applicant calls to the User model
+
+
+# create a program container. For instance the Center for Translational Innovation
+script/generate model program program_name:string program_title:string url:string
+# create a project container. A project belongs to a program and has an initiation_date, submission_open_date, submission_closed_date, referee_deadline_date
+script/generate scaffold project project_name:string project_title:string initiation_date:date submission_open_date:date submission_closed_date:date review_start_date:date review_end_date:date completion_date:date status:string
+# create the admin interface. Admin has and belongs to many users and belongs to a program
+script/generate scaffold admin program_id:integer
+# can have any number of reviewers for a program.  has and belongs to many users and belongs to a program
+script/generate scaffold reviewer program_id:integer  
+# for key personnel on a submission
+script/generate model key_personnel submission_id:integer user_id:integer role:string username:string first_name:string last_name:string email:string 
+
+script/generate controller approvers
+script/generate controller reviews
+script/generate controller key_personnel
+
+# can have any number of communication threads about a project (ie pilot submission projects)
+script/generate model project_thread project_id:integer thread_id:integer thread_name:string thread_description:text thread_subject:string
+script/generate model project_communications project_id:integer user_id:integer thread_id:integer communication_type:string communication_date:date outcome:string
+# can have any number of project submissions. A project belongs to an applicant and a project but can be submitted by someone on behalf of an applicant
+script/generate	scaffold submission project_id:integer applicant_id:integer submission_status:string is_human_subjects_research:boolean is_irb_approved:boolean irb_study_num:string use_nucats_cru:boolean nucats_cru_contact_name:string use_stem_cells:boolean use_embryonic_stem_cells:boolean is_vertebrate_animals_research:boolean is_iacuc_approved:boolean iacuc_study_num:string project_start_date:date project_end_date:date direct_project_cost:float is_new:boolean not_new_explanation:text other_funding_sources:text is_conflict:boolean conflict_explanation:text effort_approver_ip:string submission_at:timestamp completion_at:timestamp effort_approver_username:string department_administrator_username:string budget_doc:binary application_doc:binary effort_approval_at:timestamp effort_approver_ip:string 
+project_id:integer applicant_id:integer submission_at:timestamp completion_at:timestamp effort_approver_username:string budget_doc:binary application_doc:binary effort_approval_at:timestamp effort_approver_ip:string
+
+# create some tables with only migrations for coupling models as have_and_belongs_to_many
+# can have any number of reviewers for a project (submission cycle)
+script/generate model project_reviewer project_id:integer reviewer_id:integer assigned_date:date review_date:date 
+# can have any number of assigned referees for a submission
+script/generate model submission_review submission_id:integer reviewer_id:integer review_score:float review_text:text review_doc:binary review_status:string review_completed_at:timestamp
+
+
+# programs, reviewers, submissions have keywords
+script/generate model program_keyword keyword:string description:text program_id:integer user_id:integer
+script/generate model reviewer_keyword keyword:string reviewer_id:integer
+script/generate model submission_keyword keyword:string submission_id:integer
+
+# move all files into a special model/controller for files
+script/generate scaffold file_document content_type:string file_name:string biosketch_doc:binary created_id:integer created_ip:string updated_id:integer updated_ip:string
+
+# add the mailer model
+script/generate mailer user_mail
+
+#add a sessions handler
+script/generate scaffold session
+
+# add a public handler
+script/generate scaffold public
+
+# create a controller. Don't want extra cruft as this is purely for controller
+
+	script/generate controller approvers
+	script/generate controller sponsors
+
+
+#added to allow a submission_review_count counter on submissions
+	script/generate migration add_submission_review_count_column
+#added to allow a review text fields on submission_reviews
+	script/generate migration add_submission_review_text_columns
+
+#add columns to move all docs into the file_documents table
+	script/generate migration add_file_document_columns
+
+#add columns for a new document type
+	script/generate migration add_document1_columns
+
+#move all docs into the file_documents table
+	script/generate migration move_documents
+
+#remove all docs not in the file_documents table
+script/generate migration remove_documents
+
+# add NMF as a valid sponsor
+script/generate migration add_nmf_sponsor
+
+# add Office of Research as a valid sponsor
+script/generate migration add_vpor_sponsor
+
+# now lets build the authorization system. First add the roles and rights models
+
+script/generate model Role
+script/generate model Right
+
+script/generate migration add_roles_and_rights_tables
+
+#add a Role handler
+script/generate model roles_user
+script/generate scaffold role
+
+
+script/generate migration modify_projects
+
+script/generate migration add_require_era_commons_options
+
+script/generate migration add_era_commons_not_unique_index
+
+script/generate migration modify_review_criteria_for_projects
+
+script/generate migration modify_project_defaults
+
+script/generate migration add_cecd_sponsor
+
+script/generate migration add_cerc_sponsor
+
+script/generate migration add_submission_abstract
+script/generate migration add_other_support_document
+script/generate migration add_document2-4_columns
+script/generate model log action:string user_id:integer program_id:integer project_id:integer controller:string action:string params:text
+
+script/generate migration add_immersive_learning_sponsor
+script/generate migration add_rhlccc_sponsor
+script/generate migration add_nucats_sponsor
+script/generate migration add_behavioral_sponsor
+
+script/generate migration modify_projects2
+
+script/generate migration add_paperclip_columns
+
+script/generate migration remove_database_file_columns
+
+script/generate migration add_cecd_project #because someone deleted the existing project!
+
+script/generate migration add_human_research_help
+script/generate migration add_application_doc_custom_columns
+
+script/generate migration add_edw_sponsor
+# create EDW as a sponsor
+# create "EDW Young Investigator Seed Grant"
+# add Nathan as admin - nds154
+
+script/generate migration add_cmidd_sponsor
+# create Center for Molecular Innovation in Drug Discovery (CMIDD) as a sponsor
+# create "CIMDD Grant"
+# add Terri Fraterrigo <t-fraterrigo@northwestern.edu> as admin - tlf917
+
+# after changing the table create script to create the necessary features, try it with rake:
+# test that the models can be generated and moved
+    rake db:migrate
+
+# reverse the migration
+   rake db:migrate VERSION=0
+# repeat
+    rake db:migrate
+
+# do it in production:
+rake environment RAILS_ENV=production db:migrate
+
+# do it in test:
+rake environment RAILS_ENV=test db:migrate
+
+# rolling back three steps (three migration file)
+
+rake db:rollback STEP=3
+# do it in production:
+rake environment RAILS_ENV=production db:rollback STEP=3
+
+
+#RUN TESTS
+
+ruby test/unit/abstract_test.rb
+
+# to send mail locally:
+
+sudo postfix start
+
+# something to do weekly is:
+
+vacuumdb -fz nucats_assist_development
+
+
+# see file generateGraphs.sh for how to generat connection graphs for cancer center member publications
+
+#start web server
+    script/server
+
+# clear logs
+rake log:clear
+
+# passenger restart
+touch tmp/restart.txt
+
+#testing
+rake test
+rake test:units
+rake test:functionals
+
+ruby -Ilib:test  test/functional/applicants_controller_test.rb

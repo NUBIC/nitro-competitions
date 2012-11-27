@@ -1,0 +1,2 @@
+page.replace :add_key_personnel_link, :partial => 'shared/add_personnel_link', :locals => { :index => (params[:id].to_i + 1), :submission=>submission }
+

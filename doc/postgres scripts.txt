@@ -1,0 +1,63 @@
+# create database
+CREATE USER nucats_assist with createdb;
+ALTER USER nucats_assist with superuser;
+ALTER USER nucats_assist with login;
+
+#if you need to add the createdb role to user, do it like this:
+ALTER USER nucats_assist with createdb;
+
+-- you can also specify a user and password:
+
+CREATE USER nucats_assist WITH PASSWORD 'mybigdog2011';
+-- or if the user has already been created:
+ALTER USER nucats_assist WITH PASSWORD 'mybigdog2011';
+
+Bcdatabase.load[:pstage, :nucats_assist]['password']
+
+
+-- now switch to the new user
+
+\connect - nucats_assist
+
+
+-- now create the database
+
+create database nucats_assist;
+
+
+
+#export the database from production
+
+
+pg_dump -Fc nucats_assist -U nucats_assist -h pprod > nucats_assist_prod_20120524.dmp
+
+pg_dump -Fc nucats_assist -U nucats_assist -h pprod2 > nucats_assist_prod_20120924.dmp
+
+#move it to my laptop
+
+scp wakibbe@rails-prod2.nubic.northwestern.edu:/home/wakibbe/nucats_assist_prod_20120924.dmp  .
+
+pg_restore -c -O -d nucats_assist -U nucats_assist -h pprod nucats_assist_prod_20120924.dmp
+
+# on staging
+pg_restore -d nucats_assist -U latticegrid -h pstage2 nucats_assist_prod_20120924.dmp
+
+
+# on my laptop
+pg_restore -c -O -d nucats_assist -U nucats_assist nucats_assist_prod_20110902.dmp
+pg_restore -c -O -d nucats_assist -U nucats_assist nucats_assist_prod_20111106.dmp
+pg_restore -c -O -d nucats_assist -U nucats_assist nucats_assist_prod_20120131.dmp
+pg_restore -c -O -d nucats_assist -U nucats_assist nucats_assist_prod_20120924.dmp
+
+
+
+rake db:drop
+rake db:create
+psql -d nucats_assist_development -U nucats_assist -f nucats_assist_20100216.dmp
+rake db:migrate
+
+# now vacuum the database
+vacuumdb -fz nucats_assist
+
+# import
+pg_restore -c -O -d nucats_assist_development -U nucats_assist -h localhost nucats_assist_prod_20110614.dmp

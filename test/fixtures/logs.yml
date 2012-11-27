@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  activity: MyString
+  user_id: 1
+  program_id: 1
+  project_id: 1
+  controller_name: MyString
+  action_name: MyString
+  params: MyText
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>
+
+two:
+  activity: MyString
+  user_id: 1
+  program_id: 1
+  project_id: 1
+  controller_name: MyString
+  action_name: MyString
+  params: MyText
+  created_ip: 127.0.0.1
+  created_at: <%= Time.now %>

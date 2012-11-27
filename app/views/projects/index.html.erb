@@ -1,0 +1,11 @@
+<br />
+<p> Below is a list of available competitions and projects. If the application period is open, an 'Apply' button will appear to the left of the competition name. To view additional information or access existing your submissions, reviews, etc, click the listing for a competition.</p>
+
+<h1>Listing of current and recent competitions</h1>
+
+<%= render(:partial => 'shared/project_selection_list', :locals=>{:projects=>@projects}) %>
+
+<%= render(:partial => 'shared/submissions_list', :locals=>{:submissions=>@submissions, :title=>"All your submissions"}) unless @submissions.blank? %>
+
+<br />
+<%= link_to( 'New project', new_project_path) if is_admin?  %>
