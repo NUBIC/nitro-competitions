@@ -13,6 +13,7 @@ class Notifier < ActionMailer::Base
       to = submission.applicant.email
     end
     cc_list = submission.key_personnel_emails || []
+    cc_list += submission.project.program.admins.map(&:email)
     name = submission.applicant.first_name
 
     if submission.status_reason.blank?

@@ -1,5 +1,9 @@
 class Program < ActiveRecord::Base
   has_many :roles_users
+  has_many :admins, :source => :user, :through => :roles_users,
+    :include => [:roles],
+    :conditions => ["(roles.name = 'Admin' and roles.id = roles_users.role_id) "]
+
   has_many :projects
   has_many :reviewers
   has_many :logs

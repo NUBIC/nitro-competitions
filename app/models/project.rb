@@ -21,7 +21,7 @@ class Project < ActiveRecord::Base
   named_scope :recent,    lambda { |*date| {:conditions => ['project_period_start_date >= :date and initiation_date <= :date', {:date => date.first || 3.months.ago} ] } }
   named_scope :ongoing_projects, lambda { |*date|  { :conditions => ['project_period_end_date >= :date and project_period_start_date <= :date', {:date => date.first || 1.day.ago} ] } }
 
-  named_scope :active,   lambda { |*date| {:conditions => ['project_period_start_date >= :date and initiation_date <= :initiation_date', {:date => date.first || 3.months.ago, :initiation_date => 60.days.from_now} ] }}
+  named_scope :active,   lambda { |*date| {:conditions => ['project_period_start_date > :date or review_end_date > :review_end_date', {:date => date.first || 3.months.ago, :review_end_date => 60.days.ago} ] }}
 
   def current_status
     case Date.today

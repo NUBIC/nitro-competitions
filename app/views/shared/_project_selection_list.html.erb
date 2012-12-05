@@ -20,7 +20,7 @@
 
  	<td><%= link_to( h( project.project_title) , show_competition_url(project.program.program_name, project.project_name), :title=>"Click here to view the competition #{project.project_title}" ) %> &nbsp; </td>
     <td><%= project.submission_open_date.to_s(:justdate) %> to <%= project.submission_close_date.to_s(:justdate) %></td>
-    <td><%= project.current_status %></td>
+    <td class='smaller'><%= project.current_status %></td>
     <% if has_read_all?(project.program) %>
     <td class="list-right" width="80px"><%= link_to("&nbsp; "+project.submissions.count.to_s, submissions_project_admins_url(project.id)) %> &nbsp; </td>
 	<% elsif has_read_all? or is_admin_any_program? %>

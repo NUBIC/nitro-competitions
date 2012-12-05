@@ -2,6 +2,7 @@ $nu_purple:  #520063
 $header_color:  #666
 $page_background:  #fff
 $title_blue:  #226
+$table_borderless: #329
 $table_title_blue:  #244
 $anchor_visited:  #666
 $anchor_hover:  #888
@@ -15,17 +16,17 @@ $radius:  6px
 $primary_heading_border:  2px
 $primary_background:  #8cc
 $primary_font_family:  Arial Narrow, Arial, Helvetica, Geneva, sans-serif
-$primary_font_size:  15px
-$primary_line_height:  18px
+$primary_font_size:  18px
+$primary_line_height:  21px
 $primary_text_color:  #333
 $secondary_font_family:  Arial Narrow, Arial, Helvetica, Geneva, sans-serif
-$secondary_font_size:  14px
+$secondary_font_size:  16px
 $secondary_text_color:  #333
 $tertiary_font_family:  Arial Narrow, Arial, Helvetica, Geneva, sans-serif
 $tertiary_font_size:  12px
 $tertiary_text_color:  #55A
-$heading_line_height: $primary_line_height + 6px
-$heading_font_size: $primary_font_size + 5px
+$heading_line_height: $primary_line_height + 8px
+$heading_font_size: $primary_font_size + 6px
 
 body
   font-family: $primary_font_family
@@ -106,6 +107,7 @@ h3, .h3
 
 
 a
+  background-color: #FAF7FF
   color: black
 
   &:visited
@@ -217,7 +219,7 @@ table.borderless
   tr th,td 
     padding-right: 0.8em
     a
-      color: $title_blue
+      color: $table_borderless
       text-decoration: none
 
 table.compact
@@ -251,6 +253,8 @@ td
     padding-right: 1em
     text-align: right
 
+.smaller
+  font-size: $secondary_font_size - 1px
 
 #listing
   .list-title
@@ -285,26 +289,17 @@ td
     background: lightyellow
     padding-bottom: 1em
 
-
-#notice
-  border: 2px solid red
-  padding: 1em
-  padding-bottom: 2em
-  margin: 0px
-  background-color: lightyellow
-  font: bold smaller sans-serif
-
-
 div.notice
   margin: 0px
-  padding: 4px
-  padding-left: 30px
+  padding: 0px
+  padding-left: 10px
   color: green 
-  background-color: lightyellow
+  background-color: white
   font-family: $primary_font_family
   font-weight: bold
-  font-size: $primary_font_size + 2px
-  line-height: 24px
+  font-size: $primary_font_size + 9px
+  border-bottom: 8px solid #a3a3a3
+  line-height: $heading_line_height + 36px
 
   #errors
     border: 2px solid red
