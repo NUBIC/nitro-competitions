@@ -15,7 +15,9 @@
 </table>
 </div>
 
-<% if submission.project.show_review_summaries_to_applicants %>
+<% reviewer_ids = submission.reviewers.map(&:id) %>
+
+<% if submission.project.show_review_summaries_to_applicants or is_admin? or (submission.project.show_review_summaries_to_reviewers and reviewer_ids.include?(current_user_session.id) ) %>
 <h1>Application reviews </h1> 
 <div id="scores">
 <ol>
@@ -59,13 +61,12 @@
 	<%= review_comments_div(reviews, 'completion_text') %>
 	<% end %>
 </ol>
-<div class="line">&nbsp;</div>
 <h3>Overall review comments</h3>
 	<%= review_comments_div(reviews, 'overall_text') %>
 </div>
 <% end %>
 
-<% if submission.project.show_composite_scores_to_applicants %>
+<% if submission.project.show_composite_scores_to_applicants or is_admin? or (submission.project.show_composite_scores_to_reviewers and reviewer_ids.include?(current_user_session.id) ) %>
 <h3>Application scores </h3> 
 <div id="composite_scores">
 <ul>
@@ -76,3 +77,4 @@
 </ul>
 </div>
 <% end %>
+<div class="final_line">&nbsp;</div>

@@ -467,6 +467,11 @@ form {
   #scores h3 {
     padding-bottom: 5px;
     padding-top: 15px; }
+}
+div.final_line {
+    background-color: #222266;
+    line-height: 21px;
+    margin: 10px 0 0 0; }	
 
 #footer {
   background: #d7dabd; }

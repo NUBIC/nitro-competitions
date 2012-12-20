@@ -50,6 +50,18 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def all_reviews
+    @project = Project.find_by_id(params[:id])
+    respond_to do |format|
+      format.html { render :layout=>'pdf' }# show.html.erb
+      format.pdf do
+         render :pdf => "Reviews for " + @project.project_name, 
+            :stylesheets => ["pdf"], 
+            :layout => "pdf"
+      end
+      format.xml  { render :xml => @reviews }
+    end
+  end
 
   # GET /projects/new
   # GET /projects/new.xml

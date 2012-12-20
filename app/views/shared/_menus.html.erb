@@ -44,6 +44,7 @@
 		<ul> 
 			<% unless @project.blank? or @project.id.blank? -%>
 			<li><%= link_to "View All Submissions", submissions_project_admins_path(@project.id) %> </li>
+			<li><%= link_to "View All Reviews", all_reviews_project_path(@project.id) %> </li>
 			<li><%= link_to "Review Summary", reviews_project_admins_path(@project.id)  %> </li>
 			<li><%= link_to "Define Reviewers", reviewers_project_admins_path(@project.id) %></li>
 			<li><%= link_to "Approvals", project_approvers_path(@project.id)  %> </li>

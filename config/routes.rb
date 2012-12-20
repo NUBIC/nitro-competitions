@@ -12,7 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :file_documents, :only=>:show
 
-  map.resources :projects do |projects|
+  map.resources :projects, :member => {:all_reviews => :get} do |projects|
     projects.resources :applicants do |applicants|
       applicants.resources :submissions, :only=>[:new,:create]
     end
