@@ -227,6 +227,12 @@ script/generate migration add_cmidd_sponsor
 # create "CIMDD Grant"
 # add Terri Fraterrigo <t-fraterrigo@northwestern.edu> as admin - tlf917
 
+script/generate migration add_ibnam_sponsor
+# create Institute for BioNanotechnology in Medicine (IBNAM) as a sponsor
+# create "CIMDD Grant"
+# add Kathy Burgess, Jill Johnson, Rebekah Hastad, and Sharon Jacknow as admins
+
+
 # after changing the table create script to create the necessary features, try it with rake:
 # test that the models can be generated and moved
     rake db:migrate

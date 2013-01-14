@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121026195117) do
+ActiveRecord::Schema.define(:version => 20130114160152) do
 
   create_table "file_documents", :force => true do |t|
     t.integer  "created_id"

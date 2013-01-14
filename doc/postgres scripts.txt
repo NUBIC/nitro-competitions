@@ -12,9 +12,6 @@ CREATE USER nucats_assist WITH PASSWORD 'mybigdog2011';
 -- or if the user has already been created:
 ALTER USER nucats_assist WITH PASSWORD 'mybigdog2011';
 
-Bcdatabase.load[:pstage, :nucats_assist]['password']
-
-
 -- now switch to the new user
 
 \connect - nucats_assist
