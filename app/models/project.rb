@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
   belongs_to :creater, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
   has_many :logs
-  default_scope :order => 'submission_close_date DESC'
+  default_scope :order => 'submission_open_date DESC'
   before_validation :clean_params
   
   validates_length_of :project_title, :within => 10..100, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
@@ -23,6 +23,8 @@ class Project < ActiveRecord::Base
 
   named_scope :active,   lambda { |*date| {:conditions => ['project_period_start_date > :date or review_end_date > :review_end_date', {:date => date.first || 3.months.ago, :review_end_date => 60.days.ago} ] }}
 
+  named_scope :early,   lambda { {:conditions => ['projects.initiation_date >= :early', {:early => 30.days.from_now} ] }}
+
   named_scope :preinitiation,   lambda { {:conditions => [':now between projects.initiation_date -30 and projects.submission_open_date', {:now => 1.hour.ago} ] }}
 
   named_scope :open,   lambda {{:conditions => [':now between projects.submission_open_date and projects.submission_close_date', {:now => 1.hour.ago} ] }}
@@ -30,6 +32,8 @@ class Project < ActiveRecord::Base
   named_scope :in_review,   lambda {{:conditions => [':now between projects.submission_close_date and projects.review_end_date', {:now => 1.hour.ago} ] }}
 
   named_scope :recently_awarded,   lambda {{:conditions => ['projects.review_end_date between :then and :now', {:now => 1.hour.ago, :then => 80.days.ago} ] }}
+  
+  named_scope :late, lambda {{:conditions => ['projects.review_end_date <= :then', {:then => 80.days.ago} ] }}
 
   def current_status
     case Date.today

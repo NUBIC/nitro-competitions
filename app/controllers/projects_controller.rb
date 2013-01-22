@@ -12,9 +12,9 @@ class ProjectsController < ApplicationController
       end
       if @projects.blank? or @projects.length == 0
         if !current_program.blank? && has_read_all?(current_program) then
-          @projects = Project.all
+          @projects = (Project.early + Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded + Project.late).flatten.uniq
         else
-          @projects = (Project.active).flatten.uniq
+          @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
         end
       end
       @submissions=Submission.associated_with_user(current_user_session.id) unless current_user_session.blank? or current_user_session.id.blank?
