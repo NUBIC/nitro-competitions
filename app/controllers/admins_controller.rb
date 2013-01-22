@@ -1,8 +1,7 @@
 class AdminsController < ApplicationController
 
+  include AdminsHelper
   before_filter  :set_project
-
-  require 'csv_generator'
   
   #all admin methods have a :sponsor_id set
 
@@ -33,8 +32,8 @@ class AdminsController < ApplicationController
     start_date = Date.today.beginning_of_year()
     start_date -= 365 if Date.today - start_date < 90
     @submissions = Submission.all(:conditions=>["submissions.created_at > :start", {:start=>start_date}], :include=>[:applicant])
-    
-    @activity="all applicants"
+
+    @activity="all applicants from #{start_date.to_s} to today for all competitions"
     if has_read_all?(@sponsor) then
       respond_to do |format|
         format.html { render :view_applicants }
@@ -59,6 +58,35 @@ class AdminsController < ApplicationController
     end
   end
 
+  def view_sponsor_applicants
+    sponsor = @project.program
+    #applicants for sponsored competitions
+    @submissions = Submission.all(:joins=>[:project], :conditions=>["projects.program_id = :sponsor_id", { :sponsor_id=>sponsor.id}], :include=>[:applicant], :order=>'submissions.created_at')
+
+    @activity="all applicants for all compeitions sponsored by #{sponsor.program_name}"
+    if has_read_all?(@sponsor) then
+      respond_to do |format|
+        format.html { render :view_applicants }
+        format.xml  { render :xml => @applicants }
+        format.pdf do
+          @pdf = 1
+          render :pdf => "Applicant listing for #{Date.today.year}", 
+              :template => 'admins/view_applicants.html',
+              :stylesheets => ["pdf"], 
+              :layout => "pdf"
+        end
+        format.xls do
+          @pdf = 1
+           send_data(render(:template => 'admins/view_applicants.html', :layout => "excel"),
+          :filename => "Applicant listing for #{Date.today.year}.xls",
+          :type => 'application/vnd.ms-excel',
+          :disposition => 'attachment') 
+        end
+      end
+    else
+      redirect_to projects_path
+    end
+  end
 
   def view_activities
     @sponsor = @project.program
@@ -200,57 +228,6 @@ class AdminsController < ApplicationController
     end
   end
   
-  # personnel_data, applicant_data, submission_data, key_personnel_data all have csv feeds to the amCharts graph
-
-  def personnel_data
-    users = User.all.compact.uniq
-    data = generate_csv(users)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-  
-  def application_data
-    applications = Submission.all
-    data = generate_csv(applications)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-
-  def applicant_data
-    applicants = Submission.all.collect{|s| s.applicant }.compact.uniq
-    data = generate_csv(applicants)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-  
-  def submission_data
-    submissions = Submission.all.compact.uniq
-    data = generate_csv(submissions)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-  
-  def key_personnel_data
-    key_personnel = Submission.all.collect{|s| s.key_personnel.collect{ |k| k } }.flatten.compact.uniq
-    data = generate_csv(key_personnel)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-  
-  def reviewer_data
-    reviewer = SubmissionReview.all.compact.uniq
-    data = generate_csv(reviewer)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-
-  def review_data
-    reviews = SubmissionReview.find(:all, :conditions=>['overall_score > 0'])
-    data = generate_csv(reviews, true)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-  
-  def login_data
-    logs = Log.logins
-    data = generate_csv(logs, true)
-    render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
-  end
-
-  
   
   def show
   end
@@ -281,17 +258,6 @@ class AdminsController < ApplicationController
   end
 
   private
-
-  def render_view_activities
-    if has_read_all?(@sponsor) then
-       respond_to do |format|
-        format.html { render :view_activities }
-        format.xml  { render :xml => @logs }
-      end
-    else
-      redirect_to projects_path
-    end
-  end
 
   def update_review_assignment()
     @unfilled_submissions = Submission.unfilled_submissions(@project.max_assigned_proposals_per_reviewer).find_all_by_project_id(@project.id)

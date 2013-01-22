@@ -146,6 +146,8 @@ script/generate scaffold public
 	script/generate controller approvers
 	script/generate controller sponsors
 
+	script/generate controller Audits logins payments activities
+
 
 #added to allow a submission_review_count counter on submissions
 	script/generate migration add_submission_review_count_column
@@ -230,7 +232,7 @@ script/generate migration add_cmidd_sponsor
 script/generate migration add_ibnam_sponsor
 # create Institute for BioNanotechnology in Medicine (IBNAM) as a sponsor
 # create "CIMDD Grant"
-# add Kathy Burgess, Jill Johnson, Rebekah Hastad, and Sharon Jacknow as admins
+# add Kathy Burgess kbu819, Jill Johnson jwr976, Rebekah Hastad rjh748, and Sharon Jacknow sja459 as admins
 
 
 # after changing the table create script to create the necessary features, try it with rake:
@@ -268,7 +270,7 @@ sudo postfix start
 vacuumdb -fz nucats_assist_development
 
 
-# see file generateGraphs.sh for how to generat connection graphs for cancer center member publications
+# see file generateGraphs.sh for how to generate connection graphs for cancer center member publications
 
 #start web server
     script/server

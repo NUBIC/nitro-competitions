@@ -23,6 +23,14 @@ class Project < ActiveRecord::Base
 
   named_scope :active,   lambda { |*date| {:conditions => ['project_period_start_date > :date or review_end_date > :review_end_date', {:date => date.first || 3.months.ago, :review_end_date => 60.days.ago} ] }}
 
+  named_scope :preinitiation,   lambda { {:conditions => [':now between projects.initiation_date -30 and projects.submission_open_date', {:now => 1.hour.ago} ] }}
+
+  named_scope :open,   lambda {{:conditions => [':now between projects.submission_open_date and projects.submission_close_date', {:now => 1.hour.ago} ] }}
+
+  named_scope :in_review,   lambda {{:conditions => [':now between projects.submission_close_date and projects.review_end_date', {:now => 1.hour.ago} ] }}
+
+  named_scope :recently_awarded,   lambda {{:conditions => ['projects.review_end_date between :then and :now', {:now => 1.hour.ago, :then => 80.days.ago} ] }}
+
   def current_status
     case Date.today
       when Date.today-300..initiation_date  then "Pre-announcement"
@@ -30,7 +38,7 @@ class Project < ActiveRecord::Base
       when submission_open_date..submission_close_date  then "Open for Applications"
       when submission_close_date..review_start_date  then "Closed for Review"
       when review_start_date..review_end_date  then "Under Review"
-      when review_end_date..review_end_date+1000  then "Completed"
+      when review_end_date..review_end_date+1000  then "Awarded"
     else "Unknown"
     end
   end

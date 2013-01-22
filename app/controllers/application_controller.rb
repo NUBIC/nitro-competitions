@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password
   
 
-  before_filter  :check_ips, :except => [:check_ips, :disallowed]
+  before_filter  :check_ips, :except => [:check_ips, :disallowed, :welcome]
   before_filter(  :check_session, :except => [:login, :welcome]) unless Rails.env == 'test' 
   after_filter  :log_request, :except => [:login, :username_lookup, :add_user, :remove_user, :add_key_personnel, :remove_key_personnel, :lookup, :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data, :reviewer_data, :review_data, :login_data, :welcome, :update_item]
   #before_filter  :check_authorization, :except => [:login, :signin]

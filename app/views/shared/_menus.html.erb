@@ -62,12 +62,15 @@
 	<li><a href="#">Audit</a>
 		<ul> 
 			<% unless @project.blank?  or @project.id.blank? -%>
-			<li><%= link_to "View All Applicants", view_applicants_project_admins_path(@project.id)  %></li> 
-			<li><%= link_to "View All Personnel", project_admins_path(@project.id)  %></li> 
-			<li><%= link_to "View/monitor logins", view_logins_project_admins_path(@project.id)  %></li> 
-			<li><%= link_to "View/monitor submissions", view_submissions_project_admins_path(@project.id)  %></li> 
-			<li><%= link_to "View/monitor reviews", view_reviews_project_admins_path(@project.id)  %></li> 
-			<li><%= link_to "View/monitor all", view_submissions_project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "Graph All activities", audits_path  %></li> 
+			<li><%= link_to "Graph Sponsor activities", sponsor_audits_path  %></li> 
+			<li><%= link_to "List Recent Applicants", view_applicants_project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "List All Sponsor Applicants", view_sponsor_applicants_project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "List All Competition People", project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "List Competition logins", view_logins_project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "List Competition submissions", view_submissions_project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "List Competition reviews", view_reviews_project_admins_path(@project.id)  %></li> 
+			<li><%= link_to "List Competition activities", view_activities_project_admins_path(@project.id)  %></li> 
 			<% end %>
 		</ul>
 	</li>

@@ -305,23 +305,4 @@ jQuery(document).ready(function() {
 	<% end %>
 <% end %>
 
-<br />
-<div>
-<!-- amstock script-->
-	<div id="admin_overview">
-		<strong>You need to upgrade your Flash Player</strong>
-	</div>
-
-	<script type="text/javascript">
-		// <![CDATA[		
-		var so = new SWFObject("<%= image_path('../amstock/amstock.swf') %>", "amstock", "800", "400", "8", "#FFFFFF");
-		so.addVariable("path", "");
-		so.addVariable("settings_file", encodeURIComponent("<%= image_path('../graphs/amstock_settings.xml') %>"));
-	    so.addVariable("preloader_color", "#000000");
-		so.write("admin_overview");
-		// ]]>
-	</script>
-<!-- end of amstock script -->
-
-</div>
 

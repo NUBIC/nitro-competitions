@@ -1,0 +1,10 @@
+<% out_len = data[0][1].length*2 -%>
+<% out_array = Array.new(out_len+1,0) -%>
+<% data.each do |key, value| -%>
+<% value.each_with_index do |val, i| -%>
+<% out_array[i*2+1] = val -%>
+<% out_array[i*2+2] = out_array[i*2+2] + val -%>
+<% end -%>
+<% out_array[0] = key -%>
+<%= out_array.join(",") %>
+<% end -%>
