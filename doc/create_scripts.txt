@@ -172,6 +172,9 @@ script/generate migration add_nmf_sponsor
 # add Office of Research as a valid sponsor
 script/generate migration add_vpor_sponsor
 
+# add Office of Research as a valid sponsor
+script/generate migration add_birc_sponsor
+
 # now lets build the authorization system. First add the roles and rights models
 
 script/generate model Role

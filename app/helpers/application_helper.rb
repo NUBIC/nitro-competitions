@@ -313,6 +313,7 @@ module ApplicationHelper
   
   
   def truncate_words(phrase, count=20) 
+    return "" if phrase.blank?
     re = Regexp.new('^(.{'+count.to_s+'}\w*)(.*)', Regexp::MULTILINE)
     phrase.gsub(re) {$2.empty? ? $1 : $1 + '...'}
   end
