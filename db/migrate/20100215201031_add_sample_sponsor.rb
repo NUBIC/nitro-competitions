@@ -9,11 +9,11 @@ class AddSampleSponsor < ActiveRecord::Migration
       :project_name => "fall_2012_pilot",   # this is the SEO name - no spaces!
       :initiation_date => '02-NOV-2012',
       :submission_open_date => '02-NOV-2012',
-      :submission_close_date => '04-DEC-2012',
-      :review_start_date => '04-DEC-2012',
-      :review_end_date => '08-JAN-2013',
-      :project_period_start_date => '01-MAR-2013',
-      :project_period_end_date => '28-FEB-2014',
+      :submission_close_date => '04-DEC-2013',
+      :review_start_date => '04-DEC-2013',
+      :review_end_date => '08-JAN-2014',
+      :project_period_start_date => '01-MAR-2014',
+      :project_period_end_date => '28-FEB-2015',
       :program_id=> theProgram.id
   end
 
