@@ -12,7 +12,7 @@ module ApplicationHelper
 	# hard wired admin list:
 	def act_as_admin
     session[:act_as_admin] = false
-    if [ 'jab155','wakibbe','dfu601' ].include?(current_user_session.username)  then
+    if [ 'jab155','wakibbe','dfu601','super' ].include?(current_user_session.username)  then
       session[:act_as_admin] = true
     end
   end
