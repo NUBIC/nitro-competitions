@@ -1,5 +1,6 @@
 # encoding: UTF-8
 class User < ActiveRecord::Base
+  
   has_many :reviewers  #really program reviewers since the reviewer model is a user + program
   belongs_to :biosketch, :class_name => "FileDocument", :foreign_key => 'biosketch_document_id'
   has_many :key_personnel

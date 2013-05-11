@@ -201,6 +201,8 @@ script/generate migration add_cecd_sponsor
 
 script/generate migration add_cerc_sponsor
 
+script/generate migration add_rhlccc_basic_sponsor
+
 script/generate migration add_submission_abstract
 script/generate migration add_other_support_document
 script/generate migration add_document2-4_columns
