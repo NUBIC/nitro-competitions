@@ -6,7 +6,6 @@ gem "rails", "~> 2.3", :require => nil
 gem 'pg'
 gem 'haml', '3.1.7'
 gem 'will_paginate', '~> 2.3'
-gem 'rdoc' # necessary for rails 2.3.12
 gem 'fastercsv'
 gem "princely", "~> 1.2.5"
 
