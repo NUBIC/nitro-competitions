@@ -7,7 +7,7 @@ class Project < ActiveRecord::Base
   before_validation :clean_params
   
   validates_length_of :project_title, :within => 10..100, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
-  validates_length_of :project_name, :within => 2..20, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
+  validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
   validates_uniqueness_of :project_name  #simplifies the logic a lot if we force the project names to be absolutely unique
   validates_presence_of :initiation_date, :message => "you must have an initiation date!"
   validates_presence_of :submission_open_date, :message => "you must have a submission open date!"

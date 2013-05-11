@@ -3,7 +3,7 @@ class AddRhlcccBasicSponsor < ActiveRecord::Migration
     Program.create :program_title => "Robert H. Lurie Comprehensive Cancer Center Basic Sciences", :program_name => 'RHLCCC_basic', :program_url => "http://www.cancer.northwestern.edu"
 
     theProgram=Program.find_by_program_name("RHLCCC_basic")
-    Project.create :project_title => "Basic Science Pilot Projects", 
+    theProject = Project.new :project_title => "Basic Science Pilot Projects", 
       :project_url => "http://www.cancer.northwestern.edu/research/research_programs/basic_sciences/", 
       :project_name => "rhlccc_basic_pilots_2013",   # this is the SEO name - no spaces!
       :initiation_date => '07-MAY-2013',
@@ -14,6 +14,7 @@ class AddRhlcccBasicSponsor < ActiveRecord::Migration
       :project_period_start_date => '01-AUG-2013',
       :project_period_end_date => '31-JUL-2014',
       :program_id=> theProgram.id
+    theProject.save!
   end
 
   def self.down
