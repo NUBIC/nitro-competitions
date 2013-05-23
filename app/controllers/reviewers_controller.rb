@@ -7,20 +7,14 @@ class ReviewersController < ApplicationController
     set_session_project(params[:project_id]) unless params[:project_id].blank?
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :action => 'index' } # index.html.erb
       format.xml  { render :xml => @reviewers }
     end
   end
 
   def index_with_files
-    set_session_project(params[:project_id]) unless params[:project_id].blank?
-    @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     @include_files = true
-    @speed_display = true
-    respond_to do |format|
-      format.html { render :action => 'index' }# index.html.erb
-      format.xml  { render :xml => @reviewers }
-    end
+    index
   end
 
   def complete_listing
@@ -28,9 +22,7 @@ class ReviewersController < ApplicationController
     show_to_reviewers  = current_project.show_composite_scores_to_reviewers || current_project.show_review_summaries_to_reviewers
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     if has_read_all?(current_program) || (@assigned_submission_reviews.length > 0 and show_to_reviewers)
-      @submission_reviews = SubmissionReview.all(
-        :include=>[:submission,:reviewer], 
-        :conditions => ["submissions.project_id = :project_id", {:project_id=>current_project.id}])
+      @submission_reviews = current_project.submission_reviews
     end
     respond_to do |format|
       format.html { render :action => 'index' }# index.html.erb
@@ -45,9 +37,7 @@ class ReviewersController < ApplicationController
     @speed_display = true
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     if has_read_all?(current_program) || (@assigned_submission_reviews.length > 0 and show_to_reviewers)
-      @submission_reviews = SubmissionReview.all(
-        :include=>[:submission,:reviewer], 
-        :conditions => ["submissions.project_id = :project_id", {:project_id=>current_project.id}])
+      @submission_reviews = current_project.submission_reviews
     end
     respond_to do |format|
       format.html { render :action => 'index' }# index.html.erb
