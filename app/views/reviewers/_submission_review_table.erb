@@ -46,7 +46,19 @@
   </tr>
 </thead> 
 <tbody>
+	<% last_review = nil %>
 <% submission_reviews.each do |review| %>
+<% unless is_admin? or last_review == nil %>
+  <% if last_review.submission.applicant_id == review.submission.applicant_id %>
+	<% unless review.reviewer_id == current_user_session.id %>
+	  <% next unless current_project.show_composite_scores_to_reviewers %>
+	  <% next if review.has_zero? %>
+	<% end %>
+  <% end %>
+<% end %>
+
+<% last_review = review %>
+	
 <% style="" %>
 <% style="style='background-color:thistle;'" if review.has_zero? %>
   <tr <%= style %>>
@@ -62,8 +74,8 @@
 	<% end -%>
     <td><%=h review.reviewer.sort_name if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id  %></td>
     <td><%= link_to 'Review Form',  edit_project_reviewer_path(:project_id=>review.submission.project_id,:id=>review.id) if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id %> &nbsp; &nbsp;</td>
-    <td <%= style %>><%= review.composite_score %></td>
-    <td <%= style %>><%= review.overall_score %></td>
+    <td <%= style %>><%= review.composite_score if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id or current_project.show_composite_scores_to_reviewers %></td>
+    <td <%= style %>><%= review.overall_score if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id or current_project.show_composite_scores_to_reviewers %></td>
 	<% if include_files -%>
     <td <%= style %>><%= review.count_nonzeros? != review.submission.project.count_review_criteria? ? 'No' : 'Yes' %></td>
     <td>

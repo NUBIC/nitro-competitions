@@ -70,11 +70,11 @@ DEPENDENCIES
   bcdatabase (~> 1.0.6)
   bundler
   fastercsv
-  haml
+  haml (= 3.1.7)
   net-ldap
   paperclip (~> 2.4)
   pg
   princely (~> 1.2.5)
   rails (~> 2.3)
-  rdoc
+  rdoc (= 3.12)
   will_paginate (~> 2.3)

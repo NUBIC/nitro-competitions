@@ -25,8 +25,9 @@ class ReviewersController < ApplicationController
 
   def complete_listing
     set_session_project(params[:project_id]) unless params[:project_id].blank?
+    show_to_reviewers  = current_project.show_composite_scores_to_reviewers || current_project.show_review_summaries_to_reviewers
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
-    if has_read_all?(current_program) || @assigned_submission_reviews.length > 0
+    if has_read_all?(current_program) || (@assigned_submission_reviews.length > 0 and show_to_reviewers)
       @submission_reviews = SubmissionReview.all(
         :include=>[:submission,:reviewer], 
         :conditions => ["submissions.project_id = :project_id", {:project_id=>current_project.id}])
@@ -39,10 +40,11 @@ class ReviewersController < ApplicationController
 
   def complete_listing_with_files
     set_session_project(params[:project_id]) unless params[:project_id].blank?
+    show_to_reviewers  = current_project.show_composite_scores_to_reviewers || current_project.show_review_summaries_to_reviewers
     @include_files = true
     @speed_display = true
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
-    if has_read_all?(current_program) || @assigned_submission_reviews.length > 0
+    if has_read_all?(current_program) || (@assigned_submission_reviews.length > 0 and show_to_reviewers)
       @submission_reviews = SubmissionReview.all(
         :include=>[:submission,:reviewer], 
         :conditions => ["submissions.project_id = :project_id", {:project_id=>current_project.id}])

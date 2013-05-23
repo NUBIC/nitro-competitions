@@ -15,7 +15,7 @@
 </table>
 </div>
 
-<% reviewer_ids = submission.reviewers.map(&:id) %>
+<% reviewer_ids = submission.project.submissions.map{|s| s.submission_reviews.map(&:reviewer_id)}.flatten.uniq %>
 
 <% if submission.project.show_review_summaries_to_applicants or is_admin? or (submission.project.show_review_summaries_to_reviewers and reviewer_ids.include?(current_user_session.id) ) %>
 <h1>Application reviews </h1> 

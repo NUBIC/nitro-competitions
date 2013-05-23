@@ -2,7 +2,7 @@ users:
   wakibbe:
     first_name: Super
     last_name: Admin
-    password: super
+    password: demo
     portals:
       - NUCATSassist:
   onk999:
@@ -15,5 +15,11 @@ users:
     first_name: Joe
     last_name: User
     password: user
+    portals:
+      - NUCATSassist:
+  chisholm:
+    first_name: Rex
+    last_name: Chisholm
+    password: chisholm
     portals:
       - NUCATSassist:
