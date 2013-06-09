@@ -24,7 +24,7 @@ ActionController::Routing::Routes.draw do |map|
     projects.resources :submissions, :only => :index
     projects.resources :approvers, :only=>[:index,:update]
     projects.resources :reviewers, :only=>[:index,:edit,:update,:destroy], :collection => {:all_reviews => :get, :complete_listing => :get, :complete_listing_with_files => :get, :index_with_files => :get}, :member => {:save_review_item => [:get,:post]}
-    projects.resources :admins, :only=>:index, 
+    projects.resources :admins, :only => :index, 
       :collection => {:reviews => :get, :view_applicants => :get, :view_activities => :get, :view_submissions => :get, :view_reviews => :get, :view_logins => :get, :view_sponsor_applicants => :get, :reviewers => :get, :submissions => :get, :add_reviewers => :post, :unassign_submission => :post, :act_as_user=> [:get,:post]}, 
       :member => {:remove_reviewer => [:get,:post], :assign_submission => :post}
   end
