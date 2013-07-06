@@ -7,7 +7,7 @@ class Notifier < ActionMailer::Base
 #  default :from => "wakibbe@northwestern.edu"
  
   def finalize_message(from, subject, submission, the_submission_url, the_project_url)
-    if submission.applicant != submission.submitter
+    if submission.applicant != submission.submitter and ! submission.submitter.blank?
       to = [submission.applicant.email,submission.submitter.email].join(", ")
     else
       to = submission.applicant.email
