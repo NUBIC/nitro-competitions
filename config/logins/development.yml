@@ -23,3 +23,9 @@ users:
     password: chisholm
     portals:
       - NUCATSassist:
+  tcga:
+    first_name: Test
+    last_name: User
+    password: tcga
+    portals:
+      - NUCATSassist:

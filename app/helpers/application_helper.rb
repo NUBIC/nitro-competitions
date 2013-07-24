@@ -112,32 +112,30 @@ module ApplicationHelper
        logger.error("check_session. rats! current_user.username is blank!!!") 
      end
    rescue
-     logger.error("check_session. current_user is nil!!!") if current_user.nil?
+     logger.error("check_session. current_user is nil!!!")
    end
    if current_user.blank? or current_user.username.blank?
      clear_session_attributes()
-     return
    end
      
-   if ! defined?(current_user_session) or current_user_session.blank?
-     if session[:username].blank? or session[:user_id].blank? or session[:name].blank? or session[:username] != current_user.username
-       the_user = User.find_by_username(current_user.username) 
-       if the_user.blank? or the_user.name.blank?
-         if make_user(current_user.username)
-           flash[:notice] = 'User account was successfully created.'
-           logger.error("check_session. current_user: #{current_user.username} was created")
-           check_session 
-         else
-           logger.error("check_session. Unable to create user account for current_user: #{current_user.username}")
-           flash[:notice] = 'Unable to create user account.'
-         end
-         the_user = User.find_by_username(current_user.username) 
-       end
-       unless the_user.blank? or the_user.id.blank?
-         set_session_attributes(the_user)
+   if ! defined?(current_user_session) or current_user_session.blank? or current_user_session.username != current_user.username
+     the_user = User.find_by_username(current_user.username) 
+     if the_user.blank? or the_user.name.blank?
+       if make_user(current_user.username)
+         flash[:notice] = 'User account was successfully created.'
+         logger.error("check_session. current_user: #{current_user.username} was created")
+         check_session 
        else
-         clear_session_attributes()
+         logger.error("check_session. Unable to create user account from LDAP registry for current_user: #{current_user.username}")
+         flash[:notice] = 'Unable to create user account from LDAP registry.'
+         make_user_from_login(current_user)
        end
+       the_user = User.find_by_username(current_user.username) 
+     end
+     unless the_user.blank? or the_user.id.blank?
+       set_session_attributes(the_user)
+     else
+       clear_session_attributes()
      end
    else
      if session[:username].blank? or session[:user_id].blank? or session[:name].blank? or session[:username] != current_user_session.username
@@ -290,7 +288,17 @@ module ApplicationHelper
     rescue
       puts "Unable to find username #{username}"
     end
-    return nil
+    return false
+  end
+  
+  def make_user_from_login(current_user)
+    # for times when an authenticated user is not found in ldap!
+    the_user = User.find_by_username(current_user.username) 
+    return the_user unless the_user.blank?
+    email =  current_user.email
+    email = current_user.username+"@unknown.edu" if email.blank?
+    the_user = User.new(:username => current_user.username, :first_name=> current_user.first_name, :last_name=> current_user.last_name, :email=> email)
+    the_user.save!
   end
   
   def add_user(the_user)
