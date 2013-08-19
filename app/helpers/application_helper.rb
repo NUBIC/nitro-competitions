@@ -12,7 +12,7 @@ module ApplicationHelper
 	# hard wired admin list:
 	def act_as_admin
     session[:act_as_admin] = false
-    if [ 'jab155','wakibbe','dfu601','super' ].include?(current_user_session.username)  then
+    if [ 'jab155','wakibbe','dfu601','super','jml237','cmc622' ].include?(current_user_session.username)  then
       session[:act_as_admin] = true
     end
   end
@@ -22,13 +22,13 @@ module ApplicationHelper
   def disallowed_ip(this_ip)
     return false  #always allow!
 
-     ips = allowed_ips() # from config.rb in project lib directory
-     ips.each do |ip|
-       if this_ip =~ /#{ip}/ then
-         return false
-       end
-     end
-     return true  #disallowed
+    ips = allowed_ips() # from config.rb in project lib directory
+    ips.each do |ip|
+      if this_ip =~ /#{ip}/ then
+        return false
+      end
+    end
+    return true  #disallowed
   end
   
 	
