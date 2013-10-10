@@ -21,6 +21,8 @@ GEM
     aker-rails (2.0.3)
       aker (~> 3.0)
       rails (~> 2.3.11)
+    annotate (2.5.0)
+      rake
     authlogic (2.1.9)
       activerecord (~> 2.3.0)
       activesupport (~> 2.3.0)
@@ -28,6 +30,14 @@ GEM
       activesupport (>= 2.0)
       highline (~> 1.5)
       i18n
+    capistrano (3.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 0.0.23)
+    capistrano-bundler (1.0.0)
+      capistrano (>= 3.0.0.pre)
+    capistrano-rails (1.0.0)
+      capistrano
     castanet (1.0.1)
     cocaine (0.4.2)
     fastercsv (1.5.5)
@@ -37,6 +47,9 @@ GEM
     json (1.7.6)
     mime-types (1.19)
     net-ldap (0.1.1)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.7.0)
     paperclip (2.8.0)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
@@ -56,6 +69,13 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     rubytree (0.7.0)
+    sshkit (1.0.0)
+      net-scp
+      net-ssh
+      term-ansicolor
+    term-ansicolor (1.2.2)
+      tins (~> 0.8)
+    tins (0.12.0)
     warden (1.2.1)
       rack (>= 1.0)
     will_paginate (2.3.16)
@@ -66,9 +86,13 @@ PLATFORMS
 DEPENDENCIES
   aker (~> 3.0.3)
   aker-rails
+  annotate (~> 2.5.0)
   authlogic
   bcdatabase (~> 1.0.6)
   bundler
+  capistrano
+  capistrano-bundler
+  capistrano-rails
   fastercsv
   haml (= 3.1.7)
   net-ldap
