@@ -20,3 +20,10 @@ gem 'aker', '~> 3.0.3'
 gem 'rdoc', '3.12' # necessary for rails 2.3.12 and higher
 
 gem "paperclip", "~> 2.4"
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'annotate', '~> 2.5.0'
+end

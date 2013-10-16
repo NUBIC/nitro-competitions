@@ -1,3 +1,22 @@
+# == Schema Information
+# Schema version: 20130511121216
+#
+# Table name: file_documents
+#
+#  created_at        :datetime
+#  created_id        :integer
+#  created_ip        :string(255)
+#  file_content_type :string(255)
+#  file_file_name    :string(255)
+#  file_file_size    :integer
+#  file_updated_at   :datetime
+#  id                :integer          not null, primary key
+#  last_updated_at   :datetime
+#  updated_at        :datetime
+#  updated_id        :integer
+#  updated_ip        :string(255)
+#
+
 class FileDocument < ActiveRecord::Base
   # since we are not using a publicly accessible path, need to provide a protected file access method
   has_attached_file :file, :path => ":rails_root/assets/:attachment/:id/:basename.:extension"

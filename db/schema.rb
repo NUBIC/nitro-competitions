@@ -9,20 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130123222811) do
+ActiveRecord::Schema.define(:version => 20130511121216) do
 
   create_table "file_documents", :force => true do |t|
     t.integer  "created_id"
     t.string   "created_ip"
     t.integer  "updated_id"
     t.string   "updated_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "file_file_name"
     t.string   "file_content_type"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
     t.datetime "last_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "key_personnel", :force => true do |t|
@@ -66,27 +66,20 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
   end
 
   create_table "projects", :force => true do |t|
-    t.integer  "program_id",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        :null => false
-    t.string   "project_title",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     :null => false
+    t.integer  "program_id",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      :null => false
+    t.string   "project_title",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   :null => false
+    t.string   "project_name",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    :null => false
     t.text     "project_description"
     t.string   "project_url"
     t.date     "initiation_date"
     t.date     "submission_open_date"
     t.date     "submission_close_date"
+    t.date     "submission_modification_date"
     t.date     "review_start_date"
     t.date     "review_end_date"
     t.date     "project_period_start_date"
     t.date     "project_period_end_date"
     t.string   "status"
-    t.integer  "created_id"
-    t.string   "created_ip"
-    t.integer  "updated_id"
-    t.string   "updated_ip"
-    t.datetime "deleted_at"
-    t.integer  "deleted_id"
-    t.string   "deleted_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.float    "min_budget_request",                  :default => 1000.0
     t.float    "max_budget_request",                  :default => 50000.0
     t.integer  "max_assigned_reviewers_per_proposal", :default => 2
@@ -95,9 +88,9 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.text     "applicant_abbreviation_wording",      :default => "PI"
     t.text     "title_wording",                       :default => "Title of Project"
     t.text     "category_wording",                    :default => "Core Facility Name"
-    t.text     "help_document_url_block",             :default => "<a href=\"/docs/NUCATS_Pilot_Proposal_Form.doc\" title=\"NUCATS Pilot Proposal Form\">Application template</a>\n\n      <a href=\"/docs/Application_Instructions.pdf\" title=\"NUCATS Pilot Proposal Application Instructions\">Application instructions</a>\n      <a href=\"/docs/NUCATS_Pilot_Budget.doc\" title=\"NUCATS Pilot Proposal Budget Template\">Budget Template</a>\n      <a href=\"/docs/Budget_Instructions.pdf\" title=\"NUCATS Pilot Proposal Budget Instructions\">Budget instructions</a>"
+    t.text     "help_document_url_block",             :default => "<a href=\"/docs/NUCATS_Pilot_Proposal_Form.doc\" title=\"NUCATS Pilot Proposal Form\">Application template</a>\n      <a href=\"/docs/Application_Instructions.pdf\" title=\"NUCATS Pilot Proposal Application Instructions\">Application instructions</a>\n      <a href=\"/docs/NUCATS_Pilot_Budget.doc\" title=\"NUCATS Pilot Proposal Budget Template\">Budget Template</a>\n      <a href=\"/docs/Budget_Instructions.pdf\" title=\"NUCATS Pilot Proposal Budget Instructions\">Budget instructions</a>"
     t.text     "rfp_url_block",                       :default => "<a href=\"/docs/NUCATS_CTI_RFA.pdf\" title=\"NUCATS Pilot Proposal Request for Applications\">CTI RFA</a>"
-    t.text     "how_to_url_block",                    :default => "<a href=\"/docs/NUCATS_Pilot_Grant_Site_Instructions.pdf\" title=\"NUCATS Pilot Proposal Web Site Instructions/Help/HowTo\">Site instructions</a>"
+    t.text     "how_to_url_block",                    :default => "<a href=\"/docs/NUCATS_Assist_Instructions.pdf\" title=\"NUCATS Pilot Proposal Web Site Instructions/Help/HowTo\">Site instructions</a>"
     t.text     "effort_approver_title",               :default => "Effort approver"
     t.text     "department_administrator_title",      :default => "Financial contact person"
     t.text     "is_new_wording",                      :default => "Is this completely new work?"
@@ -164,11 +157,10 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.text     "budget_wording",                      :default => "Is the budget reasonable and appropriate for the request?"
     t.string   "completion_title",                    :default => "Completion"
     t.text     "completion_wording",                  :default => "Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?"
-    t.string   "project_name",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      :null => false
-    t.date     "submission_modification_date"
     t.boolean  "show_abstract_field",                 :default => true
     t.string   "abstract_text",                       :default => "Please include an abstract of your proposal, not to exceed 200 words."
     t.boolean  "show_manage_other_support",           :default => true
+    t.string   "projects",                            :default => "Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>."
     t.string   "manage_other_support_text",           :default => "Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>."
     t.boolean  "show_document1",                      :default => false
     t.string   "document1_name",                      :default => "Replace with document name, like ''OSR-1 form''"
@@ -206,10 +198,19 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.boolean  "show_review_summaries_to_applicants", :default => true
     t.boolean  "show_review_summaries_to_reviewers",  :default => true
     t.string   "submission_category_description",     :default => "Please enter the core you are making this submission for."
-    t.string   "human_subjects_research_text",        :default => "Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research."
+    t.text     "human_subjects_research_text",        :default => "Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research."
     t.boolean  "show_application_doc",                :default => true
     t.string   "application_doc_name",                :default => "Application"
     t.string   "application_doc_description",         :default => "Please upload the completed application here."
+    t.integer  "created_id"
+    t.string   "created_ip"
+    t.integer  "updated_id"
+    t.string   "updated_ip"
+    t.datetime "deleted_at"
+    t.integer  "deleted_id"
+    t.string   "deleted_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "reviewers", :force => true do |t|
@@ -270,15 +271,6 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.binary   "review_doc"
     t.string   "review_status"
     t.datetime "review_completed_at"
-    t.integer  "created_id"
-    t.string   "created_ip"
-    t.integer  "updated_id"
-    t.string   "updated_ip"
-    t.datetime "deleted_at"
-    t.integer  "deleted_id"
-    t.string   "deleted_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "innovation_score",                :default => 0
     t.integer  "impact_score",                    :default => 0
     t.integer  "scope_score",                     :default => 0
@@ -303,6 +295,15 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.text     "overall_text"
     t.integer  "other_score",                     :default => 0
     t.text     "other_text"
+    t.integer  "created_id"
+    t.string   "created_ip"
+    t.integer  "updated_id"
+    t.string   "updated_ip"
+    t.datetime "deleted_at"
+    t.integer  "deleted_id"
+    t.string   "deleted_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "submissions", :force => true do |t|
@@ -337,25 +338,16 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.string   "effort_approver_username"
     t.string   "department_administrator_username"
     t.datetime "effort_approval_at"
-    t.integer  "created_id"
-    t.string   "created_ip"
-    t.integer  "updated_id"
-    t.string   "updated_ip"
-    t.datetime "deleted_at"
-    t.integer  "deleted_id"
-    t.string   "deleted_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "submission_reviews_count",          :default => 0
-    t.integer  "application_document_id"
-    t.integer  "budget_document_id"
     t.string   "submission_category"
     t.string   "core_manager_username"
     t.float    "cost_sharing_amount"
     t.text     "cost_sharing_organization"
-    t.boolean  "received_previous_support"
+    t.boolean  "received_previous_support",         :default => false
     t.text     "previous_support_description"
-    t.boolean  "committee_review_approval"
+    t.boolean  "committee_review_approval",         :default => false
+    t.integer  "application_document_id"
+    t.integer  "budget_document_id"
     t.text     "abstract"
     t.integer  "other_support_document_id"
     t.integer  "document1_id"
@@ -367,6 +359,15 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.datetime "notification_sent_at"
     t.integer  "notification_sent_by_id"
     t.string   "notification_sent_to"
+    t.integer  "created_id"
+    t.string   "created_ip"
+    t.integer  "updated_id"
+    t.string   "updated_ip"
+    t.datetime "deleted_at"
+    t.integer  "deleted_id"
+    t.string   "deleted_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
@@ -393,6 +394,7 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.string   "photo_content_type"
     t.string   "photo_file_name"
     t.binary   "photo"
+    t.integer  "biosketch_document_id"
     t.datetime "first_login_at"
     t.datetime "last_login_at"
     t.string   "password_salt"
@@ -409,9 +411,9 @@ ActiveRecord::Schema.define(:version => 20130123222811) do
     t.string   "deleted_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "biosketch_document_id"
   end
 
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["era_commons_name"], :name => "index_users_on_era_commons_name"
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
