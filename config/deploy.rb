@@ -6,6 +6,7 @@ set :branch, 'master'
 
 set :deploy_to, '/var/www/apps/nucats_assist'
 set :deploy_via, :copy
+# set :deploy_via, :remote_cache
 set :scm, :git
 
 # set :format, :pretty
@@ -13,10 +14,19 @@ set :scm, :git
 # set :pty, true
 
 # set :linked_files, %w{config/database.yml}
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
+
+# capistrano bundler properties
+set :bundle_gemfile, -> { release_path.join('Gemfile') }
+set :bundle_dir, -> { shared_path.join('bundle') }
+set :bundle_flags, '--deployment --quiet'
+set :bundle_without, %w{development test}.join(' ')
+set :bundle_binstubs, -> { shared_path.join('bin') }
+set :bundle_roles, :all
+
 
 namespace :deploy do
 
