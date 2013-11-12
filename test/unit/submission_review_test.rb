@@ -1,3 +1,51 @@
+# == Schema Information
+# Schema version: 20130511121216
+#
+# Table name: submission_reviews
+#
+#  accepted_at                     :datetime
+#  assigned_at                     :datetime
+#  assignment_notification_cnt     :integer          default(0)
+#  assignment_notification_id      :integer
+#  assignment_notification_sent_at :datetime
+#  budget_score                    :integer          default(0)
+#  budget_text                     :text
+#  completion_score                :integer          default(0)
+#  created_at                      :datetime
+#  created_id                      :integer
+#  created_ip                      :string(255)
+#  deleted_at                      :datetime
+#  deleted_id                      :integer
+#  deleted_ip                      :string(255)
+#  environment_score               :integer          default(0)
+#  environment_text                :text
+#  id                              :integer          not null, primary key
+#  impact_score                    :integer          default(0)
+#  impact_text                     :text
+#  innovation_score                :integer          default(0)
+#  innovation_text                 :text
+#  other_score                     :integer          default(0)
+#  other_text                      :text
+#  overall_score                   :integer          default(0)
+#  overall_text                    :text
+#  review_completed_at             :datetime
+#  review_doc                      :binary
+#  review_score                    :float
+#  review_status                   :string(255)
+#  review_text                     :text
+#  reviewer_id                     :integer
+#  scope_score                     :integer          default(0)
+#  scope_text                      :text
+#  submission_id                   :integer
+#  team_score                      :integer          default(0)
+#  team_text                       :text
+#  thank_you_sent_at               :datetime
+#  thank_you_sent_id               :integer
+#  updated_at                      :datetime
+#  updated_id                      :integer
+#  updated_ip                      :string(255)
+#
+
 require 'test_helper'
 
 class SubmissionReviewTest < ActiveSupport::TestCase
