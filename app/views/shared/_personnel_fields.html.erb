@@ -25,8 +25,9 @@
       <% end %>
     <% end %>
     <br/>
-    <%= link_to_remote('remove this key individual' + image_tag("trash_blue.png", :width => "16px", :height => "16px", :style => "margin-top:-5px;margin-bottom:-2px"),
-                       { :url => submission_key_person_path(submission.id, (key_person.id || 0)), :with => "'index="+index.to_s+"'", :method => :delete },
-                       { :style => "float:right; margin-top:-10px; margin-right:5px", :title => "Click to remove this individual from your list of key personnel. It does not delete their profile."} )%>
+    <%= link_to('remove this key individual' + image_tag("trash_blue.png", :width => "16px", :height => "16px", :style => "margin-top:-5px;margin-bottom:-2px"),
+                { :url => submission_key_person_path(submission.id, (key_person.id || 0)), :with => "'index="+index.to_s+"'", :method => :delete },
+                { :style => "float:right; margin-top:-10px; margin-right:5px", :title => "Click to remove this individual from your list of key personnel. It does not delete their profile."},
+                :remote => true )%>
   </p>
 <% end %>

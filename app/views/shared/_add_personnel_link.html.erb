@@ -1,5 +1,4 @@
 <div id="add_key_personnel_link">
   <% title = if index > 0 then "Add more key personnel" else "Add key personnel" end %>
-  <%= link_to_remote title, :url => add_new_submission_key_personnel_path(submission.id), :with => "'index="+index.to_s+"'"
- %>
+  <%= link_to title, :url => add_new_submission_key_personnel_path(submission.id), :with => "'index="+index.to_s+"'", :remote => true %>
 </div>

@@ -29,7 +29,7 @@ class Notifier < ActionMailer::Base
     @sent_on      = Time.now
     @content_type = "text/html"
 
-    body[:name]  = name
+    body[:name] = name
     body[:submission] = submission
     body[:key_personnel] = submission.key_personnel_names
     body[:the_submission_url] = the_submission_url
