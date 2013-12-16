@@ -35,25 +35,22 @@ class RolesController < ApplicationController
     end
   end
 
-# /sponsors/:sponsor_id/roles/:role_id/users/:user_id/add(.:format)
-#   add_sponsor_role_user_rest GET    /sponsors/:sponsor_id/roles/:role_id/users/:user_id/rest/:id/add(.:format)    {:controller=>"roles", :action=>"add"}
-
   def add
     @sponsor = Program.find(params[:sponsor_id])
     @role = Role.find(params[:role_id])
 
     if is_admin?(@sponsor)
-      @roles_user = RolesUser.find(:first, :conditions => ["role_id = :role_id and user_id = :user_id and program_id = :program_id", {:user_id =>  params[:user_id], :role_id => params[:role_id], :program_id => params[:sponsor_id]}])
-      @roles_user = RolesUser.new(:user_id=>params[:user_id], :role_id => @role.id, :program_id => params[:sponsor_id]) if @roles_user.blank?
- 
+      @roles_user = RolesUser.where("role_id = :role_id and user_id = :user_id and program_id = :program_id", { :user_id =>  params[:user_id], :role_id => params[:role_id], :program_id => params[:sponsor_id] }).first
+      @roles_user = RolesUser.new(:user_id => params[:user_id], :role_id => @role.id, :program_id => params[:sponsor_id]) if @roles_user.blank?
+
       respond_to do |format|
         if @roles_user.new_record? && @roles_user.save
           flash[:notice] = "Role #{@role.name} was successfully created for user #{@roles_user.user.name}."
-          format.html { redirect_to(sponsor_role_url(:sponsor_id=>params[:sponsor_id], :id=>params[:role_id])) }
+          format.html { redirect_to(sponsor_role_url(:sponsor_id => params[:sponsor_id], :id => params[:role_id])) }
           format.xml  { render :xml => @roles_user, :status => :created, :location => @role }
         else
           flash[:notice] = "Role #{@role.name} already existed for user #{@roles_user.user.name}."
-          format.html { redirect_to(sponsor_role_url(:sponsor_id=>params[:sponsor_id], :id=>params[:role_id])) }
+          format.html { redirect_to(sponsor_role_url(:sponsor_id => params[:sponsor_id], :id => params[:role_id])) }
           format.xml  { render :xml => @roles_user, :status => :ok, :location => @role }
          end
       end
@@ -62,11 +59,9 @@ class RolesController < ApplicationController
     end
   end
 
-#  remove_sponsor_role_user_rest GET    /sponsors/:sponsor_id/roles/:role_id/users/:user_id/rest/:id/remove(.:format) {:controller=>"roles", :action=>"remove"}
-
   def remove
     @sponsor = Program.find(params[:sponsor_id])
-    @roles_user = RolesUser.find_by_id(params[:id])
+    @roles_user = RolesUser.find(params[:id])
     if @roles_user.blank?
       flash[:notice] = "Role could not be removed. (no longer exists)"
     end
@@ -76,11 +71,11 @@ class RolesController < ApplicationController
       @roles_user.destroy
       respond_to do |format|
         flash[:notice] = "Role #{@role.name} for user #{@user.name} was successfully removed."
-        format.html { redirect_to(sponsor_role_url(:sponsor_id=>params[:sponsor_id], :id=>params[:role_id])) }
+        format.html { redirect_to(sponsor_role_url(:sponsor_id => params[:sponsor_id], :id => params[:role_id])) }
         format.xml  { render :xml => @role, :status => :deleted, :location => @role }
       end
     else
-      redirect_to(sponsor_role_url(:sponsor_id=>params[:sponsor_id], :id=>params[:role_id]))
+      redirect_to(sponsor_role_url(:sponsor_id => params[:sponsor_id], :id => params[:role_id]))
     end
   end
 
