@@ -1,7 +1,7 @@
 <h1>Listing applicants</h1>
 
-<table id="applicantTable" class="tablesorter { sortList: [[2,0]] }"> 
-  <thead> 
+<table id="applicantTable" class="tablesorter { sortList: [[2,0]] }">
+  <thead>
   <tr>
    <th>Username</th>
    <th>eRA Commmons name</th>
@@ -12,15 +12,15 @@
     <th>Primary department</th>
     <th>Campus</th>
   </tr>
- </thead> 
+ </thead>
  <tbody>
 <% @applicants.each do |applicant| %>
   <tr>
     <td><%=h applicant.username %></td>
     <td><%=h applicant.era_commons_name %></td>
     <td><%= applicant.sort_name %></td>
-    <td><%= mail_to(applicant.email, "email", 
-				:subject => "NUCATS Assist colleague", 
+    <td><%= mail_to(applicant.email, "email",
+				:subject => "NUCATS Assist colleague",
 				:encode => "javascript", :title=>"Send email to this applicant") unless applicant.email.blank? %> </td>
     <td><%=h applicant.business_phone %></td>
     <td><%=h applicant.title %></td>
@@ -37,13 +37,13 @@
 
 <br />
 
-<% javascript_tag do %>
-jQuery(document).ready(function() { 
-    // call the tablesorter plugin 
+<%= javascript_tag do %>
+  jQuery(document).ready(function() {
+    // call the tablesorter plugin
     jQuery("#applicantTable").tablesorter(
-        // turn off sorting on the 4th header
-        { headers: { 3: {sorter: false} } }
-    ); 
+      // turn off sorting on the 4th header
+      { headers: { 3: {sorter: false} } }
+    );
 });
 <% end %>
 

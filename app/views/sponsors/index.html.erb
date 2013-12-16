@@ -5,23 +5,22 @@
 <br />
 
 <% unless @sponsors.blank? %>
-  <%= "<div id='show_pubmed'>Click here to show Administrator emails</div><div id='pubmed_ids' style='display : none;'>#{@sponsors.map{|sponsor| sponsor.roles_users.admins.map{|admin| admin.user.email }}.flatten.join(', ')}</div>" %>
+  <%= "<div id='show_pubmed'>Click here to show Administrator emails</div><div id='pubmed_ids' style='display : none;'>#{@sponsors.map{ |sponsor| sponsor.roles_users.admins.map{ |admin| admin.user.email } }.flatten.join(', ')}</div>" %>
   <script type="text/javascript" language="JavaScript">
-	jQuery('#show_pubmed').click(function(event){
-	  jQuery('#pubmed_ids').toggle();
-	  event.preventDefault(); // Prevent link from following its href
-	});
-	</script>
+    jQuery('#show_pubmed').click(function(event){
+      jQuery('#pubmed_ids').toggle();
+      event.preventDefault(); // Prevent link from following its href
+    });
+  </script>
 <% end %>
 
-<% javascript_tag do %>
-jQuery(document).ready(function() { 
-    // call the tablesorter plugin 
-    jQuery("#sponsorTable").tablesorter(
-	{  widgets: ['zebra'],
-        // turn off sorting on the 4th header
-       headers: { 2: {sorter: false}, 3: {sorter: false}, 4: {sorter: false} } }
-    ); 
-});
+<%= javascript_tag do %>
+  jQuery(document).ready(function() {
+    // call the tablesorter plugin
+    jQuery("#sponsorTable").tablesorter({
+      widgets: ['zebra'],
+      // turn off sorting on the 4th header
+      headers: { 2: {sorter: false}, 3: {sorter: false}, 4: {sorter: false} }
+    });
+  });
 <% end %>
-

@@ -1,8 +1,12 @@
 <div id="reassign_applicant">
-	<% form_for :submission, :url => reassign_applicant_submission_path(@submission), :html => { :method => :post, :class => "p" }  do |form| %> 
-	<p>For the proposal <%= @submission.submission_title %> with the current PI of <%= @submission.applicant.name %> please select a person to assign as the PI. .</p>
+  <%= form_for :submission, :url => reassign_applicant_submission_path(@submission), :html => { :method => :post, :class => "p" } do |form| %>
+    <p>
+      For the proposal <%= @submission.submission_title %> with the current PI of <%= @submission.applicant.name %> please select a person to assign as the PI.
+    </p>
 
-  	<p><%= collection_select '', 'applicant_id', @users, :id, :name, {}, :size=>"30"  %> Select applicant (PI) name </p>
-	  <%= submit_tag 'Reassign PI' %>
-	<% end %> 
+    <p>
+      <%= collection_select '', 'applicant_id', @users, :id, :name, {}, :size=>"30"  %> Select applicant (PI) name
+    </p>
+    <%= submit_tag 'Reassign PI' %>
+  <% end %>
 </div>

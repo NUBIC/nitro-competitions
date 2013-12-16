@@ -1,8 +1,7 @@
 <h1>New session</h1>
 
-<% form_for(@session) do |f| %>
+<%= form_for(@session) do |f| %>
   <%= f.error_messages %>
-
   <p>
     <%= f.submit 'Create' %>
   </p>

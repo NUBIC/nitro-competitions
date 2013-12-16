@@ -1,8 +1,11 @@
 <div id="act_as_user">
-	<% form_for :admin, :url => act_as_user_project_admins_path(:project_id=>@project.id), :html => { :method => :post, :class => "p" }  do |form| %> 
-	<p>Select a user to act as. Note that you will have to logout and login back in to get back to your own account.</p>
-
-  	<p><%= collection_select '', 'username', @users, :username, :name, {}, :size=>"30"  %> Select user </p>
-	  <%= submit_tag 'Act as this user' %>
-	<% end %> 
+  <%= form_for :admin, :url => act_as_user_project_admins_path(:project_id => @project.id), :html => { :method => :post, :class => "p" } do |form| %>
+    <p>
+      Select a user to act as. Note that you will have to logout and login back in to get back to your own account.
+    </p>
+    <p>
+      <%= collection_select '', 'username', @users, :username, :name, {}, :size => "30" %> Select user
+    </p>
+    <%= submit_tag 'Act as this user' %>
+  <% end %>
 </div>

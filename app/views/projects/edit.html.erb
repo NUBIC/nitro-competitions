@@ -1,9 +1,9 @@
 <h1>Editing '<%= @project.project_title %>'</h1>
 
-<% form_for(@project) do |f| %>
+<%= form_for(@project) do |f| %>
   <%= f.error_messages %>
 
-	<%= render(:partial => 'project_form', :locals=>{:f=>f, :project=>@project}) %>
+	<%= render(:partial => 'project_form', :locals => { :f => f, :project => @project }) %>
   <p>
     <%= f.submit 'Update' %>
   </p>
