@@ -8,7 +8,7 @@ require 'fastercsv'
 
 namespace :reports do
   task :dixon => :environment do
-    competitions = Project.all(:conditions => "lower(project_title) like '%dixon%'")
+    competitions = Project.where("lower(project_title) like '%dixon%'").all
 
     puts "#{competitions.length} competitions to process."
 
@@ -20,7 +20,7 @@ namespace :reports do
 
   task :curie => :environment do
     # for Curie Chang, IRB approval
-    competitions = Project.all(:conditions => "lower(project_title) like '%dixon%'", :include=>:program)
+    competitions = Project.includes(:program).where("lower(project_title) like '%dixon%'").all
 
     puts "#{competitions.length} competitions to process."
 
@@ -36,7 +36,7 @@ namespace :reports do
       end
      end
 
-    submissions = Submission.all(:conditions=> ["project_id in (:project_ids)", {:project_ids=> competitions.map(&:id)}])
+    submissions = Submission.where("project_id in (:project_ids)", { :project_ids => competitions.map(&:id) }).all
 
     cols = ["project_id", "applicant_id", "submission_title"]
     file_name = Rails.root + "/tmp/submissions#{Time.now.strftime("%Y-%m-%d")}.csv"
@@ -49,7 +49,7 @@ namespace :reports do
       end
     end
 
-    applicants = User.all(:conditions=> ["id in (:applicant_ids)", {:applicant_ids=> submissions.map(&:applicant_id)}])
+    applicants = User.where("id in (:applicant_ids)", { :applicant_ids=> submissions.map(&:applicant_id) }).all
 
     user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
 
@@ -63,7 +63,7 @@ namespace :reports do
       end
     end
 
-    key_personnel = KeyPerson.all(:conditions=> ["submission_id in (:submission_ids)", {:submission_ids=> submissions.map(&:id)}])
+    key_personnel = KeyPerson.where("submission_id in (:submission_ids)", { :submission_ids=> submissions.map(&:id) }).all
 
     cols = ["submission_id", "user_id", "role"]
     file_name = Rails.root + "/tmp/key_personnel#{Time.now.strftime("%Y-%m-%d")}.csv"
@@ -77,8 +77,7 @@ namespace :reports do
       end
     end
 
-
-    submission_reviews = SubmissionReview.all(:conditions=> ["submission_id in (:submission_ids)", {:submission_ids=> submissions.map(&:id)}])
+    submission_reviews = SubmissionReview.where("submission_id in (:submission_ids)", { :submission_ids=> submissions.map(&:id) }).all
 
     cols = ["submission_id", "reviewer_id", "review_score", "review_text", "review_status", "review_completed_at", "created_at", "updated_at", "innovation_score", "impact_score", "scope_score", "team_score", "environment_score",
       "budget_score", "completion_score", "innovation_text", "impact_text", "scope_text", "team_text", "environment_text", "budget_text", "overall_score", "overall_text", "other_score", "other_text"]
@@ -92,7 +91,6 @@ namespace :reports do
         STDOUT.flush
       end
     end
-
 
     puts "done"
 
