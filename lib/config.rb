@@ -1,4 +1,4 @@
-require "#{RAILS_ROOT}/app/helpers/roles_helper"
+require "#{Rails.root}/app/helpers/roles_helper"
 include RolesHelper
 
 def default_program_name

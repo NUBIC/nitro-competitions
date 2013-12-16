@@ -9,9 +9,9 @@ require 'fastercsv'
 namespace :reports do
   task :dixon => :environment do
     competitions = Project.all(:conditions => "lower(project_title) like '%dixon%'")
-    
+
     puts "#{competitions.length} competitions to process."
-    
+
     competitions.each do |comp|
       puts comp.to_xml :include => {:submissions => {:include => [:applicant, :key_personnel, :key_people]}}
     end
@@ -19,13 +19,13 @@ namespace :reports do
   end
 
   task :curie => :environment do
-    # for Curie Chang, IRB approval 
+    # for Curie Chang, IRB approval
     competitions = Project.all(:conditions => "lower(project_title) like '%dixon%'", :include=>:program)
-    
+
     puts "#{competitions.length} competitions to process."
-    
+
     cols = ["program_id", "project_title", "project_description", "project_url", "initiation_date", "submission_open_date", "submission_close_date", "review_start_date", "review_end_date", "project_period_start_date", "project_period_end_date", "status"]
-    file_name = RAILS_ROOT + "/tmp/projects_#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = Rails.root + "/tmp/projects_#{Time.now.strftime("%Y-%m-%d")}.csv"
     puts "Writing projects file to " + file_name
     FasterCSV.open(file_name, "w") do |csv|
       csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip"]
@@ -35,30 +35,30 @@ namespace :reports do
         STDOUT.flush
       end
      end
-    
+
     submissions = Submission.all(:conditions=> ["project_id in (:project_ids)", {:project_ids=> competitions.map(&:id)}])
 
     cols = ["project_id", "applicant_id", "submission_title"]
-    file_name = RAILS_ROOT + "/tmp/submissions#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = Rails.root + "/tmp/submissions#{Time.now.strftime("%Y-%m-%d")}.csv"
     puts "Writing submissions file to " + file_name
     FasterCSV.open(file_name, "w") do |csv|
-      csv <<  ["submission_id"] + cols 
+      csv <<  ["submission_id"] + cols
       submissions.each do |submission|
-        csv << [submission.id] + cols.map{|c| submission[c]} 
+        csv << [submission.id] + cols.map{|c| submission[c]}
         STDOUT.flush
       end
     end
- 
+
     applicants = User.all(:conditions=> ["id in (:applicant_ids)", {:applicant_ids=> submissions.map(&:applicant_id)}])
 
     user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
- 
-    file_name = RAILS_ROOT + "/tmp/applicants#{Time.now.strftime("%Y-%m-%d")}.csv"
+
+    file_name = Rails.root + "/tmp/applicants#{Time.now.strftime("%Y-%m-%d")}.csv"
     puts "Writing applicants file to " + file_name
     FasterCSV.open(file_name, "w") do |csv|
-      csv <<  ["user_id"] + user_cols 
+      csv <<  ["user_id"] + user_cols
       applicants.each do |applicant|
-        csv << [applicant.id] + user_cols.map{|c| applicant[c]} 
+        csv << [applicant.id] + user_cols.map{|c| applicant[c]}
         STDOUT.flush
       end
     end
@@ -66,7 +66,7 @@ namespace :reports do
     key_personnel = KeyPerson.all(:conditions=> ["submission_id in (:submission_ids)", {:submission_ids=> submissions.map(&:id)}])
 
     cols = ["submission_id", "user_id", "role"]
-    file_name = RAILS_ROOT + "/tmp/key_personnel#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = Rails.root + "/tmp/key_personnel#{Time.now.strftime("%Y-%m-%d")}.csv"
     puts "Writing key_personnel file to " + file_name
     FasterCSV.open(file_name, "w") do |csv|
       csv <<  cols+ user_cols
@@ -76,13 +76,13 @@ namespace :reports do
         STDOUT.flush
       end
     end
-    
-    
+
+
     submission_reviews = SubmissionReview.all(:conditions=> ["submission_id in (:submission_ids)", {:submission_ids=> submissions.map(&:id)}])
 
-    cols = ["submission_id", "reviewer_id", "review_score", "review_text", "review_status", "review_completed_at", "created_at", "updated_at", "innovation_score", "impact_score", "scope_score", "team_score", "environment_score", 
+    cols = ["submission_id", "reviewer_id", "review_score", "review_text", "review_status", "review_completed_at", "created_at", "updated_at", "innovation_score", "impact_score", "scope_score", "team_score", "environment_score",
       "budget_score", "completion_score", "innovation_text", "impact_text", "scope_text", "team_text", "environment_text", "budget_text", "overall_score", "overall_text", "other_score", "other_text"]
-    file_name = RAILS_ROOT + "/tmp/submission_reviews#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = Rails.root + "/tmp/submission_reviews#{Time.now.strftime("%Y-%m-%d")}.csv"
     puts "Writing submission_reviews file to " + file_name
     FasterCSV.open(file_name, "w") do |csv|
       csv <<  ["submission_review_id"] + cols + user_cols
@@ -92,8 +92,8 @@ namespace :reports do
         STDOUT.flush
       end
     end
-    
-    
+
+
     puts "done"
 
   end

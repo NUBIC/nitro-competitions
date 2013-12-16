@@ -1,41 +1,49 @@
-# Settings specified here will take precedence over those in config/environment.rb
+NucatsAssist::Application.configure do
+  # Settings specified here will take precedence over those in config/application.rb
 
-# In the development environment your application's code is reloaded on
-# every request.  This slows down response time but is perfect for development
-# since you don't have to restart the webserver when you make code changes.
-config.cache_classes = false
+  # In the development environment your application's code is reloaded on
+  # every request.  This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
+  config.cache_classes = false
 
-# Log error messages when you accidentally call methods on nil.
-config.whiny_nils = true
+  # Log error messages when you accidentally call methods on nil.
+  config.whiny_nils = true
 
-# Show full error reports and disable caching
-config.action_controller.consider_all_requests_local = true
-config.action_view.debug_rjs                         = true
-config.action_controller.perform_caching             = true
-config.action_controller.relative_url_root			 = '/nucats_assist' if ENV["HOME"] =~ /home/
+  # Show full error reports and disable caching
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
 
+  # Don't care if the mailer can't send
+  config.action_mailer.raise_delivery_errors = false
 
-# Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = true
-config.action_mailer.delivery_method = :smtp
-config.action_mailer.smtp_settings = {
-    :address => "mail.it.northwestern.edu",
-    :port => 25,
-    :domain => "northwestern.edu"
-  #:domain  => "localhost", 
-#  :user_name  => "USER", 
- # :password  => "PASS", 
- # :authentication  => :plain
-}
+  # Print deprecation notices to the Rails logger
+  config.active_support.deprecation = :log
 
-config.after_initialize do
-  Aker.configure do
-    if RAILS_ROOT =~ /Users/ 
-      login_config = File.join(RAILS_ROOT, %w(config logins development.yml))
+  # Only use best-standards-support built into browsers
+  config.action_dispatch.best_standards_support = :builtin
+
+  # Do not compress assets
+  config.assets.compress = false
+
+  # Expands the lines which load the assets
+  config.assets.debug = true
+
+  # Don't care if the mailer can't send
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address => "mail.it.northwestern.edu",
+      :port => 25,
+      :domain => "northwestern.edu"
+  }
+
+  config.aker do
+    if Rails.root.to_s =~ /Users/
+      login_config = File.join(Rails.root, %w(config logins development.yml))
       authority Aker::Authorities::Static.from_file(login_config)
       puts "loading local static aker file"
- #     staff_portal = Aker::Authorities::StaffPortal.new
-#      authorities :cas, staff_portal
+      # staff_portal = Aker::Authorities::StaffPortal.new
+      # authorities :cas, staff_portal
       central '/etc/nubic/aker-local.yml'
     else
       authority :ldap

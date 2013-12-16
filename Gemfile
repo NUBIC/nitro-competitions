@@ -1,25 +1,22 @@
-source :gemcutter
+source 'https://rubygems.org'
+source 'http://download.bioinformatics.northwestern.edu/gems'
 
-#gem 'fastercsv'
 gem 'bundler'
-gem "rails", "~> 2.3", :require => nil
+gem 'rails', '3.2.16'
 gem 'pg'
-gem 'haml', '3.1.7'
-gem 'will_paginate', '~> 2.3'
+gem 'haml'
+gem 'will_paginate'
 gem 'fastercsv'
-gem "princely", "~> 1.2.5"
+gem 'princely'
 
 gem 'net-ldap'
 gem 'authlogic'
-#gem 'omniauth'
-#gem 'omniauth-openid', :git => 'git://github.com/intridea/omniauth-openid.git'
-#gem 'omniauth-linkedin'
-gem 'bcdatabase', '~> 1.0.6'
+gem 'bcdatabase'
 gem 'aker-rails'
-gem 'aker', '~> 3.0.3'
-gem 'rdoc', '3.12' # necessary for rails 2.3.12 and higher
+gem 'aker'
+gem 'rdoc'
 
-gem "paperclip", "~> 2.4"
+gem 'paperclip'
 
 group :development do
   gem 'capistrano'
