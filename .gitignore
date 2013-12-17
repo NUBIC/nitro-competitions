@@ -3,3 +3,5 @@ db/*.out
 .powrc
 .rvmrc
 tmp/restart.txt
+tmp/cache
+tmp/pids
