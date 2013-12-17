@@ -16,7 +16,7 @@
         <%= text_field_tag :username, @applicant.username %>
         <%= link_to_function(image_tag("arrow_refresh.png",
                              :style => "margin-left:10px;margin-bottom:-10px;margin-top:-5px;",
-                             :title => "click here to reload this page with a new NetID"), "$('username_form').submit()") -%>
+                             :title => "click here to reload this page with a new NetID"), "$('#username_form').submit()") -%>
       </td>
       <td class="notes">
         NU NetID <%= netid_lookup_tag %> for the Principal Investigator. By default, this is the submitter's NetID.

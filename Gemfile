@@ -24,3 +24,13 @@ group :development do
   gem 'capistrano-rails'
   gem 'annotate', '~> 2.5.0'
 end
+
+gem 'prototype-rails'
+
+group :assets do
+  gem 'sass-rails',   '~> 3.2'
+  gem 'coffee-rails', '~> 3.2'
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem 'jquery-rails'
