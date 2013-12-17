@@ -1,7 +1,7 @@
 <h1>New project</h1>
 
 <%= form_for(@project) do |f| %>
-  <%= f.error_messages %>
+  <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
 
   <%= render(:partial => 'project_form', :locals => { :f => f, :project => @project }) %>
   <p>

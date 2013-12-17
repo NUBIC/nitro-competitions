@@ -8,29 +8,51 @@
 <% ldap_name = [applicant.name, applicant.name_suffix].compact.join(",") %>
 
 
-<% unless f.error_messages.blank? %>
-<tr><td colspan="3"><%= f.error_messages %></td></tr>
+<% if f.object && !f.object.try(:errors).blank? %>
+	<tr>
+		<td colspan="3">
+			<%= render('shared/error_messages', :object => f.object) %>
+		</td>
+	</tr>
 <% end %>
-<tr><td class="title"><%= f.label :name, "Name"  %></td><td>
-	<%= f.hidden_field :username %>
-	<%= f.hidden_field :first_name %>
-	<%= f.hidden_field :middle_name %>
-	<%= f.hidden_field :last_name %>
-	<%= if ldap_name.blank? then "<span style='color:red;'>username not found in ldap</span>" else ldap_name end %> </td><td class="notes">
-	Full name, from LDAP <%= link_to( 'Add info for external people', '', :onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5)+";return false;" ) if ldap_name.blank? %>
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :name, "Name"  %>
+	</td>
+	<td>
+		<%= f.hidden_field :username %>
+		<%= f.hidden_field :first_name %>
+		<%= f.hidden_field :middle_name %>
+		<%= f.hidden_field :last_name %>
+		<%= if ldap_name.blank? then "<span style='color:red;'>username not found in ldap</span>" else ldap_name end %>
+	</td>
+	<td class="notes">
+		Full name, from LDAP
+		<%= link_to('Add info for external people', '',
+								:onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5)+";return false;" ) if ldap_name.blank? %>
+	</td>
+</tr>
 
-<tr><td class="title">email</td><td>
-	<%= f.hidden_field :email %>
-	<%= applicant.email  %> </td><td class="notes">
-	Email, from LDAP
-</td></tr>
+<tr>
+	<td class="title">
+		email
+	</td>
+	<td>
+		<%= f.hidden_field :email %>
+		<%= applicant.email %>
+	</td>
+	<td class="notes">
+		Email, from LDAP
+	</td>
+</tr>
 
-<tr><td colspan="3">
-<% hidden_div_if(true, :id => "applicant_fields") do %> 
-	<%= render(:partial => "applicant_fields", :locals=>{:f=>f, :applicant=>applicant}) %>
-<% end %>
-</td></tr>
+<tr>
+	<td colspan="3">
+		<% hidden_div_if(true, :id => "applicant_fields") do %>
+			<%= render("applicant_fields", :f => f, :applicant => applicant) %>
+		<% end %>
+	</td>
+</tr>
 
 <tr><td class="title"><%= f.label :era_commons_name, "eRA Commons" %></td>
 	<td> <%= f.text_field :era_commons_name %></td><td class="notes">
@@ -66,7 +88,7 @@
 
 <tr><td>
     <%= f.label :uploaded_biosketch, "Biosketch Document" %></td>
-	<td class="notes" colspan="2"><%= f.file_field("uploaded_biosketch") %> &nbsp;  &nbsp; 
+	<td class="notes" colspan="2"><%= f.file_field("uploaded_biosketch") %> &nbsp;  &nbsp;
 	<% unless applicant.biosketch_document_id.blank? %>
 		<i><%= link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name} ") %></i> Biosketch saved on <%= (applicant.biosketch.last_updated_at||applicant.biosketch.updated_at).to_s(:justdate) %>
 		<br/>This is your default biosketch. It will be used as the biosketch for applications where you are named as key personnel (<em>not</em> as PI) and as the default biosketch for any new proposals you submit in NUCATS Assist. You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.

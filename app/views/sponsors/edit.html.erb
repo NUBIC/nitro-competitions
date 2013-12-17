@@ -1,15 +1,15 @@
 <h1>Editing '<%= @sponsor.program_title %>'</h1>
 
 <%= form_for(@sponsor, :url => sponsor_path(@sponsor)) do |f| %>
-  <%= f.error_messages %>
+  <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
 
-  <%= render(:partial => 'sponsor_form', :locals => { :f => f, :sponsor => @sponsor }) %>
+  <%= render('sponsor_form', :f => f, :sponsor => @sponsor) %>
   <p>
     <%= f.submit 'Update' %>
   </p>
 <% end %>
 
-<%= render(:partial => 'shared/admin_links') %>
+<%= render('shared/admin_links') %>
 
 <p>
   <%= link_to "List of all competitions for #{@sponsor.program_title}", sponsor_path(@sponsor.id) %>
