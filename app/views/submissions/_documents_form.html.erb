@@ -12,7 +12,7 @@
     <%= f.label :uploaded_biosketch, "PI Biosketch Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.applicant_biosketch_document_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"No biosketch is available. Please upload a Biosketch") %> <% end %>
-	<%= f.file_field("uploaded_biosketch") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_biosketch") %> &nbsp;  &nbsp;
 	<% if submission.applicant_biosketch_document_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"No biosketch is available. Please upload a Biosketch") %>
 		Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info %>
@@ -27,7 +27,7 @@
     <%= f.label :uploaded_application, "#{submission.project.application_doc_name} Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.application_document_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.application_doc_name}  document is not available. Please upload this document") %> <% end %>
-	<%= f.file_field("uploaded_application") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_application") %> &nbsp;  &nbsp;
 	<% if submission.application_document_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.application_doc_name} document is not available. Please upload this document") %>
 		<i><%= (project.application_doc_description || "Please upload the completed application document.") %></i>
@@ -42,14 +42,15 @@
     <%= f.label :uploaded_budget, "Budget Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.budget_document_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"No budget document is available. Please upload the budget") %> <% end %>
-	<%= f.file_field("uploaded_budget") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_budget") %> &nbsp;  &nbsp;
 	<% if submission.budget_document_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"No budget document is available. Please upload the budget") %>
 		<i>Please upload the budget document</i>
 	<% else %>
 		<%= link_to_file(submission.budget_document_id, "", "spreadsheet") %> <i>Budget uploaded</i>. Filename: <%=  submission.budget_document.file_file_name %>
 	<% end %>
-	<%= link_to_budget_documents(current_project) %>
+	<%= link_to_budget_template(current_project).html_safe %>
+	<%= link_to_budget_info(current_project).html_safe %>
 </td></tr>
 <% end %>
 
@@ -58,7 +59,7 @@
     <%= f.label :uploaded_other_support, "NIH Other Support Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.other_support_document_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The NIH Other Support document is not available. Please upload the NIH Other Support document") %> <% end %>
-	<%= f.file_field("uploaded_other_support") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_other_support") %> &nbsp;  &nbsp;
 	<% if submission.other_support_document_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The NIH Other Support document is not available. Please upload the NIH Other Support document") %>
 		<i><%= (project.manage_other_support_text || "File is missing") %></i>
@@ -74,7 +75,7 @@
     <%= f.label :uploaded_document1, "#{submission.project.document1_name} Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.document1_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document1_name}  document is not available. Please upload this document") %> <% end %>
-	<%= f.file_field("uploaded_document1") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_document1") %> &nbsp;  &nbsp;
 	<% if submission.document1_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document1_name} document is not available. Please upload this document") %>
 		<i><%= (project.document1_description || "File is missing") %></i>
@@ -90,7 +91,7 @@
     <%= f.label :uploaded_document2, "#{submission.project.document2_name} Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.document2_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document2_name}  document is not available. Please upload this document") %> <% end %>
-	<%= f.file_field("uploaded_document2") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_document2") %> &nbsp;  &nbsp;
 	<% if submission.document2_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document2_name} document is not available. Please upload this document") %>
 		<i><%= (project.document2_description || "File is missing") %></i>
@@ -106,7 +107,7 @@
     <%= f.label :uploaded_document3, "#{submission.project.document3_name} Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.document3_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document3_name}  document is not available. Please upload this document") %> <% end %>
-	<%= f.file_field("uploaded_document3") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_document3") %> &nbsp;  &nbsp;
 	<% if submission.document3_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document3_name} document is not available. Please upload this document") %>
 		<i><%= (project.document3_description || "File is missing") %></i>
@@ -122,7 +123,7 @@
     <%= f.label :uploaded_document4, "#{submission.project.document4_name} Document" %></td>
 	<td class="notes" colspan="2">
 	<% if submission.document4_id.blank? %> <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document4_name}  document is not available. Please upload this document") %> <% end %>
-	<%= f.file_field("uploaded_document4") %> &nbsp;  &nbsp; 
+	<%= f.file_field("uploaded_document4") %> &nbsp;  &nbsp;
 	<% if submission.document4_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"The #{submission.project.document4_name} document is not available. Please upload this document") %>
 		<i><%= (project.document4_description || "File is missing") %></i>

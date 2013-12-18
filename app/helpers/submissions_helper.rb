@@ -2,7 +2,7 @@ module SubmissionsHelper
   require "#{Rails.root}/app/helpers/application_helper"
   include ApplicationHelper
 
-	def link_to_key_personnel_documents( key_people, do_lookup=true, include_name=true )
+  def link_to_key_personnel_documents( key_people, do_lookup=true, include_name=true )
     out=""
     key_people.each_with_index do |key_user, index|
       title="Biosketch for "+key_user.name
@@ -12,11 +12,11 @@ module SubmissionsHelper
         text=''
       end
       unless key_user.blank? or key_user.biosketch_document_id.blank?
-        out << link_to_file(key_user.biosketch_document_id, text, "document",title,false,nil,do_lookup)
+        out << link_to_file(key_user.biosketch_document_id, title, "document", title, false, nil, do_lookup)
         out << "<br/> "
       end
     end
-    out.html_safe
+    out
   end
 
   def link_to_project_docs(project)
@@ -47,6 +47,14 @@ module SubmissionsHelper
 
   def link_to_budget_documents(project)
     ((project.budget_template_url.blank?) ? '' : link_to_document(project.budget_template_url_label, project.budget_template_url) ) +
+    ((project.budget_info_url.blank?) ? '' : ' ' + link_to_document(project.budget_info_url_label, project.budget_info_url) )
+  end
+
+  def link_to_budget_template(project)
+    ((project.budget_template_url.blank?) ? '' : link_to_document(project.budget_template_url_label, project.budget_template_url) )
+  end
+
+  def link_to_budget_info(project)
     ((project.budget_info_url.blank?) ? '' : ' ' + link_to_document(project.budget_info_url_label, project.budget_info_url) )
   end
 
@@ -133,23 +141,25 @@ module SubmissionsHelper
     out << "#{submission.project.document2_name} doc: " + format_document_info(submission.document2) unless !submission.project.show_document2 or submission.document2_id.blank?
     out << "#{submission.project.document3_name} doc: " + format_document_info(submission.document3) unless !submission.project.show_document3 or submission.document3_id.blank?
     out << "#{submission.project.document4_name} doc: " + format_document_info(submission.document4) unless !submission.project.show_document4 or submission.document4_id.blank?
-  	out << list_key_personnel_documents_as_array(submission.key_people)
-  	out.flatten.compact
+    out << list_key_personnel_documents_as_array(submission.key_people)
+    out.flatten.compact
   end
 
   def link_to_submission_files_as_array(submission, project, lookup=true)
-    [link_to_file(submission.applicant_biosketch_document_id, "", "document", "PI biosketch ", project.show_manage_biosketches, edit_documents_submission_path(submission.id), lookup),
-    link_to_file(submission.application_document_id, "", "document", "Application ", true, edit_documents_submission_path(submission.id), lookup),
-    link_to_file(submission.budget_document_id, "", "spreadsheet", "Budget ", project.show_budget_form, edit_documents_submission_path(submission.id), lookup),
-  	link_to_file(submission.other_support_document_id, "", "document", "Other Support", project.show_manage_other_support, edit_documents_submission_path(submission.id), lookup),
-  	link_to_file(submission.document1_id, "", "document", project.document1_name, project.show_document1, edit_documents_submission_path(submission.id), lookup),
-  	link_to_file(submission.document2_id, "", "document", project.document2_name, project.show_document2, edit_documents_submission_path(submission.id), lookup),
-  	link_to_file(submission.document3_id, "", "document", project.document3_name, project.show_document3, edit_documents_submission_path(submission.id), lookup),
-  	link_to_file(submission.document4_id, "", "document", project.document4_name, project.show_document4, edit_documents_submission_path(submission.id), lookup),
-  	link_to_key_personnel_documents(submission.key_people, true, false)].compact
+    [
+      link_to_file(submission.applicant_biosketch_document_id, "PI biosketch", "document", "PI biosketch ", project.show_manage_biosketches, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.application_document_id, "Application", "document", "Application ", true, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.budget_document_id, "Budget", "spreadsheet", "Budget ", project.show_budget_form, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.other_support_document_id, "Other Support", "document", "Other Support", project.show_manage_other_support, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.document1_id, "Doc 1", "document", project.document1_name, project.show_document1, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.document2_id, "Doc 2", "document", project.document2_name, project.show_document2, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.document3_id, "Doc 3", "document", project.document3_name, project.show_document3, edit_documents_submission_path(submission.id), lookup),
+      link_to_file(submission.document4_id, "Doc 4", "document", project.document4_name, project.show_document4, edit_documents_submission_path(submission.id), lookup),
+      link_to_key_personnel_documents(submission.key_people, true, false)
+    ].compact
   end
 
   def link_to_submission_files(submission, project, lookup=true)
-    link_to_submission_files_as_array(submission, project, lookup).join(" ")
+    link_to_submission_files_as_array(submission, project, lookup)
   end
 end

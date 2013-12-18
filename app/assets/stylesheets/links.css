@@ -1,0 +1,70 @@
+a.documenticon {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: url('/assets/documenticon.gif') 0 2px no-repeat;
+}
+
+a.documenticon:hover {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: #888888 url('/assets/documenticon.gif') 0 2px no-repeat;
+}
+
+a.page_white_put {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: url('/assets/page_white_put.png') 0 2px no-repeat;
+}
+
+a.page_white_put:hover {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: #888888 url('/assets/page_white_put.png') 0 2px no-repeat;
+}
+
+a.page_excel {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: url('/assets/page_excel.png') 0 2px no-repeat;
+}
+
+a.page_excel:hover {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: #888888 url('/assets/page_excel.png') 0 2px no-repeat;
+}
+
+a.page_white_acrobat {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: url('/assets/page_white_acrobat.png') 0 2px no-repeat;
+}
+
+a.page_white_acrobat:hover {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: #888888 url('/assets/page_white_acrobat.png') 0 2px no-repeat;
+}
+
+a.warning_16 {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: url('/assets/warning_16.png') 0 2px no-repeat;
+}
+
+a.warning_16:hover {
+  padding: 2px 2px 2px 20px;
+  width: 16px;
+  height: 16px;
+  background: #888888 url('/assets/warning_16.png') 0 2px no-repeat;
+}
+

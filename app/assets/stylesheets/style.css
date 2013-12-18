@@ -33,7 +33,7 @@ table.tablesorter tbody td {
 	vertical-align: top;
 }
 table.tablesorter tbody tr.odd td {
-	background-color:#F0F2F5; 
+	background-color:#F0F2F5;
 }
 table.tablesorter thead tr .headerSortUp {
 	background-image: url(../images/asc.gif);
