@@ -1,13 +1,18 @@
 <h1>Competition Sponsors in NUCATS Assist</h1>
 
-<%= render(:partial => 'sponsor_list', :locals=>{:sponsors=>@sponsors}) %>
+<%= render('sponsor_list', :sponsors => @sponsors) %>
 
 <br />
 
 <% unless @sponsors.blank? %>
-  <%= "<div id='show_pubmed'>Click here to show Administrator emails</div><div id='pubmed_ids' style='display : none;'>#{@sponsors.map{ |sponsor| sponsor.roles_users.admins.map{ |admin| admin.user.email } }.flatten.join(', ')}</div>" %>
+  <div id='show_pubmed'>
+    Click here to show Administrator emails
+  </div>
+  <div id='pubmed_ids' style='display: none;'>
+    <%= @sponsors.map{ |sponsor| sponsor.roles_users.admins.map{ |admin| admin.user.email } }.flatten.to_sentence %>
+  </div>
   <script type="text/javascript" language="JavaScript">
-    jQuery('#show_pubmed').click(function(event){
+    jQuery('#show_pubmed').click(function(event) {
       jQuery('#pubmed_ids').toggle();
       event.preventDefault(); // Prevent link from following its href
     });

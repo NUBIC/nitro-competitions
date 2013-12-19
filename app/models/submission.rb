@@ -94,7 +94,10 @@ class Submission < ActiveRecord::Base
 
   accepts_nested_attributes_for :applicant
 
-  default_scope joins([:applicant]).order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
+  # TODO: determine where submissions need to be ordered and add this at that point
+  #       the ordering has been commented out because the joins method is not working
+  #       which means that the order on 'users' is causing sql problems
+  default_scope joins([:applicant]) #.order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
   scope :assigned_submissions, where('submission_reviews_count >= 2')
   scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 

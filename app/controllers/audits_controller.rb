@@ -52,7 +52,6 @@ class AuditsController < ApplicationController
     render :template => "shared/csv_data_array", :locals => {:data => data}, :layout => false
   end
 
-
   def user_data
     users = User.all.compact.uniq
     data = generate_csv(users)

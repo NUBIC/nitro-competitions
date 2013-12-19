@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
   def all_reviews
     @project = Project.find(params[:id])
     respond_to do |format|
-      format.html { render :layout=>'pdf' }# show.html.erb
+      format.html # show.html.erb
       format.pdf do
          render :pdf => "Reviews for " + @project.project_name,
             :stylesheets => ["pdf"],

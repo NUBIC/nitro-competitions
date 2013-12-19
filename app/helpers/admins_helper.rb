@@ -9,5 +9,4 @@ module AdminsHelper
       redirect_to projects_path
     end
   end
-
 end

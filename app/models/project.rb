@@ -155,7 +155,7 @@ class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :creater, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
-  has_many :submission_reviews, :through=> :submissions
+  has_many :submission_reviews, :through => :submissions
   has_many :logs
   default_scope :order => 'submission_open_date DESC'
   before_validation :clean_params

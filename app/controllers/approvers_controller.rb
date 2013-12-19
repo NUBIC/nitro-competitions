@@ -1,13 +1,14 @@
 class ApproversController < ApplicationController
   before_filter  :set_project
-  
+
   def index
     @sponsor = @project.program
     if has_read_all?(@sponsor) then
-      @submissions = @project.submissions.all(:include=>[:key_people,:applicant])
-#      @approvers = Submission.all.collect{|e| e.effort_approver }.compact.uniq
+      @submissions = @project.submissions.joins(
+        'LEFT OUTER JOIN "key_personnel" ON "key_personnel"."submission_id" = "submissions"."id"
+         LEFT OUTER JOIN "users" ON "users"."id" = "key_personnel"."user_id"'
+      ).all
     else
-#      @approvers = User.find_all_by_id(current_user_session.id)
       @submissions = Submission.approved_submissions(current_user_session.username)
     end
     respond_to do |format|
@@ -15,7 +16,7 @@ class ApproversController < ApplicationController
       format.xml  { render :xml => @approvers }
     end
   end
-  
+
   def update
     submission = Submission.find(params[:id])
     if submission.effort_approver_username == current_user_session.username

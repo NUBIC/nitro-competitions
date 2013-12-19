@@ -22,10 +22,10 @@ class ReviewersController < ApplicationController
     show_to_reviewers  = current_project.show_composite_scores_to_reviewers || current_project.show_review_summaries_to_reviewers
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     if has_read_all?(current_program) || (@assigned_submission_reviews.length > 0 and show_to_reviewers)
-      @submission_reviews = current_project.submission_reviews
+      @submission_reviews = current_project.submission_reviews.all
     end
     respond_to do |format|
-      format.html { render :action => 'index' }# index.html.erb
+      format.html { render :action => 'index' } # index.html.erb
       format.xml  { render :xml => @reviewers }
     end
   end
@@ -37,15 +37,15 @@ class ReviewersController < ApplicationController
     @speed_display = true
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     if has_read_all?(current_program) || (@assigned_submission_reviews.length > 0 and show_to_reviewers)
-      @submission_reviews = current_project.submission_reviews
+      @submission_reviews = current_project.submission_reviews.all
     end
     respond_to do |format|
       format.html { render :action => 'index' }# index.html.erb
       format.xml  { render :xml => @reviewers }
     end
   end
-  
-  
+
+
   def all_reviews
     projects = Project.active(Date.today)
     @submission_reviews = current_user_session.submission_reviews.active(projects.collect(&:id))
@@ -56,11 +56,11 @@ class ReviewersController < ApplicationController
       format.xml  { render :xml => @reviewers }
     end
   end
-  
+
   # GET /reviewers/1/edit
   def edit
     @submission_review = SubmissionReview.find(params[:id])
-    if @submission_review.submission.project.review_end_date < Date.today and is_admin?(current_program) 
+    if @submission_review.submission.project.review_end_date < Date.today and is_admin?(current_program)
       flash[:errors] = "Sorry - You cannot save changes to this review! -  The review date for this competition is over. Please contact the administrator for the competition if you need to submit additional reviews!"
       render :edit
     elsif @submission_review.submission.project.review_end_date < Date.today
@@ -97,10 +97,10 @@ class ReviewersController < ApplicationController
       redirect_to( project_reviewers_url(current_project) )
     end
   end
-  
+
   def update_item
     @submission_review = SubmissionReview.find(params[:id])
-    if (@submission_review.reviewer_id == current_user_session.id and @submission_review.submission.project.review_end_date >=  Date.today) or is_admin? 
+    if (@submission_review.reviewer_id == current_user_session.id and @submission_review.submission.project.review_end_date >=  Date.today) or is_admin?
       respond_to do |format|
         if @submission_review.update_attributes(params[:submission_review])
           flash[:notice] = 'Review was successfully updated.'
@@ -120,7 +120,7 @@ class ReviewersController < ApplicationController
   # DELETE /reviewers/1
   # DELETE /reviewers/1.xml
   def destroy
-    if is_admin? 
+    if is_admin?
       @reviewer = Reviewer.find(params[:id])
       @reviewer.destroy if is_admin?
     else
