@@ -83,7 +83,9 @@
     </td>
     <td>
       <%= link_to_submission_pdf(review.submission) %>
-      <%= link_to_submission_files(review.submission, review.submission.project, !speed_display) %>
+      <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
+        <%= lnk.html_safe %>
+      <% end %>
     </td>
     <td>
      <%= link_to_key_personnel_documents(review.submission.key_people, !speed_display) %>

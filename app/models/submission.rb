@@ -97,7 +97,9 @@ class Submission < ActiveRecord::Base
   # TODO: determine where submissions need to be ordered and add this at that point
   #       the ordering has been commented out because the joins method is not working
   #       which means that the order on 'users' is causing sql problems
-  default_scope joins([:applicant]) #.order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
+  # TODO: determine if the joins is necessary - this causes the record to be 'readonly' and
+  #       will throw an ActiveRecord::ReadOnlyRecord error upon save
+  # default_scope joins([:applicant]) #.order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
   scope :assigned_submissions, where('submission_reviews_count >= 2')
   scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 

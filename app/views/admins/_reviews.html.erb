@@ -23,7 +23,9 @@
       <td><%= submission.department_administrator.nil? ? "unset" : submission.department_administrator.sort_name %></td>
       <td>
         <%= link_to_submission_pdf(submission) %>
-        <%= link_to_submission_files(submission, project, false) %>
+        <% link_to_submission_files(submission, project, false).each do |lnk| %>
+          <%= lnk.html_safe %>
+        <% end %>
         <% if submission.submission_reviews.collect{|r| r.has_zero? ? 0 : 1 }.sum > 0 %>
           <%= link_to(image_tag("page_white_link.png", :width=>"16px", :height=>"16px")+' Reviews', submission_reviews_path(submission.id), :title=>"View the review summary for this submission") %>
         <% end %>

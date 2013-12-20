@@ -24,9 +24,10 @@ class ApproversController < ApplicationController
       submission.effort_approver_ip = get_client_ip
       submission.save
     end
-    render :update do |page|
-      page.replace_html "approval_#{submission.id}", :partial => 'approval', :locals=> {:submission=>submission}
-    end
+    redirect_to project_approvers_path(submission.project_id)
+    # render :update do |page|
+    #   page.replace_html "approval_#{submission.id}", :partial => 'approval', :locals=> {:submission=>submission}
+    # end
   end
 
   private
