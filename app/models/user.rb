@@ -110,7 +110,7 @@ class User < ActiveRecord::Base
   end
 
   def validate_email
-    (validate_email_attr == false) ? false : true
+    validate_email_attr
   end
 
   def validate_era_commons

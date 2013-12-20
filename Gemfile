@@ -37,3 +37,14 @@ group :assets do
 end
 
 gem 'jquery-rails'
+
+group :test do
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'poltergeist'
+  gem 'database_cleaner'
+  gem 'shoulda'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
+  gem 'simplecov', require: false
+end

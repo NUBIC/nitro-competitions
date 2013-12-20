@@ -301,12 +301,12 @@ class Submission < ActiveRecord::Base
     do_save(self.document3)
     do_save(self.document4)
     do_save(self.application_document, "application document")
-    set_applicant_biosketch()
+    set_applicant_biosketch
     do_save(self.applicant_biosketch_document, "pi biosketch document")
   end
 
-  def set_applicant_biosketch()
-    unless self.applicant.blank? or self.applicant.biosketch_document_id.blank?
+  def set_applicant_biosketch
+    unless self.applicant.blank? or self.applicant.biosketch.blank? # self.applicant.biosketch_document_id.blank?
       if self.applicant_biosketch_document_id.blank?
         # create a new copy of the file associated only with the submission
         self.applicant_biosketch_document = FileDocument.new(:file => self.applicant.biosketch.file)

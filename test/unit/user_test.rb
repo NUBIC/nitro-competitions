@@ -58,73 +58,73 @@ class UserTest < ActiveSupport::TestCase
      the_user.validate_email_attr = true
      the_user.validate_era_commons_name = true
 
-     assert !the_user.nil? 
-     assert !the_user.valid? 
-     assert the_user.errors.invalid?(:username) 
-     assert the_user.errors.invalid?(:first_name) 
-     assert the_user.errors.invalid?(:last_name) 
-     assert the_user.errors.invalid?(:email) 
-     assert the_user.errors.invalid?(:era_commons_name) 
+     assert !the_user.nil?
+     assert !the_user.valid?
+     assert the_user.errors.invalid?(:username)
+     assert the_user.errors.invalid?(:first_name)
+     assert the_user.errors.invalid?(:last_name)
+     assert the_user.errors.invalid?(:email)
+     assert the_user.errors.invalid?(:era_commons_name)
 
      the_user = User.new()
      the_user.validate_email_attr = false
      the_user.validate_era_commons_name = false
 
-     assert !the_user.errors.invalid?(:email) 
-     assert !the_user.errors.invalid?(:era_commons_name) 
+     assert !the_user.errors.invalid?(:email)
+     assert !the_user.errors.invalid?(:era_commons_name)
 
      the_user = User.new()
      the_user.validate_email_attr = nil
      the_user.validate_era_commons_name = nil
-     assert !the_user.errors.invalid?(:email) 
-     assert !the_user.errors.invalid?(:era_commons_name) 
+     assert !the_user.errors.invalid?(:email)
+     assert !the_user.errors.invalid?(:era_commons_name)
    end
 
    test "user is project reviewer" do
      the_user = users(:one)
 
-     assert !the_user.nil? 
-     assert the_user.valid? 
+     assert !the_user.nil?
+     assert the_user.valid?
   end
 
   test "user is key_personnel" do
     the_user = users(:two)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.key_personnel.blank?
     assert the_user.key_personnel.length > 0
     assert the_user == the_user.key_personnel[0].user
   end
-  
+
   test "user is program reviewer" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.reviewers.blank?
     assert the_user.reviewers.length > 0
     assert the_user == the_user.reviewers[0].user
     assert !the_user.reviewers[0].program.blank?
   end
 
-  
+
   test "user has submission_reviews" do
     the_user = users(:two)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.submission_reviews.blank?
     assert the_user.submission_reviews.length > 0
     assert the_user == the_user.submission_reviews[0].reviewer
   end
-  
-  
+
+
   test "user has reviewed_submissions" do
     the_user = users(:two)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.reviewed_submissions.blank?
     assert the_user.reviewed_submissions.length > 0
   end
@@ -132,8 +132,8 @@ class UserTest < ActiveSupport::TestCase
   test "user has roles_users and roles" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.roles_users.blank?
     assert the_user.roles_users.length > 0
     assert !the_user.roles_users[0].role.blank?
@@ -143,8 +143,8 @@ class UserTest < ActiveSupport::TestCase
   test "user has submission and is applicant" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.submissions.blank?
     assert the_user.submissions.length > 0
     the_user.submissions.each do |submission|
@@ -157,8 +157,8 @@ class UserTest < ActiveSupport::TestCase
   test "user has proxy_submissions and is submitter" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.proxy_submissions.blank?
     assert the_user.proxy_submissions.length > 0
     the_user.proxy_submissions.each do |submission|
@@ -170,8 +170,8 @@ class UserTest < ActiveSupport::TestCase
   test "user has submission and a project" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.submissions.blank?
     assert the_user.submissions.length > 0
     assert !the_user.submissions[0].project.blank?
@@ -181,8 +181,8 @@ class UserTest < ActiveSupport::TestCase
   test "user is a project_applicant" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.submissions.blank?
     assert the_user.submissions.length > 0
     assert !the_user.submissions[0].project.blank?
@@ -203,13 +203,13 @@ class UserTest < ActiveSupport::TestCase
       assert applicant == applicant.submissions[0].applicant
     end
   end
-  
+
 
   test "user is a program_reviewer" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.submissions.blank?
     assert the_user.submissions.length > 0
     assert !the_user.submissions[0].project.blank?
@@ -225,8 +225,8 @@ class UserTest < ActiveSupport::TestCase
   test "user reviewers_on_project" do
     the_user = users(:one)
 
-    assert !the_user.nil? 
-    assert the_user.valid? 
+    assert !the_user.nil?
+    assert the_user.valid?
     assert !the_user.submissions.blank?
     assert the_user.submissions.length > 0
     assert !the_user.submissions[0].project.blank?
