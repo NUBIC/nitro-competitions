@@ -6,15 +6,15 @@
   <%= "Manage Documents for <i>'#{@submission.submission_title}'</i> by applicant <i>#{@submission.applicant.name}</i>".html_safe %>
 </h3>
 
-<% form_for(:submission,
+<%= form_for(:submission,
       :url => submission_path(@submission.id),
       :html => { :multipart => true, :method => :put }) do |f| %>
   <%= f.hidden_field :submission_status %>
   <%= f.hidden_field :id %>
 
-  <table  class="lined">
-  <%= render('documents_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
-  <%= render('key_personnel_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
+  <table class="lined">
+    <%= render('documents_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
+    <%= render('key_personnel_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
     <tr>
       <td colspan="3" align="center" style="background:#ADE387;padding:10px;">
         <%= f.submit('Save as Draft') %>

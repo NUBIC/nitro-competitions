@@ -196,7 +196,14 @@ class Project < ActiveRecord::Base
   end
 
   def count_review_criteria?
-    show?(show_impact_score) + show?(show_team_score) + show?(show_innovation_score) + show?(show_scope_score) + show?(show_environment_score) + show?(show_budget_score) + show?(show_completion_score) + show?(show_other_score)
+    show?(show_impact_score) +
+    show?(show_team_score) +
+    show?(show_innovation_score) +
+    show?(show_scope_score) +
+    show?(show_environment_score) +
+    show?(show_budget_score) +
+    show?(show_completion_score) +
+    show?(show_other_score)
   end
 
   def show?(val)
@@ -210,7 +217,7 @@ class Project < ActiveRecord::Base
     txt = self.project_name
     return if txt.blank?
     txt = txt.downcase.gsub(/\s/, "").gsub(/[^a-z0-9]/, "_").gsub(/__+/, "_")
-    self.project_name=txt
+    self.project_name = txt
   end
 
 end

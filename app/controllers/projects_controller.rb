@@ -1,23 +1,14 @@
 class ProjectsController < ApplicationController
   skip_before_filter :check_authorization
   before_filter  :set_project, :except => [:index, :create, :new]
-  require 'config' #specific config methods
+  require 'config' # specific configuration methods
+
   # GET /projects
   # GET /projects.xml
   def index
     begin
-      unless params[:program_name].blank?
-        program = Program.find_by_program_name(params[:program_name])
-        @projects = Project.all( :conditions=>["program_id = :program_id", {:program_id => program.id}]).flatten.uniq unless program.blank?
-      end
-      if @projects.blank? or @projects.length == 0
-        if !current_program.blank? && has_read_all?(current_program) then
-          @projects = (Project.early + Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded + Project.late).flatten.uniq
-        else
-          @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
-        end
-      end
-      @submissions=Submission.associated_with_user(current_user_session.id) unless current_user_session.blank? or current_user_session.id.blank?
+      initialize_projects
+      initialize_submissions
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @projects }
@@ -26,6 +17,29 @@ class ProjectsController < ApplicationController
       render :inline => "<span style='color:red;'>No project found: #{error.message}</span>"
     end
   end
+
+  def initialize_projects
+    unless params[:program_name].blank?
+      if program = Program.find_by_program_name(params[:program_name])
+        @projects = Project.all(:conditions=>["program_id = :program_id", {:program_id => program.id}]).flatten.uniq
+      end
+    end
+    if @projects.blank? or @projects.length == 0
+      if !current_program.blank? && has_read_all?(current_program) then
+        @projects = (Project.early + Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded + Project.late).flatten.uniq
+      else
+        @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
+      end
+    end
+  end
+  private :initialize_projects
+
+  def initialize_submissions
+    unless current_user_session.blank? or current_user_session.id.blank?
+      @submissions = Submission.associated_with_user(current_user_session.id)
+    end
+  end
+  private :initialize_submissions
 
   # GET /projects/1
   # GET /projects/1.xml

@@ -10,7 +10,7 @@
     <th width="220px">More information</th>
     <th>&nbsp;</th>
   </tr>
-  <% projects.each_with_index do |project, i | %>
+  <% projects.each_with_index do |project, i| %>
     <tr>
       <td>
         <% if (project.current_status =~ /open for/i) %>
@@ -25,7 +25,7 @@
       <td>
         <%= link_to(h(project.project_title),
                     show_competition_url(project.program.program_name, project.project_name),
-                    :title=>"Click here to view the competition #{project.project_title}") %> &nbsp;
+                    :title=>"Click here to view the competition #{project.project_title}") %>
       </td>
       <td>
         <%= project.submission_open_date.to_s(:justdate) %> to <%= project.submission_close_date.to_s(:justdate) %>
@@ -35,11 +35,11 @@
       </td>
       <% if has_read_all?(project.program) %>
         <td class="list-right" width="80px">
-          <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %> &nbsp;
+          <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
         </td>
       <% elsif has_read_all? or is_admin_any_program? %>
         <td class="list-right" width="80px">
-          na &nbsp;
+          na
         </td>
       <% end %>
       <td>
@@ -50,14 +50,14 @@
           <%= link_to("Sponsor",
                       project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
           <%= link_to(image_tag("help_link.png",
-                                :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                                :width => "16px", :height => "16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
                       project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
         <% end %>
         <% if project.project_url.blank? %>
           &nbsp;
         <% else %>
           <% project_title = "Get more information and the RFA for '#{project.project_title}'" %>
-          <%= link_to("Competition RFA ",
+          <%= link_to("Competition RFA",
                       project.project_url, :title=>project_title, :target=>"_blank" ) %>
           <%= link_to(image_tag("help_link.png",
                                 :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),

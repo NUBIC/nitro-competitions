@@ -287,9 +287,10 @@ class Submission < ActiveRecord::Base
     txt = txt.sub(/\D+(\d*)/,'\1')
     self.direct_project_cost=txt
   end
+
   def set_defaults
     if self.submission_status.blank?
-      self.submission_status='Pending'
+      self.submission_status = 'Pending'
     end
   end
 

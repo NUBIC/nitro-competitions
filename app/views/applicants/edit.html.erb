@@ -1,15 +1,20 @@
-<h2>NUCATS Assist Profile</h2>
-<h3>Please review/edit your information</h3>
+<h2>
+  NUCATS Assist Profile
+</h2>
+<h3>
+  Please review/edit your information
+</h3>
 
-
-<% form_for(:applicant, 
-	:url => (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id],@applicant.id)), 
-	:html => { :multipart => true, :method => :put }) do |f| %>
-	<!-- f and submission are existing variables passed in -->
-	<table  class="lined">
-	<%= render(:partial => 'applicant_form', :locals=>{:f=>f, :applicant=>@applicant}) %>
-	  <tr><td colspan="3" align="center" style="background:#ADE387;padding:10px;">
-	    <%= f.submit( (@applicant.id.blank?) ? 'Submit Investigator Profile' : 'Update' ) %>
-	  </td></tr>
-	</table>
+<%= form_for(:applicant,
+             :url => (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id)),
+             :html => { :multipart => true, :method => :put }) do |f| %>
+  <!-- f and submission are existing variables passed in -->
+  <table class="lined">
+    <%= render(:partial => 'applicant_form', :locals=>{:f=>f, :applicant=>@applicant}) %>
+    <tr>
+      <td colspan="3" align="center" style="background:#ADE387;padding:10px;">
+        <%= f.submit( (@applicant.id.blank?) ? 'Submit Investigator Profile' : 'Update' ) %>
+      </td>
+    </tr>
+  </table>
 <% end %>

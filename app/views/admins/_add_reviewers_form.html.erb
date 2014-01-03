@@ -3,7 +3,7 @@
   If you need to add non-university people, click here (not yet implemented - let me know you need this!).
 </p>
 
-<% form_for(:admin, :url => add_reviewers_project_admins_path(project.id) ) do |f| %>
+<%= form_for(:admin, :url => add_reviewers_project_admins_path(project.id) ) do |f| %>
   <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
   <p>
     <%= f.label :reviewer_list, "List of netids for new reviewers" %><br />
