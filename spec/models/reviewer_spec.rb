@@ -9,7 +9,18 @@ describe Reviewer do
     FactoryGirl.build(:reviewer).should be_an_instance_of(Reviewer)
   end
 
+  let(:reviewer) { FactoryGirl.create(:reviewer) }
+
   it 'can be saved successfully' do
-    FactoryGirl.create(:reviewer).should be_persisted
+    reviewer.should be_persisted
   end
+
+  it 'has program' do
+    reviewer.program.should_not be_nil
+  end
+
+  it 'has user' do
+    reviewer.user.should_not be_nil
+  end
+
 end

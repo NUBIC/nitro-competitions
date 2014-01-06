@@ -50,16 +50,16 @@
 class User < ActiveRecord::Base
 
   has_many :reviewers  #really program reviewers since the reviewer model is a user + program
-  belongs_to :biosketch, :class_name => "FileDocument", :foreign_key => 'biosketch_document_id'
+  belongs_to :biosketch, :class_name => 'FileDocument', :foreign_key => 'biosketch_document_id'
   has_many :key_personnel
   has_many :submission_reviews, :foreign_key => 'reviewer_id'
-  has_many :reviewed_submissions, :class_name => "Submission", :through => :submission_reviews, :source => :submission
+  has_many :reviewed_submissions, :class_name => 'Submission', :through => :submission_reviews, :source => :submission
   has_many :roles_users
   has_many :roles, :through => :roles_users
   has_many :logs
 
   has_many :submissions, :foreign_key => 'applicant_id'
-  has_many :proxy_submissions, :class_name => "Submission", :foreign_key => 'created_id'
+  has_many :proxy_submissions, :class_name => 'Submission', :foreign_key => 'created_id'
   attr_accessor :validate_for_applicant
   attr_accessor :validate_era_commons_name
   attr_accessor :validate_name
@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, :if => :validate_email
   validates_format_of :email,
                       :with => %r{^[a-zA-Z0-9\.\-\_][a-zA-Z0-9\.\-\_]+@[^\.]+\..+$}i,
-                      :message => "Email address is not valid. Please correct",
+                      :message => 'Email address is not valid. Please correct',
                       :if => Proc.new { |c| !c.email.blank? }
 
   def name

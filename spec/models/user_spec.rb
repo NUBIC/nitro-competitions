@@ -65,4 +65,113 @@ describe User do
     end
   end
 
+  # TODO: fix this test - or determine if this should be a test
+  #  test "user is project reviewer" do
+  #    the_user = users(:one)
+
+  #    assert !the_user.nil?
+  #    assert the_user.valid?
+  # end
+
+  describe '#key_personnel' do
+    let(:key_person) { FactoryGirl.create(:key_person) }
+    let(:user) { key_person.user }
+    it 'returns KeyPerson associations' do
+      user.key_personnel.should_not be_blank
+      user.should eq user.key_personnel.first.user
+    end
+  end
+
+  describe '#reviewers' do
+    let(:reviewer) { FactoryGirl.create(:reviewer) }
+    let(:user) { reviewer.user }
+    it 'returns Reviewer associations' do
+      user.reviewers.should_not be_blank
+      user.should eq user.reviewers.first.user
+      user.reviewers.first.program.should_not be_blank
+    end
+  end
+
+  describe '#submission_reviews' do
+    let(:submission_review) { FactoryGirl.create(:submission_review) }
+    let(:user) { submission_review.reviewer }
+    it 'returns SubmissionReview associations' do
+      user.submission_reviews.should_not be_blank
+      user.should eq user.submission_reviews.first.reviewer
+    end
+  end
+
+  describe '#reviewed_submissions' do
+    let(:submission_review) { FactoryGirl.create(:submission_review) }
+    let(:user) { submission_review.reviewer }
+    it 'returns SubmissionReview associations' do
+      user.reviewed_submissions.should_not be_blank
+    end
+  end
+
+  describe '#roles_users' do
+    let(:ru) { FactoryGirl.create(:roles_user) }
+    let(:user) { ru.user }
+    it 'returns RolesUser associations' do
+      user.roles_users.should_not be_blank
+      user.roles_users.first.role.should_not be_blank
+    end
+  end
+
+  context 'as applicant' do
+    let(:submission) { FactoryGirl.create(:submission) }
+    let(:user) { submission.applicant }
+    describe '#submissions' do
+      it 'returns Submission associations' do
+        user.submissions.should_not be_blank
+        user.submissions.each do |submission|
+          submission.applicant.should eq user
+        end
+      end
+
+      it 'is associated with a project' do
+        user.submissions.each do |submission|
+          submission.project.should_not be_blank
+        end
+      end
+    end
+
+    describe '.project_applicants' do
+      it 'returns applicants for a project' do
+        project = user.submissions.first.project
+        applicants = User.project_applicants(project.id)
+        applicants.should_not be_blank
+        applicants.each do |applicant|
+          applicant.should eq applicant.submissions.first.applicant
+        end
+      end
+    end
+  end
+
+  context 'as reviewer' do
+    let(:reviewer) { FactoryGirl.create(:reviewer) }
+    let(:user) { reviewer.user }
+
+    describe '.program_reviewers' do
+      it 'returns reviewers for a program' do
+        reviewers = User.program_reviewers(reviewer.program_id)
+        reviewers.should_not be_blank
+        reviewers.first.should_not be_blank
+      end
+    end
+  end
+
+  context 'as submitter' do
+    describe '#proxy_submissions' do
+      let(:submission) { FactoryGirl.create(:submission) }
+      let(:user) { submission.submitter }
+      it 'returns Submission associations' do
+        user.proxy_submissions.should_not be_blank
+        user.proxy_submissions.each do |submission|
+          submission.submitter.should eq user
+        end
+      end
+    end
+  end
+
 end

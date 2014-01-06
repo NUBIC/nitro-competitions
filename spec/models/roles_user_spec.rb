@@ -11,7 +11,17 @@ describe RolesUser do
     FactoryGirl.build(:roles_user).should be_an_instance_of(RolesUser)
   end
 
+  let(:ru) { FactoryGirl.create(:roles_user) }
+
   it 'can be saved successfully' do
-    FactoryGirl.create(:roles_user).should be_persisted
+    ru.should be_persisted
+  end
+
+  it 'has role' do
+    ru.role.should_not be_nil
+  end
+
+  it 'has user' do
+    ru.user.should_not be_nil
   end
 end
