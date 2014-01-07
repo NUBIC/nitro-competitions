@@ -240,7 +240,7 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.xml
   def update
     respond_to do |format|
-      if is_admin?(@project.program) and  @project.update_attributes(params[:project])
+      if is_admin?(@project.program) and @project.update_attributes(params[:project])
         flash[:notice] = "Project record for #{@project.project_title} was successfully updated"
         format.html { redirect_to(project_path(@project)) }
         format.xml  { head :ok }

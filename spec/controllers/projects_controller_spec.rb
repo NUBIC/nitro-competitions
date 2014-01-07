@@ -36,44 +36,43 @@ describe ProjectsController do
     end
   end
 
-  # describe 'GET show' do
-  #   it 'renders the page' do
-  #     project = FactoryGirl.create(:project)
-  #     get :show, :id => project
-  #     response.should be_success
-  #   end
-  # end
+  describe 'GET show' do
+    it 'renders the page' do
+      project = FactoryGirl.create(:project)
+      get :show, :id => project
+      response.should be_success
+    end
+  end
 
-  # describe 'GET edit' do
-  #   context 'for a non-admin user' do
-  #     it 'redirects to the project_path' do
-  #       project = FactoryGirl.create(:project)
-  #       get :edit, :id => project
-  #       response.should redirect_to(project_path(project))
-  #     end
-  #   end
-  # end
+  describe 'GET edit' do
+    context 'for a non-admin user' do
+      it 'redirects to the project_path' do
+        project = FactoryGirl.create(:project)
+        get :edit, :id => project
+        response.should redirect_to(project_path(project))
+      end
+    end
+  end
 
-  # test "should get edit" do
-  #   get :edit, :id => projects(:one).to_param
-  #   assert_response :redirect
-  # end
+  describe 'PUT update' do
+    context 'for a non-admin user' do
+      it 'renders the show template' do
+        project = FactoryGirl.create(:project)
+        put :update, :id => project, :project => {}
+        response.should render_template('projects/show')
+      end
+    end
+  end
 
-  # test "should update project" do
-  #   put :update, :id => projects(:one).to_param, :project => { }
-  #   #assert_redirected_to project_path(assigns(:project))
-  #   assert_response :success
-  #   assert_template 'projects/show'
-  # end
-
-  # test "should destroy project" do
-  #   assert_difference('Project.count', 0) do
-  #     delete :destroy, :id => projects(:one).to_param
-  #   end
-  #   assert_not_nil assigns(:project)
-
-  #   assert_redirected_to projects_path
-  # end
-
+  describe 'DELETE destroy' do
+    context 'for a non-admin user' do
+      it 'redirects to the projects_path' do
+        project = FactoryGirl.create(:project)
+        delete :destroy, :id => project
+        assigns[:project].should_not be_nil
+        response.should redirect_to(projects_path)
+      end
+    end
+  end
 
 end

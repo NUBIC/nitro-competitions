@@ -3,16 +3,42 @@ require 'spec_helper'
 
 describe SubmissionsController do
 
-  # test "should get index" do
-  #   get :index
+  describe 'GET index' do
+    it 'renders the page' do
+      get :index
+      response.should be_success
+    end
+    it 'assigns variables' do
+      get :index
+      assigns[:submissions].should_not be_nil
+    end
+  end
+
+  context 'with a logged in user' do
+    before do
+      login(user_login)
+    end
+    describe 'GET new' do
+      context 'without parameters' do
+        # it 'redirects to projects_path' do
+        #   get :new
+        #   response.should redirect_to(projects_path)
+        # end
+      end
+    end
+  end
+
+
+  # test "should show submission" do
+  #   get :show, :id => submissions(:one).to_param
   #   assert_response :success
-  #   assert_not_nil assigns(:submissions)
   # end
 
-  # test "should fail to get new" do
-  #   get :new
-  #   assert_response :redirect
+  # test "should get edit" do
+  #   get :edit, :id => submissions(:one).to_param
+  #   assert_response :success
   # end
+
 
   # test "should not create submission redirect to projects" do
   #   assert_difference('Submission.count', 0) do
@@ -57,16 +83,6 @@ describe SubmissionsController do
   #   assert_response :success
   #   assert_not_nil assigns(:project)
   #   assert_template 'submissions/edit_documents'
-  # end
-
-  # test "should show submission" do
-  #   get :show, :id => submissions(:one).to_param
-  #   assert_response :success
-  # end
-
-  # test "should get edit" do
-  #   get :edit, :id => submissions(:one).to_param
-  #   assert_response :success
   # end
 
   # test "should update submission" do
