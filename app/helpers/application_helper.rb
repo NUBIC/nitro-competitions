@@ -248,18 +248,18 @@ module ApplicationHelper
 
   def handle_ldap(applicant)
     begin
-      applicant  unless applicant.id.blank?
+      applicant unless applicant.id.blank?
       applicant_in_db = User.find_by_username(applicant.username)
       return applicant_in_db unless applicant_in_db.blank? or applicant_in_db.id.blank?
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
         logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
       elsif pi_data.blank?
-          logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
+        logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
       else
-        ldap_rec=CleanPIfromLDAP(pi_data)
+        ldap_rec = CleanPIfromLDAP(pi_data)
         applicant = BuildPIobject(ldap_rec) if applicant.id.blank?
-        applicant=MergePIrecords(applicant,ldap_rec)
+        applicant = MergePIrecords(applicant,ldap_rec)
         if applicant.new_record?
           before_create(applicant)
           applicant.save!
@@ -318,7 +318,6 @@ module ApplicationHelper
     end
     the_user
   end
-
 
   def truncate_words(phrase, count=20)
     return "" if phrase.blank?

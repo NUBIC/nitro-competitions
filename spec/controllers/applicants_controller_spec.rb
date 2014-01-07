@@ -23,18 +23,56 @@ describe ApplicantsController do
     end
   end
 
+  # FIXME: this controller spec fails because the entire controller expects a current logged in user
+  # TODO: create a logged in user
 
-  # test "should get new" do
-  #   get :new
-  #   assert_response :redirect
-  #   assert_redirected_to applicants_path
-  # end
+  context "with an authenticated user" do
+    before(:each) do
+      login(user_login)
+    end
 
-  # test "should get new 2" do
-  #   get :new, {:username=>'spuds', 'project_id' => "1"}
-  #   assert_template 'applicants/new'
-  #   assert_response :success
-  # end
+    describe 'GET new' do
+      let(:project) { FactoryGirl.create(:project) }
+      # FIXME: Spec fails with the following
+      #        NoMethodError:
+      #          undefined method `user' for nil:NilClass
+      #        # ./app/controllers/applicants_controller.rb:42:in `new'
+      # it 'redirects to applicants path' do
+      #   get :new, :project_id => project.id
+      #   response.should redirect_to(applicants_path)
+      # end
+
+      it 'renders the new template' do
+        controller.stub(:handle_ldap).and_return(true)
+        get :new, :project_id => project.id, :username => 'spuds'
+        response.should be_success
+        response.should render_template('applicants/new')
+      end
+    end
+
+    describe 'GET show' do
+      context 'for a logged in user who is not an admin for the sponsor' do
+        let(:project) { FactoryGirl.create(:project) }
+        let(:user) { FactoryGirl.create(:user) }
+        it 'redirects to the project_path' do
+          get :show, :id => user, :project_id => project.id
+          response.should redirect_to(project_path(project))
+        end
+      end
+    end
+
+    describe 'GET edit' do
+      context 'for a logged in user who is not an admin for the sponsor' do
+        let(:project) { FactoryGirl.create(:project) }
+        let(:user) { FactoryGirl.create(:user) }
+        it 'redirects to the project_path' do
+          get :edit, :id => user, :project_id => project.id
+          response.should redirect_to(project_path(project))
+        end
+      end
+    end
+
+  end
 
   # test "should create applicant" do
   #   assert_difference('User.count') do
@@ -43,16 +81,6 @@ describe ApplicantsController do
   #   assert_not_nil assigns(:project)
   #   assert_response :redirect
   #   #assert_redirected_to applicant_path(assigns(:applicant))
-  # end
-
-  # test "should show applicant" do
-  #   get :show, :id => users(:three).to_param
-  #   assert_response :success
-  # end
-
-  # test "should get edit" do
-  #   get :edit, :id => users(:three).to_param
-  #   assert_response :success
   # end
 
   # test "should update applicant" do

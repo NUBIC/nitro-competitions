@@ -41,4 +41,9 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :stderr
 
   I18n.enforce_available_locales = false
+  config.aker do
+    login_config = File.join(Rails.root, %w(config logins development.yml))
+    authority Aker::Authorities::Static.from_file(login_config)
+    # central '/etc/nubic/aker-local.yml'
+  end
 end
