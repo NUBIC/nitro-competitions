@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 FactoryGirl.define do
   factory :project do
-    project_name 'MyString'
+    sequence(:project_name) { |n| "project_name#{n}_#{Time.now.to_i}" }
     project_title 'MyStringAloneIsNotLongEnough'
     project_description 'MyString'
     project_url 'MyString'

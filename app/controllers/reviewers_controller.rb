@@ -98,7 +98,7 @@ class ReviewersController < ApplicationController
       end
     else
       flash[:notice] = 'You do not have update privileges or this review is past the edit cutoff.'
-      redirect_to( project_reviewers_url(current_project) )
+      redirect_to(project_reviewers_url(current_project))
     end
   end
 

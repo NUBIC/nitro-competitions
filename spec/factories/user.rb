@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 FactoryGirl.define do
-  sequence(:username) { |n| "username#{n}" }
-  sequence(:email) { |n| "email#{n}@dev.null" }
   factory :user do
-    username
+    sequence(:username) { |n| "username#{n}_#{Time.now.to_i}" }
+    sequence(:email) { |n| "email#{n}_#{Time.now.to_i}@dev.null" }
     first_name 'MyString'
     last_name 'MyString'
     middle_name 'MyString'
     era_commons_name 'MyString'
-    email
     degrees 'MyString'
     business_phone 'MyString'
     title 'MyString'

@@ -2,7 +2,6 @@
 require 'spec_helper'
 
 describe ReviewersController do
-
   describe 'GET index' do
     it 'renders the page' do
       get :index
@@ -19,18 +18,23 @@ describe ReviewersController do
     end
   end
 
-  # test "should update reviewer" do
-  #   put :update, :id => reviewers(:one).to_param, :reviewer => { }
-  #   assert_redirected_to project_reviewers_url(projects(:one))
-  # end
-
-  # test "should destroy reviewer" do
-  #   # won't work as must be admin
-  #   assert_difference('Reviewer.count', 0) do
-  #     delete :destroy, :id => reviewers(:one).to_param
+  ##
+  # TODO: these specs pass when running alone when run as a suite
+  #       they fail. figure out how to reset session for specs
+  ##
+  # describe 'PUT update' do
+  #   let(:review) { FactoryGirl.create(:submission_review) }
+  #   it 'redirects to project_reviewers_path' do
+  #     put :update, :id => review, :reviewer => {}
+  #     response.should redirect_to(project_reviewers_path(review.submission.project))
   #   end
-
-  #   assert_redirected_to project_reviewers_path(projects(:one))
+  # end
+  #
+  # describe 'DELETE destroy' do
+  #   it 'redirects to project_reviewers_path' do
+  #     delete :destroy, :id => review
+  #     response.should redirect_to(project_reviewers_path(review.submission.project.program))
+  #   end
   # end
 
 end

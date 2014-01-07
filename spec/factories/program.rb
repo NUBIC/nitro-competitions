@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 FactoryGirl.define do
-  sequence(:program_name) { |n| "program_name#{n}" }
   factory :program do
-    program_name
+    sequence(:program_name) { |n| "n#{n}_#{Time.now.to_i}" }
     program_title 'MyString'
     program_url 'MyString'
     association :creater, factory: :user

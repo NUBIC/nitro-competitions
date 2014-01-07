@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :key_person do
     role 'MyString'
-    username 'MyString'
+    sequence(:username) { |n| "username#{n}" }
     first_name 'MyString'
     last_name 'MyString'
     email 'MyString@dev.null'
