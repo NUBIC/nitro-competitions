@@ -70,7 +70,7 @@ module ApplicationHelper
   def current_project
     begin
       if defined?(@@project)
-        unless  (@@project).blank? or  (@@project).id.blank?
+        unless (@@project).blank? or  (@@project).id.blank?
           return @@project
         end
       end

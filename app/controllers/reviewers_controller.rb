@@ -1,7 +1,7 @@
 class ReviewersController < ApplicationController
   # GET /reviewers
   # GET /reviewers.xml
-  before_filter  :set_project
+  before_filter :set_project
 
   def index
     set_session_project(params[:project_id]) unless params[:project_id].blank?
@@ -72,7 +72,11 @@ class ReviewersController < ApplicationController
         format.xml  { render :xml => @reviewer }
       end
     else
-      redirect_to( current_project.blank? ? projects_path : project_path(current_project.id))
+      if current_project.blank?
+        redirect_to projects_path
+      else
+        redirect_to project_path(current_project.id)
+      end
     end
   end
 
@@ -131,7 +135,9 @@ class ReviewersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
   private
+
   def set_project
     unless params[:project_id].blank?
       @project = Project.find(params[:project_id])
