@@ -6,5 +6,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.tablesorter.min
+//= require jquery_noconflict
+//= require prototype
+//= require amstock
+//= require ddsmoothmenu
+//= require effects
+//= require facebox
 //= require_self
-//= require_tree .

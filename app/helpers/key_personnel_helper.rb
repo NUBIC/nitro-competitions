@@ -1,15 +1,14 @@
 module KeyPersonnelHelper
 
   def key_personnel_lookup_observer(submission_id, root_name, index)
-	  observe_field( root_name+'_username',
-			:frequency => 0.5,
-			:before => "Element.show('spinner')",
-			:complete => "Element.hide('spinner')",
-			:url => lookup_submission_key_personnel_path(submission_id),
-			:with => "'username=' + encodeURIComponent(value) + '&role='+encodeURIComponent( $('"+root_name.to_s +
-			    "_role').getValue()) + '&index='+encodeURIComponent("+index+")" ) +
-			    "<span id='#{root_name}_username_id'></span>"
-	end
+    observe_field( root_name+'_username',
+      :frequency => 0.5,
+      :before => "Element.show('spinner')",
+      :complete => "Element.hide('spinner')",
+      :url => lookup_submission_key_personnel_path(submission_id),
+      :with => "'username=' + encodeURIComponent(value) + '&role='+encodeURIComponent( $('"+root_name.to_s +
+          "_role').getValue()) + '&index='+encodeURIComponent("+index+")" )
+  end
 
   def add_key_person(user, submission_id=0, role="")
     submission_id = 0 if submission_id.blank?

@@ -23,9 +23,6 @@ describe ApplicantsController do
     end
   end
 
-  # FIXME: this controller spec fails because the entire controller expects a current logged in user
-  # TODO: create a logged in user
-
   context "with an authenticated user" do
     before(:each) do
       login(user_login)

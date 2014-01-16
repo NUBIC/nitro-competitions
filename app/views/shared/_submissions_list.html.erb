@@ -7,62 +7,48 @@
   <% title ||= "Submissions" %>
   <h3><%= title %></h3>
 
-  <table class="borderless">
-    <tr>
-      <th>Applicant</th>
-      <th>Email</th>
-      <th>Submitter</th>
-      <th>Title</th>
-      <% if submissions[0].project.show_submission_category -%>
-        <th><%= submissions[0].project.category_wording %></th>
-      <% end %>
-      <% if include_sponsor_and_competition > 0 -%>
-        <th>Sponsor</th>
-        <th>Competition</th>
-      <% end %>
-      <th>Status</th>
-      <th>Documents</th>
-    </tr>
   <% submissions.each_with_index do |submission, i| %>
-    <tr>
-      <td>
-        <%= link_to(submission.applicant.name, applicant_url(submission.applicant.id)) %>
-      </td>
-      <td>
-        <%= mail_to(submission.applicant.email, submission.applicant.email,
-                    :subject => "NUCATS Assist colleague",
-                    :encode => "javascript", :title=>"Send email to this applicant") unless submission.applicant.email.blank? %>
-      </td>
-      <td>
-        <%=h submission.submitter.name unless submission.submitter.blank? %>
-      </td>
-      <td>
-        <%= truncate_words(submission.submission_title, 20) %>
-      </td>
-      <% if submission.project.show_submission_category -%>
-        <td>
-          <%= truncate_words(submission.submission_category, 20) %>
-        </td>
-      <% end %>
-      <% if include_sponsor_and_competition > 0 -%>
-        <td>
-          <%=h submission.project.program.program_title %>
-        </td>
-        <td>
-          <%=h submission.project.project_title %>
-        </td>
-      <% end %>
-      <td>
-        <%= link_to( submission.status, '', :title=>submission.status_reason.join(" ")) %>
-      </td>
-      <td>
-        <% link_to_submission_files(submission, submission.project, false).each do |lnk| %>
-          <%= lnk.html_safe %>
+    <div class='submission'>
+      <div class='submission_info'>
+        <div class='submitter'>
+          <%=h "Submitter: #{submission.submitter.name}" unless submission.submitter.blank? %>
+        </div>
+        <div class='applicant'>
+          Applicant:
+          <%= link_to(submission.applicant.name, applicant_url(submission.applicant.id)) %>
+          <%= mail_to(submission.applicant.email, submission.applicant.email,
+                      :subject => "NUCATS Assist colleague",
+                      :encode => "javascript", :title=>"Send email to this applicant") unless submission.applicant.email.blank? %>
+        </div>
+        <div class='submission_title'>
+          Title: <%= submission.submission_title %>
+        </div>
+        <% if submission.project.show_submission_category -%>
+          <div class='submission_category'>
+            Category: <%= submission.submission_category %>
+          </div>
         <% end %>
-      </td>
-    </tr>
-    <%= render('shared/submission_actions', :submission=>submission) %>
+        <% if include_sponsor_and_competition > 0 -%>
+          <div class='program_title'>
+            Program Title: <%=h submission.project.program.program_title %>
+          </div>
+          <div class='project_title'>
+            Project Title: <%=h submission.project.project_title %>
+          </div>
+        <% end %>
+        <div class='submission_status' title = "<%= submission.status_reason.join(' ')%>">
+          Status: <%= submission.status %>
+        </div>
+        <div class='submission_files'>
+          <% link_to_submission_files(submission, submission.project, false).each do |lnk| %>
+            <%= lnk.html_safe %>
+          <% end %>
+        </div>
+      </div>
+      <div class='submission_actions'>
+        <%= render('shared/submission_list_actions', :submission=>submission) %>
+      </div>
+    </div>
   <% end %>
-  </table>
 <% end %>
 <br />

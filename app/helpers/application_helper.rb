@@ -336,8 +336,7 @@ module ApplicationHelper
 			:before => "Element.show('spinner')",
 			:complete => "Element.hide('spinner')",
 			:url => {:controller=>'applicants', :action=>'username_lookup', :only_path => false},
-			:with => "'username=' + encodeURIComponent(value)") +
-			"<span id='#{field_name}_id'></span>"
+			:with => "'username=' + encodeURIComponent(value)")
 	end
 
 	def netid_lookup_function(field_name, include_span_tag=true)

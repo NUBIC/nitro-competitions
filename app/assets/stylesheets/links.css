@@ -68,3 +68,8 @@ a.warning_16:hover {
   background: #888888 url('/assets/warning_16.png') 0 2px no-repeat;
 }
 
+div.links,
+div.admin_links {
+  float: left;
+  width: 100%;
+}

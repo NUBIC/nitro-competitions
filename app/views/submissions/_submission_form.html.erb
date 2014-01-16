@@ -88,7 +88,7 @@
     <td class="notrequired">
       <%= f.text_field :core_manager_username %>
       <%= netid_lookup_tag %>
-      <%= netid_lookup_observer(:submission_core_manager_username) %>
+      <%= netid_lookup_observer(:submission_core_manager_username) %><span id='submission_core_manager_username_id'></span>
       <%= netid_lookup_function(:submission_core_manager_username, false) %>
     </td>
     <td class="notes">
@@ -332,7 +332,7 @@
     <td class="notrequired">
       <%= f.text_field :department_administrator_username %>
       <%= netid_lookup_tag %>
-      <%= netid_lookup_observer(:submission_department_administrator_username) %>
+      <%= netid_lookup_observer(:submission_department_administrator_username) %><span id='submission_department_administrator_username_id'></span>
       <%= netid_lookup_function(:submission_department_administrator_username, false) %>
     </td>
     <td class="notes">
@@ -358,9 +358,9 @@
     </td>
     <td class="notrequired">
       <%= f.text_field :effort_approver_username %>
-      <%= netid_lookup_tag %>
-      <%= netid_lookup_observer(:submission_effort_approver_username) %>
-      <%= netid_lookup_function(:submission_effort_approver_username, false) %>
+      <%= netid_lookup_tag.html_safe %>
+      <%= netid_lookup_observer(:submission_effort_approver_username) %><span id='submission_effort_approver_username_id'></span>
+      <%= netid_lookup_function(:submission_effort_approver_username, false).html_safe %>
       </td>
       <td class="notes">
         Please enter the NetID of your <%= project.effort_approver_title %>

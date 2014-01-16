@@ -15,7 +15,7 @@
 	<%= f.file_field("uploaded_biosketch") %> &nbsp;  &nbsp;
 	<% if submission.applicant_biosketch_document_id.blank? %>
 		<%= image_tag("warning_16.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;", :title=>"No biosketch is available. Please upload a Biosketch") %>
-		Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info %>
+		Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info.html_safe %>
 	<% else %>
 		<i><%= link_to_file(submission.applicant_biosketch_document_id, "#{submission.applicant_biosketch_document.file_file_name}") %></i> &nbsp; File saved on <%=  (submission.applicant_biosketch_document.last_updated_at||submission.applicant_biosketch_document.updated_at).to_s(:justdate) %>
 		<br/>Uploading your biosketch here only changes the biosketch for this submission - it does not change your default biosketch for your next submission or for any proposals you are listed as key personnel on. To change your default biosketch, upload your biosketch in your <%= link_to("profile", edit_applicant_path(submission.applicant.id), :title=>"Edit #{submission.applicant.name}'s profile") %>
