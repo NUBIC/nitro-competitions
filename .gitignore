@@ -7,3 +7,4 @@ tmp/restart.txt
 tmp/cache
 tmp/pids
 assets/
+coverage/
