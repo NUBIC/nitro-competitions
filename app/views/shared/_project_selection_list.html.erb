@@ -1,49 +1,72 @@
-<table class="borderless">
+<div class='project_selection_list'>
+  <% projects.each_with_index do |project, i| %>
+    <div class='project'>
+      <div class='apply'>
+        <%= project.current_status %>
+        <% if (project.current_status =~ /open for/i) %>
+          <div class='apply_link'>
+            <%= link_to(image_tag("apply_button.png"),
+                new_project_applicant_path(project.id),
+                :title => "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+          </div>
+        <% end %>
+      </div>
+      <div class='project_details'>
+        <div class='project_information'>
+          Competition:
+          <%= link_to(h(project.project_title),
+                      show_competition_url(project.program.program_name, project.project_name),
+                      :title=>"Click here to view the competition #{project.project_title}") %>
+        </div>
+        <div class='project_information'>
+          Submission Period: <%= project.submission_open_date.to_s(:justdate) %> - <%= project.submission_close_date.to_s(:justdate) %>
+        </div>
+        <% if has_read_all?(project.program) %>
+          <div class='project_information'>
+            Number of Applications: <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
+          </div>
+        <% end %>
+        <div class='project_information'>
+          <% unless project.program.program_url.blank? %>
+            <% program_title = "Get more information on #{project.program.program_title}" %>
+            <%= link_to("Sponsor",
+                        project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
+            <%= link_to(image_tag("help_link.png",
+                                  :width => "16px", :height => "16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                        project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
+          <% end %>
+          <% unless project.project_url.blank? %>
+            <% project_title = "Get more information and the RFA for '#{project.project_title}'" %>
+            <%= link_to("Competition RFA",
+                        project.project_url, :title=>project_title, :target=>"_blank" ) %>
+            <%= link_to(image_tag("help_link.png",
+                                  :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                        project.project_url, :title=>project_title, :target=>"_blank" ) %>
+          <% end %>
+        </div>
+      </div>
+      <% if is_logged_in? %>
+        <div class='project_actions'>
+          <% if (project.submission_open_date < Date.today and project.submission_close_date >=  Date.today) or is_admin?(project.program) %>
+            <%= link_to(image_tag("add.png",
+                                  :width=>"16px", :height=>"16px",
+                                  :style=>"margin-bottom:-2px;margin-top:-5px;") + " Create a new submission",
+                        new_project_applicant_path(project.id),
+                        :title => "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+            <br/>
+          <% end %>
+          <% if is_admin?(project.program) %>
+            <%= link_to(image_tag("application_form.png",
+                                  :width=>"16px", :height=>"16px",
+                                  :style=>"margin-top:-5px; margin-bottom:-2px;") + ' Edit information',
+                        edit_project_path(project),
+                        :title=>"click here to edit information about this competition") %>
+            <br/>
+          <% end %>
 
-  <tr>
-    <th>&nbsp;</th>
-    <th>Competition</th>
-    <th width="175px">Submission Period</th>
-    <th width="135px">Status</th>
-    <% if has_read_all? or is_admin_any_program? %>
-      <th>Applications</th>
-    <% end %>
-    <th width="220px">More information</th>
-	<th>&nbsp;</th>
-  </tr>
-
-
-<% projects.each_with_index do |project, i | %>
-
-  <tr>
-	<td><%= (project.current_status =~ /open for/i) ? link_to( image_tag("apply_button.png", :width=>"86px", :height=>"32px", :style=>"margin-bottom:-2px;margin-top:-5px;"), new_project_applicant_path(project.id), :title=>"Create an application for you or someone else for the competition  '#{project.project_title}'" ) : '' %> </td>
-
- 	<td><%= link_to( h( project.project_title) , show_competition_url(project.program.program_name, project.project_name), :title=>"Click here to view the competition #{project.project_title}" ) %> &nbsp; </td>
-    <td><%= project.submission_open_date.to_s(:justdate) %> to <%= project.submission_close_date.to_s(:justdate) %></td>
-    <td class='smaller'><%= project.current_status %></td>
-    <% if has_read_all?(project.program) %>
-    <td class="list-right" width="80px"><%= link_to("&nbsp; "+project.submissions.count.to_s, submissions_project_admins_url(project.id)) %> &nbsp; </td>
-	<% elsif has_read_all? or is_admin_any_program? %>
-	<td class="list-right" width="80px">na &nbsp; </td>
-    <% end %>
-   <td><%= (!project.program.program_url.blank?) ? link_to( "Sponsor" + image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),  project.program.program_url, :title=>"Get more information on #{project.program.program_title}", :target=>"_blank" ) : '' %> &nbsp; 
-	<%= (!project.project_url.blank?) ? link_to( "Competition RFA " + image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"), project.project_url, :title=>"Get more information and the RFA for '#{project.project_title}'", :target=>"_blank" ) : '' %>
-	</td>
-	<% if is_logged_in? %>
-	<td >
-		<% if (project.submission_open_date < Date.today and project.submission_close_date >=  Date.today) or is_admin?(project.program) %>
-			  <%= link_to( image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;") + " Create a new submission", new_project_applicant_path(project.id), :title=>"Create an application for you or someone else for the competition  '#{project.project_title}'" ) %>
-			<br/>
-		<% end %>
-		<% if is_admin?(project.program) %>
-			<%= link_to( image_tag("application_form.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px; margin-bottom:-2px;")+' Edit information', edit_project_path(project), :title=>"click here to edit information about this competition") %>
-			<br/>
-		<% end %>
-		<%= link_to_project_docs(project) %>
-	</td>
-	<% end %>
-  </tr>
-<% end %>
-</table>
-<br />
-
+          <%= render('shared/links_to_project_docs', :project => project) %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

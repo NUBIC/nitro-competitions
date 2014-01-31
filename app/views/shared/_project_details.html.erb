@@ -1,32 +1,43 @@
 <% unless projects.blank? %>
-<br>
-<table class="borderless">
-  <tr>
-    <th>Competition</th>
-    <th>Sponsor</th>
-    <th>Status</th>
-    <th>Announcement</th>
-    <th>Submission Period</th>
-    <th>Review Closes</th>
-    <th>Project Period (Award Period)</th>
-  </tr>
+  <br />
+  <table class="borderless">
+    <tr>
+      <th>Competition</th>
+      <th>Sponsor</th>
+      <th>Status</th>
+      <th>Announcement</th>
+      <th>Submission Period</th>
+      <th>Review Closes</th>
+      <th>Project Period (Award Period)</th>
+    </tr>
 
-<% projects.each_with_index do |project, i | %>
-  <tr>
-    <td><%= h( project.project_title) %><%= (!project.project_url.blank?) ? link_to( image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"), project.project_url, :title=>"Get more information on  #{project.project_title}" ) : '' %></td>
-	<td><%= h( project.program.program_title) %> <%= (!project.program.program_url.blank?) ? link_to( image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;") ,  project.program.program_url, :title=>"Get more information on  #{project.program.program_title}" ) : '' %> </td>
-    <td><%= project.current_status %> &nbsp; </td>
-    <td><%= project.initiation_date.to_s(:justdate) %></td>
-    <td><%= project.submission_open_date.to_s(:justdate) %> to <%= project.submission_close_date.to_s(:justdate) %></td>
-    <td><%= project.review_end_date.to_s(:justdate) %></td>
-    <td><%= project.project_period_start_date.to_s(:justdate) %> to <%= project.project_period_end_date.to_s(:justdate) %></td>
-  </tr>
-
-  <%= render(:partial => 'shared/project_actions', :locals=>{:project=>project}) %>
+  <% projects.each_with_index do |project, i| %>
+    <tr>
+      <td>
+        <%= h(project.project_title) %>
+        <% unless project.project_url.blank? %>
+          <%= link_to(image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                      project.project_url,
+                      :title=>"Get more information on #{project.project_title}" )%>
+        <% end %>
+      </td>
+      <td>
+        <%= h(project.program.program_title) %>
+        <% unless project.program.program_url.blank? %>
+          <%= link_to(image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                      project.program.program_url,
+                      :title=>"Get more information on #{project.program.program_title}") %>
+        <% end %>
+        </td>
+      <td><%= project.current_status %> &nbsp; </td>
+      <td><%= project.initiation_date.to_s(:justdate) %></td>
+      <td><%= project.submission_open_date.to_s(:justdate) %> to <%= project.submission_close_date.to_s(:justdate) %></td>
+      <td><%= project.review_end_date.to_s(:justdate) %></td>
+      <td><%= project.project_period_start_date.to_s(:justdate) %> to <%= project.project_period_end_date.to_s(:justdate) %></td>
+    </tr>
+    <%= render('shared/project_actions', :project => project) %>
+  <% end %>
+  </table>
+  <br />
 <% end %>
-</table>
-<br />
-<% end %>
-
- &nbsp; 
-
+&nbsp;

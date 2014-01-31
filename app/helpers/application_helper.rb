@@ -16,7 +16,7 @@ module ApplicationHelper
       session[:act_as_admin] = true
     end
   end
-  
+
   # list of allowed IPs
 
   def disallowed_ip(this_ip)
@@ -30,10 +30,10 @@ module ApplicationHelper
     end
     return true  #disallowed
   end
-  
-	
+
+
 	# program and project session-oriented helpers
-	
+
 	def is_logged_in?
 	  return false unless defined?(current_user)
 	  begin
@@ -42,7 +42,7 @@ module ApplicationHelper
     end
     return false
   end
-	
+
 	def current_program
     return current_project().program
   end
@@ -66,12 +66,12 @@ module ApplicationHelper
     end
     current_project
   end
-   
+
   def current_project
     begin
-      if defined?(@@project) 
-        unless  (@@project).blank? or  (@@project).id.blank?
-          return @@project 
+      if defined?(@@project)
+        unless (@@project).blank? or  (@@project).id.blank?
+          return @@project
         end
       end
     rescue
@@ -79,22 +79,22 @@ module ApplicationHelper
     @@project = handle_set_project
     return @@project
   end
-  
+
   def handle_set_project
     if defined?(params)
       if !params[:project_id].blank?
-        project = Project.find_by_id(params[:project_id])
-      elsif !params[:id].blank? and self.controller_name == 'projects' 
-        project = Project.find_by_id(:conditions=>["id = :id", {:id=>params[:id]}])
-      elsif !params[:project_name].blank? 
-        project = Project.find_by_project_name(params[:project_name]) 
+        project = Project.find(params[:project_id])
+      elsif !params[:id].blank? and self.controller_name == 'projects'
+        project = Project.find(params[:id])
+      elsif !params[:project_name].blank?
+        project = Project.find_by_project_name(params[:project_name])
       elsif defined?(session) and ! session.nil? and ! session[:project_id].nil?
-        project = Project.find_by_id(session[:project_id])
+        project = Project.find(session[:project_id])
       end
     end
     project = Project.active[0] if project.nil? or project.blank?
     if project.blank?
-      project = Project.new 
+      project = Project.new
     else
       if session[:project_id].nil? or session[:project_id] != project.id
         session[:project_id] = project.id
@@ -106,10 +106,10 @@ module ApplicationHelper
 
   def check_session
 	  return unless defined?(session) and ! session.nil?
-   begin 
+   begin
      if current_user.username.blank?
        puts "rats"
-       logger.error("check_session. rats! current_user.username is blank!!!") 
+       logger.error("check_session. rats! current_user.username is blank!!!")
      end
    rescue
      logger.error("check_session. current_user is nil!!!")
@@ -117,20 +117,20 @@ module ApplicationHelper
    if current_user.blank? or current_user.username.blank?
      clear_session_attributes()
    end
-     
+
    if ! defined?(current_user_session) or current_user_session.blank? or current_user_session.username != current_user.username
-     the_user = User.find_by_username(current_user.username) 
+     the_user = User.find_by_username(current_user.username)
      if the_user.blank? or the_user.name.blank?
        if make_user(current_user.username)
          flash[:notice] = 'User account was successfully created.'
          logger.error("check_session. current_user: #{current_user.username} was created")
-         check_session 
+         check_session
        else
          logger.error("check_session. Unable to create user account from LDAP registry for current_user: #{current_user.username}")
          flash[:notice] = 'Unable to create user account from LDAP registry.'
          make_user_from_login(current_user)
        end
-       the_user = User.find_by_username(current_user.username) 
+       the_user = User.find_by_username(current_user.username)
      end
      unless the_user.blank? or the_user.id.blank?
        set_session_attributes(the_user)
@@ -139,19 +139,19 @@ module ApplicationHelper
      end
    else
      if session[:username].blank? or session[:user_id].blank? or session[:name].blank? or session[:username] != current_user_session.username
-       the_user = User.find_by_username(current_user.username) 
+       the_user = User.find_by_username(current_user.username)
        unless the_user.blank?
          set_session_attributes(the_user)
        end
      end
    end
-     
+
    if session[:program_id].blank?
      program = Program.find_by_program_name(default_program_name())
      session[:program_id] = program.id unless program.blank?
      # projects = program.projects.active unless program.blank?
    end
-   
+
    if session[:act_as_admin].blank?
       act_as_admin
     end
@@ -180,14 +180,14 @@ module ApplicationHelper
   end
 
   # Logging helper for the database activity log
-  
+
   def log_request(activity=nil)
     return unless @logged.nil?
-    @logged=true 
-	  
+    @logged=true
+
 	  return unless defined?(session) and ! session.nil?
     return if session[:user_id].blank?
-    log_entry = Log.create( 
+    log_entry = Log.create(
         :user_id => session[:user_id],
         :activity => activity || self.controller_name + ":" + self.action_name,
         :project_id => current_project.id,
@@ -198,9 +198,9 @@ module ApplicationHelper
         :params => (defined?(params) ? params.inspect : nil))
      log_entry.save
   end
-  
+
   # format helpers
-  
+
   def format_boolean(the_bool)
     the_bool ? 'Y': 'N'
   end
@@ -214,7 +214,7 @@ module ApplicationHelper
     return '' if document.blank?
     document.file_file_name + ' was last saved on ' + format_date(document.last_updated_at || document.updated_at)
   end
-  
+
   # before_ helpers
   def before_notify_email(model)
     model.notification_sent_at = Time.now
@@ -226,40 +226,40 @@ module ApplicationHelper
       puts "before_notify_email - error: #{error.message}"
     end
   end
-  
+
   def before_create(model)
     model.created_ip ||= request.remote_ip if defined?(request) and ! request.nil?
     model.created_id ||= session[:user_id] if defined?(session) and ! session.nil?
     before_update(model)
-  end 
+  end
 
   def before_update(model)
     model.updated_ip = request.remote_ip if defined?(request) and ! request.nil?
     model.updated_id = session[:user_id] if defined?(session) and ! session.nil?
-  end 
+  end
 
   def logged_in?
     !session[:user_id].blank?
   end
-  
+
   def is_current_user?(id)
     id.to_i == session[:user_id].to_i
   end
-       
+
   def handle_ldap(applicant)
     begin
-      applicant  unless applicant.id.blank?
+      applicant unless applicant.id.blank?
       applicant_in_db = User.find_by_username(applicant.username)
       return applicant_in_db unless applicant_in_db.blank? or applicant_in_db.id.blank?
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
         logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
       elsif pi_data.blank?
-          logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
+        logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
       else
-        ldap_rec=CleanPIfromLDAP(pi_data)
+        ldap_rec = CleanPIfromLDAP(pi_data)
         applicant = BuildPIobject(ldap_rec) if applicant.id.blank?
-        applicant=MergePIrecords(applicant,ldap_rec)
+        applicant = MergePIrecords(applicant,ldap_rec)
         if applicant.new_record?
           before_create(applicant)
           applicant.save!
@@ -274,10 +274,10 @@ module ApplicationHelper
     end
     applicant
   end
-  
+
   def make_user(username)
     return nil if username.blank? or username.length < 3
-    the_user = User.find_by_username(username) 
+    the_user = User.find_by_username(username)
     return the_user unless the_user.blank?
     the_user = User.new(:username => username)
     the_user = handle_ldap(the_user)
@@ -290,17 +290,17 @@ module ApplicationHelper
     end
     return false
   end
-  
+
   def make_user_from_login(current_user)
     # for times when an authenticated user is not found in ldap!
-    the_user = User.find_by_username(current_user.username) 
+    the_user = User.find_by_username(current_user.username)
     return the_user unless the_user.blank?
     email =  current_user.email
     email = current_user.username+"@unknown.edu" if email.blank?
     the_user = User.new(:username => current_user.username, :first_name=> current_user.first_name, :last_name=> current_user.last_name, :email=> email)
     the_user.save!
   end
-  
+
   def add_user(the_user)
     return the_user unless the_user.new_record?
     before_create(the_user)
@@ -318,27 +318,25 @@ module ApplicationHelper
     end
     the_user
   end
-  
-  
-  def truncate_words(phrase, count=20) 
+
+  def truncate_words(phrase, count=20)
     return "" if phrase.blank?
     re = Regexp.new('^(.{'+count.to_s+'}\w*)(.*)', Regexp::MULTILINE)
     phrase.gsub(re) {$2.empty? ? $1 : $1 + '...'}
   end
-  
+
   def netid_lookup_tag()
     link_to(image_tag("search.gif", :style=> "margin-bottom:-5px;"), "http://directory.northwestern.edu/", :target => '_blank', :title=>"Click here to go to the Northwestern Directory to look up netids" )
 	end
-	
+
 	def netid_lookup_observer(field_name)
-	  observe_field( field_name, 
+	  observe_field( field_name,
 			:frequency => 0.5,
 			:update =>  {:success => field_name.to_s+"_id", :failure => 'flash_notice'},
 			:before => "Element.show('spinner')",
 			:complete => "Element.hide('spinner')",
 			:url => {:controller=>'applicants', :action=>'username_lookup', :only_path => false},
-			:with => "'username=' + encodeURIComponent(value)") +
-			"<span id='#{field_name}_id'></span>"
+			:with => "'username=' + encodeURIComponent(value)")
 	end
 
 	def netid_lookup_function(field_name, include_span_tag=true)
@@ -351,16 +349,16 @@ module ApplicationHelper
       			:complete => "Element.hide('spinner')",
       			:url => {:controller=>'applicants', :action=>'username_lookup', :only_path => false},
       			:with => "'username='+encodeURIComponent( $('"+field_name.to_s+"').getValue())")
-      end 
+      end
     end
     text
 	end
 
 	def hidden_div_if(condition, attributes = {}, &block)
-    if condition 
+    if condition
       attributes["style"] = "display: none;"
     end
     content_tag("div", attributes, &block)
   end
-  
+
 end

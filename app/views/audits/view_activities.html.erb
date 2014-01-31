@@ -3,7 +3,7 @@
 <div>
 <!-- amstock script-->
 
-<script type="text/javascript">           
+<script type="text/javascript">
 
 var chart;
 var activityData = [];
@@ -20,307 +20,304 @@ var applicantPanel;
 var cumulativePanel;
 
 AmCharts.ready(function () {
-	//user_data_audits_url
-//    loginData = loadCSV("<%= login_data_audits_url -%>");
-//    userData = loadCSV("<%= user_data_audits_url -%>");
-//	applicantData = loadCSV("<%= applicant_data_audits_url -%>");
-//	applicationData = loadCSV("<%= application_data_audits_url -%>");
-//	keyPersonnelData = loadCSV("<%= key_personnel_data_audits_url -%>");
-//	reviewerData = loadCSV("<%= reviewer_data_audits_url -%>");
-//	reviewData = loadCSV("<%= review_data_audits_url -%>");
-	activityData = parseActivityCSV(getCSV("<%= @data_url -%>"), <%= @list_arrays %>);
-	chart = initializeChart();
+  //  user_data_audits_url
+  //  loginData = loadCSV("<%= login_data_audits_url -%>");
+  //  userData = loadCSV("<%= user_data_audits_url -%>");
+  //  applicantData = loadCSV("<%= applicant_data_audits_url -%>");
+  //  applicationData = loadCSV("<%= application_data_audits_url -%>");
+  //  keyPersonnelData = loadCSV("<%= key_personnel_data_audits_url -%>");
+  //  reviewerData = loadCSV("<%= reviewer_data_audits_url -%>");
+  //  reviewData = loadCSV("<%= review_data_audits_url -%>");
+  activityData = parseActivityCSV(getCSV("<%= @data_url -%>"), ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]);
+  chart = initializeChart();
 
-	var activityDataSet = initializeDataSet(activityData, "logins");
-	
-//	var loginDataSet = initializeDataSet(loginData, "logins");
-//	var userDataSet = initializeDataSet(userData, "users");
-//	var applicantDataSet = initializeDataSet(applicantData, "applicants");
-//	var applicationDataSet = initializeDataSet(applicationData, "applications");
-//	var keyPersonnelDataSet = initializeDataSet(keyPersonnelData, "key personnel");
-//	var reviewerDataSet = initializeDataSet(reviewerData, "reviewers");
-//	var reviewDataSet = initializeDataSet(reviewData, "reviews");
-//	chart.dataSets = [userDataSet, loginDataSet, applicantDataSet, applicationDataSet,keyPersonnelDataSet,reviewerDataSet,reviewDataSet];
-	chart.dataSets = [activityDataSet];
-	//alert("activityDataSet = "+activityData[0].join());
-	
-	// for now handle this set of values: ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]
-	// createPanel(title, percent_height, show_category_axis, parse_dates)
-	// createGraph(panel, value_field, comparable, graph_type, fill_alphas)
-	cumulativePanel = createPanel("Cumulative", 10, false, true);
-	addGraph(cumulativePanel, "sum", true, "line", 0);
+  var activityDataSet = initializeDataSet(activityData, "logins");
 
-	loginsPanel = createPanel("Daily Logins", 30, true, true);
-	addGraph(loginsPanel, "logins", false, "column", 1);
+  //  var loginDataSet = initializeDataSet(loginData, "logins");
+  //  var userDataSet = initializeDataSet(userData, "users");
+  //  var applicantDataSet = initializeDataSet(applicantData, "applicants");
+  //  var applicationDataSet = initializeDataSet(applicationData, "applications");
+  //  var keyPersonnelDataSet = initializeDataSet(keyPersonnelData, "key personnel");
+  //  var reviewerDataSet = initializeDataSet(reviewerData, "reviewers");
+  //  var reviewDataSet = initializeDataSet(reviewData, "reviews");
+  //  chart.dataSets = [userDataSet, loginDataSet, applicantDataSet, applicationDataSet,keyPersonnelDataSet,reviewerDataSet,reviewDataSet];
+  chart.dataSets = [activityDataSet];
+  //  alert("activityDataSet = "+activityData[0].join());
 
-	applicationsPanel = createPanel("Application initiation", 30, false, true);
-	addGraph(applicationsPanel, "applications", false, "column", 1);
+  // for now handle this set of values: ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]
+  //  createPanel(title, percent_height, show_category_axis, parse_dates)
+  //  createGraph(panel, value_field, comparable, graph_type, fill_alphas)
+  cumulativePanel = createPanel("Cumulative", 10, false, true);
+  addGraph(cumulativePanel, "sum", true, "line", 0);
 
-	reviewsPanel = createPanel("Review creation", 30, false, true);
-	addGraph(reviewsPanel, "reviews", false, "column", 1);
+  loginsPanel = createPanel("Daily Logins", 30, true, true);
+  addGraph(loginsPanel, "logins", false, "column", 1);
 
-	applicantsPanel = createPanel("Applicant creation", 30, false, true);
-	addGraph(applicantsPanel, "applicants", false, "column", 1);
+  applicationsPanel = createPanel("Application initiation", 30, false, true);
+  addGraph(applicationsPanel, "applications", false, "column", 1);
 
-	usersPanel = createPanel("User creation", 30, false, true);
-	addGraph(usersPanel, "users", false, "column", 1);
+  reviewsPanel = createPanel("Review creation", 30, false, true);
+  addGraph(reviewsPanel, "reviews", false, "column", 1);
 
-	keyPersonnelPanel = createPanel("Key personnel creation", 30, false, true);
-	addGraph(keyPersonnelPanel, "key_personnel", false, "column", 1);
+  applicantsPanel = createPanel("Applicant creation", 30, false, true);
+  addGraph(applicantsPanel, "applicants", false, "column", 1);
 
-	reviewersPanel = createPanel("Reviewer creation", 30, true, true);
-	addGraph(reviewersPanel, "reviewers", false, "column", 1);
-	
-	chart.panels = [cumulativePanel,loginsPanel, applicationsPanel, reviewsPanel, usersPanel, applicantsPanel, keyPersonnelPanel, reviewersPanel];
-	showChart(chart);
+  usersPanel = createPanel("User creation", 30, false, true);
+  addGraph(usersPanel, "users", false, "column", 1);
+
+  keyPersonnelPanel = createPanel("Key personnel creation", 30, false, true);
+  addGraph(keyPersonnelPanel, "key_personnel", false, "column", 1);
+
+  reviewersPanel = createPanel("Reviewer creation", 30, true, true);
+  addGraph(reviewersPanel, "reviewers", false, "column", 1);
+
+  chart.panels = [cumulativePanel,loginsPanel, applicationsPanel, reviewsPanel, usersPanel, applicantsPanel, keyPersonnelPanel, reviewersPanel];
+  showChart(chart);
 });
 
 // method which loads external data
 function getCSV(file) {
-    if (window.XMLHttpRequest) {
-        // IE7+, Firefox, Chrome, Opera, Safari
-        var request = new XMLHttpRequest();
-    }
-    else {
-        // code for IE6, IE5
-        var request = new ActiveXObject('Microsoft.XMLHTTP');
-    }
-    // load
-    request.open('GET', file, false);
-    request.send();
-    return request.responseText;
+  if (window.XMLHttpRequest) {
+    // IE7+, Firefox, Chrome, Opera, Safari
+    var request = new XMLHttpRequest();
+  }
+  else {
+    // code for IE6, IE5
+    var request = new ActiveXObject('Microsoft.XMLHTTP');
+  }
+  // load
+  request.open('GET', file, false);
+  request.send();
+  return request.responseText;
 }
 
 // method which loads external data
 function loadCSV(file) {
-    return parseCSV(getCSV(file));
+  return parseCSV(getCSV(file));
 }
 
 // method which parses a date string in the format YYYY-MM-DD and creates a Date object
 function parseDate(dateString) {
-     // split the string get each field
-     var dateArray = dateString.split(/[ -]/);
-     // now lets create a new Date instance, using year, month and day as parameters
-     // month count starts with 0, so we have to convert the month number
-     var date = new Date(Number(dateArray[0]), Number(dateArray[1]) - 1, Number(dateArray[2]));
-     return date;
+  // split the string get each field
+  var dateArray = dateString.split(/[ -]/);
+  // now lets create a new Date instance, using year, month and day as parameters
+  // month count starts with 0, so we have to convert the month number
+  var date = new Date(Number(dateArray[0]), Number(dateArray[1]) - 1, Number(dateArray[2]));
+  return date;
 }
 
 // method which parses csv data
 function parseCSV(data){
-    //replace UNIX new line
-    data = data.replace (/\r\n/g, "\n");
-    data = data.replace (/\r/g, "\n");
-    //split into rows
-    var rows = data.split("\n");
-    // create array which will hold our data:
-    var dataProvider = [];
-	// create previous date holder
-	var columns;
+  //replace UNIX new line
+  data = data.replace (/\r\n/g, "\n");
+  data = data.replace (/\r/g, "\n");
+  //split into rows
+  var rows = data.split("\n");
+  // create array which will hold our data:
+  var dataProvider = [];
+  // create previous date holder
+  var columns;
 
-    // loop through all rows
-	// assumes 2nd column is an integer!
-    for (var i = 0; i < rows.length; i++){
-        // this line helps to skip empty rows
-        if (rows[i]) {                   
-            // our columns are separated by commas
-            columns = rows[i].split(","); 
-            // first item is date
-			dataProvider[i] = ({
-				date: parseDate(columns[0]),
-				value: columns[1],
-				sum: columns[2]
-			});
-        }
+  // loop through all rows
+  // assumes 2nd column is an integer!
+  for (var i = 0; i < rows.length; i++){
+    // this line helps to skip empty rows
+    if (rows[i]) {
+      // our columns are separated by commas
+      columns = rows[i].split(",");
+      // first item is date
+      dataProvider[i] = ({
+        date: parseDate(columns[0]),
+        value: columns[1],
+        sum: columns[2]
+      });
     }
-	return dataProvider;
+  }
+  return dataProvider;
 }
 
 function parseActivityCSV(data, name_array){
-    //replace UNIX new line
-    data = data.replace (/\r\n/g, "\n");
-    data = data.replace (/\r/g, "\n");
-    //split into rows
-    var rows = data.split("\n");
-    // create array which will hold our data:
-    var dataProvider = [];
-	var columns;
-	 // need to parse the name array!
-	// for now handle this set of values: ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]
-    // loop through all rows
-	// assumes 2nd column is an integer!
-    for (var i = 0; i < rows.length; i++){
-        // this line helps to skip empty rows
-        if (rows[i]) {
-            // our columns are separated by commas
-            columns = rows[i].split(","); 
-            // first item is date
-			dataProvider.push({
-				date: parseDate(columns[0]),
-				value: columns[1],
-				sum: columns[2],
-				logins: columns[1],
-				logins_sum: columns[2],
-				users: columns[3],
-				users_sum: columns[4],
-			    applications: columns[5],
-			    applications_sum: columns[6],
-			    applicants: columns[7],
-				applicants_sum: columns[8],
-			    key_personnel: columns[9],
-			    key_personnel_sum: columns[10],
-			    reviewers: columns[11],
-				reviewers_sum: columns[12],
-			    reviews: columns[13],
-			    reviews_sum: columns[14]
-			});
-        }
+  //replace UNIX new line
+  data = data.replace (/\r\n/g, "\n");
+  data = data.replace (/\r/g, "\n");
+  //split into rows
+  var rows = data.split("\n");
+  // create array which will hold our data:
+  var dataProvider = [];
+  var columns;
+  // need to parse the name array!
+  // for now handle this set of values: ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]
+  // loop through all rows
+  // assumes 2nd column is an integer!
+  for (var i = 0; i < rows.length; i++) {
+    // this line helps to skip empty rows
+    if (rows[i]) {
+      // our columns are separated by commas
+      columns = rows[i].split(",");
+      // first item is date
+      dataProvider.push({
+        date: parseDate(columns[0]),
+        value: columns[1],
+        sum: columns[2],
+        logins: columns[1],
+        logins_sum: columns[2],
+        users: columns[3],
+        users_sum: columns[4],
+        applications: columns[5],
+        applications_sum: columns[6],
+        applicants: columns[7],
+        applicants_sum: columns[8],
+        key_personnel: columns[9],
+        key_personnel_sum: columns[10],
+        reviewers: columns[11],
+        reviewers_sum: columns[12],
+        reviews: columns[13],
+        reviews_sum: columns[14]
+      });
     }
-	return dataProvider;
+  }
+  return dataProvider;
 }
 
 // method which initializes chart
 function initializeChart(){
-	var chart = new AmCharts.AmStockChart();
-	chart.pathToImages = "/images/";
-	return chart;
+  var chart = new AmCharts.AmStockChart();
+  chart.pathToImages = "/images/";
+  return chart;
 }
 
 function initializeDataSet( data_provider, title ){
-	// DATASET //////////////////////////////////////////
-	// for now handle this set of values: ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]
-	var dataSet = new AmCharts.DataSet();
-	dataSet.fieldMappings = [{
-		fromField: "value",
-		toField: "value"
-	}, {
-		fromField: "logins",
-		toField: "logins"
-	}, {
-		fromField: "logins_sum",
-		toField: "logins_sum"
-	}, {
-		fromField: "users",
-		toField: "users"
-	}, {
-		fromField: "users_sum",
-		toField: "users_sum"
-	}, {
-		fromField: "applications",
-		toField: "applications"
-	}, {
-		fromField: "applications_sum",
-		toField: "applications_sum"
-	}, {
-		fromField: "applicants",
-		toField: "applicants"
-	}, {
-		fromField: "applicants_sum",
-		toField: "applicants_sum"
-	}, {
-		fromField: "key_personnel",
-		toField: "key_personnel"
-	}, {
-		fromField: "key_personnel_sum",
-		toField: "key_personnel_sum"
-	}, {
-		fromField: "reviewers",
-		toField: "reviewers"
-	}, {
-		fromField: "reviewers_sum",
-		toField: "reviewers_sum"
-	}, {
-		fromField: "reviews",
-		toField: "reviews"
-	}, {
-		fromField: "reviews_sum",
-		toField: "reviews_sum"
-	}, {
-		fromField: "sum",
-		toField: "sum"
-	}];
-	dataSet.color = "#7f8da9";
-	dataSet.dataProvider = data_provider;
-	dataSet.compared = false;
-	dataSet.title = title;
-	dataSet.categoryField = "date";
-	return dataSet
+  // DATASET //////////////////////////////////////////
+  // for now handle this set of values: ["logins","users","applications","applicants","key_personnel","reviewers","reviews"]
+  var dataSet = new AmCharts.DataSet();
+  dataSet.fieldMappings = [{
+    fromField: "value",
+    toField: "value"
+  }, {
+    fromField: "logins",
+    toField: "logins"
+  }, {
+    fromField: "logins_sum",
+    toField: "logins_sum"
+  }, {
+    fromField: "users",
+    toField: "users"
+  }, {
+    fromField: "users_sum",
+    toField: "users_sum"
+  }, {
+    fromField: "applications",
+    toField: "applications"
+  }, {
+    fromField: "applications_sum",
+    toField: "applications_sum"
+  }, {
+    fromField: "applicants",
+    toField: "applicants"
+  }, {
+    fromField: "applicants_sum",
+    toField: "applicants_sum"
+  }, {
+    fromField: "key_personnel",
+    toField: "key_personnel"
+  }, {
+    fromField: "key_personnel_sum",
+    toField: "key_personnel_sum"
+  }, {
+    fromField: "reviewers",
+    toField: "reviewers"
+  }, {
+    fromField: "reviewers_sum",
+    toField: "reviewers_sum"
+  }, {
+    fromField: "reviews",
+    toField: "reviews"
+  }, {
+    fromField: "reviews_sum",
+    toField: "reviews_sum"
+  }, {
+    fromField: "sum",
+    toField: "sum"
+  }];
+  dataSet.color = "#7f8da9";
+  dataSet.dataProvider = data_provider;
+  dataSet.compared = false;
+  dataSet.title = title;
+  dataSet.categoryField = "date";
+  return dataSet
 }
 
 // method which creates panel
 function createPanel(title, percent_height, show_category_axis, parse_dates){
-	// PANELS ///////////////////////////////////////////                                                  
-	var panel = new AmCharts.StockPanel();
-	panel.title = title;
-	panel.showCategoryAxis = show_category_axis;
-	panel.percentHeight = percent_height;
-	panel.categoryAxis.autoGridCount = false;
-//	panel.marginTop = 1;
-	panel.parseDates = parse_dates;
+  // PANELS ///////////////////////////////////////////
+  var panel = new AmCharts.StockPanel();
+  panel.title = title;
+  panel.showCategoryAxis = show_category_axis;
+  panel.percentHeight = percent_height;
+  panel.categoryAxis.autoGridCount = false;
+  //  panel.marginTop = 1;
+  panel.parseDates = parse_dates;
 
-	var valueAxis = new AmCharts.ValueAxis();
-	valueAxis.dashLength = 5;
-	panel.addValueAxis(valueAxis);
+  var valueAxis = new AmCharts.ValueAxis();
+  valueAxis.dashLength = 5;
+  panel.addValueAxis(valueAxis);
 
-	panel.categoryAxis.dashLength = 5;
+  panel.categoryAxis.dashLength = 5;
 
-	var stockLegend = new AmCharts.StockLegend();
-	stockLegend.valueTextRegular = undefined;
-	stockLegend.markerType = "none";
-	stockLegend.markerSize = 0;
-	stockLegend.labelText = "";
-	panel.stockLegend = stockLegend;
-	return panel;
+  var stockLegend = new AmCharts.StockLegend();
+  stockLegend.valueTextRegular = undefined;
+  stockLegend.markerType = "none";
+  stockLegend.markerSize = 0;
+  stockLegend.labelText = "";
+  panel.stockLegend = stockLegend;
+  return panel;
 }
 
 // method which creates graph
 function addGraph(panel, value_field, comparable, graph_type, fill_alphas){
-	// graph of first stock panel
-	var graph = new AmCharts.StockGraph();
-	graph.valueField = value_field;
-	graph.type = graph_type;
-	graph.lineColor = "#7f8da9";
-	graph.comparable = comparable;
-	graph.compareField = value_field;
-	graph.showBalloon = false;
-	graph.fillAlphas = fill_alphas;
-	panel.addStockGraph(graph);
+  // graph of first stock panel
+  var graph = new AmCharts.StockGraph();
+  graph.valueField = value_field;
+  graph.type = graph_type;
+  graph.lineColor = "#7f8da9";
+  graph.comparable = comparable;
+  graph.compareField = value_field;
+  graph.showBalloon = false;
+  graph.fillAlphas = fill_alphas;
+  panel.addStockGraph(graph);
 }
 
 // method which creates chart
 function showChart(chart){
+  // OTHER SETTINGS ////////////////////////////////////
+  var sbsettings = new AmCharts.ChartScrollbarSettings();
+  //  sbsettings.graph = graph;
+  sbsettings.graphType = "line";
+  chart.chartScrollbarSettings = sbsettings;
+  chart.categoryAxesSettings.maxSeries = 0;
 
+  // PERIOD SELECTOR ///////////////////////////////////
+  var periodSelector = new AmCharts.PeriodSelector();
+  periodSelector.position = "bottom";
+  periodSelector.periods = [{
+    period: "MM",
+    count: 3,
+    label: "3 months"
+  }, {
+    period: "YYYY",
+    selected: true,
+    count: 1,
+    label: "1 year"
+  }, {
+    period: "YTD",
+    label: "YTD"
+  }, {
+    period: "MAX",
+    label: "MAX"
+  }];
+  chart.periodSelector = periodSelector;
 
-	// OTHER SETTINGS ////////////////////////////////////
-	var sbsettings = new AmCharts.ChartScrollbarSettings();
-//	sbsettings.graph = graph;
-	sbsettings.graphType = "line";
-	chart.chartScrollbarSettings = sbsettings;
-	chart.categoryAxesSettings.maxSeries = 0;
-
-
-	// PERIOD SELECTOR ///////////////////////////////////
-	var periodSelector = new AmCharts.PeriodSelector();
-	periodSelector.position = "bottom";
-	periodSelector.periods = [{
-		period: "MM",
-		count: 3,
-		label: "3 months"
-	}, {
-		period: "YYYY",
-		selected: true,
-		count: 1,
-		label: "1 year"
-	}, {
-		period: "YTD",
-		label: "YTD"
-	}, {
-		period: "MAX",
-		label: "MAX"
-	}];
-	chart.periodSelector = periodSelector;
-
-	chart.write('chartdiv');
+  chart.write('chartdiv');
 }
 
 

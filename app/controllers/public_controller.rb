@@ -4,17 +4,17 @@ class PublicController < ActionController::Base
 
   include ApplicationHelper
   include RolesHelper
- 
+
 
   def welcome
     @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
-    
-    clear_session_attributes()
+
+    clear_session_attributes
     @current_user_session = nil
   end
 
-  def disallowed 
-    clear_session_attributes()
+  def disallowed
+    clear_session_attributes
     @current_user_session = nil
   end
 

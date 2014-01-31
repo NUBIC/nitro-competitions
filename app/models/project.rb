@@ -155,11 +155,11 @@ class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :creater, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
-  has_many :submission_reviews, :through=> :submissions
+  has_many :submission_reviews, :through => :submissions
   has_many :logs
   default_scope :order => 'submission_open_date DESC'
   before_validation :clean_params
-  
+
   validates_length_of :project_title, :within => 10..100, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
   validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
   validates_uniqueness_of :project_name  #simplifies the logic a lot if we force the project names to be absolutely unique
@@ -170,54 +170,54 @@ class Project < ActiveRecord::Base
   validates_presence_of :review_end_date, :message => "you must have a review end date!"
   validates_presence_of :project_period_start_date, :message => "you must have a project start date!"
   validates_presence_of :project_period_end_date, :message => "you must have a project end date!"
-  
-  named_scope :current,   lambda { |*date| {:conditions => ['project_period_start_date >= :date and initiation_date <= :initiation_date', {:date => date.first || 1.day.ago, :initiation_date => 60.days.from_now} ] }}
-  named_scope :recent,    lambda { |*date| {:conditions => ['project_period_start_date >= :date and initiation_date <= :date', {:date => date.first || 3.months.ago} ] } }
-  named_scope :ongoing_projects, lambda { |*date|  { :conditions => ['project_period_end_date >= :date and project_period_start_date <= :date', {:date => date.first || 1.day.ago} ] } }
 
-  named_scope :active,   lambda { |*date| {:conditions => ['project_period_start_date > :date or review_end_date > :review_end_date', {:date => date.first || 3.months.ago, :review_end_date => 60.days.ago} ] }}
+  scope :current, lambda { |*date| where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now }) }
+  scope :recent, lambda { |*date| where('project_period_start_date >= :date and initiation_date <= :date', { :date => date.first || 3.months.ago }) }
+  scope :ongoing_projects, lambda { |*date| where('project_period_end_date >= :date and project_period_start_date <= :date', { :date => date.first || 1.day.ago }) }
+  scope :active, lambda { |*date| where('project_period_start_date > :date or review_end_date > :review_end_date', { :date => date.first || 3.months.ago, :review_end_date => 60.days.ago }) }
+  scope :early, lambda { where('projects.initiation_date >= :early', { :early => 30.days.from_now }) }
+  scope :preinitiation, lambda { where(':now between projects.initiation_date - 30 and projects.submission_open_date', { :now => 1.hour.ago }) }
+  scope :open, lambda { where(':now between projects.submission_open_date and projects.submission_close_date', { :now => 1.hour.ago }) }
+  scope :in_review, lambda { where(':now between projects.submission_close_date and projects.review_end_date', { :now => 1.hour.ago }) }
+  scope :recently_awarded, lambda { where('projects.review_end_date between :then and :now', { :now => 1.hour.ago, :then => 80.days.ago }) }
 
-  named_scope :early,   lambda { {:conditions => ['projects.initiation_date >= :early', {:early => 30.days.from_now} ] }}
-
-  named_scope :preinitiation,   lambda { {:conditions => [':now between projects.initiation_date -30 and projects.submission_open_date', {:now => 1.hour.ago} ] }}
-
-  named_scope :open,   lambda {{:conditions => [':now between projects.submission_open_date and projects.submission_close_date', {:now => 1.hour.ago} ] }}
-
-  named_scope :in_review,   lambda {{:conditions => [':now between projects.submission_close_date and projects.review_end_date', {:now => 1.hour.ago} ] }}
-
-  named_scope :recently_awarded,   lambda {{:conditions => ['projects.review_end_date between :then and :now', {:now => 1.hour.ago, :then => 80.days.ago} ] }}
-  
-  named_scope :late, lambda {{:conditions => ['projects.review_end_date <= :then', {:then => 80.days.ago} ] }}
+  scope :late, lambda { where('projects.review_end_date <= :then', { :then => 80.days.ago }) }
 
   def current_status
     case Date.today
-      when Date.today-300..initiation_date  then "Pre-announcement"
-      when initiation_date..submission_open_date  then "New announcement" # + " - opens on "+ submission_open_date.to_s(:justdate)
-      when submission_open_date..submission_close_date  then "Open for Applications"
-      when submission_close_date..review_start_date  then "Closed for Review"
-      when review_start_date..review_end_date  then "Under Review"
-      when review_end_date..review_end_date+1000  then "Awarded"
+      when Date.today-300..initiation_date then "Pre-announcement"
+      when initiation_date..submission_open_date then "New announcement" # + " - opens on "+ submission_open_date.to_s(:justdate)
+      when submission_open_date..submission_close_date then "Open for Applications"
+      when submission_close_date..review_start_date then "Closed for Review"
+      when review_start_date..review_end_date then "Under Review"
+      when review_end_date..review_end_date+1000 then "Awarded"
     else "Unknown"
     end
   end
-  
-  
+
   def count_review_criteria?
-    show?(show_impact_score) + show?(show_team_score) + show?(show_innovation_score) + show?(show_scope_score) + show?(show_environment_score) + show?(show_budget_score) + show?(show_completion_score) + show?(show_other_score)
+    show?(show_impact_score) +
+    show?(show_team_score) +
+    show?(show_innovation_score) +
+    show?(show_scope_score) +
+    show?(show_environment_score) +
+    show?(show_budget_score) +
+    show?(show_completion_score) +
+    show?(show_other_score)
   end
 
   def show?(val)
-     (val.blank? or !val) ? 0 : 1
+    (val.blank? or !val) ? 0 : 1
   end
-  
+
   def clean_params
     # need the before_type_cast or else Rails 2.3 truncates after any comma. strange
     return unless defined?(self.project_name)
-      
+
     txt = self.project_name
     return if txt.blank?
-    txt = txt.downcase.gsub(/\s/, "").gsub(/[^a-z0-9]/, "_").gsub(/__+/, "_") 
-    self.project_name=txt
+    txt = txt.downcase.gsub(/\s/, "").gsub(/[^a-z0-9]/, "_").gsub(/__+/, "_")
+    self.project_name = txt
   end
-  
+
 end

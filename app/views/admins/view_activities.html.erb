@@ -1,8 +1,8 @@
 <% @activity ||= "logged"%>
 <h1>Listing <%= @activity -%> activities (<%= @logs.length -%>) for <i><%= @project.project_title %></i></h1>
 
-<table id="allLogsTable" class="tablesorter { sortList: [[2,0]] }"> 
-  <thead> 
+<table id="allLogsTable" class="tablesorter { sortList: [[2,0]] }">
+  <thead>
   <tr>
    <th>Program</th>
    <th>Project</th>
@@ -17,7 +17,7 @@
     <th>Where</th>
     <th>Created on</th>
   </tr>
- </thead> 
+ </thead>
  <tbody>
 <% @logs.each do |log_entry| %>
   <tr>
@@ -27,9 +27,10 @@
     <td><%=h log_entry.params %></td>
     <td><%=h log_entry.user.username %></td>
     <td><%= log_entry.user.sort_name %></td>
-    <td><%= mail_to(log_entry.user.email, "email", 
-				:subject => "NUCATS Assist", 
-				:encode => "javascript", :title=>"Send email to this applicant") unless log_entry.user.email.blank? %> </td>
+    <td><%= mail_to(log_entry.user.email, "email",
+                    :subject => "NUCATS Assist",
+                    :encode => "javascript",
+                    :title => "Send email to this applicant") unless log_entry.user.email.blank? %> </td>
     <td><%=h log_entry.user.business_phone %></td>
     <td><%=h log_entry.user.campus %></td>
     <td><%= log_entry.created_at.to_s(:justdate) %></td>
@@ -41,12 +42,11 @@
 </tbody>
 </table>
 
-<% javascript_tag do %>
-jQuery(document).ready(function() { 
-    // call the tablesorter plugin 
+<%= javascript_tag do %>
+  jQuery(document).ready(function() {
+    // call the tablesorter plugin
     jQuery("#allLogsTable").tablesorter(
-        // turn off sorting on the 9th header
-        { headers: { 8: {sorter: false} } }
+      // turn off sorting on the 9th header
+      { headers: { 8: {sorter: false} } }
     ); });
 <% end %>
-

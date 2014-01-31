@@ -1,27 +1,39 @@
-<table id="sponsorTable" class="tablesorter"> 
-  <thead> 
-  <tr>
-   <th width="100px">Name</th>
-   <th>Title</th>
-    <th>URL</th>
-    <th width="200px">Admins</th>
-    <th>Competitions</th>
-    <th></th>
-  </tr>
- </thead> 
- <tbody>
-<% sponsors.each do |sponsor| %>
-  <tr>
-    <td><%= sponsor.program_name %></td>
-    <td><%= sponsor.program_title %></td>
-    <td><%= link_to(sponsor.program_url, sponsor.program_url) %></td>
-    <td><%= sponsor.roles_users.admins.map{|admin| link_to_contact(admin.user) }.join(", ") %></td>
-    <td><%= link_to "List (#{sponsor.projects.count})", sponsor_path(sponsor) %>
-	<% if is_admin?(sponsor) %>
-	    <td class="list-right"><%= link_to "Edit", edit_sponsor_path(sponsor) %>
-	<% end %>
-	</td>
-  </tr>
-<% end %>
-</tbody>
+<table id="sponsorTable" class="tablesorter">
+  <thead>
+    <tr>
+      <th width="100px">Name</th>
+      <th>Title</th>
+      <th>URL</th>
+      <th width="200px">Admins</th>
+      <th>Competitions</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sponsors.each do |sponsor| %>
+      <tr>
+        <td>
+          <%= sponsor.program_name %>
+        </td>
+        <td>
+          <%= sponsor.program_title %>
+        </td>
+        <td>
+          <%= link_to(sponsor.program_url, sponsor.program_url) %>
+        </td>
+        <td>
+          <% sponsor.roles_users.admins.each do |admin| %>
+            <%= link_to_contact(admin.user).html_safe %>
+            <br />
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "List (#{sponsor.projects.count})", sponsor_path(sponsor) %>
+        </td>
+        <% if is_admin?(sponsor) %>
+          <td class="list-right"><%= link_to "Edit", edit_sponsor_path(sponsor) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

@@ -8,87 +8,203 @@
 <% ldap_name = [applicant.name, applicant.name_suffix].compact.join(",") %>
 
 
-<% unless f.error_messages.blank? %>
-<tr><td colspan="3"><%= f.error_messages %></td></tr>
+<% if f.object && !f.object.try(:errors).blank? %>
+	<tr>
+		<td colspan="3">
+			<%= render('shared/error_messages', :object => f.object) %>
+		</td>
+	</tr>
 <% end %>
-<tr><td class="title"><%= f.label :name, "Name"  %></td><td>
-	<%= f.hidden_field :username %>
-	<%= f.hidden_field :first_name %>
-	<%= f.hidden_field :middle_name %>
-	<%= f.hidden_field :last_name %>
-	<%= if ldap_name.blank? then "<span style='color:red;'>username not found in ldap</span>" else ldap_name end %> </td><td class="notes">
-	Full name, from LDAP <%= link_to( 'Add info for external people', '', :onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5)+";return false;" ) if ldap_name.blank? %>
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :name, "Name"  %>
+	</td>
+	<td>
+		<%= f.hidden_field :username %>
+		<%= f.hidden_field :first_name %>
+		<%= f.hidden_field :middle_name %>
+		<%= f.hidden_field :last_name %>
+		<%= if ldap_name.blank? then "<span style='color:red;'>username not found in ldap</span>" else ldap_name end %>
+	</td>
+	<td class="notes">
+		Full name, from LDAP
+		<%= link_to('Add info for external people', '',
+								:onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5)+";return false;" ) if ldap_name.blank? %>
+	</td>
+</tr>
 
-<tr><td class="title">email</td><td>
-	<%= f.hidden_field :email %>
-	<%= applicant.email  %> </td><td class="notes">
-	Email, from LDAP
-</td></tr>
+<tr>
+	<td class="title">
+		email
+	</td>
+	<td>
+		<%= f.hidden_field :email %>
+		<%= applicant.email %>
+	</td>
+	<td class="notes">
+		Email, from LDAP
+	</td>
+</tr>
 
-<tr><td colspan="3">
-<% hidden_div_if(true, :id => "applicant_fields") do %> 
-	<%= render(:partial => "applicant_fields", :locals=>{:f=>f, :applicant=>applicant}) %>
-<% end %>
-</td></tr>
+<tr>
+	<td colspan="3">
+		<% hidden_div_if(true, :id => "applicant_fields") do %>
+			<%= render("applicant_fields", :f => f, :applicant => applicant) %>
+		<% end %>
+	</td>
+</tr>
 
-<tr><td class="title"><%= f.label :era_commons_name, "eRA Commons" %></td>
-	<td> <%= f.text_field :era_commons_name %></td><td class="notes">
-	Please enter <%= pronoun %> NIH eRA Commons name <%= completion %>. eRA Commons registration is required. Please see more information at <%= link_to "http://www.research.northwestern.edu/osr/commons.html", "http://www.research.northwestern.edu/osr/commons.html", :target => "_blank" %>
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :era_commons_name, "eRA Commons" %>
+	</td>
+	<td>
+		<%= f.text_field :era_commons_name %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> NIH eRA Commons name <%= completion %>.
+		eRA Commons registration is required.
+		Please see more information at
+		<%= link_to "http://www.research.northwestern.edu/osr/commons.html",
+								"http://www.research.northwestern.edu/osr/commons.html",
+								:target => "_blank" %>
+	</td>
+</tr>
 
-<tr><td class="title"><%= f.label :degrees, "Degree(s)" %></td>
-	<td> <%= f.text_field :degrees %></td><td class="notes">
-	Please enter <%= pronoun %> advanced degrees such as PhD or MD <%= completion %>. Use a comma to separate multiple degrees.
-</td></tr>
-<tr><td class="title"><%= f.label :business_phone %></td>
-	<td> <%= f.text_field :business_phone %></td><td class="notes">
-	Please enter <%= pronoun %> best contact phone number <%= completion %>.
-</td></tr>
-<tr><td class="title"><%= f.label :title, "Title" %></td>
-	<td> <%= f.text_field :title %></td><td class="notes">
-	Please enter <%= pronoun %> faculty rank (Professor, Associate Professor, etc) <%= completion %>.
-</td></tr>
-<tr><td class="title"><%= f.label :primary_department %></td>
-	<td> <%= f.text_area :primary_department, {:rows => 4, :cols => 40, :wrap=>"virtual"} %></td><td class="notes">
-	Please enter the University unit that holds <%= pronoun %> primary appointment <%= completion %>.
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :degrees, "Degree(s)" %>
+	</td>
+	<td>
+		<%= f.text_field :degrees %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> advanced degrees such as PhD or MD <%= completion %>.
+		Use a comma to separate multiple degrees.
+	</td>
+</tr>
+<tr>
+	<td class="title">
+		<%= f.label :business_phone %>
+	</td>
+	<td>
+		<%= f.text_field :business_phone %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> best contact phone number <%= completion %>.
+	</td>
+</tr>
 
-<tr><td class="title"><%= f.label :campus %></td>
-	<td> <%= f.text_field :campus %></td><td class="notes">
-	Please enter <%= pronoun %> main campus (usually one of these: Chicago, Evanston, CMH, Off campus)  <%= completion %>.
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :title, "Title" %>
+	</td>
+	<td>
+		<%= f.text_field :title %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> faculty rank (Professor, Associate Professor, etc) <%= completion %>.
+	</td>
+</tr>
 
-<tr><td class="title"><%= f.label :campus_address %></td>
-	<td> <%= f.text_area :campus_address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %></td><td class="notes">
-	Please enter <%= pronoun %> campus mailing address <%= completion %>.
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :primary_department %>
+	</td>
+	<td>
+		<%= f.text_area :primary_department, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
+	</td>
+	<td class="notes">
+		Please enter the University unit that holds <%= pronoun %> primary appointment <%= completion %>.
+	</td>
+</tr>
 
-<tr><td>
-    <%= f.label :uploaded_biosketch, "Biosketch Document" %></td>
-	<td class="notes" colspan="2"><%= f.file_field("uploaded_biosketch") %> &nbsp;  &nbsp; 
-	<% unless applicant.biosketch_document_id.blank? %>
-		<i><%= link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name} ") %></i> Biosketch saved on <%= (applicant.biosketch.last_updated_at||applicant.biosketch.updated_at).to_s(:justdate) %>
-		<br/>This is your default biosketch. It will be used as the biosketch for applications where you are named as key personnel (<em>not</em> as PI) and as the default biosketch for any new proposals you submit in NUCATS Assist. You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
-	<% else %>Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info %>
+<tr>
+	<td class="title">
+		<%= f.label :campus %>
+	</td>
+	<td>
+		<%= f.text_field :campus %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> main campus (usually one of these: Chicago, Evanston, CMH, Off campus)  <%= completion %>.
+	</td>
+</tr>
+
+<tr>
+	<td class="title">
+		<%= f.label :campus_address %>
+	</td>
+	<td>
+		<%= f.text_area :campus_address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> campus mailing address <%= completion %>.
+	</td>
+</tr>
+
+<tr>
+	<td>
+  	<%= f.label :uploaded_biosketch, "Biosketch Document" %>
+  </td>
+	<td class="notes" colspan="2">
+		<%= f.file_field("uploaded_biosketch") %> &nbsp; &nbsp;
+		<% unless applicant.biosketch_document_id.blank? %>
+			<i>
+				<%= link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name}").html_safe %>
+			</i>
+			Biosketch saved on <%= (applicant.biosketch.last_updated_at||applicant.biosketch.updated_at).to_s(:justdate) %>
+		<br/>
+			This is your default biosketch. It will be used as the biosketch for applications where you are named as key personnel
+			(<em>not</em> as PI) and as the default biosketch for any new proposals you submit in NUCATS Assist.
+			You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
+	<% else %>
+	Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info.html_safe %>
 	<% end %>
 </td></tr>
 
 <tr>
-	<td class="title" colspan="3" style="background:#ADE387;">Please fill in the following only if you  have an off-campus address
+	<td class="title" colspan="3" style="background:#ADE387;">
+		Please fill in the following only if you have an off-campus address
 	</td>
 </tr>
 
-<tr><td class="title"><%= f.label :address %></td>
-	<td> <%= f.text_area :address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %></td><td class="notes">
-	Please enter <%= pronoun %> mailing address if off-campus <%= completion %>.
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :address %>
+	</td>
+	<td>
+		<%= f.text_area :address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> mailing address if off-campus <%= completion %>.
+	</td>
+</tr>
 
-<tr><td class="title"><%= f.label :city, "City, Postal Code, State" %></td>
-	<td> <%= f.text_field :city, :size => 20 %>&nbsp;<%= f.text_field :postal_code, :size => 6 %>&nbsp;<%= f.text_field :state, :size => 4 %></td><td class="notes">
-	Please enter <%= pronoun %> mailing address city, postal code, state <%= completion %>.
-</td></tr>
-<tr><td class="title"><%= f.label :country %></td>
-	<td> <%= f.text_field :country %></td><td class="notes">
-	Please enter country, if not USA
-</td></tr>
+<tr>
+	<td class="title">
+		<%= f.label :city, "City, Postal Code, State" %>
+	</td>
+	<td>
+		<%= f.text_field :city, :size => 20 %>
+		&nbsp;
+		<%= f.text_field :postal_code, :size => 6 %>
+		&nbsp;
+		<%= f.text_field :state, :size => 4 %>
+	</td>
+	<td class="notes">
+		Please enter <%= pronoun %> mailing address city, postal code, state <%= completion %>.
+	</td>
+</tr>
+
+<tr>
+	<td class="title">
+		<%= f.label :country %>
+	</td>
+	<td>
+		<%= f.text_field :country %>
+	</td>
+	<td class="notes">
+		Please enter country, if not USA
+	</td>
+</tr>

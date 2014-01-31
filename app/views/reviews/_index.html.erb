@@ -1,0 +1,110 @@
+
+<h2>
+  Applicant: <%= submission.applicant.long_name %>
+</h2>
+<div class="indented">
+  <table>
+    <tr>
+      <td>Project:</td>
+      <td><%= submission.submission_title %></td>
+    </tr>
+    <% if submission.project.show_submission_category -%>
+      <tr>
+        <td><%= submission.project.category_wording %>:</td>
+        <td><%= submission.submission_category %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>Competition:</td>
+      <td><%= submission.project.project_title %></td>
+    </tr>
+    <tr>
+      <td>Sponsor:</td>
+      <td><%= submission.project.program.program_title %></td>
+    </tr>
+    <tr>
+      <td>Submission deadline:</td>
+      <td><%= submission.project.submission_close_date %></td>
+    </tr>
+    <tr>
+      <td>Application status:</td>
+      <td><%= submission.status %></td>
+    </tr>
+    <tr>
+      <td>Submission created at:</td>
+      <td><%= submission.project.created_at.to_date %></td>
+    </tr>
+    <tr>
+      <td>Submitter:</td>
+      <td><%= submission.submitter.try(:name).to_s %></td>
+    </tr>
+  </table>
+</div>
+
+<% reviewer_ids = submission.project.submissions.map { |s| s.submission_reviews.map(&:reviewer_id) }.flatten.uniq %>
+
+<% if submission.project.show_review_summaries_to_applicants or
+      is_admin? or
+      (submission.project.show_review_summaries_to_reviewers and reviewer_ids.include?(current_user_session.id) ) %>
+  <h1>Application reviews </h1>
+  <div id="scores">
+    <ol>
+      <% if submission.project.show_impact_score %>
+        <li> <%= submission.project.impact_title %>. </li>
+        <%= review_comments_div(reviews, 'impact_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_team_score %>
+        <li> <%= submission.project.team_title %>. </li>
+        <%= review_comments_div(reviews, 'team_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_innovation_score %>
+        <li> <%= submission.project.innovation_title %>. </li>
+        <%= review_comments_div(reviews, 'innovation_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_scope_score %>
+        <li> <%= submission.project.scope_title %>. </li>
+        <%= review_comments_div(reviews, 'scope_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_environment_score %>
+        <li> <%= submission.project.environment_title %>. </li>
+        <%= review_comments_div(reviews, 'environment_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_budget_score %>
+        <li> <%= submission.project.budget_title %>. </li>
+        <%= review_comments_div(reviews, 'budget_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_other_score %>
+        <li> <%= submission.project.other_title %>. </li>
+        <%= review_comments_div(reviews, 'other_text').html_safe %>
+      <% end %>
+
+      <% if submission.project.show_completion_score %>
+        <li> <%= submission.project.completion_title %>. </li>
+        <%= review_comments_div(reviews, 'completion_text').html_safe %>
+      <% end %>
+    </ol>
+    <h3>Overall review comments</h3>
+    <%= review_comments_div(reviews, 'overall_text').html_safe %>
+  </div>
+<% end %>
+
+<% if submission.project.show_composite_scores_to_applicants or
+      is_admin? or
+      (submission.project.show_composite_scores_to_reviewers and reviewer_ids.include?(current_user_session.id) ) %>
+  <h3>Application scores </h3>
+  <div id="composite_scores">
+    <ul>
+      <% unless submission.composite_scores.blank? || submission.composite_scores.to_s == '0' %>
+        <li> Composite score: <%= submission.composite_scores %>  </li>
+      <% end %>
+      <li> Overall score: <%= submission.overall_scores %></li>
+    </ul>
+  </div>
+<% end %>
+<div class="final_line">&nbsp;</div>

@@ -6,10 +6,10 @@ class SubmissionsController < ApplicationController
   # GET /submissions.xml
   def index
     #project/:project_id/submissions should be the only way to get here
-    
+
     projects = Project.find_all_by_id(params[:project_id])
     @project = projects[0] unless projects.blank?
-    @submissions = Submission.associated(projects.collect(&:id), current_user_session.id) 
+    @submissions = Submission.associated(projects.collect(&:id), current_user_session.id)
     if @submissions.nil?
       render :inline, "user not found"
     else
@@ -21,7 +21,7 @@ class SubmissionsController < ApplicationController
   end
 
   def all
-    @submissions = Submission.associated_with_user(current_user_session.id) 
+    @submissions = Submission.associated_with_user(current_user_session.id)
     @title = "All your submissions"
     if @submissions.nil?
       render :inline, "user not found"
@@ -36,15 +36,15 @@ class SubmissionsController < ApplicationController
   # GET /submissions/1
   # GET /submissions/1.xml
   def show
-    @submission = Submission.find_by_id(params[:id])
+    @submission = Submission.find(params[:id])
     @submissions = Submission.associated_with_user(current_user_session.id)
     @submission_reviews = @submission.submission_reviews
     if !@submission.blank? and (has_read_all?(@submission.project.program) or @submissions.map(&:id).include?(@submission.id) or @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
         format.html { render :layout=>'pdf' }# show.html.erb
         format.pdf do
-           render :pdf => @submission.submission_title, 
-              :stylesheets => ["pdf"], 
+           render :pdf => @submission.submission_title,
+              :stylesheets => ["pdf"],
               :layout => "pdf"
         end
         format.xml  { render :xml => @submission }
@@ -61,11 +61,10 @@ class SubmissionsController < ApplicationController
   # GET /submissions/new
   # GET /submissions/new.xml
   def new
-    @applicant = User.find_by_id(params[:applicant_id]||current_user_session.id)
-    @project = Project.find_by_id(params[:project_id])
+    @applicant = User.find(params[:applicant_id] || current_user_session.id)
+    @project = Project.find(params[:project_id])
     unless @applicant.blank? or @project.blank?
-      @submission = Submission.new(:applicant_id=>@applicant.id, :project_id=>@project.id)
-
+      @submission = Submission.new(:applicant_id => @applicant.id, :project_id => @project.id)
       respond_to do |format|
         format.html # new.html.erb
         format.xml  { render :xml => @submission }
@@ -89,8 +88,8 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.xml
   def create
-    @applicant = User.find_by_id(params[:applicant_id])
-    @project = Project.find_by_id(params[:project_id])
+    @applicant = User.find(params[:applicant_id])
+    @project = Project.find(params[:project_id])
     @submission = Submission.new(params[:submission])
     unless @applicant.blank? or @project.blank? or @submission.blank?
       @submission.max_budget_request = @project.max_budget_request || 50000
@@ -115,7 +114,7 @@ class SubmissionsController < ApplicationController
         end
       end
     else
-      if @project.blank? 
+      if @project.blank?
         redirect_to(projects_path)
       else
         redirect_to(project_path(@project.id))
@@ -162,7 +161,7 @@ class SubmissionsController < ApplicationController
     submission = Submission.find(params[:id])
     before_update(submission)
     unless params[:applicant_id].blank?
-      applicant = User.find(params[:applicant_id]) 
+      applicant = User.find(params[:applicant_id])
       submission.applicant_id  =  applicant.id
     end
     respond_to do |format|
@@ -192,7 +191,7 @@ class SubmissionsController < ApplicationController
     project = Project.find(submission.project_id)
     if is_admin? or ((is_current_user?(submission.created_id) or is_current_user?(submission.applicant_id)) and  submission.project.submission_open_date < Date.today and submission.project.submission_close_date >=  Date.today)
       flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
-      submission.destroy 
+      submission.destroy
     else
       flash[:errors] = "Submission  <i>#{submission.submission_title}</i> could not be deleted"
     end
@@ -207,15 +206,15 @@ class SubmissionsController < ApplicationController
   def edit_documents
     edit
   end
-  
+
   private
-  
+
   def handle_usernames(submission)
     make_user(submission.core_manager_username)
     make_user(submission.effort_approver_username)
     make_user(submission.department_administrator_username)
   end
-  
+
   def handle_if_final(submission, final_string)
     return unless final_string =~ /final/i
     logger.error("sending email")
@@ -223,6 +222,6 @@ class SubmissionsController < ApplicationController
     log_request("sending finalize email")
     send_finalize_email(submission, current_user_session)
   end
-  
-  
+
+
 end

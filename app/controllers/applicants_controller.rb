@@ -1,9 +1,9 @@
 class ApplicantsController < ApplicationController
-  helper :applicants 
+  helper :applicants
   include ApplicationHelper
-  
+
   before_filter :set_project
-  
+
   # GET /applicants
   # GET /applicants.xml
   def index
@@ -44,7 +44,7 @@ class ApplicantsController < ApplicationController
     else
       @applicant = User.find_by_username(params[:username]||current_user_session.username||current_user.username)
       if @applicant.blank?
-        @applicant = User.new(:username=>(params[:username]||current_user_session.username||current_user.username)) 
+        @applicant = User.new(:username=>(params[:username]||current_user_session.username||current_user.username))
         @applicant = handle_ldap(@applicant)
       end
 
@@ -80,7 +80,7 @@ class ApplicantsController < ApplicationController
     if @applicant.blank?
       @applicant = User.new(params[:applicant])
     end
-    if request.post? or request.put? 
+    if request.post? or request.put?
       @applicant.validate_for_applicant = true
       @applicant.validate_era_commons_name = false
       @applicant.validate_era_commons_name = current_project.require_era_commons_name if ! current_project.blank?
@@ -156,20 +156,20 @@ class ApplicantsController < ApplicationController
   end
 
   private
-  def update_todo_completed_date(newval) 
-    @user = User.find(params[:id]) 
-    @todo = @user.todos.find(params[:todo]) 
+  def update_todo_completed_date(newval)
+    @user = User.find(params[:id])
+    @todo = @user.todos.find(params[:todo])
     @todo.completed = newval
-    @todo.save! 
-    @completed_todos = @user.completed_todos 
+    @todo.save!
+    @completed_todos = @user.completed_todos
     @pending_todos = @user.pending_todos
     render :update do |page|
-      page.replace_html 'pending_todos', :partial => 'pending_todos' 
-      page.replace_html 'completed_todos', :partial => 'completed_todos' 
+      page.replace_html 'pending_todos', :partial => 'pending_todos'
+      page.replace_html 'completed_todos', :partial => 'completed_todos'
       page.sortable "pending_todo_list", :url=>{:action=>:sort_pending_todos, :id=>@user}
-    end 
+    end
   end
-  
+
   def set_project
     unless params[:project_id].blank?
       @project = Project.find(params[:project_id])
@@ -178,5 +178,5 @@ class ApplicantsController < ApplicationController
       @project = Project.find(current_project.id)
     end
   end
-  
+
 end
