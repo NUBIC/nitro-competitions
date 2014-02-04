@@ -1,5 +1,0 @@
-.DS_Store
-db/*.out
-.powrc
-.rvmrc
-tmp/restart.txt
