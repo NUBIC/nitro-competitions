@@ -2,22 +2,29 @@
 require 'spec_helper'
 
 describe ReviewersController do
-  describe 'GET index' do
-    it 'renders the page' do
-      get :index
-      response.should be_success
-      assigns[:assigned_submission_reviews].should eq []
-    end
-  end
 
-  describe 'GET edit' do
-    let(:review) { FactoryGirl.create(:submission_review) }
-    it 'redirects to projects_path' do
-      get :edit, :id => review.id, :project_id => review.project.id
-      response.should redirect_to(project_path(review.project))
+  context 'with a logged in user' do
+    before do
+      login(user_login)
     end
-  end
 
+    describe 'GET index' do
+      it 'renders the page' do
+        get :index
+        response.should be_success
+        assigns[:assigned_submission_reviews].should eq []
+      end
+    end
+
+    describe 'GET edit' do
+      let(:review) { FactoryGirl.create(:submission_review) }
+      it 'redirects to projects_path' do
+        get :edit, id: review.id, project_id: review.project.id
+        response.should redirect_to(project_path(review.project))
+      end
+    end
+
+  end
   ##
   # TODO: these specs pass when running alone when run as a suite
   #       they fail. figure out how to reset session for specs

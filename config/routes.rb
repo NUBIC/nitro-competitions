@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 NucatsAssist::Application.routes.draw do
-  resources :file_documents, :only => :show
-  resources :audits, :only => :index do
+  resources :file_documents, only: :show
+  resources :audits, only: :index do
     collection do
       get :activities
       get :login_data
@@ -18,13 +19,13 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :sponsors, :only => [:index, :show, :edit, :update] do
+  resources :sponsors, only: [:index, :show, :edit, :update] do
     member do
       get :contact
     end
-    resources :roles, :only => [:index, :show] do
-      resources :users, :only => [] do
-        resources :rest, :only => [] do
+    resources :roles, only: [:index, :show] do
+      resources :users, only: [] do
+        resources :rest, only: [] do
           member do
             get :remove
             get :add
@@ -39,12 +40,12 @@ NucatsAssist::Application.routes.draw do
       get :all_reviews
     end
     resources :applicants do
-      resources :submissions, :only => [:new, :create]
+      resources :submissions, only: [:new, :create]
     end
 
-    resources :submissions, :only => :index
-    resources :approvers, :only => [:index, :update]
-    resources :reviewers, :only => [:index, :edit, :update, :destroy] do
+    resources :submissions, only: :index
+    resources :approvers, only: [:index, :update]
+    resources :reviewers, only: [:index, :edit, :update, :destroy] do
       collection do
         get :all_reviews
         get :complete_listing
@@ -56,7 +57,7 @@ NucatsAssist::Application.routes.draw do
         post :save_review_item
       end
     end
-    resources :admins, :only => :index do
+    resources :admins, only: :index do
       collection do
         get :reviews
         get :view_applicants
@@ -80,7 +81,7 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :submissions, :except => :index do
+  resources :submissions, except: :index do
     collection do
       get :all
     end
@@ -92,8 +93,8 @@ NucatsAssist::Application.routes.draw do
       get :edit_documents
       post :edit_documents
     end
-    resources :reviews, :only => [:index]
-    resources :key_personnel, :except => :new do
+    resources :reviews, only: [:index]
+    resources :key_personnel, except: :new do
       collection do
         get :add_new
         post :add_new
@@ -103,7 +104,9 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :applicants, :except => [:destroy]
+  resources :applicants, except: [:destroy]
+  root to: 'public#welcome'
+  match 'welcome' => 'public#welcome', :as => :welcome
   match 'competitions/:program_name/:project_name' => 'projects#show', :as => :show_competition
   match 'competitions/:program_name' => 'projects#index', :as => :competitions
   match 'role/:id/add_user/:user_id' => 'roles#add_user', :as => :add_user_role
@@ -111,8 +114,6 @@ NucatsAssist::Application.routes.draw do
   match 'projects' => 'projects#index', :as => :login_target
   match 'review/:id/update_item' => 'reviews#update_item', :as => :update_review_item
   match 'applicants/username_lookup/:id' => 'applicants#username_lookup', :as => :netid_lookup
-  match 'welcome' => 'public#welcome', :as => :welcome
-  match '/' => 'public#welcome'
   match 'logout' => 'access#logout', :as => :logout
   match '/:controller(/:action(/:id))'
 end

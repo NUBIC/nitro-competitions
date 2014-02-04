@@ -26,21 +26,27 @@ describe ProjectsController do
   describe 'POST create' do
     context 'for a non-admin user' do
       it 'assigns variables' do
-        post :create, :project => {}
+        post :create, project: {}
         assigns[:project].should_not be_nil
       end
       it 'redirects to projects_path' do
-        post :create, :project => {}
+        post :create, project: {}
         response.should redirect_to(projects_path)
       end
     end
   end
 
-  describe 'GET show' do
-    it 'renders the page' do
-      project = FactoryGirl.create(:project)
-      get :show, :id => project
-      response.should be_success
+  context 'with a logged in user' do
+    before do
+      login(user_login)
+    end
+
+    describe 'GET show' do
+      it 'renders the page' do
+        project = FactoryGirl.create(:project)
+        get :show, id: project
+        response.should be_success
+      end
     end
   end
 
@@ -48,7 +54,7 @@ describe ProjectsController do
     context 'for a non-admin user' do
       it 'redirects to the project_path' do
         project = FactoryGirl.create(:project)
-        get :edit, :id => project
+        get :edit, id: project
         response.should redirect_to(project_path(project))
       end
     end
@@ -58,7 +64,7 @@ describe ProjectsController do
     context 'for a non-admin user' do
       it 'renders the show template' do
         project = FactoryGirl.create(:project)
-        put :update, :id => project, :project => {}
+        put :update, id: project, project: {}
         response.should render_template('projects/show')
       end
     end
@@ -68,11 +74,10 @@ describe ProjectsController do
     context 'for a non-admin user' do
       it 'redirects to the projects_path' do
         project = FactoryGirl.create(:project)
-        delete :destroy, :id => project
+        delete :destroy, id: project
         assigns[:project].should_not be_nil
         response.should redirect_to(projects_path)
       end
     end
   end
-
 end
