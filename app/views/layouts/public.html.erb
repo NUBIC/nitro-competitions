@@ -5,6 +5,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>NUCATS Assist: <%= controller.action_name %></title>
+  <%= javascript_include_tag 'application' %>
   <%= stylesheet_link_tag 'application' %>
 	<link rel="shortcut icon" href='<%= image_path("favicon.ico") -%>' />
 	<style type="text/css">
@@ -28,10 +29,12 @@
   </NOSCRIPT>
 <% if Rails.env != 'production' %>
     <div id="debug" style="margin: 5px 5px 5px 5px;">
-        <a href="#" onclick="Element.toggle('debug_info');return false" style="text-decoration: none; color: #999;">Show Debug Info &#10162;</a>
+        <a href="#" onclick="jQuery('#debug_info').toggle();" style="text-decoration: none; color: #999;">Show Debug Info &#10162;</a>
         <div id="debug_info" style="display : none;">
-            <%= debug session %>
-            <%= debug params %>
+          <h4>Session</h4><%= debug(session) %>
+          <h4>Params</h4><%= debug(params) %>
+          <h4>Current_User</h4><%= debug(current_user) if defined?(current_user) %>
+          <h4>Current_User_Session</h4><%= debug(current_user_session) if defined?(current_user_session) %>
         </div>
     </div>
 	<div class="h1" style="color:red;">This is the development/testing version. Data will not be kept!</div>

@@ -8,19 +8,35 @@ class ApplicationController < ActionController::Base
   include RolesHelper
   include ApplicationHelper
 
-  include Aker::Rails::SecuredController unless Rails.env == 'test'
-
   # make these accessible in a view
   helper_method :current_user_session
 
   require 'ldap_utilities' # specific ldap methods
   require 'config' # adds program_name method
 
-
   before_filter :check_ips, except: [:check_ips, :disallowed, :welcome]
-  before_filter :check_session, except: [:login, :welcome] unless Rails.env == 'test'
-  after_filter :log_request, except: [:login, :username_lookup, :add_user, :remove_user, :add_key_personnel, :remove_key_personnel, :lookup, :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data, :reviewer_data, :review_data, :login_data, :welcome, :update_item]
+  # before_filter :check_session, except: [:login, :welcome] unless Rails.env == 'test'
+  before_filter :login_required, except: [:login, :welcome] unless Rails.env == 'test'
 
+  after_filter :log_request, except: [:login, :username_lookup, :lookup, :welcome, :update_item,
+                                      :add_user, :remove_user, :add_key_personnel, :remove_key_personnel,
+                                      :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data,
+                                      :reviewer_data, :review_data, :login_data]
+
+  ##
+  # For authorization using lib/nucats_membership.rb
+  # as omniauth authority
+  def login_required
+    redirect_to '/auth/nucatsmembership' unless current_user
+  end
+
+  ##
+  # Check the session for user_info
+  # @return [User]
+  def current_user
+    return nil unless session[:user_info]
+    @current_user ||= User.where(email: session[:user_info]['info']['email']).first
+  end
 
   def check_ips
     redirect_to controller: 'public', action: 'disallowed' if disallowed_ip(get_client_ip)

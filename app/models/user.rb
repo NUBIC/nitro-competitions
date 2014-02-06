@@ -140,4 +140,101 @@ class User < ActiveRecord::Base
     self.biosketch.save if !self.biosketch.nil? and self.biosketch.changed?
   end
 
+  ##
+  # This method will attempt to find an existing User record
+  # with information obtained in the omniauth hash.
+  #
+  # First it will look for an existing User matching some data in the omniauth hash
+  # @see find_user_from_omniauth
+  #
+  # @param [OmniAuth::AuthHash]
+  # @return User
+  def self.find_or_create_from_omniauth(omniauth)
+    user = find_user_from_omniauth(omniauth)
+    user = create_user_from_omniauth(omniauth) if user.blank?
+    user
+  end
+
+  def self.create_user_from_omniauth(omniauth)
+    # New user registration
+    user = User.new(email: omniauth['info']['email'])
+    if user
+      user.username = extract_username_from_omniauth(omniauth)
+      user.first_name = omniauth['info']['first_name']
+      user.last_name  = omniauth['info']['last_name']
+      user.save!
+    end
+    user
+  end
+  private_class_method :create_user_from_omniauth
+
+  def self.extract_username_from_omniauth(omniauth)
+    result = omniauth['info']['email']
+    unless omniauth['extra']['person_identities'].blank?
+      omniauth['extra']['person_identities'].each do |identity|
+        if identity['provider_username'].blank?
+          result = identity['email']
+        else
+          result = identity['provider_username']
+          break if identity['domain'] == 'nu'
+        end
+      end
+    end
+    result
+  end
+  private_class_method :extract_username_from_omniauth
+
+  ##
+  # Find a User record matching data in the given omniauth hash.
+  #
+  # First check against email as that is easiest.
+  #
+  # If no User exists with that email then loop over the
+  # identity records from the omniauth hash and look for the matching
+  # User record first by username then by email.
+  #
+  # We intimately know what the omniauth['extra']['person_identities']
+  # hash contains and how new Users are created from this data.
+  #
+  # @param [OmniAuth::AuthHash]
+  # @return User or nil
+  def self.find_user_from_omniauth(omniauth)
+    email = omniauth['info']['email']
+    user = User.where(email: email).first unless email.blank?
+    if user.blank? && !omniauth['extra']['person_identities'].blank?
+      user = find_user_from_authentication_provider(omniauth['extra']['person_identities'])
+    end
+    user
+  end
+  private_class_method :find_user_from_omniauth
+
+  ##
+  # Use the record in the hash where the domain is nu to match
+  # the User username (i.e. nu netid) before searching via other means
+  def self.find_user_from_authentication_provider(identities)
+    identity = identities.find { |pi| pi['domain'] == 'nu' }
+    user = find_user_using_identity(identity)
+    if user.blank?
+      identities.each do |identity|
+        user = find_user_using_identity(identity)
+        break unless user.blank?
+      end
+    end
+    user
+  end
+  private_class_method :find_user_from_authentication_provider
+
+  ##
+  # Loop through all identities in omniauth hash to locate a user by
+  # email or username
+  def self.find_user_using_identity(identity)
+    username = identity['provider_username']
+    user = User.where(username: username).first unless username.blank?
+    if user.blank?
+      email = identity['email']
+      user = User.where(username: email).first unless email.blank?
+    end
+    user
+  end
+  private_class_method :find_user_using_identity
 end

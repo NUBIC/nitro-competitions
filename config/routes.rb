@@ -104,6 +104,13 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
+  # omniauth
+  match '/auth/:provider/callback', to: 'user_sessions#create'
+  match '/auth/failure', to: 'user_sessions#failure'
+
+  # Custom logout
+  match '/signout', to: 'user_sessions#destroy'
+
   resources :applicants, except: [:destroy]
   root to: 'public#welcome'
   match 'welcome' => 'public#welcome', :as => :welcome
