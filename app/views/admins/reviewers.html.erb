@@ -1,45 +1,50 @@
 <!-- START: styles -->
 <style>
-.hover {
-  background-color: #888888;
-}
-#assigned_submissions ul li, #unassigned_submissions ul li {
-  list-style: none;
-  cursor: -moz-grab;
-}
-#assigned_submissions, #unassigned_submissions {
-  border: 1px solid gray;
-}
-
+  .hover {
+    background-color: #888888;
+  }
+  #assigned_submissions ul li, #unassigned_submissions ul li {
+    list-style: none;
+    cursor: -moz-grab;
+  }
+  #assigned_submissions, #unassigned_submissions {
+    border: 1px solid gray;
+  }
 </style>
 
-<table class="borderless" style="width:100%;">
-<tr>
-	<td class="h2" style="width:60%;">Reviewers</td><td class="h2" >Unassigned Submissions</td>
-</tr>
-<tr>
-	<td style="width:60%;"><%= render :partial=>"reviewers", :locals=>{:reviewers=>@reviewers, :project=>@project} %>
-	
-	</td>
-	<td style="height:500%;" id="unassigned_submissions2"><div style="height:50px;" id="unassigned_submissions">
-		<%= render :partial=>"unassigned_submissions", :locals=>{:unfilled_submissions=>@unfilled_submissions} %>
-	</div>
-	</td>
-</tr>
+<table class='borderless' style='width:100%;'>
+  <tr>
+    <td class='h2' style='width:60%;'>
+      Reviewers
+    </td>
+    <td class='h2'>
+      Unassigned Submissions
+    </td>
+  </tr>
+  <tr>
+    <td style='width:60%;'>
+      <%= render 'reviewers', reviewers: @reviewers, project: @project %>
+    </td>
+    <td style='height:500%;' id='unassigned_submissions2'>
+      <div style='height:50px;' id='unassigned_submissions'>
+        <%= render 'unassigned_submissions', unfilled_submissions: @unfilled_submissions %>
+      </div>
+    </td>
+  </tr>
 </table>
-
 
 <!-- START: define targets - need this just once -->
 <%= drop_receiving_element('unassigned_submissions2',
-	:accept     => 'assigned_submission', 
-	:hoverclass => 'hover',
-	:complete   => "$('spinner').hide();",
-	:before     => "$('spinner').show();",
-	:confirm => "Are you sure you want to delete this review?",
-	:with       => "'submission_review_id=' + encodeURIComponent(element.id.split('_').last())",
-	:url        => {:action=>:unassign_submission}) %>
+      accept:     'assigned_submission',
+      hoverclass: 'hover',
+      complete:   "$('spinner').hide();",
+      before:     "$('spinner').show();",
+      confirm:    "Are you sure you want to delete this review?",
+      with:       "'submission_review_id=' + encodeURIComponent(element.id.split('_').last())",
+      url:        { action: :unassign_submission }) %>
 <!-- END: define targets -->
 
-<h2>Add Reviewers <%= netid_lookup_tag %></h2>
-<%= render :partial=>"add_reviewers_form", :locals=>{:project=>@project} %>
-
+<h2>
+  Add Reviewers <%= netid_lookup_tag %>
+</h2>
+<%= render 'add_reviewers_form', project: @project %>

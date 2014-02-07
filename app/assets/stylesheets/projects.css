@@ -1,0 +1,22 @@
+div.project {
+  float: left;
+  width: 98%;
+  border: 1px solid gray;
+  margin-bottom: 1em;
+  padding: 1em 0.5em;
+}
+
+div.apply {
+  float: left;
+  width: 10%;
+}
+
+div.project_details {
+  width: 55%;
+  float: left;
+}
+
+div.project_actions {
+  width: 30%;
+  float: left;
+}
