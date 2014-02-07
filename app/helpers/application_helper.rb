@@ -1,4 +1,5 @@
-# encoding: UTF-8
+# -*- coding: utf-8 -*-
+
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
@@ -38,11 +39,7 @@ module ApplicationHelper
 
   def is_logged_in?
     return false unless defined?(current_user)
-    begin
-      return ! current_user.blank?
-    rescue
-    end
-    false
+    !current_user.blank?
   end
 
   def current_program
@@ -56,24 +53,24 @@ module ApplicationHelper
 
   def set_session_project(project_id)
     session[:project_id] = project_id if session_exists?
-    if (defined?(@@project) and ! @@project.id.blank? and ! project_id.blank? and project_id != @@project.id)
+    if project_set? && ! project_id.blank? && project_id != @@project.id
       @@project = Project.find(project_id)
     end
-    if (! defined?(@@project) or @@project.id.blank?)
+    if (!defined?(@@project) || @@project.id.blank?)
       @@project = Project.find(project_id) unless project_id.blank?
     end
     current_project
   end
 
   def current_project
-    begin
-      if defined?(@@project)
-        return @@project unless (@@project).blank? || (@@project).id.blank?
-      end
-    rescue
-    end
+    return @@project if project_set?
+
     @@project = handle_set_project
     @@project
+  end
+
+  def project_set?
+    defined?(@@project) && ! @@project.blank? && ! @@project.id.blank?
   end
 
   def handle_set_project
@@ -183,14 +180,14 @@ module ApplicationHelper
     return unless session_exists?
     return if session[:user_id].blank?
     log_entry = Log.create(
-        :user_id => session[:user_id],
-        :activity => activity || self.controller_name + ":" + self.action_name,
-        :project_id => current_project.id,
-        :program_id => current_program.id,
-        :controller_name => self.controller_name,
-        :action_name => self.action_name,
-        :created_ip => request.remote_ip,
-        :params => (defined?(params) ? params.inspect : nil))
+        user_id: session[:user_id],
+        activity: activity || controller_name + ':' + action_name,
+        project_id: current_project.id,
+        program_id: current_program.id,
+        controller_name: controller_name,
+        action_name: action_name,
+        created_ip: request.remote_ip,
+        params: (defined?(params) ? params.inspect : nil))
      log_entry.save
   end
 
@@ -347,16 +344,17 @@ module ApplicationHelper
       :with => "'username=' + encodeURIComponent(value)")
   end
 
-  def netid_lookup_function(field_name, include_span_tag=true)
-    text =""
-    text+= "<span id='#{field_name}_id'></span>" if include_span_tag
-    if do_ajax? then
-      text+= javascript_tag do
-        remote_function( :update =>  {:success => field_name.to_s+"_id", :failure => 'flash_notice'},
-            :before => "Element.show('spinner')",
-            :complete => "Element.hide('spinner')",
-            :url => {:controller=>'applicants', :action=>'username_lookup', :only_path => false},
-            :with => "'username='+encodeURIComponent( $('"+field_name.to_s+"').getValue())")
+  def netid_lookup_function(field_name, include_span_tag = true)
+    text = ''
+    text += "<span id='#{field_name}_id'></span>" if include_span_tag
+    if do_ajax?
+      text += javascript_tag do
+        remote_function(
+          update: { success: "#{field_name}_id", failure: 'flash_notice' },
+          before: "Element.show('spinner')",
+          complete: "Element.hide('spinner')",
+          url: { controller: 'applicants', action: 'username_lookup', only_path: false },
+          with: "'username=' + encodeURIComponent( $('" + field_name.to_s + "').getValue())")
       end
     end
     text

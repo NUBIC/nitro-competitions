@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+#
 # Controller class to help with logging in and out of
-# the application
+# the application.
+# /auth/:provider/callback gets routed to user_sessions#create
+# /auth/failure gets routed to user_sessions#failure
+# /signout gets routed to user_sessions#destro
+# @see routes.rb
 class UserSessionsController < ApplicationController
   before_filter :login_required, only: [:destroy]
 
@@ -8,18 +13,17 @@ class UserSessionsController < ApplicationController
 
   # omniauth callback method
   def create
-    # TODO: determine how often this method gets called
     omniauth = env['omniauth.auth']
     User.find_or_create_from_omniauth(omniauth)
-    # Storing all the info
-    session[:user_info] = omniauth
+    session[:user_info] = omniauth # Store all the info
     flash[:notice] = 'Successfully logged in'
     redirect_to '/projects'
   end
 
   # Omniauth failure callback
   def failure
-    flash[:notice] = params[:message]
+    flash[:errors] = params[:message].to_s.titleize
+    redirect_to '/welcome'
   end
 
   # signout - Clear our rack session user_info
