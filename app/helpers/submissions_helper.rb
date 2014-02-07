@@ -179,7 +179,7 @@ module SubmissionsHelper
       link_to_file(submission.application_document_id,
                    'Application',
                    'document',
-                   'Application ',
+                   nil,
                    true,
                    edit_documents_submission_path(submission.id),
                    lookup),

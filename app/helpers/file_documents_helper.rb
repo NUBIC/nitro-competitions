@@ -11,7 +11,7 @@ module FileDocumentsHelper
         return image_tag('warning_16.png', width: '16px', height: '16px')
       else
         mouse_over ||= ''
-        return link_to(link_text, required_path, title: "Please upload #{link_text + mouse_over}", class: 'warning_16')
+        return link_to(link_text, required_path, title: "Please upload #{link_text} #{mouse_over}".strip, class: 'warning_16')
       end
     end
     if lookup_file_type
