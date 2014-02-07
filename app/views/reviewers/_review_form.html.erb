@@ -1,78 +1,161 @@
 <h2>Scores</h2>
-<div id="scores">
+<div id='scores'>
   <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
-<ol>
-  <% if submission_review.submission.project.show_impact_score %>
-  <li> <%= submission_review.submission.project.impact_title %>. <%= submission_review.submission.project.impact_wording %>  <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.impact_title %> score:</span> <%= f.text_field :impact_score, :size => 4  %><br/>
-    <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :impact_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("impact_score", "#{submission_review.id}") %>
-  <%= review_item_observer("impact_text", "#{submission_review.id}") %>
-  </li>
-  <% end %>
+  <ol>
+    <% if submission_review.submission.project.show_impact_score %>
+      <li>
+        <%= submission_review.submission.project.impact_title %>.
+        <%= submission_review.submission.project.impact_wording %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          <%= submission_review.submission.project.impact_title %> score:
+        </span>
+        <%= f.text_field :impact_score, :size => 4  %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :impact_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+        <%= review_item_observer("impact_score", "#{submission_review.id}") %>
+        <%= review_item_observer("impact_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-  <% if submission_review.submission.project.show_team_score %>
-  <li> <%= submission_review.submission.project.team_title %>. <%= submission_review.submission.project.team_wording %> <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.team_title %> score:</span>  <%= f.text_field :team_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :team_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("team_score", "#{submission_review.id}") %>
-  <%= review_item_observer("team_text", "#{submission_review.id}") %>
-  </li>
-  <% end %>
+    <% if submission_review.submission.project.show_team_score %>
+      <li>
+        <%= submission_review.submission.project.team_title %>.
+        <%= submission_review.submission.project.team_wording %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          <%= submission_review.submission.project.team_title %> score:
+        </span>
+        <%= f.text_field :team_score, :size => 4  %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :team_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+        <%= review_item_observer("team_score", "#{submission_review.id}") %>
+        <%= review_item_observer("team_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-  <% if submission_review.submission.project.show_innovation_score %>
-  <li> <%= submission_review.submission.project.innovation_title %>. <%= submission_review.submission.project.innovation_wording %>  <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.innovation_title %> score:</span>  <%= f.text_field :innovation_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :innovation_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("innovation_score", "#{submission_review.id}") %>
-  <%= review_item_observer("innovation_text", "#{submission_review.id}") %>
-  </li>
-  <% end %>
+    <% if submission_review.submission.project.show_innovation_score %>
+      <li>
+        <%= submission_review.submission.project.innovation_title %>.
+        <%= submission_review.submission.project.innovation_wording %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          <%= submission_review.submission.project.innovation_title %> score:
+        </span>
+        <%= f.text_field :innovation_score, :size => 4 %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :innovation_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+        <%= review_item_observer("innovation_score", "#{submission_review.id}") %>
+        <%= review_item_observer("innovation_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-  <% if submission_review.submission.project.show_scope_score %>
-  <li> <%= submission_review.submission.project.scope_title %>. <%= submission_review.submission.project.scope_wording %> <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.scope_title %> score:</span>  <%= f.text_field :scope_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :scope_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("scope_score", "#{submission_review.id}") %>
-  <%= review_item_observer("scope_text", "#{submission_review.id}") %>
-  </li>
-  <% end %>
+    <% if submission_review.submission.project.show_scope_score %>
+      <li>
+        <%= submission_review.submission.project.scope_title %>.
+        <%= submission_review.submission.project.scope_wording %>
+        <br/>
+        <span style="float: left;width:325px;">
+          <%= submission_review.submission.project.scope_title %> score:
+        </span>
+        <%= f.text_field :scope_score, :size => 4 %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :scope_text, { :rows => 5, :cols => 80, :wrap=>"virtual" } %>
+        <%= review_item_observer("scope_score", "#{submission_review.id}") %>
+        <%= review_item_observer("scope_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-  <% if submission_review.submission.project.show_environment_score %>
-  <li> <%= submission_review.submission.project.environment_title %>. <%= submission_review.submission.project.environment_wording %> <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.environment_title %> score:</span>  <%= f.text_field :environment_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :environment_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("environment_score", "#{submission_review.id}") %>
-  <%= review_item_observer("environment_text", "#{submission_review.id}") %>
-  </li>
-  <% end %>
+    <% if submission_review.submission.project.show_environment_score %>
+      <li>
+        <%= submission_review.submission.project.environment_title %>.
+        <%= submission_review.submission.project.environment_wording %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          <%= submission_review.submission.project.environment_title %> score:
+        </span>
+        <%= f.text_field :environment_score, :size => 4 %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :environment_text, { :rows => 5, :cols => 80, :wrap=>"virtual" } %>
+        <%= review_item_observer("environment_score", "#{submission_review.id}") %>
+        <%= review_item_observer("environment_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-  <% if submission_review.submission.project.show_budget_score %>
-  <li> <%= submission_review.submission.project.budget_title %>. <%= submission_review.submission.project.budget_wording %> <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.budget_title %> score:</span>  <%= f.text_field :budget_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :budget_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("budget_score", "#{submission_review.id}") %>
-  <%= review_item_observer("budget_text", "#{submission_review.id}") %>
-   </li>
-  <% end %>
+    <% if submission_review.submission.project.show_budget_score %>
+      <li>
+        <%= submission_review.submission.project.budget_title %>.
+        <%= submission_review.submission.project.budget_wording %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          <%= submission_review.submission.project.budget_title %> score:
+        </span>
+        <%= f.text_field :budget_score, :size => 4 %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :budget_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+        <%= review_item_observer("budget_score", "#{submission_review.id}") %>
+        <%= review_item_observer("budget_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-  <% if submission_review.submission.project.show_other_score %>
-  <li> <%= submission_review.submission.project.other_title %>. <%= submission_review.submission.project.other_wording %> <br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.other_title %> score:</span>  <%= f.text_field :other_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"> Strengths and weaknesses</span> <%= f.text_area :other_text, {:rows => 5, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("other_score", "#{submission_review.id}") %>
-  <%= review_item_observer("other_text", "#{submission_review.id}") %>
-   </li>
-  <% end %>
+    <% if submission_review.submission.project.show_other_score %>
+      <li>
+        <%= submission_review.submission.project.other_title %>.
+        <%= submission_review.submission.project.other_wording %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          <%= submission_review.submission.project.other_title %> score:
+        </span>
+        <%= f.text_field :other_score, :size => 4 %>
+        <br/>
+        <span style='float: left; width:325px;'>
+          Strengths and weaknesses
+        </span>
+        <%= f.text_area :other_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+        <%= review_item_observer("other_score", "#{submission_review.id}") %>
+        <%= review_item_observer("other_text", "#{submission_review.id}") %>
+      </li>
+    <% end %>
 
-<div style="background-color:#226;margin-top:10px;margin-bottom:10px;margin-left:-30px;">&nbsp;</div>
-<p>
-  <p><%= submission_review.submission.project.overall_impact_title %>. <%= submission_review.submission.project.overall_impact_description %> </p>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.overall_impact_title %> score:</span>  <%= f.text_field :overall_score, :size => 4  %><br/>
-  <span style="float: left;width:325px;"><%= submission_review.submission.project.overall_impact_direction %> </span>  <%= f.text_area :overall_text, {:rows => 12, :cols => 80, :wrap=>"virtual"}  %>
-  <%= review_item_observer("overall_score", "#{submission_review.id}") %>
-  <%= review_item_observer("overall_text", "#{submission_review.id}") %>
-</p>
+    <div style="background-color:#226;margin-top:10px;margin-bottom:10px;margin-left:-30px;">
+      &nbsp;
+    </div>
 
-</ol>
+    <p>
+      <p>
+        <%= submission_review.submission.project.overall_impact_title %>.
+        <%= submission_review.submission.project.overall_impact_description %>
+      </p>
+      <span style='float: left; width:325px;'>
+        <%= submission_review.submission.project.overall_impact_title.html_safe %> score:
+      </span>
+      <%= f.text_field :overall_score, :size => 4 %>
+      <br/>
+      <span style='float: left; width:325px;'>
+        <%= submission_review.submission.project.overall_impact_direction.html_safe %>
+      </span>
+      <%= f.text_area :overall_text, {:rows => 12, :cols => 80, :wrap=>"virtual"} %>
+      <%= review_item_observer("overall_score", "#{submission_review.id}") %>
+      <%= review_item_observer("overall_text", "#{submission_review.id}") %>
+    </p>
+
+  </ol>
 </div>
