@@ -7,7 +7,7 @@
 # /signout gets routed to user_sessions#destro
 # @see routes.rb
 class UserSessionsController < ApplicationController
-  before_filter :login_required, only: [:destroy]
+  before_filter :authenticate_user, only: [:destroy]
 
   respond_to :html
 

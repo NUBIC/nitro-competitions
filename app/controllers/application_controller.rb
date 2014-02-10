@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   include RolesHelper
   include ApplicationHelper
 
+  include Aker::Rails::SecuredController unless Rails.application.config.use_omniauth
+
   # make these accessible in a view
   helper_method :current_user_session
 
@@ -15,27 +17,46 @@ class ApplicationController < ActionController::Base
   require 'config' # adds program_name method
 
   before_filter :check_ips, except: [:check_ips, :disallowed, :welcome]
-  # before_filter :check_session, except: [:login, :welcome] unless Rails.env == 'test'
-  before_filter :login_required, except: [:login, :welcome] unless Rails.env == 'test'
 
   after_filter :log_request, except: [:login, :username_lookup, :lookup, :welcome, :update_item,
                                       :add_user, :remove_user, :add_key_personnel, :remove_key_personnel,
                                       :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data,
                                       :reviewer_data, :review_data, :login_data]
 
+  before_filter :authenticate_user, except: [:login, :welcome] unless Rails.env == 'test'
+
+  ##
+  # With the addition of omniauth as a authentication mechanism, determine
+  # the authentication method to use (aker or omniauth) based on the
+  # `use_omniauth` configuration setting
+  #
+  # TODO: replace this with the preferred authentication mechanism once the
+  #       stakeholders choose which method to use
+  def authenticate_user
+    Rails.application.config.use_omniauth ? login_required : check_session
+  end
+
+  ##
+  # If using omniauth, check the session for user_info
+  # otherwise return the Aker user
+  #
+  # TODO: replace this with the preferred authentication mechanism once the
+  #       stakeholders choose which method to use
+  # @return [User]
+  def current_user
+    if Rails.application.config.use_omniauth
+      return nil unless session[:user_info]
+      @current_user ||= User.where(email: session[:user_info]['info']['email']).first
+    else
+      request.env['aker.check'].user
+    end
+  end
+
   ##
   # For authorization using lib/nucats_membership.rb
   # as omniauth authority
   def login_required
     redirect_to '/auth/nucatsmembership' unless current_user
-  end
-
-  ##
-  # Check the session for user_info
-  # @return [User]
-  def current_user
-    return nil unless session[:user_info]
-    @current_user ||= User.where(email: session[:user_info]['info']['email']).first
   end
 
   def check_ips
