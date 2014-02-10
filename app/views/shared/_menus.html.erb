@@ -4,17 +4,13 @@
 <% @project ||= nil %>
 <div id="banner_menu" class="ddsmoothmenu">
   <ul>
-    <% if is_admin?(@program)  %>
-      <li>
-        <%= link_to "Home", projects_url %>
-      </li>
-    <% elsif is_admin_any_program? %>
+    <% if is_admin_any_program? %>
       <li>
         <%= link_to "Home", sponsors_url %>
       </li>
-    <% elsif ! @project.blank? and ! @project.id.blank? %>
+    <% else %>
       <li>
-        <%= link_to "Home", show_competition_url(@project.program.program_name, @project.project_name) unless @project.project_name.blank? %>
+        <%= link_to "Home", projects_url %>
       </li>
     <% end %>
     <li><%= link_to "Actions", '#' %>
