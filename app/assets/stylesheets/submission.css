@@ -10,7 +10,12 @@ div.submission_info {
   width: 60%;
   float: left;
 }
+
 div.submission_actions {
   width: 35%;
   float: left;
+}
+
+#unassigned_submissions {
+  position: fixed;
 }

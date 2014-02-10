@@ -1,0 +1,69 @@
+#banner {
+  border-bottom: 1px solid #1c1079;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 28px;
+  vertical-align: bottom;
+  text-align: center;
+  font-size: 18px;
+  display: block;
+}
+
+#banner a span {
+  visibility: hidden;
+}
+
+#banner img {
+  float: left;
+}
+
+#banner img banner {
+  width: 100%;
+}
+
+#columns {
+  background: #114411;
+}
+
+#main {
+  display: inline;
+  margin-left: 0px;
+  margin-right: 610px;
+  padding: 0px;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+  background-color: white;
+}
+
+#content {
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 5px;
+  overflow: hidden;
+}
+
+#header {
+  background: #d7dabd;
+  clear: both;
+}
+
+#wrapper {
+  background: #f1f2ea url(../images/transparent.gif) repeat-y right;
+  border: 1px solid gray;
+}
+
+#footer {
+  background: #d7dabd;
+}
+
+#footer-row {
+  float: left;
+  width: 1375px;
+  padding: 8px 0px 8px 0px;
+  font-size: 18px;
+  border-top-width: 1px;
+  border-color: #cccccc;
+  background: white;
+}

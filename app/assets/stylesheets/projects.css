@@ -1,3 +1,7 @@
+div#content {
+  padding: 0 0.5em;
+}
+
 div.project {
   float: left;
   width: 98%;
