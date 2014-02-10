@@ -12,5 +12,6 @@
 //= require amstock
 //= require ddsmoothmenu
 //= require effects
+//= require dragdrop
 //= require facebox
 //= require_self

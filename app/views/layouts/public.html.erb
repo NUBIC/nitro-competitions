@@ -5,7 +5,8 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>NUCATS Assist: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'scaffold' %>
+  <%= javascript_include_tag 'application' %>
+  <%= stylesheet_link_tag 'application' %>
 	<link rel="shortcut icon" href='<%= image_path("favicon.ico") -%>' />
 	<style type="text/css">
 	#search {
@@ -16,9 +17,9 @@
 <body>
   <NOSCRIPT>
     <div style="background-color: pink; padding: 10px;">
-      <h1>WARNING: JavaScript isn't enabled in your browser.</h1> 
+      <h1>WARNING: JavaScript isn't enabled in your browser.</h1>
       <p><h3>
-        NUCATS Assist needs JavaScript to be turned on in your browser in order to function properly. 
+        NUCATS Assist needs JavaScript to be turned on in your browser in order to function properly.
         Please <a href="http://www.ehow.com/how_8160414_can-turn-javascript.html">click here</a> for instructions on how to enable JavaScript in your browser.
       </h3></p>
       <p>
@@ -28,10 +29,12 @@
   </NOSCRIPT>
 <% if Rails.env != 'production' %>
     <div id="debug" style="margin: 5px 5px 5px 5px;">
-        <a href="#" onclick="Element.toggle('debug_info');return false" style="text-decoration: none; color: #999;">Show Debug Info &#10162;</a>
+        <a href="#" onclick="jQuery('#debug_info').toggle();" style="text-decoration: none; color: #999;">Show Debug Info &#10162;</a>
         <div id="debug_info" style="display : none;">
-            <%= debug session %>
-            <%= debug params %>
+          <h4>Session</h4><%= debug(session) %>
+          <h4>Params</h4><%= debug(params) %>
+          <h4>Current_User</h4><%= debug(current_user) if defined?(current_user) %>
+          <h4>Current_User_Session</h4><%= debug(current_user_session) if defined?(current_user_session) %>
         </div>
     </div>
 	<div class="h1" style="color:red;">This is the development/testing version. Data will not be kept!</div>
@@ -39,10 +42,10 @@
 <div id="main" class="autoclear">
 	<div id="banner"><%= link_to( image_tag( "pageheader.jpg", options={:alt=>"The Northwestern University Clinical and Translational Sciences Institute (NUCATS)"} ), "http://www.nucats.northwestern.edu") %>
 		 <%= image_tag( "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;") %>
-		<div style="float:left; z-index:2; margin-top:-29px;"> 
-		
+		<div style="float:left; z-index:2; margin-top:-29px;">
+
 		<%= image_tag( "banner_edge.jpg") %><%= image_tag( "banner_edge.jpg") %>
-		
+
 		</div>
 		<div id="menu" style="float:right; z-index:4; margin-top:-21px; color:#AAA; padding-right:15px; ">
 			<%= link_to( image_tag("help_32.png", :width=>"24px", :height=>"24px", :style=>"margin-top:-5px; margin-bottom:-2px; margin-right:5px; " )+' Help ', image_path("../docs/NUCATS_Assist_Instructions.pdf"), :title=>"Instructions on how to use NUCATS Assist and general help manual", :style=>"background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
@@ -55,7 +58,7 @@
 	<%= yield  %>
 </div> <!-- end of main -->
 <div id="footer-row">
-	<%= link_to( image_tag( 'nubic-logo.gif', :size => "167x55" ), "http://www.nucats.northwestern.edu/centers/nubic/index.html") %> 
+	<%= link_to( image_tag( 'nubic-logo.gif', :size => "167x55" ), "http://www.nucats.northwestern.edu/centers/nubic/index.html") %>
 </div>
 </body>
 </html>

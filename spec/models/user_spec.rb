@@ -67,7 +67,7 @@ describe User do
   end
 
   # TODO: fix this test - or determine if this should be a test
-  #  test "user is project reviewer" do
+  #  test 'user is project reviewer' do
   #    the_user = users(:one)
 
   #    assert !the_user.nil?
@@ -175,4 +175,103 @@ describe User do
     end
   end
 
+  describe '.find_or_create_from_omniauth' do
+    let(:netid) { 'netid' }
+    let(:email) { 'username@gmail.com' }
+    let(:nu_email) { 'netid@northwestern.edu' }
+    let(:omniauth) do
+      OmniAuth::AuthHash.new(
+      {
+        provider: 'nucatsmembership',
+        uid: 99,
+        info: OmniAuth::AuthHash.new(
+          {
+            name: 'John X. Doe',
+            first_name: 'John',
+            last_name: 'Doe',
+            email: email,
+          }
+        ),
+        extra: OmniAuth::AuthHash.new(
+          {
+            name: 'John X. Doe',
+            first_name: 'John',
+            last_name: 'Doe',
+            email: email,
+            person_identities: [
+              OmniAuth::AuthHash.new(
+              {
+                provider: 'google_oauth2',
+                uid: '111111111111111111111',
+                email: email,
+                provider_username: nil,
+                username: nil,
+                nickname: nil,
+                domain: nil
+              }),
+              OmniAuth::AuthHash.new(
+              {
+                provider: 'northwestern_medicine',
+                uid: "nu\\#{netid}",
+                email: nu_email,
+                provider_username: netid,
+                username: "nu\\#{netid}",
+                nickname: nil,
+                domain: 'nu'
+              })
+            ]
+          }
+        )
+      })
+    end
+    context 'for a new User' do
+      it 'creates a User record with data from omniauth' do
+        u = User.find_or_create_from_omniauth(omniauth)
+        u.should be_persisted
+        u.should be_an_instance_of(User)
+        u.username.should eq netid
+      end
+    end
+
+    context 'for existing User records' do
+      context 'with the same email address' do
+        let!(:user) { FactoryGirl.create(:user, email: email, first_name: 'f', last_name: 'l') }
+        it 'finds the User' do
+          updated = User.find_or_create_from_omniauth(omniauth)
+          updated.id.should eq user.id
+        end
+      end
+
+      context 'without an email address' do
+        context 'with google oauth provider' do
+          let!(:user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: email) }
+          it 'finds the User' do
+            updated = User.find_or_create_from_omniauth(omniauth)
+            updated.id.should eq user.id
+          end
+        end
+
+        context 'with the northwestern oauth provider' do
+          let!(:user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: netid) }
+          it 'finds the User and updates User attributes' do
+            updated = User.find_or_create_from_omniauth(omniauth)
+            updated.id.should eq user.id
+          end
+        end
+
+        # It is quite possible that a User will be logged in using
+        # differing providers resulting in more than one User record
+        # having been created @see User.find_or_create_from_omniauth
+        context 'with multiple oauth providers' do
+          let!(:nu_user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: netid) }
+          let!(:ext_user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: email) }
+          it 'prefers the nu over outside if User exists matching both' do
+            updated = User.find_or_create_from_omniauth(omniauth)
+            updated.id.should eq nu_user.id
+            updated.id.should_not eq ext_user.id
+          end
+        end
+      end
+    end
+  end
 end

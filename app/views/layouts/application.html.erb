@@ -38,7 +38,7 @@
     </NOSCRIPT>
     <% if Rails.env != 'production' %>
       <div id="debug" style="float:left; margin: 5px 5px 5px 5px;">
-        <a href="#" onclick="Element.toggle('debug_info');return false" style="text-decoration: none; color: #999;">
+        <a href="#" onclick="jQuery('#debug_info').toggle();" style="text-decoration: none; color: #999;">
           <%= image_tag( "right.gif") %>
         </a>
         <div id="debug_info" style="display : none;">
@@ -69,7 +69,7 @@
                       :title=>"Instructions on how to use NUCATS Assist and general help manual",
                       :style=>"background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
           <%= session[:name] || current_user_session.username %>
-          <%= link_to "logout", logout_path,
+          <%= link_to "Sign Out", signout_path,
                       :style=>"background-color:#520064;color:white;font-size:+2; margin-left:5px; text-decoration:none;",
                       :title=>"Logout of NUCATS Assist" %>
         </div>

@@ -10,10 +10,16 @@ gem 'fastercsv'
 gem 'princely'
 
 gem 'net-ldap'
-gem 'authlogic'
 gem 'bcdatabase'
+
+# Authorization
+# TODO: remove aker in favor of omniauth
 gem 'aker-rails'
 gem 'aker'
+gem 'omniauth'
+gem 'omniauth-oauth2'
+gem 'nucats_omniauth_client', path: '/Users/paulfriedman/work/nitro/nucats_omniauth_client'
+
 gem 'rdoc'
 
 gem 'paperclip'

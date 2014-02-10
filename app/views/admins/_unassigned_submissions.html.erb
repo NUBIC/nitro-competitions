@@ -1,7 +1,9 @@
 <ul id='unassigned_submission_list' style='display:block; height:80px;'>
-<% @unfilled_submissions.each do |item| %> 
-	<% domid = "submission_#{item.id}" %> 
-	<li class="unassigned_submission" id='<%= domid %>'>PI: <%= item.applicant.name %>; Title: <%= truncate_words(item.submission_title, 20) %> </li> 
-	<%= draggable_element(domid, :ghosting=>true, :revert=>true) %>
-<% end %>
+  <% @unfilled_submissions.each do |item| %>
+    <% domid = "submission_#{item.id}" %>
+    <li class='unassigned_submission' id='<%= domid %>'>
+      PI: <%= item.applicant.name %>; Title: <%= truncate_words(item.submission_title, 20) %>
+    </li>
+    <%= draggable_element(domid, ghosting: true, revert: true) %>
+  <% end %>
 </ul>

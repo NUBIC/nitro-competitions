@@ -3,21 +3,22 @@ require 'spec_helper'
 
 describe SubmissionsController do
 
-  describe 'GET index' do
-    it 'renders the page' do
-      get :index
-      response.should be_success
-    end
-    it 'assigns variables' do
-      get :index
-      assigns[:submissions].should_not be_nil
-    end
-  end
-
   context 'with a logged in user' do
     before do
       login(user_login)
     end
+
+    describe 'GET index' do
+      it 'renders the page' do
+        get :index
+        response.should be_success
+      end
+      it 'assigns variables' do
+        get :index
+        assigns[:submissions].should_not be_nil
+      end
+    end
+
     describe 'GET new' do
       context 'without parameters' do
         # it 'redirects to projects_path' do

@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  Bundler.require(*Rails.groups(assets: %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
@@ -35,7 +36,7 @@ module NucatsAssist
     # config.i18n.default_locale = :de
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
@@ -51,6 +52,10 @@ module NucatsAssist
     # preferrably this would only be in the environments/test.rb file
     # but apparently this does not work
     config.active_record.schema_format = :sql
+
+    # To switch to Omniauth in favor of aker for authentication
+    # set the `use_omniauth` configuration attribute to true
+    config.use_omniauth = true
   end
 
 end
