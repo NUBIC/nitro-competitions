@@ -1,0 +1,51 @@
+.inplaceeditor-form input[type="text"] {
+  width: 260px;
+}
+
+.inplaceeditor-form textarea {
+  width: 400px;
+}
+
+input, select, textarea {
+  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  color: black;
+  padding: 0;
+  margin-top: 2px;
+}
+
+textarea.narrow {
+  width: 18em;
+}
+
+input.narrow {
+  width: 10em;
+}
+
+input[disabled] {
+  color: gray;
+}
+
+select {
+  vertical-align: middle;
+}
+
+select[disabled] {
+  color: gray;
+}
+
+form {
+  display: inline;
+}
+
+.form_text {
+  color: #222266;
+}
+
+.required {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  padding-right: 2px;
+}
