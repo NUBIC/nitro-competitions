@@ -4,11 +4,12 @@
   <ol>
     <% if submission_review.submission.project.show_impact_score %>
       <li>
-        <%= submission_review.submission.project.impact_title %>.
-        <%= submission_review.submission.project.impact_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.impact_title.html_safe %>.
+          <%= submission_review.submission.project.impact_wording.html_safe %>
+        </p>
         <span style='float: left; width:325px;'>
-          <%= submission_review.submission.project.impact_title %> score:
+          <%= submission_review.submission.project.impact_title.html_safe %> score:
         </span>
         <%= f.text_field :impact_score, :size => 4  %>
         <br/>
@@ -23,11 +24,12 @@
 
     <% if submission_review.submission.project.show_team_score %>
       <li>
-        <%= submission_review.submission.project.team_title %>.
-        <%= submission_review.submission.project.team_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.team_title.html_safe %>.
+          <%= submission_review.submission.project.team_wording.html_safe %>
+        </p>
         <span style='float: left; width:325px;'>
-          <%= submission_review.submission.project.team_title %> score:
+          <%= submission_review.submission.project.team_title.html_safe %> score:
         </span>
         <%= f.text_field :team_score, :size => 4  %>
         <br/>
@@ -42,11 +44,12 @@
 
     <% if submission_review.submission.project.show_innovation_score %>
       <li>
-        <%= submission_review.submission.project.innovation_title %>.
-        <%= submission_review.submission.project.innovation_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.innovation_title.html_safe %>.
+          <%= submission_review.submission.project.innovation_wording.html_safe %>
+        </p>
         <span style='float: left; width:325px;'>
-          <%= submission_review.submission.project.innovation_title %> score:
+          <%= submission_review.submission.project.innovation_title.html_safe %> score:
         </span>
         <%= f.text_field :innovation_score, :size => 4 %>
         <br/>
@@ -61,11 +64,12 @@
 
     <% if submission_review.submission.project.show_scope_score %>
       <li>
-        <%= submission_review.submission.project.scope_title %>.
-        <%= submission_review.submission.project.scope_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.scope_title.html_safe %>.
+          <%= submission_review.submission.project.scope_wording.html_safe %>
+        </p>
         <span style="float: left;width:325px;">
-          <%= submission_review.submission.project.scope_title %> score:
+          <%= submission_review.submission.project.scope_title.html_safe %> score:
         </span>
         <%= f.text_field :scope_score, :size => 4 %>
         <br/>
@@ -80,11 +84,12 @@
 
     <% if submission_review.submission.project.show_environment_score %>
       <li>
-        <%= submission_review.submission.project.environment_title %>.
-        <%= submission_review.submission.project.environment_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.environment_title.html_safe %>.
+          <%= submission_review.submission.project.environment_wording.html_safe %>
+        </p>
         <span style='float: left; width:325px;'>
-          <%= submission_review.submission.project.environment_title %> score:
+          <%= submission_review.submission.project.environment_title.html_safe %> score:
         </span>
         <%= f.text_field :environment_score, :size => 4 %>
         <br/>
@@ -99,11 +104,12 @@
 
     <% if submission_review.submission.project.show_budget_score %>
       <li>
-        <%= submission_review.submission.project.budget_title %>.
-        <%= submission_review.submission.project.budget_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.budget_title.html_safe %>.
+          <%= submission_review.submission.project.budget_wording.html_safe %>
+        </p>
         <span style='float: left; width:325px;'>
-          <%= submission_review.submission.project.budget_title %> score:
+          <%= submission_review.submission.project.budget_title.html_safe %> score:
         </span>
         <%= f.text_field :budget_score, :size => 4 %>
         <br/>
@@ -118,11 +124,12 @@
 
     <% if submission_review.submission.project.show_other_score %>
       <li>
-        <%= submission_review.submission.project.other_title %>.
-        <%= submission_review.submission.project.other_wording %>
-        <br/>
+        <p>
+          <%= submission_review.submission.project.other_title.html_safe %>.
+          <%= submission_review.submission.project.other_wording.html_safe %>
+        </p>
         <span style='float: left; width:325px;'>
-          <%= submission_review.submission.project.other_title %> score:
+          <%= submission_review.submission.project.other_title %>.html_safe score:
         </span>
         <%= f.text_field :other_score, :size => 4 %>
         <br/>
@@ -141,8 +148,8 @@
 
     <p>
       <p>
-        <%= submission_review.submission.project.overall_impact_title %>.
-        <%= submission_review.submission.project.overall_impact_description %>
+        <%= submission_review.submission.project.overall_impact_title.html_safe %>.
+        <%= submission_review.submission.project.overall_impact_description.html_safe %>
       </p>
       <span style='float: left; width:325px;'>
         <%= submission_review.submission.project.overall_impact_title.html_safe %> score:

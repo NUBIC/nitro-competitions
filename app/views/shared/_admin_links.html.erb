@@ -1,7 +1,7 @@
 <% if is_admin? %>
   <div class='admin_links'>
     <p>
-      <%= link_to( image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;") +
+      <%= link_to(image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;") +
                    " Create new competition for sponsor #{current_project().program.program_title} (admins only)",
           new_project_path) %>
     </p>

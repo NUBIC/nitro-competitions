@@ -1,25 +1,37 @@
-<% if (project.submission_open_date < Date.today and project.submission_close_date >=  Date.today) or is_admin?(project.program) %>
-<tr>
-	<td colspan="4" style="padding-left:10px;">
-	  <%= link_to( image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;") + " Create a new submission", new_project_applicant_path(project.id), :title=>"Create an application for you or someone else for the competition  '#{project.project_title}'" ) %>
-	</td>
-</tr>
+<% if is_logged_in? %>
+  <div class='project_actions'>
+    <% if (project.submission_open_date < Date.today && project.submission_close_date >= Date.today) || is_admin?(project.program) %>
+      <%= link_to(image_tag("add.png",
+                            :width=>"16px", :height=>"16px",
+                            :style=>"margin-bottom:-2px;margin-top:-5px;") + ' Create a new submission',
+                  new_project_applicant_path(project.id),
+                  :title => "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+      <br/>
+    <% end %>
+    <% if is_admin?(project.program) %>
+      <%= link_to(image_tag("application_form.png",
+                            :width=>"16px", :height=>"16px",
+                            :style=>"margin-top:-5px; margin-bottom:-2px;") + ' Edit information',
+                  edit_project_path(project),
+                  :title => "Click here to edit information about this competition") %>
+      <br/>
+    <% end %>
+    <% if show_submissions %>
+	    <% if project.submissions.length == 0 %>
+	      <%= link_to(image_tag("trash_blue.png",
+                              :width=>"16px", :height=>"16px",
+                              :style=>"margin-top:-5px; margin-bottom:-2px") + ' Destroy competition',
+                    project,
+	                  :confirm => "Are you sure you want to delete the competition: #{project.project_title}?",
+	                  :method => :delete,
+	                  :title => "Click here to delete this competition completely" ) %>
+	    <% else %>
+	      <div class="h3" style="margin-left:20px;">
+	        Can't delete - submissions exist
+	      </div>
+	    <% end %>
+	  <% end %>
+	  <%= render 'shared/links_to_project_docs', :project => project %>
+  </div>
 <% end %>
 
-<% if is_admin?(project.program) %>
-	<tr>
-	<td colspan="4" style="padding-left:10px;"><%= link_to( image_tag("application_form.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px; margin-bottom:-2px;")+' Edit information about the '+ project.project_title, edit_project_path(project), :title=>"click here to edit information about this competition") %></td></tr>
-	<tr>
-	<td colspan="4" style="padding-left:10px;">
-	<% if project.submissions.length == 0 %>
-		<%= link_to( image_tag("trash_blue.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px")+' Destroy the '+ project.project_title, project, :confirm => 'Are you sure you want to delete this competition?', :method => :delete, :title=>"click here to delete this competition completely" ) %>
-	<% else %>
-	  <div class="h3" style="margin-left:20px;">Can't delete - submissions exist</div>
-	<% end %>
-	</td></tr>
-<% end %>
-<tr>
-	<td colspan="4" style="padding-left:20px;">
-		<%= render('shared/links_to_project_docs', :project => project) %>
-	</td>
-</tr>

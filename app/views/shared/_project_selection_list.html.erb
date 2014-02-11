@@ -45,28 +45,7 @@
           <% end %>
         </div>
       </div>
-      <% if is_logged_in? %>
-        <div class='project_actions'>
-          <% if (project.submission_open_date < Date.today and project.submission_close_date >=  Date.today) or is_admin?(project.program) %>
-            <%= link_to(image_tag("add.png",
-                                  :width=>"16px", :height=>"16px",
-                                  :style=>"margin-bottom:-2px;margin-top:-5px;") + " Create a new submission",
-                        new_project_applicant_path(project.id),
-                        :title => "Create an application for you or someone else for the competition '#{project.project_title}'") %>
-            <br/>
-          <% end %>
-          <% if is_admin?(project.program) %>
-            <%= link_to(image_tag("application_form.png",
-                                  :width=>"16px", :height=>"16px",
-                                  :style=>"margin-top:-5px; margin-bottom:-2px;") + ' Edit information',
-                        edit_project_path(project),
-                        :title=>"click here to edit information about this competition") %>
-            <br/>
-          <% end %>
-
-          <%= render('shared/links_to_project_docs', :project => project) %>
-        </div>
-      <% end %>
+      <%= render('shared/project_actions', :project => project, :show_submissions => false) %>
     </div>
   <% end %>
 </div>

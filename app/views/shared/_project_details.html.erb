@@ -1,43 +1,58 @@
-<% unless projects.blank? %>
-  <br />
-  <table class="borderless">
-    <tr>
-      <th>Competition</th>
-      <th>Sponsor</th>
-      <th>Status</th>
-      <th>Announcement</th>
-      <th>Submission Period</th>
-      <th>Review Closes</th>
-      <th>Project Period (Award Period)</th>
-    </tr>
-
-  <% projects.each_with_index do |project, i| %>
-    <tr>
-      <td>
-        <%= h(project.project_title) %>
-        <% unless project.project_url.blank? %>
-          <%= link_to(image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
-                      project.project_url,
-                      :title=>"Get more information on #{project.project_title}" )%>
-        <% end %>
-      </td>
-      <td>
-        <%= h(project.program.program_title) %>
-        <% unless project.program.program_url.blank? %>
-          <%= link_to(image_tag("help_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
-                      project.program.program_url,
-                      :title=>"Get more information on #{project.program.program_title}") %>
-        <% end %>
-        </td>
-      <td><%= project.current_status %> &nbsp; </td>
-      <td><%= project.initiation_date.to_s(:justdate) %></td>
-      <td><%= project.submission_open_date.to_s(:justdate) %> to <%= project.submission_close_date.to_s(:justdate) %></td>
-      <td><%= project.review_end_date.to_s(:justdate) %></td>
-      <td><%= project.project_period_start_date.to_s(:justdate) %> to <%= project.project_period_end_date.to_s(:justdate) %></td>
-    </tr>
-    <%= render('shared/project_actions', :project => project) %>
-  <% end %>
-  </table>
-  <br />
+<% if projects.blank? %>
+  <p>
+    Sorry there are no competitions to view.
+  </p>
+<% else %>
+  <div class='projects'>
+    <% projects.each_with_index do |project, i| %>
+      <div class='project'>
+        <div class='apply'>
+          <%= project.current_status %>
+          <br />
+          Announcement:
+          <%= project.initiation_date.to_s(:justdate) %>
+          <br />
+          Review Closes:
+          <%= project.review_end_date.to_s(:justdate) %>
+        </div>
+        <div class='project_details'>
+          <div class='project_information'>
+            Competition:
+            <%= link_to(h(project.project_title),
+                        show_competition_url(project.program.program_name, project.project_name),
+                        :title=>"Click here to view the competition #{project.project_title}") %>
+          </div>
+          <div class='project_information'>
+            Submission Period: <%= project.submission_open_date.to_s(:justdate) %> - <%= project.submission_close_date.to_s(:justdate) %>
+            <br />
+            Award Period: <%= project.project_period_start_date.to_s(:justdate) %> - <%= project.project_period_end_date.to_s(:justdate) %>
+          </div>
+          <% if has_read_all?(project.program) %>
+            <div class='project_information'>
+              Number of Applications: <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
+            </div>
+          <% end %>
+          <div class='project_information'>
+            <% unless project.program.program_url.blank? %>
+              <% program_title = "Get more information on #{project.program.program_title}" %>
+              <%= link_to(h(project.program.program_title),
+                          project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
+              <%= link_to(image_tag("help_link.png",
+                                    :width => "16px", :height => "16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                          project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
+            <% end %>
+            <% unless project.project_url.blank? %>
+              <% project_title = "Get more information and the RFA for '#{project.project_title}'" %>
+              <%= link_to("Competition RFA",
+                          project.project_url, :title=>project_title, :target=>"_blank" ) %>
+              <%= link_to(image_tag("help_link.png",
+                                    :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
+                          project.project_url, :title=>project_title, :target=>"_blank" ) %>
+            <% end %>
+          </div>
+        </div>
+        <%= render('shared/project_actions', :project => project, :show_submissions => true) %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
-&nbsp;

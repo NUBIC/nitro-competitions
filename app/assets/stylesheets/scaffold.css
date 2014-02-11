@@ -81,17 +81,18 @@ h3, .h3 {
 }
 
 a {
-  background-color: #faf7ff;
-  color: black;
+  background-color: inherit;
+  color: blue;
 }
 
 a:visited {
-  color: #666666;
+  color: blue;
 }
 
 a:hover {
   background-color: inherit;
   text-decoration: underline;
+  color: blue;
 }
 
 #nci-logo {
