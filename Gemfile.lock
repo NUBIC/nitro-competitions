@@ -5,7 +5,7 @@ GIT
     prototype_legacy_helper (0.0.0)
 
 PATH
-  remote: /Users/paulfriedman/work/nitro/nucats_omniauth_client
+  remote: vendor/gems/nucats_omniauth_client-0.0.1
   specs:
     nucats_omniauth_client (0.0.1)
 

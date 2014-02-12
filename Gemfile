@@ -18,7 +18,7 @@ gem 'aker-rails'
 gem 'aker'
 gem 'omniauth'
 gem 'omniauth-oauth2'
-gem 'nucats_omniauth_client', path: '/Users/paulfriedman/work/nitro/nucats_omniauth_client'
+gem 'nucats_omniauth_client', path: 'vendor/gems/nucats_omniauth_client-0.0.1'
 
 gem 'rdoc'
 
