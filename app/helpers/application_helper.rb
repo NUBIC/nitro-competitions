@@ -15,6 +15,10 @@ module ApplicationHelper
     session[:act_as_admin] = current_user_is_admin?
   end
 
+  def application_logout_path
+    Rails.application.config.use_omniauth ? signout_path : logout_path
+  end
+
   ##
   # Is the current user session username in the admin list
   # @return Boolean

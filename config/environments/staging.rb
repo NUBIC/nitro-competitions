@@ -15,7 +15,7 @@ NucatsAssist::Application.configure do
   config.assets.compress = true
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -59,10 +59,10 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :notify
 
   config.aker do
-    if Rails.root =~ /Users/ or 1==1
+    if Rails.root.to_s =~ /Users/ || true
       login_config = File.join(Rails.root, %w(config logins development.yml))
       authority Aker::Authorities::Static.from_file(login_config)
-      puts "loading local static bcsec file"
+      puts 'loading local static bcsec file'
     else
       authority :ldap
       central '/etc/nubic/bcsec-staging.yml'

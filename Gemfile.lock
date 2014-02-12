@@ -114,6 +114,7 @@ GEM
     json (1.8.1)
     jwt (0.1.11)
       multi_json (>= 1.5)
+    libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -182,6 +183,7 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    ref (1.0.5)
     rspec-core (2.14.7)
     rspec-expectations (2.14.4)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -221,6 +223,9 @@ GEM
       term-ansicolor
     term-ansicolor (1.2.2)
       tins (~> 0.8)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.18.1)
     tilt (1.4.1)
     tins (0.13.1)
@@ -253,6 +258,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 3.2)
   database_cleaner
+  execjs
   factory_girl
   factory_girl_rails
   fastercsv
@@ -274,5 +280,6 @@ DEPENDENCIES
   sass-rails (~> 3.2)
   shoulda
   simplecov
+  therubyracer
   uglifier (>= 1.0.3)
   will_paginate

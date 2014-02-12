@@ -20,6 +20,11 @@ gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'nucats_omniauth_client', path: 'vendor/gems/nucats_omniauth_client-0.0.1'
 
+# ActionView::Template::Error (Could not find a JavaScript runtime.
+# See https://github.com/sstephenson/execjs for a list of available runtimes.
+gem 'execjs'
+gem 'therubyracer'
+
 gem 'rdoc'
 
 gem 'paperclip'
