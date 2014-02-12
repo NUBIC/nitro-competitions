@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 set :application, 'nucats_assist'
 set :repo_url, 'https://github.com/NUBIC/nucats_assist.git'
 
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :branch, 'master'
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+# set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || 'master'
 
 set :deploy_to, '/var/www/apps/nucats_assist'
 set :deploy_via, :copy
@@ -27,7 +28,6 @@ set :bundle_without, %w{development test}.join(' ')
 set :bundle_binstubs, -> { shared_path.join('bin') }
 set :bundle_roles, :all
 
-
 namespace :deploy do
 
   desc 'Restart application'
@@ -48,5 +48,4 @@ namespace :deploy do
   end
 
   after :finishing, 'deploy:cleanup'
-
 end

@@ -8,3 +8,4 @@ tmp/cache
 tmp/pids
 assets/files/
 coverage/
+public/assets/
