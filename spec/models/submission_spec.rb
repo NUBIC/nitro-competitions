@@ -1,4 +1,73 @@
 # -*- coding: utf-8 -*-
+# == Schema Information
+# Schema version: 20140213161624
+#
+# Table name: submissions
+#
+#  abstract                          :text
+#  applicant_biosketch_document_id   :integer
+#  applicant_id                      :integer
+#  application_document_id           :integer
+#  budget_document_id                :integer
+#  committee_review_approval         :boolean
+#  completion_at                     :datetime
+#  conflict_explanation              :text
+#  core_manager_username             :string(255)
+#  cost_sharing_amount               :float
+#  cost_sharing_organization         :text
+#  created_at                        :datetime
+#  created_id                        :integer
+#  created_ip                        :string(255)
+#  deleted_at                        :datetime
+#  deleted_id                        :integer
+#  deleted_ip                        :string(255)
+#  department_administrator_username :string(255)
+#  direct_project_cost               :float
+#  document1_id                      :integer
+#  document2_id                      :integer
+#  document3_id                      :integer
+#  document4_id                      :integer
+#  effort_approval_at                :datetime
+#  effort_approver_ip                :string(255)
+#  effort_approver_username          :string(255)
+#  iacuc_study_num                   :string(255)
+#  id                                :integer          not null, primary key
+#  irb_study_num                     :string(255)
+#  is_conflict                       :boolean
+#  is_human_subjects_research        :boolean
+#  is_iacuc_approved                 :boolean
+#  is_irb_approved                   :boolean
+#  is_new                            :boolean
+#  not_new_explanation               :text
+#  notification_cnt                  :integer          default(0)
+#  notification_sent_at              :datetime
+#  notification_sent_by_id           :integer
+#  notification_sent_to              :string(255)
+#  nucats_cru_contact_name           :string(255)
+#  other_funding_sources             :text
+#  other_support_document_id         :integer
+#  previous_support_description      :text
+#  project_id                        :integer
+#  received_previous_support         :boolean
+#  submission_at                     :datetime
+#  submission_category               :string(255)
+#  submission_reviews_count          :integer          default(0)
+#  submission_status                 :string(255)
+#  submission_title                  :string(255)
+#  updated_at                        :datetime
+#  updated_id                        :integer
+#  updated_ip                        :string(255)
+#  use_cmh                           :boolean
+#  use_embryonic_stem_cells          :boolean
+#  use_nmff                          :boolean
+#  use_nmh                           :boolean
+#  use_nucats_cru                    :boolean
+#  use_ric                           :boolean
+#  use_stem_cells                    :boolean
+#  use_va                            :boolean
+#  use_vertebrate_animals            :boolean
+#
+
 require 'spec_helper'
 
 describe Submission do

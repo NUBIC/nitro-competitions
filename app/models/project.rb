@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140213161624
 #
 # Table name: projects
 #
@@ -48,9 +48,9 @@
 #  effort_approver_title               :text             default("Effort approver")
 #  environment_title                   :string(255)      default("Environment")
 #  environment_wording                 :text             default("Will the scientific environment in which the work will be done contribute to the probability of success? Are the institutional support, equipment and other physical resources available to the investigators adequate for the project proposed? Will the project benefit from unique features of the scientific environment, subject populations, or collaborative arrangements?")
-#  help_document_url_block             :text             default("<a href=\"/docs/NUCATS_Pilot_Proposal_Form.doc\" title=\"NUCATS Pilot Proposal Form\">Application template</a>\n      <a href=\"/docs/Application_Instructions.pdf\" title=\"NUCATS Pilot Proposal Application Instructions\">Application instructions</a>\n      <a href=\"/docs/NUCATS_Pilot_Budget.doc\" title=\"NUCATS Pilot Proposal Budget Template\">Budget Template</a>\n      <a href=\"/docs/Budget_Instructions.pdf\" title=\"NUCATS Pilot Proposal Budget Instructions\">Budget instructions</a>")
-#  how_to_url_block                    :text             default("<a href=\"/docs/NUCATS_Assist_Instructions.pdf\" title=\"NUCATS Pilot Proposal Web Site Instructions/Help/HowTo\">Site instructions</a>")
-#  human_subjects_research_text        :text             default("Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.")
+#  help_document_url_block             :text             default("<a href=\"/docs/NUCATS_Pilot_Proposal_Form.doc\" title=\"NUCATS Pilot Proposal Form\">Application template</a>\n\n      <a href=\"/docs/Application_Instructions.pdf\" title=\"NUCATS Pilot Proposal Application Instructions\">Application instructions</a>\n      <a href=\"/docs/NUCATS_Pilot_Budget.doc\" title=\"NUCATS Pilot Proposal Budget Template\">Budget Template</a>\n      <a href=\"/docs/Budget_Instructions.pdf\" title=\"NUCATS Pilot Proposal Budget Instructions\">Budget instructions</a>")
+#  how_to_url_block                    :text             default("<a href=\"/docs/NUCATS_Pilot_Grant_Site_Instructions.pdf\" title=\"NUCATS Pilot Proposal Web Site Instructions/Help/HowTo\">Site instructions</a>")
+#  human_subjects_research_text        :string(255)      default("Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.")
 #  id                                  :integer          not null, primary key
 #  impact_title                        :string(255)      default("Significance")
 #  impact_wording                      :text             default("Does the project address an important unmet health need? If the aims of the project are achieved, how will scientific knowledge, technical capability, and/or clinical practice be improved? How will successful completion of the aims change the methods, technologies, treatments, services, or preventative interventions that drive this field?")
@@ -78,7 +78,6 @@
 #  project_title                       :string(255)      not null
 #  project_url                         :string(255)
 #  project_url_label                   :string(255)      default("Competition RFA")
-#  projects                            :string(255)      default("Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.")
 #  require_era_commons_name            :boolean          default(FALSE)
 #  review_end_date                     :date
 #  review_guidance_url                 :string(255)      default("../docs/review_criteria.html")

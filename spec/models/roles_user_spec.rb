@@ -1,4 +1,24 @@
 # -*- coding: utf-8 -*-
+# == Schema Information
+# Schema version: 20140213161624
+#
+# Table name: roles_users
+#
+#  created_at :datetime
+#  created_id :integer
+#  created_ip :string(255)
+#  deleted_at :datetime
+#  deleted_id :integer
+#  deleted_ip :string(255)
+#  id         :integer          not null, primary key
+#  program_id :integer
+#  role_id    :integer
+#  updated_at :datetime
+#  updated_id :integer
+#  updated_ip :string(255)
+#  user_id    :integer
+#
+
 require 'spec_helper'
 
 describe RolesUser do
