@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140213161624
 #
 # Table name: submissions
 #
@@ -8,7 +8,7 @@
 #  applicant_id                      :integer
 #  application_document_id           :integer
 #  budget_document_id                :integer
-#  committee_review_approval         :boolean          default(FALSE)
+#  committee_review_approval         :boolean
 #  completion_at                     :datetime
 #  conflict_explanation              :text
 #  core_manager_username             :string(255)
@@ -47,7 +47,7 @@
 #  other_support_document_id         :integer
 #  previous_support_description      :text
 #  project_id                        :integer
-#  received_previous_support         :boolean          default(FALSE)
+#  received_previous_support         :boolean
 #  submission_at                     :datetime
 #  submission_category               :string(255)
 #  submission_reviews_count          :integer          default(0)

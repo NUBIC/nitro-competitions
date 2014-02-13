@@ -23,14 +23,14 @@ module ApplicationHelper
   # Is the current user session username in the admin list
   # @return Boolean
   def current_user_is_admin?
-    %w(jab155 wakibbe dfu601 super jml237 cmc622).include?(current_user_session.username)
+    %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.username)
   end
   private :current_user_is_admin?
 
   # list of allowed IPs
 
   def disallowed_ip(this_ip)
-    return false # if Rails.env == 'development'
+    return false if Rails.env == 'development'
 
     # from config.rb in project lib directory
     allowed_ips.each do |ip|
