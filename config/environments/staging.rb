@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 NucatsAssist::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -59,13 +60,11 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :notify
 
   config.aker do
-    if Rails.root.to_s =~ /Users/ || true
-      login_config = File.join(Rails.root, %w(config logins development.yml))
-      authority Aker::Authorities::Static.from_file(login_config)
-      puts 'loading local static bcsec file'
-    else
-      authority :ldap
-      central '/etc/nubic/bcsec-staging.yml'
-    end
+    login_config = File.join(Rails.root, %w(config logins development.yml))
+    authority Aker::Authorities::Static.from_file(login_config)
+    puts 'loading local static bcsec file'
+    # Uncomment the following to use ldap on the staging server
+    # authority :ldap
+    # central '/etc/nubic/bcsec-staging.yml'
   end
 end
