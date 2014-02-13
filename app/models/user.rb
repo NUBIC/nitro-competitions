@@ -159,9 +159,10 @@ class User < ActiveRecord::Base
     # New user registration
     user = User.new(email: omniauth['info']['email'])
     if user
+      user.validate_name = false
       user.username = extract_username_from_omniauth(omniauth)
-      user.first_name = omniauth['info']['first_name']
-      user.last_name  = omniauth['info']['last_name']
+      user.first_name = omniauth['info']['first_name'] || ''
+      user.last_name  = omniauth['info']['last_name'] || ''
       user.save!
     end
     user

@@ -17,19 +17,19 @@ class UserSessionsController < ApplicationController
     User.find_or_create_from_omniauth(omniauth)
     session[:user_info] = omniauth # Store all the info
     flash[:notice] = 'Successfully logged in'
-    redirect_to '/projects'
+    redirect_to "#{relative_url_root}/projects"
   end
 
   # Omniauth failure callback
   def failure
     flash[:errors] = params[:message].to_s.titleize
-    redirect_to '/welcome'
+    redirect_to "#{relative_url_root}/welcome"
   end
 
   # signout - Clear our rack session user_info
   def destroy
     session[:user_info] = nil
     flash[:notice] = 'You have successfully signed out!'
-    redirect_to '/welcome'
+    redirect_to "#{relative_url_root}/welcome"
   end
 end
