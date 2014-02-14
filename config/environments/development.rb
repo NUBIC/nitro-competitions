@@ -28,20 +28,23 @@ NucatsAssist::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  config.oauth_app_id = 'c03c171f255ec82cd2b7c00f6516e7f8'
+  config.oauth_app_secret = '35f591a6bc7ae102cbd8f2c69299389bb88fbb148bfc348a35ef040d08ec99e1'
+
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address => "mail.it.northwestern.edu",
-      :port => 25,
-      :domain => "northwestern.edu"
+      address: 'mail.it.northwestern.edu',
+      port: 25,
+      domain: 'northwestern.edu'
   }
 
   config.aker do
     if Rails.root.to_s =~ /Users/
       login_config = File.join(Rails.root, %w(config logins development.yml))
       authority Aker::Authorities::Static.from_file(login_config)
-      puts "loading local static aker file"
+      puts 'loading local static aker file'
       # staff_portal = Aker::Authorities::StaffPortal.new
       # authorities :cas, staff_portal
       central '/etc/nubic/aker-local.yml'
@@ -52,4 +55,4 @@ NucatsAssist::Application.configure do
   end
 end
 
-Paperclip.options[:command_path] = "/opt/local/bin/"
+Paperclip.options[:command_path] = '/opt/local/bin/'

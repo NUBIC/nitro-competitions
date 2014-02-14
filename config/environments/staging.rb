@@ -60,6 +60,8 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :notify
 
   config.oauth_provider_url = 'https://membership-staging.nubic.northwestern.edu'
+  config.oauth_app_id = '947eeb0358d082539471c30c559ed001'
+  config.oauth_app_secret = '02e2154bb51724bccfad329d34b569197069839eb0eda1acca26a83f04ee1d3d'
 
   config.aker do
     login_config = File.join(Rails.root, %w(config logins development.yml))

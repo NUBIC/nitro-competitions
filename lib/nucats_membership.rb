@@ -11,11 +11,15 @@ class NucatsMembership < OmniAuth::Strategies::OAuth2
   CUSTOM_ACCESS_TOKEN_URL = "#{CUSTOM_PROVIDER_URL}/auth/nucats_membership/access_token"
   # CUSTOM_TOKEN_URL        = "#{CUSTOM_PROVIDER_URL}/oauth/token"
 
+  # token_url: CUSTOM_TOKEN_URL,
+  # ssl: { ca_file: '/etc/pki/tls/certs/ca_bundle.crt' }
+  # or
+  # ssl: { ca_path: '/etc/pki/tls/certs/' }
   option :client_options, {
     site:  CUSTOM_PROVIDER_URL,
     authorize_url: CUSTOM_AUTHORIZE_URL,
     access_token_url: CUSTOM_ACCESS_TOKEN_URL,
-    ssl: ssl
+    ssl: { ca_path: '/etc/pki/tls/certs/' }
   }
 
   uid { raw_info['id'] }
@@ -35,17 +39,7 @@ class NucatsMembership < OmniAuth::Strategies::OAuth2
     }
   end
 
-  # Return the configuration parameters for using ssl with the oauth client
-  # ssl: { ca_file: '/etc/pki/tls/certs/ca_bundle.crt' }
-  # or
-  # ssl: { ca_path: '/etc/pki/tls/certs/' }
-  def ssl
-    if Rails.env == 'staging' || Rails.env == 'production'
-      { ca_path: '/etc/pki/tls/certs/' }
-    else
-      nil
-    end
-  end
+
 
   def raw_info
     @raw_info ||= access_token.get("/auth/nucats_membership/user.json?oauth_token=#{access_token.token}").parsed
