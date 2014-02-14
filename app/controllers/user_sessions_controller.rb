@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 #
-# Controller class to help with logging in and out of
-# the application.
+# Controller class to help with logging in and out of the application.
+#
 # /auth/:provider/callback gets routed to user_sessions#create
 # /auth/failure gets routed to user_sessions#failure
-# /signout gets routed to user_sessions#destro
+# /signout gets routed to user_sessions#destroy
 # @see routes.rb
 class UserSessionsController < ApplicationController
   before_filter :authenticate_user, only: [:destroy]

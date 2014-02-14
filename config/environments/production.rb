@@ -58,6 +58,8 @@ NucatsAssist::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.oauth_provider_url = 'https://membership.nubic.northwestern.edu'
+
   config.aker do
     # Provide one or more authenticators to use.
     # See doc/authenticators for more details

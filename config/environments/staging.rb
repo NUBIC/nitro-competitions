@@ -59,6 +59,8 @@ NucatsAssist::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.oauth_provider_url = 'https://membership-staging.nubic.northwestern.edu'
+
   config.aker do
     login_config = File.join(Rails.root, %w(config logins development.yml))
     authority Aker::Authorities::Static.from_file(login_config)

@@ -6,14 +6,16 @@ require 'omniauth-oauth2'
 # an authorization provider.
 class NucatsMembership < OmniAuth::Strategies::OAuth2
 
-  CUSTOM_PROVIDER_URL     = 'http://nucats-membershipdb.example.com' # 'http://membership.nubic.northwestern.edu'
+  CUSTOM_PROVIDER_URL     = Rails.application.config.oauth_provider_url
   CUSTOM_AUTHORIZE_URL    = "#{CUSTOM_PROVIDER_URL}/auth/nucats_membership/authorize"
   CUSTOM_ACCESS_TOKEN_URL = "#{CUSTOM_PROVIDER_URL}/auth/nucats_membership/access_token"
+  # CUSTOM_TOKEN_URL        = "#{CUSTOM_PROVIDER_URL}/oauth/token"
 
   option :client_options, {
     site:  CUSTOM_PROVIDER_URL,
     authorize_url: CUSTOM_AUTHORIZE_URL,
-    access_token_url: CUSTOM_ACCESS_TOKEN_URL
+    access_token_url: CUSTOM_ACCESS_TOKEN_URL,
+    ssl: ssl
   }
 
   uid { raw_info['id'] }
@@ -31,6 +33,18 @@ class NucatsMembership < OmniAuth::Strategies::OAuth2
     {
       raw_info: raw_info['extra']['raw_info']
     }
+  end
+
+  # Return the configuration parameters for using ssl with the oauth client
+  # ssl: { ca_file: '/etc/pki/tls/certs/ca_bundle.crt' }
+  # or
+  # ssl: { ca_path: '/etc/pki/tls/certs/' }
+  def ssl
+    if Rails.env == 'staging' || Rails.env == 'production'
+      { ca_path: '/etc/pki/tls/certs/' }
+    else
+      nil
+    end
   end
 
   def raw_info

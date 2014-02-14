@@ -79,8 +79,6 @@ class ApplicationController < ActionController::Base
     set_session_attributes(the_user) if the_user.username == current_user.username
   end
 
-  private
-
   def check_authorization
     user = current_user_session || current_user
     unless user.roles.find { |role|

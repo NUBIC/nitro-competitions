@@ -55,7 +55,13 @@ module NucatsAssist
 
     # To switch to Omniauth in favor of aker for authentication
     # set the `use_omniauth` configuration attribute to true
+    # If using omniauth you should set the proper URL to the provider in the
+    # appropriate environment configuration file
     config.use_omniauth = true
+    config.oauth_provider_url = 'http://nucats-membershipdb.example.com'
+
+    # Emails will be sent from this address
+    config.from_address = 'p-friedman@northwestern.edu'
   end
 
 end
