@@ -56,11 +56,7 @@ class ApplicationController < ActionController::Base
   # For authorization using lib/nucats_membership.rb
   # as omniauth authority
   def login_required
-    redirect_to "#{relative_url_root}/auth/nucatsmembership" unless current_user
-  end
-
-  def relative_url_root
-    Rails.env == 'staging' ? '/nucats-assist' : ''
+    redirect_to '/auth/nucatsmembership' unless current_user
   end
 
   def check_ips
