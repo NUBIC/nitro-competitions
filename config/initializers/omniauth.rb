@@ -7,11 +7,10 @@
 #   https://membership.nubic.northwestern.edu/clients
 # Upon creating a new client application you will see the
 # app_id and app_secret associated with the regiestered client application.
-APP_ID = Rails.application.config.oauth_app_id
-APP_SECRET = Rails.application.config.oauth_app_secret
 
-CUSTOM_PROVIDER_URL = Rails.application.config.oauth_provider_url
+require 'dotenv'
+Dotenv.load
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :nucats_membership, APP_ID, APP_SECRET
+  provider :nucats_membership, ENV['OAUTH_CLIENT_APP_ID'], ENV['OAUTH_CLIENT_APP_SECRET']
 end

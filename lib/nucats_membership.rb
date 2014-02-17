@@ -6,20 +6,16 @@ require 'omniauth-oauth2'
 # an authorization provider.
 class NucatsMembership < OmniAuth::Strategies::OAuth2
 
-  CUSTOM_PROVIDER_URL     = Rails.application.config.oauth_provider_url
+  CUSTOM_PROVIDER_URL     = ENV['OAUTH_CLIENT_PROVIDER_URL']
   CUSTOM_AUTHORIZE_URL    = "#{CUSTOM_PROVIDER_URL}/auth/nucats_membership/authorize"
   CUSTOM_ACCESS_TOKEN_URL = "#{CUSTOM_PROVIDER_URL}/auth/nucats_membership/access_token"
-  # CUSTOM_TOKEN_URL        = "#{CUSTOM_PROVIDER_URL}/oauth/token"
+  SSL                     = ENV['CA_PATH'].blank? ? nil : { ca_path: ENV['CA_PATH'] }
 
-  # token_url: CUSTOM_TOKEN_URL,
-  # ssl: { ca_file: '/etc/pki/tls/certs/ca_bundle.crt' }
-  # or
-  # ssl: { ca_path: '/etc/pki/tls/certs/' }
   option :client_options, {
     site:  CUSTOM_PROVIDER_URL,
     authorize_url: CUSTOM_AUTHORIZE_URL,
     access_token_url: CUSTOM_ACCESS_TOKEN_URL,
-    ssl: { ca_path: '/etc/pki/tls/certs/' }
+    ssl: SSL
   }
 
   uid { raw_info['id'] }
@@ -38,8 +34,6 @@ class NucatsMembership < OmniAuth::Strategies::OAuth2
       raw_info: raw_info['extra']['raw_info']
     }
   end
-
-
 
   def raw_info
     @raw_info ||= access_token.get("/auth/nucats_membership/user.json?oauth_token=#{access_token.token}").parsed

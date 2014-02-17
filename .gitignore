@@ -9,4 +9,10 @@ tmp/pids
 assets/files/
 coverage/
 public/assets/
-NRTDP-Call for Collaborative Proposals.docx
+doc/notes/
+
+# Ignore .env files
+.env.test
+.env.development
+.env.staging
+.env.production
