@@ -1,5 +1,5 @@
 body {
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-size: 16px;
   color: black;
   background-color: white;
@@ -10,7 +10,7 @@ body {
 }
 
 p, ol, ul, td {
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-size: 18px;
   line-height: 21px;
 }
@@ -20,7 +20,7 @@ p {
   margin: 2px 0px 2px 0px;
   color: black;
   font-size: 18px;
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
 }
 
 ul {
@@ -47,7 +47,7 @@ pre {
 }
 
 h1, h2, h3 {
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: #222266;
@@ -59,7 +59,7 @@ h1, h2, h3 {
 }
 
 .h1, .h2, .h3 {
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: #222266;
@@ -83,6 +83,7 @@ h3, .h3 {
 a {
   background-color: inherit;
   color: blue;
+  text-decoration: none;
 }
 
 a:visited {
@@ -112,7 +113,7 @@ a:hover {
 #app_title {
   margin: 0;
   padding: .5em;
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-size: 150%;
   font-weight: bold;
   color: #222266;
@@ -120,15 +121,12 @@ a:hover {
 }
 
 #title {
-  margin: 0px;
-  padding: 5px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
-  font-size: 150%;
+  margin: 0;
+  padding: 0.25em 0 .5em .75em;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-size: 1.5em;
   font-weight: bold;
   color: #222266;
-  line-height: 180%;
   background-color: inherit;
 }
 
@@ -139,8 +137,12 @@ a:hover {
   background: inherit;
 }
 
+#program_title, #project_title {
+  padding: 0.5em 0 0.25em 0;
+}
+
 #add_key_personnel_link {
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-size: 140%;
   font-weight: bold;
   padding: 5px;

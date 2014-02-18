@@ -1,6 +1,6 @@
 /* tables */
 table.tablesorter {
-	font-family:Arial Narrow, Arial;
+	font-family: Arial;
 	background-color: #CDCDCD;
 	border: 0px;
     border-collapse: collapse;
@@ -22,7 +22,7 @@ table.tablesorter thead tr .header {
 	cursor: pointer;
 }
 table.tablesorter tbody td {
-	font-family:Arial Narrow, Arial;
+	font-family: Arial;
 	border: 0px;
 	font-size: 11pt;
 	color: #3D3D3D;

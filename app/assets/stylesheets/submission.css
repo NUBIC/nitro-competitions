@@ -17,5 +17,5 @@ div.submission_actions {
 }
 
 #unassigned_submissions {
-  position: fixed;
+  position: relative;
 }

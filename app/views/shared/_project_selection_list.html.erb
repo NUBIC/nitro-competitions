@@ -1,3 +1,4 @@
+<h1>Current and recent competitions</h1>
 <div class='project_selection_list'>
   <% projects.each_with_index do |project, i| %>
     <div class='project'>
@@ -5,7 +6,7 @@
         <%= project.current_status %>
         <% if (project.current_status =~ /open for/i) %>
           <div class='apply_link'>
-            <%= link_to(image_tag("apply_button.png"),
+            <%= link_to('Apply',
                 new_project_applicant_path(project.id),
                 :title => "Create an application for you or someone else for the competition '#{project.project_title}'") %>
           </div>
@@ -13,37 +14,32 @@
       </div>
       <div class='project_details'>
         <div class='project_information'>
-          Competition:
-          <%= link_to(h(project.project_title),
-                      show_competition_url(project.program.program_name, project.project_name),
-                      :title=>"Click here to view the competition #{project.project_title}") %>
+          <div class='competition'>
+            <%= link_to(h(project.project_title),
+                        show_competition_url(project.program.program_name, project.project_name),
+                        :title=>"Click here to view the competition #{project.project_title}") %>
+          </div>
         </div>
         <div class='project_information'>
-          Submission Period: <%= project.submission_open_date.to_s(:justdate) %> - <%= project.submission_close_date.to_s(:justdate) %>
+          <div class='project_dates'>
+            Submission Period:
+            <%= project.submission_open_date.to_s(:justdate) %> -
+            <%= project.submission_close_date.to_s(:justdate) %>
+          </div>
         </div>
         <% if has_read_all?(project.program) %>
           <div class='project_information'>
-            Number of Applications: <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
+            Number of Applications:
+            <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
           </div>
         <% end %>
-        <div class='project_information'>
-          <% unless project.program.program_url.blank? %>
+        <% unless project.program.program_url.blank? %>
+          <div class='project_information'>
             <% program_title = "Get more information on #{project.program.program_title}" %>
-            <%= link_to("Sponsor",
-                        project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
-            <%= link_to(image_tag("help_link.png",
-                                  :width => "16px", :height => "16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
-                        project.program.program_url, :title=>program_title, :target=>"_blank" ) %>
-          <% end %>
-          <% unless project.project_url.blank? %>
-            <% project_title = "Get more information and the RFA for '#{project.project_title}'" %>
-            <%= link_to("Competition RFA",
-                        project.project_url, :title=>project_title, :target=>"_blank" ) %>
-            <%= link_to(image_tag("help_link.png",
-                                  :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;"),
-                        project.project_url, :title=>project_title, :target=>"_blank" ) %>
-          <% end %>
-        </div>
+            <%= link_to(h(project.program.program_title),
+                        project.program.program_url, :title => program_title, :target => '_blank' ) %>
+          </div>
+        <% end %>
       </div>
       <%= render('shared/project_actions', :project => project, :show_submissions => false) %>
     </div>

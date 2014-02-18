@@ -6,7 +6,7 @@
   height: 28px;
   vertical-align: bottom;
   text-align: center;
-  font-size: 18px;
+  font: normal 15px Verdana;
   display: block;
 }
 
@@ -26,6 +26,23 @@
   background: #114411;
 }
 
+#menu {
+  float: right;
+  z-index: 4;
+  margin-top: -24px;
+  color: #AAA;
+  padding-right: 15px;
+  padding-bottom: 5px;
+}
+
+#menu .user_link {
+  background-color: #520064;
+  color: white;
+  font-size: +2;
+  margin-left: 5px;
+  text-decoration: none;
+}
+
 #main {
   display: inline;
   margin-left: 0px;
@@ -38,9 +55,6 @@
 }
 
 #content {
-  padding: 5px;
-  padding-left: 15px;
-  padding-right: 5px;
   overflow: hidden;
 }
 
@@ -66,4 +80,13 @@
   border-top-width: 1px;
   border-color: #cccccc;
   background: white;
+}
+
+#spinner {
+  display: none;
+  float: right;
+}
+
+.mail_to {
+  text-decoration: underline;
 }

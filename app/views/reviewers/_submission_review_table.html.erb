@@ -8,15 +8,15 @@
   <p style="float:right;">
   <% unless controller.action_name =~ /with_files/ %>
     <% if controller.action_name =~ /index/ %>
-      <%= link_to("list with files", index_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
+      <%= link_to("List with files", index_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
     <% else %>
-      <%= link_to("list with files", complete_listing_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
+      <%= link_to("List with files", complete_listing_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
     <% end %>
   <% else %>
     <% if controller.action_name =~ /index/ %>
-      <%= link_to("list without files", project_reviewers_url(submission_reviews[0].submission.project_id)) %>
+      <%= link_to("List without files", project_reviewers_url(submission_reviews[0].submission.project_id)) %>
     <% else %>
-      <%= link_to("list without files", complete_listing_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
+      <%= link_to("List without files", complete_listing_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
   <% end %>
 <% end  %>
 </p>
@@ -82,13 +82,15 @@
       <%= review.count_nonzeros? != review.submission.project.count_review_criteria? ? 'No' : 'Yes' %>
     </td>
     <td>
-      <%= link_to_submission_pdf(review.submission) %>
+      <%= link_to_submission_pdf(review.submission).html_safe %>
+      <br />
       <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
         <%= lnk.html_safe %>
+        <br/>
       <% end %>
     </td>
     <td>
-     <%= link_to_key_personnel_documents(review.submission.key_people, !speed_display) %>
+     <%= link_to_key_personnel_documents(review.submission.key_people, !speed_display).html_safe %>
    </td>
   <% end -%>
    </tr>

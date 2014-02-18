@@ -14,9 +14,9 @@ class UserSessionsController < ApplicationController
   # omniauth callback method
   def create
     omniauth = env['omniauth.auth']
-    User.find_or_create_from_omniauth(omniauth)
-    session[:user_info] = omniauth # Store all the info
-    flash[:notice] = 'Successfully logged in'
+    user = User.find_or_create_from_omniauth(omniauth)
+    set_session_attributes(user, omniauth)
+    flash[:notice] = 'You have successfully logged in!'
     redirect_to '/projects'
   end
 
@@ -28,8 +28,8 @@ class UserSessionsController < ApplicationController
 
   # signout - Clear our rack session user_info
   def destroy
-    session[:user_info] = nil
-    flash[:notice] = 'You have successfully signed out!'
+    clear_session_attributes
+    flash[:errors] = 'You have successfully signed out!'
     redirect_to '/welcome'
   end
 end

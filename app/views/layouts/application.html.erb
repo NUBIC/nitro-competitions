@@ -23,29 +23,20 @@
   <body>
     <%= render "shared/js_warning" %>
     <%= render "shared/debug_info" %>
-    <div id="main" class="autoclear">
-      <div id="app_title">
-        NUCATS Competition and Awards Application Site
-      </div>
-      <%= render "shared/banner" %>
-      <div id="title">
-        <%= current_program.program_title %> - <%= current_project.project_title %>
-      </div>
-      <div id="test" class="notice">
-        <%= flash[:notice] %>
-      </div>
+    <div id='main' class="autoclear">
+      <%= render 'shared/banner', show_title: true %>
       <div id='content'>
         <%= yield %>
       </div>
     </div>
     <div id="footer-row">
-      <%= link_to(image_tag( 'nubic-logo.gif', :size => "167x55" ),
+      <%= link_to(image_tag('nubic-logo.gif', :size => "167x55"),
                   "http://www.nucats.northwestern.edu/centers/nubic/index.html") %>
       <%= link_to(image_tag("pageheader.jpg",
-                            options={:alt=>"The Northwestern University Clinical and Translational Sciences Institute"} ),
+                  options={:alt=>"The Northwestern University Clinical and Translational Sciences Institute"} ),
                   "http://www.nucats.northwestern.edu") %>
       If you have comments, issues, critiques,
-      <a href='mailto:nucatsassist@nubic.northwestern.edu'>please send us an email!</a>
+      <a href='mailto:nucatsassist@nubic.northwestern.edu' class='mail_to'>please send us an email!</a>
     </div>
   </body>
 </html>

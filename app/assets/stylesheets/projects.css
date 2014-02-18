@@ -1,26 +1,61 @@
 div#content {
-  padding: 0 0.5em;
+  padding: 0 1em;
 }
 
-div.project {
+.project {
   float: left;
   width: 98%;
-  border: 1px solid gray;
+  border-bottom: 1px solid lightgray;
   margin-bottom: 1em;
   padding: 1em 0.5em;
 }
 
-div.apply {
+.apply {
   float: left;
-  width: 10%;
+  width: 13%;
 }
 
-div.project_details {
-  width: 55%;
+.project_details {
+  width: 52%;
   float: left;
 }
 
-div.project_actions {
-  width: 30%;
+.project_details .competition a {
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.1em;
+}
+
+.project_information a,
+.project_information a:hover {
+  text-decoration: none;
+}
+
+.project_actions {
+  width: 25%;
   float: left;
+}
+
+.apply_link a,
+.apply_link a:hover {
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  width: auto;
+  height: auto;
+  color: white !important;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  margin-top: 0.25em;
+  line-height: auto;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.apply_link a {
+  background-color: green;
+}
+.apply_link a:hover {
+  background-color: limegreen;
 }

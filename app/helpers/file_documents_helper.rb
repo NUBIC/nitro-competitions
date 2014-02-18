@@ -11,7 +11,7 @@ module FileDocumentsHelper
         return image_tag('warning_16.png', width: '16px', height: '16px')
       else
         mouse_over ||= ''
-        return link_to(link_text, required_path, title: "Please upload #{link_text} #{mouse_over}".strip, class: 'warning_16')
+        return link_to(link_text.html_safe, required_path, title: "Please upload #{link_text} #{mouse_over}".strip, class: 'warning_16')
       end
     end
     if lookup_file_type
@@ -25,7 +25,7 @@ module FileDocumentsHelper
     end
     mouse_over = link_text if mouse_over.nil?
     mouse_over = file_name if mouse_over.blank?
-    link_to(link_text, file_document_path(id, format: file_format), title: 'Download ' + mouse_over, target: '_blank', class: determine_image_class(file_type)).html_safe
+    link_to(link_text.html_safe, file_document_path(id, format: file_format), title: 'Download ' + mouse_over, target: '_blank', class: determine_image_class(file_type)).html_safe
   end
 
   def determine_image_class(file_type)

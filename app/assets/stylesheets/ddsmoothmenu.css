@@ -1,13 +1,13 @@
 div#banner_menu {
-  float: left; 
-  z-index: 3; 
+  float: left;
+  z-index: 3;
   margin: 0;
   width: 650px;
  /* background-image: url('../images/banner_menu.jpg'); */
 }
 
 .ddsmoothmenu{
-font: bold 11px Verdana;
+font: normal 13px Verdana;
 background: #656565; /*background of menu bar (default state)*/
 height: 29px;
 text-align: left;
@@ -29,7 +29,7 @@ float: left;
 
 /*Top level menu link items style*/
 .ddsmoothmenu ul li a{
-font: bold 11px Verdana;
+font: normal 13px Verdana;
 display: block;
 background: #656565; /*background of menu items (default state)*/
 color: white;
@@ -52,7 +52,7 @@ color: white;
 }
 
 .ddsmoothmenu ul li a.selected{ /*CSS class that's dynamically added to the currently active menu items' LI A element*/
-background: black; 
+background: black;
 color: white;
 }
 
@@ -60,7 +60,7 @@ color: white;
 background: black; /*background of menu items during onmouseover (hover state)*/
 color: white;
 }
-	
+
 /*1st sub level menu*/
 .ddsmoothmenu ul li ul{
 position: absolute;

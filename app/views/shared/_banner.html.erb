@@ -1,19 +1,24 @@
+<% show_title ||= false %>
+<div id="app_title">
+  NUCATS Competition and Awards Application Site
+</div>
 <div id="banner">
-  <%= image_tag( "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;") %>
+  <%= image_tag "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;" %>
   <div style="float:left; z-index:2; margin-top:-29px;">
-    <%= image_tag( "banner_edge.jpg") %>
-    <%= render "shared/menus" if defined?(current_user_session) && !current_user_session.blank? %>
-    <%= image_tag( "banner_edge.jpg") %>
+    <%= image_tag "banner_edge.jpg"  %>
+    <% if defined?(current_user_session) && !current_user_session.blank? %>
+      <%= render "shared/menus"  %>
+      <%= image_tag "banner_edge.jpg" %>
+    <% end %>
   </div>
-  <div id="menu" style="float:right; z-index:4; margin-top:-21px; color:#AAA; padding-right:15px; ">
-    <%= link_to(image_tag("help_32.png", :width=>"24px", :height=>"24px", :style=>"margin:-5px 5px -2px 0px;" ) + ' Help ',
-                image_path("../docs/NUCATS_Assist_Instructions.pdf"),
+  <div id="menu">
+    <%= link_to('Help', image_path("../docs/NUCATS_Assist_Instructions.pdf"),
                 :title => "Instructions on how to use NUCATS Assist and general help manual",
                 :style => "background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
     <% if defined?(current_user_session) && !current_user_session.blank? %>
       <%= session[:name] || current_user_session.username %>
       <%= link_to "Sign Out", application_logout_path,
-                  :style => "background-color:#520064; color:white; font-size:+2; margin-left:5px; text-decoration:none;",
+                  :class => 'user_link',
                   :title => "Logout of NUCATS Assist" %>
     <% else %>
       <%= link_to 'Login', projects_path,
@@ -22,9 +27,29 @@
     <% end %>
   </div>
 </div>
-<div id="results" class="notice">
-  <div id="errors">
-    <%= flash[:errors] %>
+<% unless flash[:errors].blank? %>
+  <div id="results" class="notice">
+    <div id="errors">
+      <%= flash[:errors] %>
+    </div>
+
+  <%= image_tag 'loading.gif', :id => 'spinner' %>
   </div>
-  <%= image_tag 'loading.gif', :id=>'spinner', :style=>"display:none; float:right;" %>
-</div>
+<% end %>
+<% unless flash[:notice].blank? %>
+  <div id="test" class="notice">
+    <div id="notice">
+      <%= flash[:notice] %>
+    </div>
+  </div>
+<% end %>
+<% if show_title %>
+  <div id='title'>
+    <div id='program_title' title='Current Selected Program'>
+      <%= current_program.program_title %>
+    </div>
+    <div id='project_title' title='Current Selected Project'>
+      <%= current_project.project_title %>
+    </div>
+  </div>
+<% end %>

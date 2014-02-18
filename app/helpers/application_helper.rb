@@ -153,13 +153,14 @@ module ApplicationHelper
     defined?(request) && ! request.nil?
   end
 
-  def set_session_attributes(the_user)
+  def set_session_attributes(the_user, omniauth = nil)
     return unless session_exists?
     session[:username]   = the_user.username.to_s
     session[:name]       = the_user.name.to_s
     session[:user_era_commons_name] = the_user.era_commons_name.to_s
     session[:user_email] = the_user.email.to_s
     session[:user_id]    = the_user.id.to_s
+    session[:user_info]  = omniauth
     @current_user_session = the_user
     log_request('login')
   end
@@ -171,6 +172,7 @@ module ApplicationHelper
     session[:user_era_commons_name] = nil
     session[:user_email] = nil
     session[:user_id]    = nil
+    session[:user_info]  = nil
     @current_user_session = nil
     log_request('clear_session')
   end

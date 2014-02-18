@@ -4,7 +4,7 @@
 	}
 
 	body {
-	  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+	  font-family: Arial, Helvetica, Geneva, sans-serif;
 	  font-size: 11pt;
 	  color: black;
 	  background-color: white;
@@ -12,7 +12,7 @@
 	  margin: 5px 5px 5px 5px !important  }
 
 	p, ol, ul, td {
-	  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+	  font-family: Arial, Helvetica, Geneva, sans-serif;
 	  font-size: 11pt;
 	  line-height: 12pt; }
 
@@ -21,7 +21,7 @@
 	  margin: 2px 0px 2px 0px;
 	  color: black;
 	  font-size: 11pt;
-	  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif; }
+	  font-family: Arial, Helvetica, Geneva, sans-serif;
 
 	ul {
 	  margin-left: 0px;
@@ -42,7 +42,7 @@
 	  margin-top: -2px; }
 
 	h1, h2, h3 {
-	  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+	  font-family: Arial, Helvetica, Geneva, sans-serif;
 	  font-size: 16pt;
 	  font-weight: bold;
 	  color: #222266;
@@ -53,7 +53,7 @@
 	  padding-top: 0px; }
 
 	.h1, .h2, .h3 {
-	  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+	  font-family: Arial, Helvetica, Geneva, sans-serif;
 	  font-size: 16pt;
 	  font-weight: bold;
 	  color: #222266;
@@ -98,16 +98,16 @@
 	  border-bottom: 1px  solid indigo;
 	  border-collapse: collapse;
 	  font-size: 9pt;
-	  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif; }
+	  font-family: Arial, Helvetica, Geneva, sans-serif;
 	  table.lined tr th {
 	    font-size: 9pt;
-	    font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+	    font-family: Arial, Helvetica, Geneva, sans-serif;
 	    border-bottom: 1px solid indigo;
 	    border-right: 1px solid indigo;
 	    padding: 2px 4px 3px 5px /* top, right, bottom, and left */; }
 table.lined tr td {
   font-size: 9pt;
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   border-bottom: 1px solid indigo;
   border-right: 1px solid indigo;
   padding: 2px 4px 3px 5px /* top, right, bottom, and left */; }
@@ -115,7 +115,7 @@ table.lined tr td {
     text-transform: uppercase; }
   table.lined tr td.notes {
     font-size: 10pt;
-    font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+    font-family: Arial, Helvetica, Geneva, sans-serif;
     color: #5555aa; }
 
 	table.borderless {
@@ -154,4 +154,4 @@ table.lined tr td {
 div.final_line {
     background-color: #222266;
     line-height: 21px;
-    margin: 10px 0 0 0; }	
+    margin: 10px 0 0 0; }

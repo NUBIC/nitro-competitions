@@ -155,10 +155,10 @@ module SubmissionsHelper
 
   def list_submission_files_as_array(submission)
     out = []
-    out << "PI biosketch: #{format_document_info(submission.applicant_biosketch_document)}" unless submission.applicant_biosketch_document_id.blank?
-    out << "Application doc: #{format_document_info(submission.application_document)}" unless submission.application_document_id.blank?
-    out << "Budget doc: #{format_document_info(submission.budget_document)}" unless submission.budget_document_id.blank?
-    out << "Other Support doc: #{format_document_info(submission.other_support_document)}" unless submission.other_support_document_id.blank?
+    out << "PI&nbsp;biosketch: #{format_document_info(submission.applicant_biosketch_document)}" unless submission.applicant_biosketch_document_id.blank?
+    out << "Application&nbsp;doc: #{format_document_info(submission.application_document)}" unless submission.application_document_id.blank?
+    out << "Budget&nbsp;doc: #{format_document_info(submission.budget_document)}" unless submission.budget_document_id.blank?
+    out << "Other&nbsp;Support&nbsp;doc: #{format_document_info(submission.other_support_document)}" unless submission.other_support_document_id.blank?
     out << "#{submission.project.document1_name} doc: " + format_document_info(submission.document1) unless !submission.project.show_document1 || submission.document1_id.blank?
     out << "#{submission.project.document2_name} doc: " + format_document_info(submission.document2) unless !submission.project.show_document2 || submission.document2_id.blank?
     out << "#{submission.project.document3_name} doc: " + format_document_info(submission.document3) unless !submission.project.show_document3 || submission.document3_id.blank?
@@ -170,9 +170,9 @@ module SubmissionsHelper
   def link_to_submission_files_as_array(submission, project, lookup = true)
     [
       link_to_file(submission.applicant_biosketch_document_id,
-                   'PI biosketch',
+                   'PI&nbsp;biosketch',
                    'document',
-                   'PI biosketch ',
+                   'PI&nbsp;biosketch ',
                    project.show_manage_biosketches,
                    edit_documents_submission_path(submission.id),
                    lookup),
@@ -191,35 +191,35 @@ module SubmissionsHelper
                    edit_documents_submission_path(submission.id),
                    lookup),
       link_to_file(submission.other_support_document_id,
-                   'Other Support',
+                   'Other&nbsp;Support',
                    'document',
-                   'Other Support',
+                   'Other&nbsp;Support',
                    project.show_manage_other_support,
                    edit_documents_submission_path(submission.id),
                    lookup),
       link_to_file(submission.document1_id,
-                   'Doc 1',
+                   'Doc&nbsp;1',
                    'document',
                    project.document1_name,
                    project.show_document1,
                    edit_documents_submission_path(submission.id),
                    lookup),
       link_to_file(submission.document2_id,
-                   'Doc 2',
+                   'Doc&nbsp;2',
                    'document',
                    project.document2_name,
                    project.show_document2,
                    edit_documents_submission_path(submission.id),
                    lookup),
       link_to_file(submission.document3_id,
-                   'Doc 3',
+                   'Doc&nbsp;3',
                    'document',
                    project.document3_name,
                    project.show_document3,
                    edit_documents_submission_path(submission.id),
                    lookup),
       link_to_file(submission.document4_id,
-                   'Doc 4',
+                   'Doc&nbsp;4',
                    'document',
                    project.document4_name,
                    project.show_document4,

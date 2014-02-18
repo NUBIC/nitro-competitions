@@ -35,22 +35,21 @@
 }
 
 div.notice {
-  margin: 0px;
-  padding: 0px;
-  padding-left: 10px;
-  color: green;
+  margin: 0;
   background-color: white;
-  font-family: Arial Narrow, Arial, Helvetica, Geneva, sans-serif;
+  font-family: Arial, Helvetica, Geneva, sans-serif;
   font-weight: bold;
-  font-size: 27px;
-/*  border-bottom: 8px solid #a3a3a3; */
-  line-height: 65px;
+  font-size: 1.25em;
 }
 
-div.notice #errors {
-  border: 2px solid red;
-  padding: 2px;
-  background-color: papayawhip;
-  color: darkred;
-  display: table;
+div#notice {
+  padding: 0.75em 0 0.5em 1em;
+  color: green;
+  border-bottom: 2px solid green;
+}
+
+#errors {
+  padding: 0.75em 0 0.5em 1em;
+  color: crimson;
+  border-bottom: 2px solid crimson;
 }
