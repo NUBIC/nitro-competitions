@@ -8,10 +8,10 @@
   <!-- f and submission are existing variables passed in -->
   <%= f.hidden_field :submission_status %>
   <table class="lined">
-    <%= render('submission_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant %>
+    <%= render 'submission_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant %>
     <tr>
       <td colspan="3" align="center" style="background:#ADE387;">
-        <%= f.submit( (@submission.id.blank?) ? 'Save Draft and Continue' : 'Save Update' ) %>
+        <%= f.submit( @submission.id.blank? ? 'Save Draft and Continue' : 'Save Update' ) %>
       </td>
     </tr>
   </table>

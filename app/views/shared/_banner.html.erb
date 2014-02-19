@@ -30,7 +30,7 @@
 <% unless flash[:errors].blank? %>
   <div id="results" class="notice">
     <div id="errors">
-      <%= flash[:errors] %>
+      <%= flash[:errors].html_safe %>
     </div>
 
   <%= image_tag 'loading.gif', :id => 'spinner' %>
@@ -39,7 +39,7 @@
 <% unless flash[:notice].blank? %>
   <div id="test" class="notice">
     <div id="notice">
-      <%= flash[:notice] %>
+      <%= flash[:notice].html_safe %>
     </div>
   </div>
 <% end %>

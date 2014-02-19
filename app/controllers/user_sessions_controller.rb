@@ -16,6 +16,7 @@ class UserSessionsController < ApplicationController
     omniauth = env['omniauth.auth']
     user = User.find_or_create_from_omniauth(omniauth)
     set_session_attributes(user, omniauth)
+    check_session
     flash[:notice] = 'You have successfully logged in!'
     redirect_to '/projects'
   end

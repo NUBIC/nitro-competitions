@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
   # For authorization using lib/nucats_membership.rb
   # as omniauth authority
   def login_required
-    redirect_to '/auth/nucatsmembership' unless current_user
+    redirect_to '/auth/nucatsmembership' if session[:user_info].blank?
   end
 
   def check_ips

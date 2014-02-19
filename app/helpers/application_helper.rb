@@ -160,7 +160,7 @@ module ApplicationHelper
     session[:user_era_commons_name] = the_user.era_commons_name.to_s
     session[:user_email] = the_user.email.to_s
     session[:user_id]    = the_user.id.to_s
-    session[:user_info]  = omniauth
+    session[:user_info]  = omniauth if omniauth
     @current_user_session = the_user
     log_request('login')
   end
