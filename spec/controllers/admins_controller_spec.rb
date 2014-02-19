@@ -3,44 +3,50 @@
 require 'spec_helper'
 
 describe AdminsController do
-  describe 'GET index' do
-    let(:project) { FactoryGirl.create(:project) }
-    it 'assigns @sponsor' do
-      get :index, :project_id => project.id
-      assigns[:sponsor].should_not be_nil
+
+  context 'with a logged in admin user' do
+    before do
+      login(admin_login)
     end
-    it 'does not assign @submissions' do
-      get :index, :project_id => project.id
-      assigns[:submissions].should be_nil
+
+    describe 'GET index' do
+      let(:project) { FactoryGirl.create(:project) }
+      it 'assigns @sponsor' do
+        get :index, :project_id => project.id
+        assigns[:sponsor].should_not be_nil
+      end
+      it 'does not assign @submissions' do
+        get :index, :project_id => project.id
+        assigns[:submissions].should be_nil
+      end
+      it 'redirects to projects_path' do
+        get :index, :project_id => project.id
+        response.should redirect_to(projects_path)
+      end
     end
-    it 'redirects to projects_path' do
-      get :index, :project_id => project.id
-      response.should redirect_to(projects_path)
+
+    describe 'GET view_activities' do
+      let(:project) { FactoryGirl.create(:project) }
+      it 'redirects to projects_path' do
+        get :view_activities, :project_id => project.id
+        response.should redirect_to(projects_path)
+      end
+    end
+
+    describe 'GET submissions' do
+      let(:project) { FactoryGirl.create(:project) }
+      it 'redirects to projects_path' do
+        get :submissions, :project_id => project.id
+        response.should redirect_to(projects_path)
+      end
+    end
+
+    describe 'PUT reviews' do
+      let(:project) { FactoryGirl.create(:project) }
+      it 'redirects to projects_path' do
+        put :reviews, :project_id => project.id
+        response.should redirect_to(projects_path)
+      end
     end
   end
-
-  describe 'GET view_activities' do
-    let(:project) { FactoryGirl.create(:project) }
-    it 'redirects to projects_path' do
-      get :view_activities, :project_id => project.id
-      response.should redirect_to(projects_path)
-    end
-  end
-
-  describe 'GET submissions' do
-    let(:project) { FactoryGirl.create(:project) }
-    it 'redirects to projects_path' do
-      get :submissions, :project_id => project.id
-      response.should redirect_to(projects_path)
-    end
-  end
-
-  describe 'PUT reviews' do
-    let(:project) { FactoryGirl.create(:project) }
-    it 'redirects to projects_path' do
-      put :reviews, :project_id => project.id
-      response.should redirect_to(projects_path)
-    end
-  end
-
 end

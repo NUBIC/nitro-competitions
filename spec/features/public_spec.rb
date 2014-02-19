@@ -13,7 +13,7 @@ describe 'Public Section' do
       it 'shows the home page' do
         expect(page).to have_content('NUCATS Competition and Awards Application Site')
         expect(page).to have_content('Welcome to NUCATS Assist')
-        expect(page).to have_content('Listing of current and recent competitions')
+        expect(page).to have_content('Current and recent competitions')
       end
     end
   end

@@ -5,13 +5,13 @@ class SubmissionsController < ApplicationController
   # GET /submissions
   # GET /submissions.xml
   def index
-    #project/:project_id/submissions should be the only way to get here
+    # project/:project_id/submissions should be the only way to get here
 
     projects = Project.find_all_by_id(params[:project_id])
     @project = projects[0] unless projects.blank?
-    @submissions = Submission.associated(projects.collect(&:id), current_user_session.id)
+    @submissions = Submission.associated(projects.map(&:id), current_user_session.id)
     if @submissions.nil?
-      render :inline, "user not found"
+      render :inline, 'user not found'
     else
       respond_to do |format|
         format.html # index.html.erb
@@ -22,9 +22,9 @@ class SubmissionsController < ApplicationController
 
   def all
     @submissions = Submission.associated_with_user(current_user_session.id)
-    @title = "All your submissions"
+    @title = 'All your submissions'
     if @submissions.nil?
-      render :inline, "user not found"
+      render :inline, 'user not found'
     else
       respond_to do |format|
         format.html { render :index }# index.html.erb
@@ -41,7 +41,7 @@ class SubmissionsController < ApplicationController
     @submission_reviews = @submission.submission_reviews
     if !@submission.blank? and (has_read_all?(@submission.project.program) or @submissions.map(&:id).include?(@submission.id) or @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
-        format.html { render :layout=>'pdf' }# show.html.erb
+        format.html { render :layout => 'pdf' }# show.html.erb
         format.pdf do
            render :pdf => @submission.submission_title,
               :stylesheets => ["pdf"],

@@ -4,28 +4,28 @@ require 'spec_helper'
 
 describe ApplicantsController do
 
-  describe 'GET index' do
-    # cf. has_read_all?
-    describe 'without having read all' do
-      let(:project) { FactoryGirl.create(:project) }
-      it 'assigns @project' do
-        get :index, :project_id => project.id
-        assigns[:project].should eq project
-      end
-      it 'assigns @sponsor' do
-        get :index, :project_id => project.id
-        assigns[:sponsor].should eq project.program
-      end
-      it 'redirects to projects_path' do
-        get :index, :project_id => project.id
-        response.should redirect_to(projects_path)
-      end
-    end
-  end
-
   context "with an authenticated user" do
     before(:each) do
       login(user_login)
+    end
+
+    describe 'GET index' do
+      # cf. has_read_all?
+      describe 'without having read all' do
+        let(:project) { FactoryGirl.create(:project) }
+        it 'assigns @project' do
+          get :index, :project_id => project.id
+          assigns[:project].should eq project
+        end
+        it 'assigns @sponsor' do
+          get :index, :project_id => project.id
+          assigns[:sponsor].should eq project.program
+        end
+        it 'redirects to projects_path' do
+          get :index, :project_id => project.id
+          response.should redirect_to(projects_path)
+        end
+      end
     end
 
     describe 'GET new' do

@@ -30,7 +30,7 @@ module ApplicationHelper
   # list of allowed IPs
 
   def disallowed_ip(this_ip)
-    return false if Rails.env == 'development'
+    return false if Rails.env == 'development' || Rails.env == 'test'
 
     # from config.rb in project lib directory
     allowed_ips.each do |ip|
