@@ -171,8 +171,8 @@ class User < ActiveRecord::Base
 
   def self.extract_username_from_omniauth(omniauth)
     result = omniauth['info']['email']
-    unless omniauth['extra']['person_identities'].blank?
-      omniauth['extra']['person_identities'].each do |identity|
+    unless omniauth['extra']['raw_info']['person_identities'].blank?
+      omniauth['extra']['raw_info']['person_identities'].each do |identity|
         if identity['provider_username'].blank?
           result = identity['email']
         else
@@ -202,8 +202,8 @@ class User < ActiveRecord::Base
   def self.find_user_from_omniauth(omniauth)
     email = omniauth['info']['email']
     user = User.where(email: email).first unless email.blank?
-    if user.blank? && !omniauth['extra']['person_identities'].blank?
-      user = find_user_from_authentication_provider(omniauth['extra']['person_identities'])
+    if user.blank? && !omniauth['extra']['raw_info']['person_identities'].blank?
+      user = find_user_from_authentication_provider(omniauth['extra']['raw_info']['person_identities'])
     end
     user
   end

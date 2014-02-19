@@ -9,7 +9,7 @@ NucatsAssist::Application.configure do
 
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true
-  config.static_cache_control = "public, max-age=3600"
+  config.static_cache_control = 'public, max-age=3600'
 
   # Allow pass debug_assets=true as a query parameter to load pages with unpackaged assets
   config.assets.allow_debugging = true
@@ -36,6 +36,9 @@ NucatsAssist::Application.configure do
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
+
+  # do not use omniauth in testing
+  config.use_omniauth = false
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr

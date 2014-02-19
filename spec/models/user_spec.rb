@@ -242,32 +242,35 @@ describe User do
         ),
         extra: OmniAuth::AuthHash.new(
           {
-            name: 'John X. Doe',
-            first_name: 'John',
-            last_name: 'Doe',
-            email: email,
-            person_identities: [
-              OmniAuth::AuthHash.new(
-              {
-                provider: 'google_oauth2',
-                uid: '111111111111111111111',
-                email: email,
-                provider_username: nil,
-                username: nil,
-                nickname: nil,
-                domain: nil
-              }),
-              OmniAuth::AuthHash.new(
-              {
-                provider: 'northwestern_medicine',
-                uid: "nu\\#{netid}",
-                email: nu_email,
-                provider_username: netid,
-                username: "nu\\#{netid}",
-                nickname: nil,
-                domain: 'nu'
-              })
-            ]
+            raw_info: OmniAuth::AuthHash.new(
+            {
+              name: 'John X. Doe',
+              first_name: 'John',
+              last_name: 'Doe',
+              email: email,
+              person_identities: [
+                OmniAuth::AuthHash.new(
+                {
+                  provider: 'google_oauth2',
+                  uid: '111111111111111111111',
+                  email: email,
+                  provider_username: nil,
+                  username: nil,
+                  nickname: nil,
+                  domain: nil
+                }),
+                OmniAuth::AuthHash.new(
+                {
+                  provider: 'northwestern_medicine',
+                  uid: "nu\\#{netid}",
+                  email: nu_email,
+                  provider_username: netid,
+                  username: "nu\\#{netid}",
+                  nickname: nil,
+                  domain: 'nu'
+                })
+              ]
+            })
           }
         )
       })
