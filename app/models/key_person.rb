@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20130511121216
 #
@@ -21,6 +22,7 @@ class KeyPerson < ActiveRecord::Base
   accepts_nested_attributes_for :submission, :allow_destroy => true, :reject_if => :all_blank
 
   attr_accessible *column_names
+  attr_accessible :user, :submission
 
   def self.quotes
     "\x91\x92\x93\x94".unpack("Z*")

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20130511121216
 #
@@ -31,6 +32,7 @@ class Program < ActiveRecord::Base
   before_validation :clean_params
 
   attr_accessible *column_names
+  attr_accessible :creater
 
   validates_uniqueness_of :program_name  #simplifies the logic a lot if we force the project names to be absolutely unique
   validates_length_of :program_title, :within => 2..80, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"

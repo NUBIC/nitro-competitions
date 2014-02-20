@@ -8,8 +8,8 @@ set :rails_env, :production
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
 role :app, %w{rails-prod2.nubic.northwestern.edu}
-role :web, %w{rails-prod.nubic.northwestern.edu}
-role :db,  %w{rails-prod.nubic.northwestern.edu}
+role :web, %w{rails-prod2.nubic.northwestern.edu}
+role :db,  %w{rails-prod2.nubic.northwestern.edu}
 
 # Extended Server Syntax
 # ======================
@@ -17,7 +17,7 @@ role :db,  %w{rails-prod.nubic.northwestern.edu}
 # definition into the server list. The second argument
 # something that quacks like a has can be used to set
 # extended properties on the server.
-server 'rails-prod.nubic.northwestern.edu', user: 'pfr957', roles: %w{web app}, primary: true
+server 'rails-prod2.nubic.northwestern.edu', user: 'pfr957', roles: %w{web app}, primary: true
 
 # you can set custom ssh options
 # it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options
@@ -42,3 +42,4 @@ server 'rails-prod.nubic.northwestern.edu', user: 'pfr957', roles: %w{web app}, 
 # setting per server overrides global ssh_options
 
 # fetch(:default_env).merge!(rails_env: :production)
+

@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20140213161624
 #
@@ -94,11 +95,12 @@ class Submission < ActiveRecord::Base
 
   accepts_nested_attributes_for :applicant
   attr_accessible *column_names
-  attr_accessible :applicant_biosketch_document, :application_document
-  attr_accessible :budget_document, :other_support_document, :uploaded_budget
+  attr_accessible :applicant_biosketch_document, :application_document, :budget_document, :other_support_document
   attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget
   attr_accessible :document1, :document2, :document3, :document4
   attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
+  attr_accessible :applicant, :submitter, :effort_approver, :core_manager, :department_administrator
+
 
   attr_accessor :max_budget_request
   attr_accessor :min_budget_request

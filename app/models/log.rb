@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20130511121216
 #
@@ -26,5 +27,5 @@ class Log < ActiveRecord::Base
   scope :reviews, where("activity LIKE '%%review%%'")
 
   attr_accessible *column_names
-
+  attr_accessible :project, :program, :user
 end

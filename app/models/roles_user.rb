@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20130511121216
 #
@@ -24,6 +25,7 @@ class RolesUser < ActiveRecord::Base
   belongs_to :role
   has_many :rights, :through => :role
   attr_accessible *column_names
+  attr_accessible :program, :user, :role
 
   scope :for_role, lambda { |*args| where('role_id = :id', { :id => args.first || 0 }) }
   scope :for_program, lambda { |*args| where('program_id = :id', { :id => args.first || 0 }) }

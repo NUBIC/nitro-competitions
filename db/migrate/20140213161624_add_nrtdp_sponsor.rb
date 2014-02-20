@@ -40,7 +40,13 @@ class AddNrtdpSponsor < ActiveRecord::Migration
                            email: arr[3]
       end
       admin = Role.where(name: 'Admin').first
-      RolesUser.create(program: program, user: user, role: admin) if admin && user && program
+      if admin && user && program
+        ru = RolesUser.new
+        ru.user = user
+        ru.role = admin
+        ru.program = program
+        ru.save!
+      end
     end
   end
 

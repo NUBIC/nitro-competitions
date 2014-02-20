@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class Notifier < ActionMailer::Base
   require "#{Rails.root}/app/helpers/application_helper"
   include ApplicationHelper
