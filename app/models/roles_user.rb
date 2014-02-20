@@ -23,6 +23,7 @@ class RolesUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :role
   has_many :rights, :through => :role
+  attr_accessible *column_names
 
   scope :for_role, lambda { |*args| where('role_id = :id', { :id => args.first || 0 }) }
   scope :for_program, lambda { |*args| where('program_id = :id', { :id => args.first || 0 }) }

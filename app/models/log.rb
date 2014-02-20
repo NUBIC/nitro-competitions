@@ -25,4 +25,6 @@ class Log < ActiveRecord::Base
   scope :submissions, where("activity LIKE '%%submission%%'")  #need to escape the % with itself!
   scope :reviews, where("activity LIKE '%%review%%'")
 
+  attr_accessible *column_names
+
 end

@@ -38,6 +38,9 @@ class FileDocument < ActiveRecord::Base
   before_create :set_on_create
   before_update :set_last_update
 
+  attr_accessible *column_names
+  attr_accessible :file
+
   # this defines the connection between the model attribute exposed to the form (uploaded_file)
   # and the storage fields- file_name, content_type, photo
   def uploaded_file=(field)

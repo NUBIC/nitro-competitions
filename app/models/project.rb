@@ -159,6 +159,8 @@ class Project < ActiveRecord::Base
   default_scope :order => 'submission_open_date DESC'
   before_validation :clean_params
 
+  attr_accessible *column_names
+
   validates_length_of :project_title, :within => 10..100, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
   validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
   validates_uniqueness_of :project_name  #simplifies the logic a lot if we force the project names to be absolutely unique

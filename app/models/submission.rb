@@ -93,6 +93,15 @@ class Submission < ActiveRecord::Base
   after_save :save_documents
 
   accepts_nested_attributes_for :applicant
+  attr_accessible *column_names
+  attr_accessible :applicant_biosketch_document, :application_document
+  attr_accessible :budget_document, :other_support_document, :uploaded_budget
+  attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget
+  attr_accessible :document1, :document2, :document3, :document4
+  attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
+
+  attr_accessor :max_budget_request
+  attr_accessor :min_budget_request
 
   # TODO: determine where submissions need to be ordered and add this at that point
   #       the ordering has been commented out because the joins method is not working
@@ -134,9 +143,6 @@ class Submission < ActiveRecord::Base
       .order('id asc')
     end
   }
-
-  attr_accessor :max_budget_request
-  attr_accessor :min_budget_request
 
   before_validation :clean_params, :set_defaults
 
@@ -227,6 +233,7 @@ class Submission < ActiveRecord::Base
   def self.approved_submissions(username)
     self.where('effort_approver_username = :username', { :username => username }).all
   end
+
   def uploaded_biosketch=(data_field)
     # this will update the applicant's personal biosketch and then add to the submission as well
     # set the current biosketch
@@ -238,7 +245,7 @@ class Submission < ActiveRecord::Base
     end
   end
 
-  # this defines the connection between the model attribute exposed to the form (uploaded_budget )
+  # this defines the connection between the model attribute exposed to the form (uploaded_budget)
   # and the file_document model
   def uploaded_budget=(data_field)
     self.budget_document = FileDocument.new if self.budget_document.nil?
@@ -310,11 +317,16 @@ class Submission < ActiveRecord::Base
     unless self.applicant.blank? or self.applicant.biosketch.blank? # self.applicant.biosketch_document_id.blank?
       if self.applicant_biosketch_document_id.blank?
         # create a new copy of the file associated only with the submission
-        self.applicant_biosketch_document = FileDocument.new(:file => self.applicant.biosketch.file)
-        self.applicant_biosketch_document.file_content_type = self.applicant.biosketch.file_content_type
-        self.applicant_biosketch_document.file_file_name = self.applicant.biosketch.file_file_name
-        self.applicant_biosketch_document.last_updated_at = self.applicant.biosketch.updated_at
-        self.applicant_biosketch_document.save
+        unless self.applicant.biosketch.file.blank?
+          Rails.logger.info("~~~~ self.applicant.biosketch.file = #{self.applicant.biosketch.file.inspect}")
+          self.applicant_biosketch_document = FileDocument.new(:file => self.applicant.biosketch.file)
+          self.applicant_biosketch_document.file_content_type = self.applicant.biosketch.file_content_type
+          self.applicant_biosketch_document.file_file_name = self.applicant.biosketch.file_file_name
+          self.applicant_biosketch_document.last_updated_at = self.applicant.biosketch.updated_at
+
+          Rails.logger.info("~~~~ creating self.applicant_biosketch_document: #{self.applicant_biosketch_document.inspect}")
+          self.applicant_biosketch_document.save
+        end
         begin
           logger.error "saving biosketch:  updated_at: #{self.applicant_biosketch_document.last_updated_at} was #{self.applicant.biosketch.updated_at}"
         rescue

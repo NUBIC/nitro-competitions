@@ -64,6 +64,7 @@ class User < ActiveRecord::Base
   attr_accessor :validate_era_commons_name
   attr_accessor :validate_name
   attr_accessor :validate_email_attr
+  attr_accessible *column_names
 
   after_save :save_documents
 
