@@ -23,13 +23,6 @@
         <%= yield %>
       </div>
     </div>
-    <div id="footer-row">
-      <%= link_to(image_tag('nubic-logo.gif', :size => "167x55"),
-                  "http://www.nucats.northwestern.edu/centers/nubic/index.html") %>
-      <%= link_to(image_tag( "pageheader.jpg",
-                  options={:alt=>"The Northwestern University Clinical and Translational Sciences Institute (NUCATS)"} ),
-                  "http://www.nucats.northwestern.edu") %>
-
-    </div>
+    <%= render "shared/footer" %>
   </body>
 </html>

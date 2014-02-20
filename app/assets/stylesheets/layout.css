@@ -82,6 +82,12 @@
   background: white;
 }
 
+#version {
+  float: right;
+  font-size: 0.8em;
+  color: lightgray;
+}
+
 #spinner {
   display: none;
   float: right;
