@@ -42,7 +42,7 @@
 <% end %>
 <tr>
   <td class="title">
-    <%= f.label :submission_title, project.title_wording  %>
+    <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
     <%= f.text_field :submission_title, :size => 81, :maxlength => 81,
@@ -57,19 +57,19 @@
 <% if project.show_submission_category %>
   <tr>
     <td class="title">
-      <%= f.label :submission_category, project.category_wording %>
+      <%= f.label :submission_category, project.category_wording.html_safe %>
     </td>
     <td>
       <%= f.text_field :submission_category, :size => 60 %>
     </td>
     <td class="notes">
-      <%= project.submission_category_description %>
+      <%= project.submission_category_description.html_safe %>
     </td>
   </tr>
 <% end %>
 <tr>
   <td class="title">
-    <%= f.label :applicant_id, project.applicant_wording %>
+    <%= f.label :applicant_id, project.applicant_wording.html_safe %>
   </td>
   <td>
     <i><%= applicant.name %></i>
@@ -87,9 +87,9 @@
     </td>
     <td class="notrequired">
       <%= f.text_field :core_manager_username %>
-      <%= netid_lookup_tag %>
-      <%= netid_lookup_observer(:submission_core_manager_username) %><span id='submission_core_manager_username_id'></span>
-      <%= netid_lookup_function(:submission_core_manager_username, false) %>
+      <%= netid_lookup_tag.html_safe %>
+      <%= netid_lookup_observer(:submission_core_manager_username).html_safe %><span id='submission_core_manager_username_id'></span>
+      <%= netid_lookup_function(:submission_core_manager_username, false).html_safe %>
     </td>
     <td class="notes">
       Please enter the NetID of the Core Manager
@@ -105,7 +105,7 @@
       <%= f.text_area :abstract, { :rows => 7, :cols => 80, :wrap => "virtual" } %>
     </td>
     <td class="notes">
-      <%= project.abstract_text %>
+      <%= project.abstract_text.html_safe %>
     </td>
   </tr>
 <% end %>
@@ -119,7 +119,7 @@
       Please check if this is human subjects research
     </td>
     <td class="notes">
-    <%= project.human_subjects_research_text %>
+    <%= project.human_subjects_research_text.html_safe %>
     </td>
   </tr>
 <% end %>
@@ -301,7 +301,7 @@
 <% if project.show_other_funding_sources %>
   <tr>
     <td class="title">
-      <%= f.label :other_funding_sources, project.other_funding_sources_wording  %>
+      <%= f.label :other_funding_sources, project.other_funding_sources_wording.html_safe %>
     </td>
     <td class="notrequired">
       <%= f.text_area :other_funding_sources, { :rows => 4, :wrap => "virtual", :class => "narrow" } %>
@@ -331,9 +331,9 @@
     </td>
     <td class="notrequired">
       <%= f.text_field :department_administrator_username %>
-      <%= netid_lookup_tag %>
-      <%= netid_lookup_observer(:submission_department_administrator_username) %><span id='submission_department_administrator_username_id'></span>
-      <%= netid_lookup_function(:submission_department_administrator_username, false) %>
+      <%= netid_lookup_tag.html_safe %>
+      <%= netid_lookup_observer(:submission_department_administrator_username).html_safe %><span id='submission_department_administrator_username_id'></span>
+      <%= netid_lookup_function(:submission_department_administrator_username, false).html_safe %>
     </td>
     <td class="notes">
       Please enter the NetID of your <%=  project.department_administrator_title %>
@@ -359,7 +359,7 @@
     <td class="notrequired">
       <%= f.text_field :effort_approver_username %>
       <%= netid_lookup_tag.html_safe %>
-      <%= netid_lookup_observer(:submission_effort_approver_username) %><span id='submission_effort_approver_username_id'></span>
+      <%= netid_lookup_observer(:submission_effort_approver_username).html_safe %><span id='submission_effort_approver_username_id'></span>
       <%= netid_lookup_function(:submission_effort_approver_username, false).html_safe %>
       </td>
       <td class="notes">
