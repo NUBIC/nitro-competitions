@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20140213161624
 #
@@ -160,6 +161,7 @@ class Project < ActiveRecord::Base
   before_validation :clean_params
 
   attr_accessible *column_names
+  attr_accessible :creater, :program
 
   validates_length_of :project_title, :within => 10..100, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
   validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"

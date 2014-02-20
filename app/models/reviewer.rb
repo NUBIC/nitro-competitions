@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # == Schema Information
 # Schema version: 20130511121216
 #
@@ -21,4 +22,5 @@ class Reviewer < ActiveRecord::Base
   belongs_to :user
   belongs_to :program
   attr_accessible *column_names
+  attr_accessible :user, :program
 end
