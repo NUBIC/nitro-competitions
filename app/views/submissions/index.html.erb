@@ -1,9 +1,12 @@
 <% unless @project.blank? %>
-<% include_sponsor_and_competition = 0 %>
+  <% include_sponsor_and_competition = 0 %>
 <% end %>
-<%= render(:partial => 'shared/submissions_list', :locals=>{:submissions=>@submissions, :title=>@title, :project=>@project, :include_sponsor_and_competition => include_sponsor_and_competition}) %>
 
-<%= render(:partial => 'shared/admin_links') %>
+<%= render 'shared/submissions_list',
+           :submissions => @submissions, :title => @title, :project => @project, :include_sponsor_and_competition => include_sponsor_and_competition %>
 
-<br />
-<%= link_to 'List of all competitions', projects_path() %>
+<%= render 'shared/admin_links' %>
+
+<div class='links'>
+  <%= link_to 'List of all competitions', projects_path %>
+</div>

@@ -20,5 +20,5 @@
 class Reviewer < ActiveRecord::Base
   belongs_to :user
   belongs_to :program
-  
+  attr_accessible *column_names
 end

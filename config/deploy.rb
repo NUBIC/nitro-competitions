@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 set :application, 'nucats_assist'
 set :repo_url, 'https://github.com/NUBIC/nucats_assist.git'
 
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :branch, 'master'
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+# set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || 'master'
 
 set :deploy_to, '/var/www/apps/nucats_assist'
 set :deploy_via, :copy
@@ -14,6 +15,7 @@ set :scm, :git
 # set :pty, true
 
 # set :linked_files, %w{config/database.yml}
+set :linked_files, %w{.env}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -26,7 +28,6 @@ set :bundle_flags, '--deployment --quiet'
 set :bundle_without, %w{development test}.join(' ')
 set :bundle_binstubs, -> { shared_path.join('bin') }
 set :bundle_roles, :all
-
 
 namespace :deploy do
 
@@ -48,5 +49,4 @@ namespace :deploy do
   end
 
   after :finishing, 'deploy:cleanup'
-
 end

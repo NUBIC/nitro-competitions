@@ -4,13 +4,6 @@
 %>
 
 <%= bcdb.development :local_postgresql, :nucats_assist %>
+<%= bcdb.test :local_postgresql, :nucats_assist_test %>
 <%= bcdb.staging :pstage, :nucats_assist %>
 <%= bcdb.production :pprod, :nucats_assist %>
-
-test:
-  adapter: postgresql
-  encoding: unicode
-  database: nucats_assist_test
-  pool: 5
-  username: nucats_assist
-  password:

@@ -2,4 +2,17 @@
 db/*.out
 .powrc
 .rvmrc
+bin/
 tmp/restart.txt
+tmp/cache
+tmp/pids
+assets/files/
+coverage/
+public/assets/
+doc/notes/
+
+# Ignore .env files
+.env.test
+.env.development
+.env.staging
+.env.production

@@ -1,7 +1,7 @@
 class KeyPersonnelController < ApplicationController
 
   include KeyPersonnelHelper
-  
+
   # for rjs call on form
   def lookup
     dom_id = 'key_personnel_'+params[:index]
@@ -32,13 +32,12 @@ class KeyPersonnelController < ApplicationController
     end
   end
 
-
   # for rjs call on form
   def add_new
     @submission = Submission.find(params[:submission_id])
     @key_person = KeyPerson.new
   end
-  
+
   def destroy
     if params[:id].to_i > 0
       @key_person = KeyPerson.find(params[:id])

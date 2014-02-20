@@ -1,9 +1,10 @@
-<p>Enter a comma or space-separated list of University netids for the reviewers. If you need to add non-university people, click here (not yet implemented - let me know you need this!).</p>
+<p>
+  Enter a comma or space-separated list of University netids for the reviewers.
+  If you need to add non-university people, click here (not yet implemented - let me know you need this!).
+</p>
 
-<% form_for(:admin, 
-	:url => add_reviewers_project_admins_path(project.id) ) do |f| %>
-  <%= f.error_messages %>
-
+<%= form_for(:admin, :url => add_reviewers_project_admins_path(project.id) ) do |f| %>
+  <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
   <p>
     <%= f.label :reviewer_list, "List of netids for new reviewers" %><br />
     <%= f.text_area :reviewer_list, {:rows => 10, :cols => 40, :wrap=>"virtual"} %>

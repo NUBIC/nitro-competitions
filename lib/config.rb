@@ -1,4 +1,4 @@
-require "#{RAILS_ROOT}/app/helpers/roles_helper"
+require "#{Rails.root}/app/helpers/roles_helper"
 include RolesHelper
 
 def default_program_name
@@ -23,12 +23,12 @@ def allowed_ips
 end
 
 def do_ajax?
-  (is_admin? and ENV['RAILS_ENV'] != 'production') ? false : true
+  (is_admin? and Rails.env != 'production') ? false : true
   true
 end
 
 def do_ldap?
-  (is_admin? and ENV['RAILS_ENV'] != 'production') ? false : true
+  (is_admin? and Rails.env != 'production') ? false : true
   true
 end
 
@@ -39,4 +39,3 @@ def cleanup_campus(thePI)
   thePI.campus = (thePI.campus =~ /CMH|Children/) ? 'CMH' : thePI.campus
   thePI
 end
-

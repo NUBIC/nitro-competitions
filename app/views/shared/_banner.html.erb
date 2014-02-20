@@ -1,0 +1,55 @@
+<% show_title ||= false %>
+<div id="app_title">
+  NUCATS Competition and Awards Application Site
+</div>
+<div id="banner">
+  <%= image_tag "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;" %>
+  <div style="float:left; z-index:2; margin-top:-29px;">
+    <%= image_tag "banner_edge.jpg"  %>
+    <% if defined?(current_user_session) && !current_user_session.blank? %>
+      <%= render "shared/menus"  %>
+      <%= image_tag "banner_edge.jpg" %>
+    <% end %>
+  </div>
+  <div id="menu">
+    <%= link_to('Help', image_path("../docs/NUCATS_Assist_Instructions.pdf"),
+                :title => "Instructions on how to use NUCATS Assist and general help manual",
+                :style => "background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
+    <% if defined?(current_user_session) && !current_user_session.blank? %>
+      <%= session[:name] || current_user_session.username %>
+      <%= link_to "Sign Out", application_logout_path,
+                  :class => 'user_link',
+                  :title => "Logout of NUCATS Assist" %>
+    <% else %>
+      <%= link_to 'Login', projects_path,
+                  :style => "background-color:#520064; color:white; font-size:+2; margin-left:5px; text-decoration:none;",
+                  :title => "Login to NUCATS Assist" %>
+    <% end %>
+  </div>
+</div>
+<% unless flash[:errors].blank? %>
+  <div id="results" class="notice">
+    <div id="errors">
+      <%= flash[:errors].html_safe %>
+    </div>
+
+  <%= image_tag 'loading.gif', :id => 'spinner' %>
+  </div>
+<% end %>
+<% unless flash[:notice].blank? %>
+  <div id="test" class="notice">
+    <div id="notice">
+      <%= flash[:notice].html_safe %>
+    </div>
+  </div>
+<% end %>
+<% if show_title %>
+  <div id='title'>
+    <div id='program_title' title='Current Selected Program'>
+      <%= current_program.program_title %>
+    </div>
+    <div id='project_title' title='Current Selected Project'>
+      <%= current_project.project_title %>
+    </div>
+  </div>
+<% end %>

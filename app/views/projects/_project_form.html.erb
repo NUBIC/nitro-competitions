@@ -32,7 +32,7 @@
 	    <%= f.label :submission_modification_date  %></td>
 		<td class="notes" colspan="2"> <%= f.text_field :submission_modification_date, :size=>15 %> Last date (at midnight that day) when the applicants can modify their submission. By default the same as the submission_close_date but you can make it later to give applicants a chance to modify existing proposals.</td>
 	</tr>
-	
+
 	<tr><td class="title">
 	    <%= f.label :review_start_date  %></td>
 		<td class="notes" colspan="2"> <%= f.text_field :review_start_date, :size=>15 %> Start of the Review process. Date when the reviewers can first access the review form.</td>
@@ -142,7 +142,7 @@
 	<tr><td class="title">
 	    <%= f.label :application_doc_description %></td>
 		<td class="notes" colspan="2"><%= f.text_area :application_doc_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
-		Descriptive text to help submitters/reviewers understand what should be in the <b>application document</b> 
+		Descriptive text to help submitters/reviewers understand what should be in the <b>application document</b>
 	</td></tr>
 	<tr><td class="title">
 	    <%= f.label :application_template_url %></td>
@@ -160,7 +160,7 @@
 	    <%= f.label :application_info_url_label %></td>
 		<td class="notes" colspan="2"><%= f.text_field :application_info_url_label, :size=>80 %> label for the URL to the <b>application instructions</b></td>
 	</tr>
-	
+
 	<tr><td class="title">
 	    <%= f.label :show_budget_form %></td>
 		<td class="notes" colspan="2"><%= f.check_box :show_budget_form %>
@@ -183,13 +183,13 @@
 	    <%= f.label :budget_info_url_label %></td>
 		<td class="notes" colspan="2"><%= f.text_field :budget_info_url_label, :size=>80 %> label for the URL to the <b>budget instructions</b></td>
 	</tr>
-	
+
 	<tr>
 	  <td id="title" colspan="3">
 		Documents and manage co-investigators
 	  </td>
 	</tr>
-	
+
 	<tr><td class="title">
 	    <%= f.label :show_manage_biosketches %></td>
 		<td class="notes" colspan="2"><%= f.check_box :show_manage_biosketches %>
@@ -211,7 +211,7 @@
 	    <%= f.label :manage_other_support_text %></td>
 		<td class="notes" colspan="2"><%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 80, :wrap=>"virtual"} %> text to include with the <b>NIH Other Support</b> document item</td>
 	</tr>
-	
+
 	<tr><td class="title">
 	    <%= f.label :show_document1 %></td>
 		<td class="notes" colspan="2"><%= f.check_box :show_document1 %>
@@ -249,7 +249,7 @@
 	<tr><td class="title">
 	    <%= f.label :document2_description %></td>
 		<td class="notes" colspan="2"><%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
-		Descriptive text to help submitters/reviewers understand what to find in <b>document 1</b>
+		Descriptive text to help submitters/reviewers understand what to find in <b>document 2</b>
 	</td></tr>
 	<tr><td class="title">
 	    <%= f.label :document2_template_url %></td>
@@ -351,13 +351,13 @@
 		<td class="notes" colspan="2"><%= f.text_field :is_new_wording, :size=>80 %> 'Is this completely new work?' for most competitions</td>
 	</tr>
 
-	
+
 	<tr>
 	  <td id="title" colspan="3">
 		OR Core Facilities items
 	  </td>
 	</tr>
-	
+
 	<tr><td class="title">
 	    <%= f.label :show_core_manager %></td>
 		<td class="notes" colspan="2"><%= f.check_box :show_core_manager %>
@@ -617,5 +617,5 @@
 		<td colspan="2"><%= f.check_box :show_completion_score %> <%= f.text_field :completion_title, :size=>40 %></td>
 		<td><%= f.text_area :completion_wording, {:rows => 5, :cols => 80, :wrap=>"virtual"} %></td>
 	</tr>
-	    
+
 </table>

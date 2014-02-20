@@ -1,77 +1,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-	<title>NUCATS Assist: <%= controller.action_name %></title>
-	<%= javascript_include_tag :defaults %>
-	<%= javascript_include_tag 'jquery.min' %>
-	<%= javascript_include_tag 'jquery.tablesorter.min' %>
-	<%= javascript_include_tag 'ddsmoothmenu' %>
-	<%= stylesheet_link_tag 'scaffold', 'style', 'ddsmoothmenu', 'ddsmoothmenu-v'   %>
-	<%= render :partial => "shared/menu_scripts" %>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <%= csrf_meta_tag %>
+    <title>NUCATS Assist: <%= controller.action_name %></title>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag 'application' %>
+    <%= render "shared/menu_scripts" %>
 
-
-	<link rel="shortcut icon" href='<%= image_path("favicon.ico") -%>' />
-	<style type="text/css">
-	#search {
-	  	background: url(<%= image_path("titlebar.jpg") %>) ;
-	}
-	</style>
-	<script type="text/javascript">
-	    jQuery.noConflict();
-		var $j = jQuery;
-	</script>
-</head>
-<body>
-  <NOSCRIPT>
-    <div style="background-color: pink; padding: 10px;">
-      <h1>WARNING: JavaScript isn't enabled in your browser.</h1>
-      <p><h3>
-        NUCATS Assist needs JavaScript to be turned on in your browser in order to function properly.
-        Please <a href="http://www.ehow.com/how_8160414_can-turn-javascript.html">click here</a> for instructions on how to enable JavaScript in your browser.
-      </h3></p>
-      <p>
-        Upgrading your browser or installing new security software or security patches may affect your JavaScript settings.
-      </p>
-    </div>
-  </NOSCRIPT>
-<% if Rails.env != 'production' %>
-  <div id="debug" style="float:left; margin: 5px 5px 5px 5px;">
-      <a href="#" onclick="Element.toggle('debug_info');return false" style="text-decoration: none; color: #999;"><%= image_tag( "right.gif") %></a>
-      <div id="debug_info" style="display : none;">
-          <h4>Session</h4><%= debug(session) %>
-          <h4>Params</h4><%= debug(params) %>
-          <h4>Current_User</h4><%= debug(current_user) if defined?(current_user) %>
-          <h4>Current_User_Session</h4><%= debug(current_user_session) if defined?(current_user_session) %>
+    <link rel="shortcut icon" href='<%= image_path("favicon.ico") -%>' />
+    <style type="text/css">
+      #search {
+        background: url(<%= image_path("titlebar.jpg") %>) ;
+      }
+    </style>
+    <script type="text/javascript">
+      jQuery.noConflict();
+      var $j = jQuery;
+    </script>
+  </head>
+  <body>
+    <%= render "shared/js_warning" %>
+    <%= render "shared/debug_info" %>
+    <div id='main' class="autoclear">
+      <%= render 'shared/banner', show_title: true %>
+      <div id='content'>
+        <%= yield %>
       </div>
-  </div>
-  <div class="h1" style="color:red;">This is the development/testing version. Data will not be kept!</div>
-<% end %>
-<div id="main" class="autoclear">
-	<div id="banner"><%= link_to( image_tag( "pageheader.jpg", options={:alt=>"The Northwestern University Clinical and Translational Sciences Institute"} ), "http://www.nucats.northwestern.edu") %>
-		 <%= image_tag( "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;") %>
-		<div style="float:left; z-index:2; margin-top:-29px;">
-
-		<%= image_tag( "banner_edge.jpg") %><%= render :partial => "shared/menus" %><%# image_tag( "banner_menu.jpg") %><%= image_tag( "banner_edge.jpg") %>
-
-		</div>
-		<div id="menu" style="float:right; z-index:4; margin-top:-21px; color:#AAA; padding-right:15px; ">
-			<%= link_to( image_tag("help_32.png", :width=>"24px", :height=>"24px", :style=>"margin-top:-5px; margin-bottom:-2px; margin-right:5px; " )+' Help ', image_path("../docs/NUCATS_Assist_Instructions.pdf"), :title=>"Instructions on how to use NUCATS Assist and general help manual", :style=>"background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
-			<%= session[:name] || current_user_session.username %>
-			<%= link_to "logout", logout_path, :style=>"background-color:#520064;color:white;font-size:+2; margin-left:5px; text-decoration:none;", :title=>"Logout of NUCATS Assist" %>
-		</div>
-	</div>
-	<div id="results" class="notice"><div id="errors"><%= flash[:errors] %></div><%= image_tag 'loading.gif', :id=>'spinner', :style=>"display:none; float:right;" %> </div>
-	<div id="title"><%= current_program.program_title %> - <%= current_project.project_title %> </div>
-	<div id="niceline"></div>
-	<div id="test" class="notice"><%= flash[:notice] %></div>
-	<%= yield  %>
-</div> <!-- end of main -->
-<div id="footer-row">
-	<%= link_to( image_tag( 'nubic-logo.gif', :size => "167x55" ), "http://www.nucats.northwestern.edu/centers/nubic/index.html") %>
-	If you have comments, issues, critiques, <a href='mailto:nucatsassist@nubic.northwestern.edu'>please send us an email!</a>
-</div>
-</body>
+    </div>
+    <%= render "shared/footer" %>
+  </body>
 </html>

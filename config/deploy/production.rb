@@ -1,4 +1,6 @@
+# -*- encoding: utf-8 -*-
 set :stage, :production
+set :rails_env, :production
 
 # Simple Role Syntax
 # ==================

@@ -1,19 +1,19 @@
 == Welcome to NUCATS Assist
 
 NUCATS Assist is a web-based application for managing institutional competitions. Currently
-NUCATS Assist supports the creation of a competition framework, the publication of the 
-competition and information about it, the ability of faculty and staff to authenticate to 
-NUCATS Assist (using LDAP authentication) and submit proposals, and then build a review 
-panel and assign reviews and run the review panel. The review criteria and panel setup 
+NUCATS Assist supports the creation of a competition framework, the publication of the
+competition and information about it, the ability of faculty and staff to authenticate to
+NUCATS Assist (using LDAP authentication) and submit proposals, and then build a review
+panel and assign reviews and run the review panel. The review criteria and panel setup
 mirrors the NIH study panel design by default.
 
 == About NUCATS Assist
 
-NUCATS Assist is written in Ruby on Rails and uses PostgreSQL as the backend database. 
-It has the following major models to organize sponsoring organizations, competitions, 
+NUCATS Assist is written in Ruby on Rails and uses PostgreSQL as the backend database.
+It has the following major models to organize sponsoring organizations, competitions,
 reviewers, submitters, applicants, and reviews:
 
-1. Sponsors 
+1. Sponsors
 	The sponsoring organization running the competition
 
 2. Competitions
@@ -21,20 +21,33 @@ reviewers, submitters, applicants, and reviews:
 
 3. Users
 	All individuals who log in or are listed with a role are in the Users table. Users may be administrators, reviewers, key personnel, or applicants.
-	
+
 4. Submissions
 	Submissions have a submitter, an applicant (the submitter and applicant can be the same), key personnel, documents, a cover page, and assigned reviewers (assigned by the administrators of the sponsoring organization for the competition)
-	
+
 5. Reviews
-	Reviews follow (by default) the NIH review criteria and consist of review categories (Overall, Significance, Investigators, Innovation, Approach, Environment by default) that can customized. Up to 7 categories in addition to Overall may be specified. A 1-9 score and descriptive text can be entered for each criterion. 
+	Reviews follow (by default) the NIH review criteria and consist of review categories (Overall, Significance, Investigators, Innovation, Approach, Environment by default) that can customized. Up to 7 categories in addition to Overall may be specified. A 1-9 score and descriptive text can be entered for each criterion.
 
 == Installing NUCATS Assist
 
-Since NUCATS Assist is a standard Rails app, installing it is just like installing any other Rails app. NUCATS Assist is still a Rails 2.x app, although it runs fine with Ruby 1.9.3
+Since NUCATS Assist is a standard Rails app, installing it is just like installing any other Rails app.
+NUCATS Assist is a Rails 3.2 app, and runs with Ruby 1.9.x or 2.x.
 
 == Running the test suite
 
-NUCATS Assist has a number of unit tests, and running them requires Ruby 1.8.7. They do not run with 1.9.3. We do not recommend using Ruby 1.8.7 in production, however, due to some known security issues prior to 1.9.3.p327. 
+NUCATS Assist has a number of rspec tests. To run these specs run the following command:
+  $ bundle exec rspec spec/
+
+== Authentication
+
+The 2.0.0 version of NUCATS Assist is configured to authenticate via Aker or with an Omniauth provider.
+By default the application uses Omniauth. cf. /config/application.rb l. 58
+To use the original LDAP Aker implementation, simply update the config.use_omniauth variable to `false`.
+  i.e. config.use_omniauth = false
+
+If you do use an Omniauth provider, note that you must register this application as a client of that provider.
+Look at the .env files at the root of the application for guidance.
+If you are using SSL to connect to your Omniauth provider, please set the CA_PATH variable to the directory location of your certificates.
 
 == Obtaining a VM for NUCATS Assist
 

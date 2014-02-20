@@ -1,11 +1,17 @@
 <% if is_admin? %>
-<p>
-<%= link_to( image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;") + " Create new competition for sponsor #{current_project().program.program_title} (admins only)", new_project_path)   %>
-</p>
-<p>
-<%= link_to "View all submissions for #{current_project().project_title} (admins only)", submissions_project_admins_path(current_project().id) %>
-</p>
-<p>
-<%= link_to( image_tag("page_white_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px; margin-top:-5px;")+' View reviews for all submissions', all_reviews_project_path(current_project().id), :title=>"Click here to view the summary of review comments for all submissions" ) %>
-</p>
+  <div class='admin_links'>
+    <p>
+      <%= link_to(image_tag("add.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;") +
+                   " Create new competition for sponsor #{current_project().program.program_title} (admins only)",
+          new_project_path) %>
+    </p>
+    <p>
+      <%= link_to "View all submissions for #{current_project().project_title} (admins only)", submissions_project_admins_path(current_project().id) %>
+    </p>
+    <p>
+      <%= link_to( image_tag("page_white_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px; margin-top:-5px;")+
+                             ' View reviews for all submissions',
+                   all_reviews_project_path(current_project.id), :title=>"Click here to view the summary of review comments for all submissions" ) %>
+    </p>
+  </div>
 <% end %>

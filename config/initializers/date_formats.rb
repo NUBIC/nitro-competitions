@@ -1,8 +1,8 @@
-ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
+Date::DATE_FORMATS.merge!(
   :justdate => "%m/%d/%Y",
-  :db_date => "%Y-%m-%d"
+  :db_date => "%Y-%m-%d",
 )
-ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+Time::DATE_FORMATS.merge!(
   :justdate => "%m/%d/%Y",
-  :db_date => "%Y-%m-%d"
+  :db_date => "%Y-%m-%d",
 )

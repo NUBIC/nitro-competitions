@@ -1,4 +1,4 @@
-<table class="wide">
+<table class='wide'>
   <tr>
     <th>Username</th>
     <th>Name</th>
@@ -9,42 +9,55 @@
   <% user = reviewer.user %>
   <% div_id = "assigned_submissions_#{user.id}" %>
   <tr>
-    <td><%=h reviewer.user.username %></td>
-    <td><%=mail_to(user.email, user.name, 
-				:subject => "From NUCATS Assist", 
-				:encode => "javascript", :title=>"Send email to #{user.name}") unless reviewer.user.email.blank? %></td>
-    <td><%=h user.business_phone %></td>
-    <td><%= link_to("Edit", edit_applicant_path(user.id), :title=>"Edit #{user.name}'s profile") %> <%= link_to("Remove", remove_reviewer_project_admin_path(:project_id=> project.id, :id=>reviewer.id), :title=>"Remove #{user.name} as a reviewer", :confirm => "Are you sure you want to delete this reviewer? This will delete any reviews associated with this reviewer!") %></td>
+    <td>
+      <%=h reviewer.user.username %>
+    </td>
+    <td>
+      <% unless reviewer.user.email.blank? %>
+        <%= mail_to(user.email, user.name,
+                    subject: 'From NUCATS Assist',
+                    encode: 'javascript',
+                    title: "Send email to #{user.name}") %>
+      <% end %>
+    </td>
+    <td>
+      <%=h user.business_phone %>
+    </td>
+    <td>
+      <%= link_to('Edit', edit_applicant_path(user.id), title: "Edit #{user.name}'s profile") %>
+      <%= link_to('Remove', remove_reviewer_project_admin_path(project_id: project.id, id: reviewer.id),
+                  title: "Remove #{user.name} as a reviewer",
+                  confirm: 'Are you sure you want to delete this reviewer? This will delete any reviews associated with this reviewer!') %>
+    </td>
   </tr>
-<tr>
-	<td style="text-align:right;">Assigned:</td><td colspan="3">
-	<div id="<%= div_id %>">
-		<%= render :partial=>"assigned_submissions", :locals=>{:reviewer=>user, :project=>project} %>
-	</div>
-</td></tr>
-	<!-- START: styles -->
-	<style>
-	#<%= div_id %> ul li {
-	  list-style: none;
-	  cursor: -moz-grab;
-	}
-	#<%= div_id %> {
-	  border: 1px solid gray;
-	}
-	</style>
+  <tr>
+    <td style='text-align:right;'>
+      Assigned:
+    </td>
+    <td colspan='3'>
+      <div id="<%= div_id %>">
+        <%= render 'assigned_submissions', reviewer: user, project: project %>
+      </div>
+    </td>
+  </tr>
+  <!-- START: styles -->
+  <style>
+  #<%= div_id %> ul li {
+    list-style: none;
+    cursor: -moz-grab;
+  }
+  #<%= div_id %> {
+    border: 1px solid gray;
+  }
+  </style>
 
+  <!-- START: define targets -->
+  <%= drop_receiving_element(div_id,
+        accept:     'unassigned_submission',
+        hoverclass: 'hover',
+        with:       "'submission_id=' + encodeURIComponent(element.id.split('_').last())",
+        url:        { action: :assign_submission, id: user })%>
+  <!-- END: define targets -->
 
-	<!-- START: define targets -->
-	<%= drop_receiving_element(div_id, 
-	      :accept     => 'unassigned_submission', 
-	      :hoverclass => 'hover',
-		:complete   => "$('spinner').hide();",
-		:before     => "$('spinner').show();",
-	      :with       => "'submission_id=' + encodeURIComponent(element.id.split('_').last())",
-	      :url        => {:action=>:assign_submission, :id=>user})%>
-
-	<!-- END: define targets -->
-
-	
 <% end %>
 </table>
