@@ -65,6 +65,7 @@ class User < ActiveRecord::Base
   attr_accessor :validate_name
   attr_accessor :validate_email_attr
   attr_accessible *column_names
+  attr_accessible :biosketch, :uploaded_biosketch, :uploaded_photo
 
   after_save :save_documents
 
