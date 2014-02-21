@@ -58,7 +58,12 @@ NucatsAssist::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.oauth_provider_url = 'https://membership.nubic.northwestern.edu'
+  config.middleware.use ExceptionNotification::Rack,
+                        email: {
+                          email_prefix: '[Exception] NUCATS Assist',
+                          sender_address: %{'NUCATS Assist Exception Notifier [PRODUCTION]' <p-friedman@northwestern.edu>},
+                          exception_recipients: %w{p-friedman@northwestern.edu}
+                        }
 
   config.aker do
     # Provide one or more authenticators to use.
