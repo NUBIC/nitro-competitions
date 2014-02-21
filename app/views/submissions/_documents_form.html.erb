@@ -1,8 +1,8 @@
 <!-- need this for ajax calls to build the personnel associations -->
 <% pronoun = "your" %>
-<% pronoun = "the" if current_user_session.username != applicant.username %>
+<% pronoun = "the" if current_user_session.try(:username) != applicant.username %>
 <% completion = "" %>
-<% completion = " for #{applicant.name}" if current_user_session.username != applicant.username %>
+<% completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username %>
 
 <tr>
   <td colspan="3" style="background:#ADE387;">

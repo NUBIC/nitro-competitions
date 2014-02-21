@@ -16,7 +16,7 @@
                 :title => "Instructions on how to use NUCATS Assist and general help manual",
                 :style => "background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
     <% if defined?(current_user_session) && !current_user_session.blank? %>
-      <%= session[:name] || current_user_session.username %>
+      <%= session[:name] || current_user_session.try(:username) %>
       <%= link_to "Sign Out", application_logout_path,
                   :class => 'user_link',
                   :title => "Logout of NUCATS Assist" %>
