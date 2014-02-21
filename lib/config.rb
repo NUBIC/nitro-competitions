@@ -13,15 +13,6 @@ def image_name
   'pageheader.jpg'
 end
 
-def allowed_ips
-  # childrens: 199.125.
-  # nmff: 209.107.
-  # nmh: 165.20.
-  # enh: 204.26
-  # ric: 69.216
-  [':1','127.0.*','165.124.*','129.105.*','199.125.*','209.107.*','165.20.*','204.26.*','69.216.*']
-end
-
 def do_ajax?
   (is_admin? and Rails.env != 'production') ? false : true
   true

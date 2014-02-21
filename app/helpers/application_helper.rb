@@ -3,7 +3,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
-  require 'config' # adds allowed_ips list and do_ldap?
+  require 'config'
 
   def internetexplorer_user_agent?
     request.env['HTTP_USER_AGENT'] && request.env['HTTP_USER_AGENT'][/(MSIE)/]
@@ -26,18 +26,6 @@ module ApplicationHelper
     %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.username)
   end
   private :current_user_is_admin?
-
-  # list of allowed IPs
-
-  def disallowed_ip(this_ip)
-    return false if Rails.env == 'development' || Rails.env == 'test'
-
-    # from config.rb in project lib directory
-    allowed_ips.each do |ip|
-      return false if this_ip =~ /#{ip}/
-    end
-    true # disallowed
-  end
 
   # program and project session-oriented helpers
 

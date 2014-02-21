@@ -59,6 +59,13 @@ NucatsAssist::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.middleware.use ExceptionNotification::Rack,
+                        email: {
+                          email_prefix: '[Exception] NUCATS Assist',
+                          sender_address: %{'NUCATS Assist Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
+                          exception_recipients: %w{p-friedman@northwestern.edu}
+                        }
+
   config.aker do
     login_config = File.join(Rails.root, %w(config logins development.yml))
     authority Aker::Authorities::Static.from_file(login_config)

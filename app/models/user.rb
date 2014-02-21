@@ -65,6 +65,7 @@ class User < ActiveRecord::Base
   attr_accessor :validate_name
   attr_accessor :validate_email_attr
   attr_accessible *column_names
+  attr_accessible :biosketch, :uploaded_biosketch, :uploaded_photo
 
   after_save :save_documents
 
@@ -215,7 +216,7 @@ class User < ActiveRecord::Base
   # the User username (i.e. nu netid) before searching via other means
   def self.find_user_from_authentication_provider(identities)
     identity = identities.find { |pi| pi['domain'] == 'nu' }
-    user = find_user_using_identity(identity)
+    user = find_user_using_identity(identity) if identity
     if user.blank?
       identities.each do |identity|
         user = find_user_using_identity(identity)
