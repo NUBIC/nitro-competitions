@@ -16,8 +16,6 @@ class ApplicationController < ActionController::Base
   require 'ldap_utilities' # specific ldap methods
   require 'config' # adds program_name method
 
-  before_filter :check_ips, except: [:check_ips, :disallowed, :welcome]
-
   after_filter :log_request, except: [:login, :username_lookup, :lookup, :welcome, :update_item,
                                       :add_user, :remove_user, :add_key_personnel, :remove_key_personnel,
                                       :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data,
@@ -57,10 +55,6 @@ class ApplicationController < ActionController::Base
   # as omniauth authority
   def login_required
     redirect_to '/auth/nucatsmembership' if session[:user_info].blank?
-  end
-
-  def check_ips
-    redirect_to controller: 'public', action: 'disallowed' if disallowed_ip(get_client_ip)
   end
 
   def get_client_ip
