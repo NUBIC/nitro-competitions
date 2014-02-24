@@ -20,7 +20,7 @@
 
 class FileDocument < ActiveRecord::Base
   # since we are not using a publicly accessible path, need to provide a protected file access method
-  has_attached_file :file, :path => ":rails_root/assets/:attachment/:id/:basename.:extension"
+  has_attached_file :file, :path => ":rails_root/public/assets/:attachment/:id/:basename.:extension"
 
   validates_attachment_presence :file
   # added /application\/x-/i and /application\/x-download/i as windows 7 has a different content-type reported
