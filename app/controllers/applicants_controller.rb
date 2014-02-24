@@ -64,7 +64,7 @@ class ApplicantsController < ApplicationController
   private :username_blank?
 
   def determine_username
-    params[:username] || current_user_session.username || current_user.username
+    params[:username] || current_user_session.try(:username) || current_user.try(:username)
   end
   private :determine_username
 

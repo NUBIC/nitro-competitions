@@ -23,7 +23,7 @@ module ApplicationHelper
   # Is the current user session username in the admin list
   # @return Boolean
   def current_user_is_admin?
-    %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.username)
+    %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.try(:username))
   end
   private :current_user_is_admin?
 
@@ -99,7 +99,7 @@ module ApplicationHelper
     end
     clear_session_attributes if current_user.blank? || current_user.username.blank?
 
-    if ! defined?(current_user_session) || current_user_session.blank? || current_user_session.username != current_user.username
+    if ! defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
       the_user = User.find_by_username(current_user.username)
       if the_user.blank? || the_user.name.blank?
         if make_user(current_user.username)
@@ -119,8 +119,8 @@ module ApplicationHelper
         clear_session_attributes
       end
     else
-      if session[:username].blank? || session[:user_id].blank? || session[:name].blank? || session[:username] != current_user_session.username
-        the_user = User.find_by_username(current_user.username)
+      if session[:username].blank? || session[:user_id].blank? || session[:name].blank? || session[:username] != current_user_session.try(:username)
+        the_user = User.find_by_username(current_user.try(:username))
         set_session_attributes(the_user) unless the_user.blank?
       end
     end

@@ -19,7 +19,7 @@ class ApproversController < ApplicationController
 
   def update
     submission = Submission.find(params[:id])
-    if submission.effort_approver_username == current_user_session.username
+    if submission.effort_approver_username == current_user_session.try(:username)
       submission.effort_approval_at = Time.now
       submission.effort_approver_ip = get_client_ip
       submission.save

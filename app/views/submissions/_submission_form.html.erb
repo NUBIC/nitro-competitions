@@ -19,10 +19,10 @@
 
 <!-- f, applicant, project and submission are existing variables passed in -->
 <% pronoun = "your" %>
-<% pronoun = "the" if current_user_session.username != applicant.username %>
+<% pronoun = "the" if current_user_session.try(:username) != applicant.username %>
 
 <% completion = "" %>
-<% completion = " for #{applicant.name}" if current_user_session.username != applicant.username %>
+<% completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username %>
 <% ldap_name = [applicant.name, applicant.name_suffix].compact.join(",") %>
 <%= f.hidden_field :project_id %>
 

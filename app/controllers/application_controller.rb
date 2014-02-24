@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_user_session(the_user)
-    set_session_attributes(the_user) if the_user.username == current_user.username
+    set_session_attributes(the_user) if the_user.username == current_user.try(:username)
   end
 
   def check_authorization
@@ -98,11 +98,11 @@ class ApplicationController < ActionController::Base
 
   def set_current_user_session
     @current_user_session = nil
-    username = session[:username] || current_user.username
+    username = session[:username] || current_user.try(:username)
     begin
       @current_user_session = User.find_by_username(username)
     rescue
-      Rails.logger.error("Could not find User with username: #{username}")
+      Rails.logger.error("Could not find User with username: #{username.inspect}")
     end
   end
   private :set_current_user_session
