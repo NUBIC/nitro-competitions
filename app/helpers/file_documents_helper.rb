@@ -25,7 +25,11 @@ module FileDocumentsHelper
     end
     mouse_over = link_text if mouse_over.nil?
     mouse_over = file_name if mouse_over.blank?
-    link_to(link_text.html_safe, file_document_path(id, format: file_format), title: 'Download ' + mouse_over, target: '_blank', class: determine_image_class(file_type)).html_safe
+    link_to(link_text.html_safe,
+            file_document_path(id, format: file_format),
+            title: "Download #{mouse_over}".html_safe,
+            target: '_blank',
+            class: determine_image_class(file_type))
   end
 
   def determine_image_class(file_type)

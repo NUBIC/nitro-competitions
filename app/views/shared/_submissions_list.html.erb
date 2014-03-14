@@ -7,7 +7,7 @@
   <% title ||= "Submissions" %>
   <h3><%= title %></h3>
 
-  <% submissions.each_with_index do |submission, i| %>
+  <% submissions.sort { |x, y| y.created_at <=> x.created_at }.each_with_index do |submission, i| %>
     <div class='submission'>
       <div class='submission_info'>
         <div class='submitter'>
@@ -36,7 +36,10 @@
             Project Title: <%=h submission.project.project_title %>
           </div>
         <% end %>
-        <div class='submission_status' title = "<%= submission.status_reason.join(' ')%>">
+        <div class='submission_date'>
+          Submission Date: <%= submission.created_at.strftime("%Y-%m-%d") %>
+        </div>
+        <div class='submission_status' title="<%= submission.status_reason.join(' ')%>">
           Status: <%= submission.status %>
         </div>
         <div class='submission_files'>
