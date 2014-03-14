@@ -32,9 +32,8 @@ NucatsAssist::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      address: 'mail.it.northwestern.edu',
-      port: 25,
-      domain: 'northwestern.edu'
+      address: 'localhost',
+      port: 1025
   }
 
   config.aker do

@@ -1,21 +1,31 @@
 <p>Dear <i><%= @name %></i>, </p>
 
-<p>Thank you for using NUCATS Assist. We have received your submission, <i><%= @submission.submission_title %></i>, for the <b><%= @submission.project.project_title %></b> competition. Your submission is currently <% if @submission.is_complete? %>complete. Congratulations! <% else %>incomplete. Please note these issues: </p> <%= @status_notes %><p><% end %>If you would like to edit your submission at any point up until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>) you may do so by clicking on your submission on the competition page (<%= link_to( @the_project_url, @the_project_url) %>).</p>
+<p>Thank you for using NUCATS Assist. We have received your submission, <i><%= @submission.submission_title %></i>, for the <b><%= @submission.project.project_title %></b> competition.
+  Your submission is currently
+  <% if @submission.is_complete? %>
+    complete. Congratulations!
+  <% else %>
+    incomplete. Please note these issues: </p> <%= @status_notes.html_safe %>
+    <p>
+  <% end %>
+  If you would like to edit your submission at any point up until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>)
+  you may do so by clicking on your submission on the competition page (<%= link_to( @the_project_url, @the_project_url) %>).
+</p>
 <% unless @submission.key_personnel_names.blank? %>
-<p>Key Personnel: You have listed the following key personnel:</p>
-<ul>
-	<% @submission.key_personnel.each do |p| %>
-		<li><%= p.name || p.user.name %>. Role: <%= p.role %></li>
-	<% end %>
-</ul>
+  <p>Key Personnel: You have listed the following key personnel:</p>
+  <ul>
+	  <% @submission.key_personnel.each do |p| %>
+		  <li><%= p.name || p.user.name %>. Role: <%= p.role %></li>
+	  <% end %>
+  </ul>
 <% end %>
 <% unless @docs_array.blank? %>
-<p>Documents: You have included the following documents:</p>
-<ul>
-	<% @docs_array.each do |doc| %>
-		<li><%= doc %>.</li>
-	<% end %>
-</ul>
+  <p>Documents: You have included the following documents:</p>
+  <ul>
+	  <% @docs_array.each do |doc| %>
+		  <li><%= doc.html_safe %>.</li>
+	  <% end %>
+  </ul>
 <% end %>
 
 <p>Thank you again for your submission.</p>

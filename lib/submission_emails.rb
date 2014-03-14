@@ -2,14 +2,16 @@
 require 'config'
 
 def send_finalize_email(submission, user)
-  if allow_emails? || user.username == 'wakibbe'
+  if allow_emails? || %w(wakibbe pfr957).include?(user.username)
     before_notify_email(submission)
     begin
-      Notifier.finalize_message(Rails.application.config.from_address,
-                                'Thank you for your NUCATS Assist Submission',
-                                submission,
-                                submission_url(submission.id),
-                                project_url(submission.project.id)).deliver
+      message = Notifier.finalize_message(Rails.application.config.from_address,
+                                          'Thank you for your NUCATS Assist Submission',
+                                          submission,
+                                          submission_url(submission.id),
+                                          project_url(submission.project.id))
+      logger.error("~~~ about to deliver message #{message.inspect}")
+      message.deliver
       submission.save!
       msg = "Thank you email for #{submission.submission_title} was successfully sent"
       begin
