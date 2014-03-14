@@ -30,13 +30,14 @@ class Notifier < ActionMailer::Base
     @sent_on      = Time.now
     @content_type = 'text/html'
 
-    body[:name] = name
-    body[:submission] = submission
-    body[:key_personnel] = submission.key_personnel_names
-    body[:the_submission_url] = the_submission_url
-    body[:the_project_url] = the_project_url
-    body[:status_notes] = status_notes
-    body[:docs_array] = list_submission_files_as_array(submission)
+    @name = name
+    @submission = submission
+    @key_personnel = submission.key_personnel_names
+    @the_submission_url = the_submission_url
+    @the_project_url = the_project_url
+    @status_notes = status_notes
+    @docs_array = list_submission_files_as_array(submission)
+    mail(from: from, to: to, cc: cc_list, subject: subject)
   end
 
 end
