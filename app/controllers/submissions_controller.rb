@@ -217,9 +217,9 @@ class SubmissionsController < ApplicationController
 
   def handle_if_final(submission, final_string)
     return unless final_string =~ /final/i
-    logger.error("sending email")
+    logger.error('sending email')
     @logged = nil
-    log_request("sending finalize email")
+    log_request('sending finalize email')
     send_finalize_email(submission, current_user_session)
   end
 
