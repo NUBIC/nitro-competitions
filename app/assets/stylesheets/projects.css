@@ -2,11 +2,23 @@ div#content {
   padding: 0 1em;
 }
 
+div.information {
+  padding-left: 1em;
+}
+
+.program {
+  float: left;
+  width: 98%;
+  border-bottom: 3px solid gray;
+  margin-bottom: 1em;
+  padding: 0 0.5em;
+}
+
 .project {
   float: left;
   width: 98%;
   border-bottom: 1px solid lightgray;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   padding: 1em 0.5em;
 }
 
@@ -26,9 +38,15 @@ div#content {
   font-size: 1.1em;
 }
 
+.program_information a,
+.program_information a:hover,
 .project_information a,
 .project_information a:hover {
   text-decoration: none;
+}
+
+.program_information h3 {
+  margin: 0.25em 0 1em 0;
 }
 
 .project_actions {

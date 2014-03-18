@@ -2,7 +2,9 @@
 
 <% if @projects.length > 0 %>
   <h2>Listing of all competitions sponsored by <%= @sponsor.program_title %></h2>
-  <%= render 'shared/project_selection_list', :projects => @projects %>
+  <div class='program'>
+    <%= render 'shared/project_list', :projects => @projects %>
+  </div>
 <% else %>
   <h2>No valid competitions have been sponsored by <%= @sponsor.program_title %></h2>
 <% end %>

@@ -15,6 +15,10 @@ class PublicController < ActionController::Base
   # GET /
   def welcome
     @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
+    @programs = {}
+    @projects.each do |pr|
+      @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
+    end
   end
 
   def disallowed
