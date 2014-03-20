@@ -77,3 +77,10 @@ div.information {
 .apply_link a:hover {
   background-color: limegreen;
 }
+
+.key_personnel_remove_link {
+  width: 41em;
+  display: inline-block;
+  text-align: right;
+  color: maroon !important;
+}
