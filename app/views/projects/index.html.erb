@@ -6,7 +6,7 @@
   To view additional information or access existing your submissions, reviews, etc., click the listing for a competition.
 </div>
 
-<%= render 'shared/project_selection_list', :programs => @programs %>
+<%= render 'shared/project_selection_list', :programs => @programs, :show_links => true %>
 
 <% unless @submissions.blank? %>
   <%= render 'shared/submissions_list', :submissions => @submissions, :title => "All your submissions" %>

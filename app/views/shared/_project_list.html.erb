@@ -2,7 +2,7 @@
   <div class='project'>
     <div class='apply'>
       <%= project.current_status %>
-      <% if (project.current_status =~ /open for/i) %>
+      <% if show_links && (project.current_status =~ /open for/i) %>
         <div class='apply_link'>
           <%= link_to('Apply',
               new_project_applicant_path(project.id),
@@ -13,9 +13,15 @@
     <div class='project_details'>
       <div class='project_information'>
         <div class='competition'>
-          <%= link_to(h(project.project_title),
-                      show_competition_url(project.program.program_name, project.project_name),
-                      :title=>"Click here to view the competition #{project.project_title}") %>
+          <% if show_links %>
+            <%= link_to(h(project.project_title),
+                        show_competition_url(project.program.program_name, project.project_name),
+                        :title => "Click here to view the competition #{project.project_title}") %>
+          <% else %>
+            <span class='project_title'>
+              <%= h(project.project_title) %>
+            </span>
+          <% end %>
         </div>
       </div>
       <div class='project_information'>
@@ -25,13 +31,13 @@
           <%= project.submission_close_date.to_s(:justdate) %>
         </div>
       </div>
-      <% if has_read_all?(project.program) %>
+      <% if show_links && has_read_all?(project.program) %>
         <div class='project_information'>
           Number of Applications:
           <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
         </div>
       <% end %>
     </div>
-    <%= render('shared/project_actions', :project => project, :show_submissions => false) %>
+    <%= render('shared/project_actions', :project => project, :show_submissions => false) if show_links %>
   </div>
 <% end %>

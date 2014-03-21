@@ -24,14 +24,15 @@ div.information {
 
 .apply {
   float: left;
-  width: 13%;
+  width: 15%;
 }
 
 .project_details {
-  width: 52%;
+  width: 50%;
   float: left;
 }
 
+.project_details .competition .project_title,
 .project_details .competition a {
   font-weight: bold;
   text-decoration: none;
