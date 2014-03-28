@@ -27,12 +27,12 @@
     <% end %>
   </div>
 </div>
-<% unless flash[:errors].blank? %>
+<%# TODO: Fix CSRF Detected error coming from OmniAuth %>
+<% if !flash[:errors].blank? && flash[:errors].to_s.downcase != 'csrf detected' %>
   <div id="results" class="notice">
     <div id="errors">
       <%= flash[:errors].html_safe %>
     </div>
-
   <%= image_tag 'loading.gif', :id => 'spinner' %>
   </div>
 <% end %>
