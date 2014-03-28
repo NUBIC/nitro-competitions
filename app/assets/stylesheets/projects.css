@@ -52,11 +52,11 @@ div.information {
   color: maroon;
 }
 
-#project_membership_required {
+div#project_membership_required {
   margin: 1em 0 2em 0;
 }
 
-#project_membership_required p {
+div#project_membership_required p {
   margin: 0.5em;
 }
 
