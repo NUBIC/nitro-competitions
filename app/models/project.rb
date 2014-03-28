@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140213161624
+# Schema version: 20140327162328
 #
 # Table name: projects
 #
@@ -63,6 +63,7 @@
 #  max_assigned_proposals_per_reviewer :integer          default(3)
 #  max_assigned_reviewers_per_proposal :integer          default(2)
 #  max_budget_request                  :float            default(50000.0)
+#  membership_required                 :boolean          default(FALSE)
 #  min_budget_request                  :float            default(1000.0)
 #  only_allow_pdfs                     :boolean          default(FALSE)
 #  other_funding_sources_wording       :text             default("Other funding sources")

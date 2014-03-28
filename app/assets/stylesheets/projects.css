@@ -46,6 +46,20 @@ div.information {
   text-decoration: none;
 }
 
+.cannot_delete,
+.membership_required {
+  font-weight: bold;
+  color: maroon;
+}
+
+#project_membership_required {
+  margin: 1em 0 2em 0;
+}
+
+#project_membership_required p {
+  margin: 0.5em;
+}
+
 .program_information h3 {
   margin: 0.25em 0 1em 0;
 }
@@ -84,4 +98,9 @@ div.information {
   display: inline-block;
   text-align: right;
   color: maroon !important;
+}
+
+.attribute_description {
+  font-size: 0.8em;
+  color: gray;
 }

@@ -189,6 +189,10 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # GET /projects/:id/membership_required.html
+  def membership_required
+  end
+
   def set_project
     unless params[:id].blank?
       @project = Project.find(params[:id])

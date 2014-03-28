@@ -269,6 +269,7 @@ DEPENDENCIES
   execjs
   factory_girl
   factory_girl_rails
+  faraday
   fastercsv
   haml
   jquery-rails

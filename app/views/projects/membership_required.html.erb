@@ -1,0 +1,20 @@
+<div id='project_membership_required'>
+  <p>
+    <% project_title = @project.project_title.blank? ? 'competition' : "#{@project.project_title} competition" %>
+    The <%= link_to project_title, project_path(@project) %> requires all applicants to be NUCATS Members
+    and our records indicate that you are not currently a NUCATS Member.
+  </p>
+  <p>
+    If this information is incorrect and you are a NUCATS Member, please contact
+    <a href='mailto:nucatsassist@nubic.northwestern.edu'>the NUCATS Assist application support desk</a>
+    to investigate this issue.
+  </p>
+  <p>
+    Otherwise membership is free and easy. Simply go to the
+    <a href="<%= ENV['OAUTH_CLIENT_PROVIDER_URL'] %>">NUCATS Membership (myNUCATS) website</a>
+    and sign up. The process takes less than one minute.
+  </p>
+  <p>
+    After you have become a NUCATS Member, return to NUCATS Assist to apply for this competition.
+  </p>
+</div>
