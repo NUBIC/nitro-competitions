@@ -45,17 +45,50 @@ class ApplicantsController < ApplicationController
     if username_blank?
       redirect_to(applicants_path)
     else
-      @applicant = User.find_by_username(determine_username)
+      username = determine_username
+      @applicant = User.find_by_username(username)
       if @applicant.blank?
-        @applicant = User.new(username: determine_username)
+        @applicant = User.new(username: username)
         @applicant = handle_ldap(@applicant)
       end
-
-      respond_to do |format|
-        format.html # new.html.erb
-        format.xml { render xml: @applicant }
+      if @project.membership_required?
+        redirect_to membership_required_project_path(@project) unless is_member?(@applicant)
+      else
+        respond_to do |format|
+          format.html # new.html.erb
+          format.xml { render xml: @applicant }
+        end
       end
     end
+  end
+
+  ##
+  # Ask myNUCATS (the NUCATS Membership application) if
+  # the given User is a NUCATS member
+  # @param [User] applicant
+  # @return [Boolean]
+  def is_member?(applicant)
+    # TODO: check if applicant is a NUCATS member
+    #       using more than simply the nu domain information
+    nucats_members = query_nucats_membership(username: "nu\\#{applicant.username}")
+    return %w(enrolled netid_verified).include? nucats_members.first['state'] if nucats_members.count == 1
+    false
+  end
+
+  def get_connection
+    Faraday.new(url: ENV['OAUTH_CLIENT_PROVIDER_URL']) do |faraday|
+      faraday.request  :url_encoded
+      faraday.response :logger
+      faraday.adapter  Faraday.default_adapter
+    end
+  end
+
+  def query_nucats_membership(*criteria)
+    connection = get_connection
+    response = connection.get do |req|
+      req.url '/api/v1/people.json', criteria.first
+    end
+    response.success? ? JSON.parse(response.body) : []
   end
 
   def username_blank?

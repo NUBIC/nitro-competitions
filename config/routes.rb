@@ -38,6 +38,7 @@ NucatsAssist::Application.routes.draw do
   resources :projects do
     member do
       get :all_reviews
+      get :membership_required
     end
     resources :applicants do
       resources :submissions, only: [:new, :create]

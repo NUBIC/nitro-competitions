@@ -2,33 +2,66 @@ div#content {
   padding: 0 1em;
 }
 
+div.information {
+  padding-left: 1em;
+}
+
+.program {
+  float: left;
+  width: 98%;
+  border-bottom: 3px solid gray;
+  margin-bottom: 1em;
+  padding: 0 0.5em;
+}
+
 .project {
   float: left;
   width: 98%;
   border-bottom: 1px solid lightgray;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   padding: 1em 0.5em;
 }
 
 .apply {
   float: left;
-  width: 13%;
+  width: 15%;
 }
 
 .project_details {
-  width: 52%;
+  width: 50%;
   float: left;
 }
 
+.project_details .competition .project_title,
 .project_details .competition a {
   font-weight: bold;
   text-decoration: none;
   font-size: 1.1em;
 }
 
+.program_information a,
+.program_information a:hover,
 .project_information a,
 .project_information a:hover {
   text-decoration: none;
+}
+
+.cannot_delete,
+.membership_required {
+  font-weight: bold;
+  color: maroon;
+}
+
+div#project_membership_required {
+  margin: 1em 0 2em 0;
+}
+
+div#project_membership_required p {
+  margin: 0.5em;
+}
+
+.program_information h3 {
+  margin: 0.25em 0 1em 0;
 }
 
 .project_actions {
@@ -58,4 +91,16 @@ div#content {
 }
 .apply_link a:hover {
   background-color: limegreen;
+}
+
+.key_personnel_remove_link {
+  width: 41em;
+  display: inline-block;
+  text-align: right;
+  color: maroon !important;
+}
+
+.attribute_description {
+  font-size: 0.8em;
+  color: gray;
 }

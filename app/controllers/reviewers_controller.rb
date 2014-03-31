@@ -94,7 +94,7 @@ class ReviewersController < ApplicationController
   # PUT /reviewers/1.xml
   def update
     @submission_review = SubmissionReview.find(params[:id])
-    if can_update_submission_review(@submission_review) || is_admin?(@submission_review.submission.project.program)
+    if can_update_submission_review?(@submission_review) || is_admin?(@submission_review.submission.project.program)
       respond_to do |format|
         if @submission_review.update_attributes(params[:submission_review])
           flash[:notice] = 'Review was successfully updated.'
@@ -113,7 +113,7 @@ class ReviewersController < ApplicationController
 
   def update_item
     @submission_review = SubmissionReview.find(params[:id])
-    if can_update_submission_review(@submission_review) || is_admin?(@submission_review.submission.project.program)
+    if can_update_submission_review?(@submission_review) || is_admin?(@submission_review.submission.project.program)
       respond_to do |format|
         if @submission_review.update_attributes(params[:submission_review])
           flash[:notice] = 'Review was successfully updated.'

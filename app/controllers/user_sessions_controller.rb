@@ -18,19 +18,20 @@ class UserSessionsController < ApplicationController
     set_session_attributes(user, omniauth)
     check_session
     flash[:notice] = 'You have successfully logged in!'
-    redirect_to '/projects'
+    # FIXME: redirect to requested URL (if possible)
+    redirect_to projects_path
   end
 
   # Omniauth failure callback
   def failure
     flash[:errors] = params[:message].to_s.titleize
-    redirect_to '/welcome'
+    redirect_to welcome_path
   end
 
   # signout - Clear our rack session user_info
   def destroy
     clear_session_attributes
     flash[:errors] = 'You have successfully signed out!'
-    redirect_to '/welcome'
+    redirect_to welcome_path
   end
 end
