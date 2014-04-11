@@ -209,7 +209,6 @@ class User < ActiveRecord::Base
     end
     user
   end
-  private_class_method :find_user_from_omniauth
 
   ##
   # Use the record in the hash where the domain is nu to match
