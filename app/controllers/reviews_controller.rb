@@ -4,8 +4,8 @@
 # Controller for SubmissionReviews to be evaluated by Reviewers
 class ReviewsController < ApplicationController
 
-  # GET /submission/submission_id/reviews
-  # GET /submission/submission_id/reviews.xml
+  # GET /submission/:submission_id/reviews
+  # GET /submission/:submission_id/reviews.xml
   def index
     @submission = Submission.find(params[:submission_id])
     @reviews = @submission.submission_reviews
@@ -17,7 +17,7 @@ class ReviewsController < ApplicationController
         format.pdf do
           render pdf: "Reviews: #{@submission.submission_title}",
                  stylesheets: ['pdf'],
-                 layout => 'pdf'
+                 layout: 'pdf'
         end
         format.xml { render xml: @reviews }
       end

@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   def current_user
     if Rails.application.config.use_omniauth
       return nil unless session[:user_info]
-      @current_user ||= User.where(email: session[:user_info]['info']['email']).first
+      @current_user ||= User.find_user_from_omniauth(session[:user_info])
     else
       request.env['aker.check'].user
     end

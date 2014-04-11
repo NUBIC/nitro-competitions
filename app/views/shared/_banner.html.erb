@@ -14,7 +14,7 @@
   <div id="menu">
     <%= link_to('Help', image_path("../docs/NUCATS_Assist_Instructions.pdf"),
                 :title => "Instructions on how to use NUCATS Assist and general help manual",
-                :style => "background-color:#520064;color:white; margin-right:5px; text-decoration:none;") %>
+                :class => 'menu_link') %>
     <% if defined?(current_user_session) && !current_user_session.blank? %>
       <%= session[:name] || current_user_session.try(:username) %>
       <%= link_to "Sign Out", application_logout_path,
@@ -22,7 +22,7 @@
                   :title => "Logout of NUCATS Assist" %>
     <% else %>
       <%= link_to 'Login', projects_path,
-                  :style => "background-color:#520064; color:white; font-size:+2; margin-left:5px; text-decoration:none;",
+                  :class => 'menu_link',
                   :title => "Login to NUCATS Assist" %>
     <% end %>
   </div>
