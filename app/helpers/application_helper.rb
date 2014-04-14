@@ -99,7 +99,7 @@ module ApplicationHelper
     end
     clear_session_attributes if current_user.blank? || current_user.username.blank?
 
-    if ! defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
+    if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
       the_user = User.find_by_username(current_user.username)
       if the_user.blank? || the_user.name.blank?
         if make_user(current_user.username)

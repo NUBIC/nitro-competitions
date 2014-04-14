@@ -16,9 +16,8 @@
     <%= render('documents_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
     <%= render('key_personnel_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
     <tr>
-      <td colspan="3" align="center" style="background:#ADE387;padding:10px;">
-        <%= f.submit('Save as Draft') %>
-        <%= f.submit('Submit as Final') %>
+      <td colspan="3" align="center" style="background:#ADE387; padding:10px;">
+        <%= f.submit('Submit') %>
       </td>
     </tr>
   </table>
