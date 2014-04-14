@@ -137,21 +137,17 @@ class SubmissionsController < ApplicationController
     end
 
     respond_to do |format|
-      params[:submission].delete(:id)  #id causes an error  - can't mass assign id
+      params[:submission].delete(:id)  # id causes an error  - can't mass assign id
       if @submission.update_attributes(params[:submission])
         flash[:errors] = nil
-        handle_if_final(@submission, params[:commit])
+        send_submission_email(@submission)
         flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully updated"
-        if @submission.is_complete?
-          flash[:notice] = flash[:notice] +" and is COMPLETE!!"
-        end
-        unless @submission.errors.blank?
-          flash[:errors] = "Submission was saved but: " + @submission.errors.full_messages.join("; ")
-        end
+        flash[:notice] = "#{flash[:notice]} and is COMPLETE!!" if @submission.is_complete?
+        flash[:errors] = "Submission was saved but: #{@submission.errors.full_messages.join('; ')}" unless @submission.errors.blank?
         format.html { redirect_to project_path(@project.id) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => 'edit' }
         format.xml  { render :xml => @submission.errors, :status => :unprocessable_entity }
       end
     end
@@ -160,24 +156,26 @@ class SubmissionsController < ApplicationController
   def reassign_applicant
     submission = Submission.find(params[:id])
     before_update(submission)
+    @submission = submission
     unless params[:applicant_id].blank?
       applicant = User.find(params[:applicant_id])
       submission.applicant_id  =  applicant.id
     end
     respond_to do |format|
-      if ! is_admin? and !((is_current_user?(submission.created_id) or is_current_user?(submission.applicant_id)) and  submission.project.submission_open_date < Date.today and submission.project.submission_close_date >=  Date.today)
-        flash[:errors] = "You cannot reassign this proposal."
+      if !is_admin? &&
+         !((is_current_user?(submission.created_id) || is_current_user?(submission.applicant_id)) &&
+         submission.project.submission_open_date < Date.today && submission.project.submission_close_date >= Date.today)
+        flash[:errors] = 'You cannot reassign this proposal.'
         format.html { redirect_to project_path(submission.project_id) }
       elsif params[:applicant_id].blank?
-        @submission = submission
         @users = User.all
         format.html { render  }
-      elsif submission.applicant_id  > 0 and submission.save
+      elsif submission.applicant_id  > 0 && submission.save
         flash[:notice] = "Submission was successfully reassigned to #{applicant.name}."
         format.html { redirect_to project_submissions_path(submission.project_id) }
         format.xml  { head :ok }
       else
-        flash[:errors] = "Submission  <i>#{@submission.submission_title}</i> could not be reassigned;  #{@submission.errors.full_messages.join('; ')}"
+        flash[:errors] = "Submission  <i>#{submission.submission_title}</i> could not be reassigned;  #{submission.errors.full_messages.join('; ')}"
         format.html { render :action => "edit" }
         format.xml  { render :xml => submission.errors, :status => :unprocessable_entity }
       end
@@ -215,8 +213,7 @@ class SubmissionsController < ApplicationController
     make_user(submission.department_administrator_username)
   end
 
-  def handle_if_final(submission, final_string)
-    return unless final_string =~ /final/i
+  def send_submission_email(submission)
     logger.error('sending email')
     @logged = nil
     log_request('sending finalize email')
