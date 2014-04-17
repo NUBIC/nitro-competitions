@@ -39,41 +39,38 @@ class SubmissionsController < ApplicationController
     @submission = Submission.find(params[:id])
     @submissions = Submission.associated_with_user(current_user_session.id)
     @submission_reviews = @submission.submission_reviews
-    if !@submission.blank? and (has_read_all?(@submission.project.program) or @submissions.map(&:id).include?(@submission.id) or @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
+    if @submission && (has_read_all?(@submission.project.program) ||
+                       @submissions.map(&:id).include?(@submission.id) ||
+                       @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
-        format.html { render :layout => 'pdf' }# show.html.erb
+        format.html { render :layout => 'pdf' } # show.html.erb
         format.pdf do
-           render :pdf => @submission.submission_title,
-              :stylesheets => ["pdf"],
-              :layout => "pdf"
+          render :pdf => @submission.submission_title,
+                 :stylesheets => ['pdf'],
+                 :layout => 'pdf'
         end
         format.xml  { render :xml => @submission }
       end
     else
-      if current_project.blank?
-        redirect_to projects_path
-      else
-        redirect_to project_submissions_path(current_project.id)
-      end
+      redirect_url = @submission.project.blank? ? projects_path : project_submissions_path(@submission.project.id)
+      redirect_to redirect_url
     end
   end
 
   # GET /submissions/new
   # GET /submissions/new.xml
   def new
-    @applicant = User.find(params[:applicant_id] || current_user_session.id)
-    @project = Project.find(params[:project_id])
-    unless @applicant.blank? or @project.blank?
+    user_id = params[:applicant_id] || current_user_session.id
+    @applicant = User.find(user_id) unless user_id.blank?
+    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    if @applicant.blank? || @project.blank?
+      redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
+      redirect_to redirect_url
+    else
       @submission = Submission.new(:applicant_id => @applicant.id, :project_id => @project.id)
       respond_to do |format|
         format.html # new.html.erb
         format.xml  { render :xml => @submission }
-      end
-    else
-      if @project.blank?
-        redirect_to projects_path
-      else
-        redirect_to project_path(@project.id)
       end
     end
   end
@@ -91,33 +88,28 @@ class SubmissionsController < ApplicationController
     @applicant = User.find(params[:applicant_id])
     @project = Project.find(params[:project_id])
     @submission = Submission.new(params[:submission])
-    unless @applicant.blank? or @project.blank? or @submission.blank?
+    if @applicant.blank? || @project.blank? || @submission.blank?
+      redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
+      redirect_to redirect_url
+    else
       @submission.max_budget_request = @project.max_budget_request || 50000
       @submission.min_budget_request = @project.min_budget_request || 1000
       @submission.applicant_id = @applicant.id
       handle_usernames(@submission)
-      @title = "Application Process - Step 3 (last step!)"
+      @title = 'Application Process - Step 3 (last step!)'
       before_create(@submission)
       respond_to do |format|
         if @submission.save
-          unless params[:submission].blank?
-            handle_key_personnel_param(@submission)
-          end
+          handle_key_personnel_param(@submission) unless params[:submission].blank?
           flash[:errors] = nil
           flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully created"
-          format.html { render :action => "edit_documents" }
+          format.html { render :action => 'edit_documents' }
           format.xml  { render :xml => @submission, :status => :created, :location => @submission }
         else
           flash[:errors] = "Submission #{@submission.submission_title} could not be created. #{@submission.errors.full_messages.join('; ')}"
-          format.html { render :action => "new" }
+          format.html { render :action => 'new' }
           format.xml  { render :xml => @submission.errors, :status => :unprocessable_entity }
         end
-      end
-    else
-      if @project.blank?
-        redirect_to(projects_path)
-      else
-        redirect_to(project_path(@project.id))
       end
     end
   end
@@ -176,7 +168,7 @@ class SubmissionsController < ApplicationController
         format.xml  { head :ok }
       else
         flash[:errors] = "Submission  <i>#{submission.submission_title}</i> could not be reassigned;  #{submission.errors.full_messages.join('; ')}"
-        format.html { render :action => "edit" }
+        format.html { render :action => 'edit' }
         format.xml  { render :xml => submission.errors, :status => :unprocessable_entity }
       end
     end
@@ -187,7 +179,7 @@ class SubmissionsController < ApplicationController
   def destroy
     submission = Submission.find(params[:id])
     project = Project.find(submission.project_id)
-    if is_admin? or ((is_current_user?(submission.created_id) or is_current_user?(submission.applicant_id)) and  submission.project.submission_open_date < Date.today and submission.project.submission_close_date >=  Date.today)
+    if is_admin? || (current_user_created_submission?(submission) && is_live_submission?(submission.project))
       flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
       submission.destroy
     else
@@ -198,6 +190,14 @@ class SubmissionsController < ApplicationController
       format.html { redirect_to(project_path(project.id)) }
       format.xml  { head :ok }
     end
+  end
+
+  def current_user_created_submission?(submission)
+    is_current_user?(submission.created_id) || is_current_user?(submission.applicant_id)
+  end
+
+  def is_live_submission?(project)
+    project.submission_open_date < Date.today && project.submission_close_date >= Date.today
   end
 
   # GET /submissions/1/edit_documents
@@ -219,6 +219,5 @@ class SubmissionsController < ApplicationController
     log_request('sending finalize email')
     send_finalize_email(submission, current_user_session)
   end
-
 
 end

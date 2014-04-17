@@ -104,7 +104,6 @@ class Submission < ActiveRecord::Base
   attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
   attr_accessible :applicant, :submitter, :effort_approver, :core_manager, :department_administrator
 
-
   attr_accessor :max_budget_request
   attr_accessor :min_budget_request
 
