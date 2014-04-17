@@ -4,6 +4,10 @@ LineLength:
   Max: 180
 MethodLength:
   Max: 20
+HashSyntax:
+  Enabled: false
+RedundantSelf:
+  Enabled: false
 AllCops:
   Includes:
     - Rakefile
