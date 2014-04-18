@@ -151,8 +151,19 @@ class Submission < ActiveRecord::Base
   before_validation :clean_params, :set_defaults
 
   validates_length_of :submission_title, :within => 6..81, :too_long => '--- pick a shorter title', :too_short => '--- pick a longer title'
-  validates_numericality_of :direct_project_cost, :greater_than => 1000000, :if => Proc.new { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => 'is too low'
-  validates_numericality_of :direct_project_cost, :less_than => 1000, :if => Proc.new { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => 'is too high'
+  validates_numericality_of :direct_project_cost, :greater_than => 1_000_000, :if => proc { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => 'is too low'
+  validates_numericality_of :direct_project_cost, :less_than => 1000, :if => proc { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => 'is too high'
+
+  # Various values to be set for the `submission_status` attributes
+  # presumably depends on the state of the whole of the associated submission_reviews
+  PENDING   = 'Pending'
+  REVIEWED  = 'Reviewed'
+  DENIED    = 'Denied'
+  AWARDED   = 'Awarded'
+  COMPLETED = 'Completed'
+  STATUSES  = [PENDING, REVIEWED, DENIED, AWARDED, COMPLETED]
+
+  validates :submission_status, inclusion: { in: STATUSES }
 
   def overall_scores
     return 0 if submission_reviews.length == 0
@@ -179,7 +190,7 @@ class Submission < ActiveRecord::Base
   end
 
   def max_project_cost
-    max_budget_request || 50000
+    max_budget_request || 50_000
   end
 
   def min_project_cost
@@ -302,7 +313,7 @@ class Submission < ActiveRecord::Base
   end
 
   def set_defaults
-    self.submission_status = 'Pending' if self.submission_status.blank?
+    self.submission_status = PENDING if self.submission_status.blank?
   end
 
   def save_documents
@@ -334,6 +345,7 @@ class Submission < ActiveRecord::Base
         begin
           logger.error "saving biosketch: updated_at: #{self.applicant_biosketch_document.last_updated_at} was #{self.applicant.biosketch.updated_at}"
         rescue
+          puts 'error logging error when saving biosketch'
         end
         self.save
       end

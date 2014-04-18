@@ -8,6 +8,8 @@ HashSyntax:
   Enabled: false
 RedundantSelf:
   Enabled: false
+Lambda:
+  Enabled: false
 AllCops:
   Includes:
     - Rakefile

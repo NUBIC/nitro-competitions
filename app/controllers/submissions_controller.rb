@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+##
+# Controller for Submission model.
 class SubmissionsController < ApplicationController
 
   include KeyPersonnelHelper
@@ -92,7 +96,7 @@ class SubmissionsController < ApplicationController
       redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
       redirect_to redirect_url
     else
-      @submission.max_budget_request = @project.max_budget_request || 50000
+      @submission.max_budget_request = @project.max_budget_request || 50_000
       @submission.min_budget_request = @project.min_budget_request || 1000
       @submission.applicant_id = @applicant.id
       handle_usernames(@submission)
@@ -120,7 +124,7 @@ class SubmissionsController < ApplicationController
     @submission = Submission.find(params[:id])
     @project = Project.find(@submission.project_id)
     @applicant = User.find(@submission.applicant_id)
-    @submission.max_budget_request = @project.max_budget_request || 50000
+    @submission.max_budget_request = @project.max_budget_request || 50_000
     @submission.min_budget_request = @project.min_budget_request || 1000
     before_update(@submission)
     unless params[:submission].blank?

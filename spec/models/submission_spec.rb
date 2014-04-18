@@ -122,6 +122,16 @@ describe Submission do
         submission.errors[:direct_project_cost].should_not be_blank
       end
     end
+    describe 'submission_status' do
+      it 'validates inclusion in Submission::STATUSES' do
+        Submission::STATUSES.each do |s|
+          submission = FactoryGirl.build(:submission, :submission_status => "#{s}xxx")
+          submission.should_not be_valid
+          submission.submission_status = s
+          submission.should be_valid
+        end
+      end
+    end
   end
 
   describe '.recent' do
