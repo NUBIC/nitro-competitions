@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140327162328
+# Schema version: 20140418191443
 #
 # Table name: projects
 #
@@ -144,6 +144,8 @@
 #  submission_close_date               :date
 #  submission_modification_date        :date
 #  submission_open_date                :date
+#  supplemental_document_description   :string(255)      default("Please upload any supplemental information here. (Optional)")
+#  supplemental_document_name          :string(255)      default("Supplemental Document (Optional)")
 #  team_title                          :string(255)      default("Investigator(s)")
 #  team_wording                        :text             default("Are the PIs, collaborators, and other researchers well suited to the project? If Early Stage Investigators or New Investigators, do they have appropriate experience and training? If established, have they demonstrated an ongoing record of accomplishments that have advanced their field(s)? If the project is collaborative, do the investigators have complementary and integrated expertise; are their leadership approach, governance and organizational structure appropriate for the project?")
 #  title_wording                       :text             default("Title of Project")

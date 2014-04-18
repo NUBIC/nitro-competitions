@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140213161624
+# Schema version: 20140418191443
 #
 # Table name: submissions
 #
@@ -54,6 +54,7 @@
 #  submission_reviews_count          :integer          default(0)
 #  submission_status                 :string(255)
 #  submission_title                  :string(255)
+#  supplemental_document_id          :integer
 #  updated_at                        :datetime
 #  updated_id                        :integer
 #  updated_ip                        :string(255)
@@ -84,6 +85,7 @@ class Submission < ActiveRecord::Base
   belongs_to :document2,                    :class_name => 'FileDocument', :foreign_key => 'document2_id'
   belongs_to :document3,                    :class_name => 'FileDocument', :foreign_key => 'document3_id'
   belongs_to :document4,                    :class_name => 'FileDocument', :foreign_key => 'document4_id'
+  belongs_to :supplemental_document,        :class_name => 'FileDocument', :foreign_key => 'supplemental_document_id'
 
   # TODO : determine how many supplemental documents are needed or add a join model to associate many documents
   #        (probably will continue to simply add belongs_to relationships to this model)
@@ -101,6 +103,7 @@ class Submission < ActiveRecord::Base
   attr_accessible :applicant_biosketch_document, :application_document, :budget_document, :other_support_document
   attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget, :uploaded_biosketch
   attr_accessible :document1, :document2, :document3, :document4
+  attr_accessible :supplemental_document, :uploaded_supplemental_document
   attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
   attr_accessible :applicant, :submitter, :effort_approver, :core_manager, :department_administrator
 
@@ -251,9 +254,8 @@ class Submission < ActiveRecord::Base
     self.where('effort_approver_username = :username', { username: username }).all
   end
 
+  # this will update the applicant's personal biosketch and then add to the submission
   def uploaded_biosketch=(data_field)
-    # this will update the applicant's personal biosketch and then add to the submission as well
-    # set the current biosketch
     unless data_field.blank?
       self.applicant_biosketch_document = FileDocument.new if applicant_biosketch_document.nil?
       self.applicant_biosketch_document.uploaded_file = data_field
@@ -294,7 +296,12 @@ class Submission < ActiveRecord::Base
     self.document4.uploaded_file = data_field unless data_field.blank?
   end
 
-  # this defines the connection between the model attribute exposed to the form (uploaded_application )
+  def uploaded_supplemental_document=(data_field)
+    self.supplemental_document = FileDocument.new if self.supplemental_document.nil?
+    self.supplemental_document.uploaded_file = data_field unless data_field.blank?
+  end
+
+  # this defines the connection between the model attribute exposed to the form (uploaded_application)
   # and the storage fields for the file
   def uploaded_application=(data_field)
     self.application_document = FileDocument.new if self.application_document.nil?

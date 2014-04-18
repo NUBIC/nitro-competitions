@@ -4,7 +4,8 @@
       <%= f.hidden_field :program_id %><%= f.label "Competition Name" %>
     </td>
     <td class="notes" colspan="2">
-      <%= f.text_field :project_name, :size => 20 %>
+      <%= f.text_field :project_name, :size => 20, required: true %>
+      <span class='required_marker'> * </span>
       <div class='attribute_description'>
         Short, no space name for the competition.<br>
         This is the name that will appear in the URL for the competition,<br>
@@ -17,7 +18,8 @@
       <%= f.label "Competition Title" %>
     </td>
     <td class="notes" colspan="2">
-      <%= f.text_field :project_title, :size => 80 %>
+      <%= f.text_field :project_title, :size => 80, required: true %>
+      <span class='required_marker'> * </span>
       <div class='attribute_description'>
         Descriptive Title. Required
       </div>
@@ -61,7 +63,8 @@
       <%= f.label :submission_open_date  %>
     </td>
     <td class="notes" colspan="2">
-      <%= f.text_field :submission_open_date, :size=>15 %>
+      <%= f.text_field :submission_open_date, :size=>15, required: true %>
+      <span class='required_marker'> * </span>
       <div class='attribute_description'>
         Date when applicants can first start to apply for the competition
       </div>
@@ -72,7 +75,8 @@
       <%= f.label :submission_close_date  %>
     </td>
     <td class="notes" colspan="2">
-      <%= f.text_field :submission_close_date, :size=>15 %>
+      <%= f.text_field :submission_close_date, :size=>15, required: true %>
+      <span class='required_marker'> * </span>
       <div class='attribute_description'>
         Last date (at midnight that day) when the applicants can submit their submission
       </div>
@@ -96,7 +100,8 @@
       <%= f.label :review_start_date  %>
     </td>
     <td class="notes" colspan="2">
-      <%= f.text_field :review_start_date, :size=>15 %>
+      <%= f.text_field :review_start_date, :size=>15, required: true %>
+      <span class='required_marker'> * </span>
       <div class='attribute_description'>
         Start of the Review process.
         <br />
@@ -106,7 +111,8 @@
   </tr>
   <tr>
     <td class="title">
-      <%= f.label :review_end_date %>
+      <%= f.label :review_end_date, required: true %>
+      <span class='required_marker'> * </span>
     </td>
     <td class="notes" colspan="2">
       <%= f.text_field :review_end_date, :size=>15 %>
@@ -119,7 +125,8 @@
   </tr>
   <tr>
     <td class="title">
-      <%= f.label :project_period_start_date %>
+      <%= f.label :project_period_start_date, required: true %>
+      <span class='required_marker'> * </span>
     </td>
     <td class="notes" colspan="2">
       <%= f.text_field :project_period_start_date, :size=>15 %>
@@ -130,7 +137,8 @@
   </tr>
   <tr>
     <td class="title">
-      <%= f.label :project_period_end_date %>
+      <%= f.label :project_period_end_date, required: true %>
+      <span class='required_marker'> * </span>
     </td>
     <td class="notes" colspan="2">
       <%= f.text_field :project_period_end_date, :size=>15 %>
@@ -731,6 +739,30 @@
       </div>
     </td>
   </tr>
+
+  <tr>
+    <td class="title">
+      <%= f.label :supplemental_document_name %>
+    </td>
+    <td class="notes" colspan="2">
+      <%= f.text_field :supplemental_document_name, :size=>80 %>
+      <div class='attribute_description'>
+        Label name for the optional <b>supplemental document</b> upload item.
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label :supplemental_document_description %>
+    </td>
+    <td class="notes" colspan="2">
+      <%= f.text_area :supplemental_document_description, {:rows => 5, :cols => 80, :wrap=>"virtual"} %>
+      <div class='attribute_description'>
+        Text to describe what might be expected in the optional <b>supplemental document</b>.
+      </div>
+    </td>
+  </tr>
+
   <tr>
     <td id="title5" colspan="3">
       <strong>Direct Cost item, wording and budget request limits</strong>

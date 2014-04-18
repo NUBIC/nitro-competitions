@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # == Schema Information
-# Schema version: 20140213161624
+# Schema version: 20140418191443
 #
 # Table name: submissions
 #
@@ -54,6 +54,7 @@
 #  submission_reviews_count          :integer          default(0)
 #  submission_status                 :string(255)
 #  submission_title                  :string(255)
+#  supplemental_document_id          :integer
 #  updated_at                        :datetime
 #  updated_id                        :integer
 #  updated_ip                        :string(255)

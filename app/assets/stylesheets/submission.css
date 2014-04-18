@@ -19,3 +19,22 @@ div.submission_actions {
 #unassigned_submissions {
   position: relative;
 }
+
+label.error {
+  color: crimson;
+  font-weight: bold;
+  border: 2px solid crimson;
+  background-color: lightpink;
+  padding: 0.25em;
+  margin-left: 0.5em;
+}
+
+input.error {
+  color: crimson;
+  border-bottom: 2px solid crimson;
+}
+
+#submission_submission_title {
+  display: block;
+  margin-bottom: 0.5em;
+}

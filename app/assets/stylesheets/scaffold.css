@@ -143,10 +143,10 @@ a:hover {
 
 #add_key_personnel_link {
   font-family: Arial, Helvetica, Geneva, sans-serif;
-  font-size: 140%;
+  font-size: 1.25em;
   font-weight: bold;
   padding: 5px;
-  line-height: 180%;
+  line-height: 1.5em;
 }
 
 #search {

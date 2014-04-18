@@ -4,7 +4,7 @@
 
 <%= form_for(:submission,
              :url => project_applicant_submissions_path(params[:project_id], params[:applicant_id]),
-             :html => { :multipart => true, :method => :post }) do |f| %>
+             :html => { :multipart => true, :method => :post, :id => 'new_submission_form' }) do |f| %>
   <!-- f and submission are existing variables passed in -->
   <%= f.hidden_field :submission_status %>
   <table class="lined">
@@ -16,3 +16,7 @@
     </tr>
   </table>
 <% end %>
+
+<script>
+  jQuery('#new_submission_form').validate();
+</script>

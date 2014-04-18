@@ -43,8 +43,9 @@ form {
   color: #222266;
 }
 
-.required {
-  color: red;
+.required,
+.required_marker {
+  color: crimson;
   font-size: 18px;
   font-weight: bold;
   padding-right: 2px;

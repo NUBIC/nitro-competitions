@@ -41,9 +41,10 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, :size => 81, :maxlength => 81,
+    <%= f.text_field :submission_title, :size => 81, :maxlength => 81, :required => true, :minlength => 6,
                      :onkeyup => "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)",
                      :onkeydown => "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)" %>
+    <span class='required_marker'> * </span>
     <span id="submission_title_cnt"></span>
   </td>
   <td class="notes">
