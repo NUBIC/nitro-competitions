@@ -24,12 +24,12 @@
 		<%= f.hidden_field :first_name %>
 		<%= f.hidden_field :middle_name %>
 		<%= f.hidden_field :last_name %>
-		<%= if ldap_name.blank? then "<span style='color:red;'>username not found in ldap</span>" else ldap_name end %>
+		<%= ldap_name.blank? ? "<span style='color:red;'>username not found in ldap</span>" : ldap_name %>
 	</td>
 	<td class="notes">
 		Full name, from LDAP
 		<%= link_to('Add info for external people', '',
-								:onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5)+";return false;" ) if ldap_name.blank? %>
+								:onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5) + ";return false;" ) if ldap_name.blank? %>
 	</td>
 </tr>
 

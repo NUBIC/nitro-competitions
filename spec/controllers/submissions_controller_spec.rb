@@ -21,25 +21,41 @@ describe SubmissionsController do
 
     describe 'GET new' do
       context 'without parameters' do
-        # it 'redirects to projects_path' do
-        #   get :new
-        #   response.should redirect_to(projects_path)
-        # end
+        it 'redirects to projects_path' do
+          get :new
+          response.should redirect_to(projects_path)
+        end
       end
     end
+
+    describe 'GET show' do
+      let(:submission) { FactoryGirl.create(:submission) }
+      context 'where the current logged in user is associated with the submission' do
+        before do
+          Submission.stub(:associated_with_user).and_return([submission])
+        end
+        it 'renders the page' do
+          get :show, :id => submission.id
+          response.should be_success
+        end
+      end
+      context 'where the current logged in user is not associated with the submission' do
+        it 'redirects the user to the project_submissions_path' do
+          get :show, :id => submission.id
+          response.should redirect_to(project_submissions_path(submission.project))
+        end
+      end
+    end
+
+    describe 'GET edit' do
+      let(:submission) { FactoryGirl.create(:submission) }
+      it 'renders the page' do
+        get :edit, :id => submission.id
+        response.should be_success
+      end
+    end
+
   end
-
-
-  # test "should show submission" do
-  #   get :show, :id => submissions(:one).to_param
-  #   assert_response :success
-  # end
-
-  # test "should get edit" do
-  #   get :edit, :id => submissions(:one).to_param
-  #   assert_response :success
-  # end
-
 
   # test "should not create submission redirect to projects" do
   #   assert_difference('Submission.count', 0) do

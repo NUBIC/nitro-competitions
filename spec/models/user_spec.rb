@@ -325,4 +325,20 @@ describe User do
       end
     end
   end
+
+  describe '#applicants' do
+    let(:submission) { FactoryGirl.create(:submission) }
+    let!(:applicant) { submission.applicant }
+    let!(:submitter) { submission.submitter }
+    let(:reviewer) { FactoryGirl.create(:reviewer) }
+    let!(:user) { reviewer.user }
+
+    it 'returns User records for Users who are applicants for Submissions' do
+      applicants = User.applicants
+      applicants.should include(applicant)
+      applicants.should_not include(submitter)
+      applicants.should_not include(user)
+    end
+  end
+
 end

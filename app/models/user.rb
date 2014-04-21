@@ -49,7 +49,7 @@
 
 class User < ActiveRecord::Base
 
-  has_many :reviewers  #really program reviewers since the reviewer model is a user + program
+  has_many :reviewers  # really program reviewers since the reviewer model is a user + program
   belongs_to :biosketch, :class_name => 'FileDocument', :foreign_key => 'biosketch_document_id'
   has_many :key_personnel
   has_many :submission_reviews, :foreign_key => 'reviewer_id'
@@ -73,6 +73,8 @@ class User < ActiveRecord::Base
 
   default_scope order('lower(users.last_name),lower(users.first_name)')
   scope :program_reviewers, lambda { |*args| joins(:reviewers).where('reviewers.program_id = :program_id', { :program_id => args.first }) }
+
+  scope :applicants, joins('join submissions on submissions.applicant_id = users.id')
 
   validates_presence_of :username
   validates_uniqueness_of :username
@@ -129,17 +131,18 @@ class User < ActiveRecord::Base
   def uploaded_biosketch=(field)
     if self.biosketch_document_id.nil?
       self.biosketch = FileDocument.new
+      msg = 'creating new biosketch object for investigator'
       begin
-        logger.warn "creating new biosketch object for investigator"
+        logger.warn msg
       rescue
-        puts  "creating new biosketch object for investigator"
+        puts msg
       end
     end
     self.biosketch.uploaded_file = field
   end
 
   def save_documents
-    self.biosketch.save if !self.biosketch.nil? and self.biosketch.changed?
+    self.biosketch.save if !self.biosketch.nil? && self.biosketch.changed?
   end
 
   ##
@@ -217,8 +220,8 @@ class User < ActiveRecord::Base
     identity = identities.find { |pi| pi['domain'] == 'nu' }
     user = find_user_using_identity(identity) if identity
     if user.blank?
-      identities.each do |identity|
-        user = find_user_using_identity(identity)
+      identities.each do |i|
+        user = find_user_using_identity(i)
         break unless user.blank?
       end
     end

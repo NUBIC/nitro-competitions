@@ -2,12 +2,6 @@
   <%= "Update Title Page for application <i>#{@submission.submission_title}</i>".html_safe %>
 </h3>
 
-<script language="javascript">
-  function SetFieldValue(object_id) {
-    $(object_id).value = 'Completed';
-  }
-</script>
-
 <%= form_for(:submission,
              :url => submission_path(@submission.id),
              :html => { :multipart => true, :method => :put }) do |f| %>

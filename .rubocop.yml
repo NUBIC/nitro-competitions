@@ -3,7 +3,13 @@ ClassLength:
 LineLength:
   Max: 180
 MethodLength:
-  Max: 20
+  Max: 40
+HashSyntax:
+  Enabled: false
+RedundantSelf:
+  Enabled: false
+Lambda:
+  Enabled: false
 AllCops:
   Includes:
     - Rakefile

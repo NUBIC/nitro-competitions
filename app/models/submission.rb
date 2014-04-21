@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140213161624
+# Schema version: 20140418191443
 #
 # Table name: submissions
 #
@@ -54,6 +54,7 @@
 #  submission_reviews_count          :integer          default(0)
 #  submission_status                 :string(255)
 #  submission_title                  :string(255)
+#  supplemental_document_id          :integer
 #  updated_at                        :datetime
 #  updated_id                        :integer
 #  updated_ip                        :string(255)
@@ -70,25 +71,29 @@
 
 class Submission < ActiveRecord::Base
   belongs_to :project
-  belongs_to :applicant, :class_name => "User", :foreign_key => "applicant_id"
-  belongs_to :submitter, :class_name => "User", :foreign_key => "created_id"
-  belongs_to :effort_approver, :class_name => "User", :primary_key => "username", :foreign_key => "effort_approver_username"
-  belongs_to :core_manager, :class_name => "User", :primary_key => "username", :foreign_key => "core_manager_username"
-  belongs_to :department_administrator, :class_name => "User", :foreign_key => "department_administrator_username", :primary_key => "username"
+  belongs_to :applicant,                :class_name => 'User', :foreign_key => 'applicant_id'
+  belongs_to :submitter,                :class_name => 'User', :foreign_key => 'created_id'
+  belongs_to :effort_approver,          :class_name => 'User', :primary_key => 'username', :foreign_key => 'effort_approver_username'
+  belongs_to :core_manager,             :class_name => 'User', :primary_key => 'username', :foreign_key => 'core_manager_username'
+  belongs_to :department_administrator, :class_name => 'User', :primary_key => 'username', :foreign_key => 'department_administrator_username'
 
-  belongs_to :applicant_biosketch_document, :class_name => "FileDocument", :foreign_key => 'applicant_biosketch_document_id'
-  belongs_to :application_document, :class_name => "FileDocument", :foreign_key => 'application_document_id'
-  belongs_to :budget_document, :class_name => "FileDocument", :foreign_key => 'budget_document_id'
-  belongs_to :other_support_document, :class_name => "FileDocument", :foreign_key => 'other_support_document_id'
-  belongs_to :document1, :class_name => "FileDocument", :foreign_key => 'document1_id'
-  belongs_to :document2, :class_name => "FileDocument", :foreign_key => 'document2_id'
-  belongs_to :document3, :class_name => "FileDocument", :foreign_key => 'document3_id'
-  belongs_to :document4, :class_name => "FileDocument", :foreign_key => 'document4_id'
+  belongs_to :applicant_biosketch_document, :class_name => 'FileDocument', :foreign_key => 'applicant_biosketch_document_id'
+  belongs_to :application_document,         :class_name => 'FileDocument', :foreign_key => 'application_document_id'
+  belongs_to :budget_document,              :class_name => 'FileDocument', :foreign_key => 'budget_document_id'
+  belongs_to :other_support_document,       :class_name => 'FileDocument', :foreign_key => 'other_support_document_id'
+  belongs_to :document1,                    :class_name => 'FileDocument', :foreign_key => 'document1_id'
+  belongs_to :document2,                    :class_name => 'FileDocument', :foreign_key => 'document2_id'
+  belongs_to :document3,                    :class_name => 'FileDocument', :foreign_key => 'document3_id'
+  belongs_to :document4,                    :class_name => 'FileDocument', :foreign_key => 'document4_id'
+  belongs_to :supplemental_document,        :class_name => 'FileDocument', :foreign_key => 'supplemental_document_id'
+
+  # TODO : determine how many supplemental documents are needed or add a join model to associate many documents
+  #        (probably will continue to simply add belongs_to relationships to this model)
 
   has_many :submission_reviews
   has_many :reviewers, :through => :submission_reviews, :source => :user
 
-  has_many :key_personnel, :class_name => "KeyPerson"
+  has_many :key_personnel, :class_name => 'KeyPerson'
   has_many :key_people, :through => :key_personnel, :source => :user
 
   after_save :save_documents
@@ -98,9 +103,9 @@ class Submission < ActiveRecord::Base
   attr_accessible :applicant_biosketch_document, :application_document, :budget_document, :other_support_document
   attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget, :uploaded_biosketch
   attr_accessible :document1, :document2, :document3, :document4
+  attr_accessible :supplemental_document, :uploaded_supplemental_document
   attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
   attr_accessible :applicant, :submitter, :effort_approver, :core_manager, :department_administrator
-
 
   attr_accessor :max_budget_request
   attr_accessor :min_budget_request
@@ -148,34 +153,47 @@ class Submission < ActiveRecord::Base
 
   before_validation :clean_params, :set_defaults
 
-  validates_length_of :submission_title, :within => 6..81, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
-  validates_numericality_of :direct_project_cost, :greater_than => 1000000, :if => Proc.new { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => "is too low"
-  validates_numericality_of :direct_project_cost, :less_than => 1000, :if => Proc.new { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => "is too high"
+  validates_length_of :submission_title, :within => 6..81, :too_long => '--- pick a shorter title', :too_short => '--- pick a longer title'
+  validates_numericality_of :direct_project_cost, :greater_than => 1_000_000, :if => proc { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => 'is too low'
+  validates_numericality_of :direct_project_cost, :less_than => 1000, :if => proc { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => 'is too high'
+
+  # Various values to be set for the `submission_status` attributes
+  # presumably depends on the state of the whole of the associated submission_reviews
+  PENDING   = 'Pending'
+  REVIEWED  = 'Reviewed'
+  DENIED    = 'Denied'
+  AWARDED   = 'Awarded'
+  COMPLETED = 'Completed'
+  STATUSES  = [PENDING, REVIEWED, DENIED, AWARDED, COMPLETED]
+
+  validates :submission_status, inclusion: { in: STATUSES }
 
   def overall_scores
     return 0 if submission_reviews.length == 0
-    cnt = submission_reviews.collect{ |s| s.z?(s.overall_score) ? 0 : 1 }.sum
+    cnt = submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : 1 }.sum
     return 0 if cnt < 1
-    submission_reviews.collect{ |s| s.z?(s.overall_score) ? 0 : s.overall_score }.sum/cnt
+    submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : s.overall_score }.sum / cnt
   end
+
   def overall_scores_string
     return 0 if submission_reviews.length == 0
-    overall_scores.to_s + " : " + submission_reviews.collect(&:overall_score).join(" / ")
+    overall_scores.to_s + ' : ' + submission_reviews.map(&:overall_score).join(' / ')
   end
+
   def composite_scores
     return 0 if submission_reviews.length == 0
-    cnt = submission_reviews.collect{ |s| s.has_zero? ? 0 : 1 }.sum
+    cnt = submission_reviews.map { |s| s.has_zero? ? 0 : 1 }.sum
     return 0 if cnt < 1
-    submission_reviews.collect{ |s| s.has_zero? ? 0 : s.composite_score }.sum/cnt
+    submission_reviews.map { |s| s.has_zero? ? 0 : s.composite_score }.sum / cnt
   end
 
   def composite_scores_string
     return 0 if submission_reviews.length == 0
-    composite_scores.to_s + " : " + submission_reviews.collect(&:composite_score).join(" / ")
+    composite_scores.to_s + ' : ' + submission_reviews.map(&:composite_score).join(' / ')
   end
 
   def max_project_cost
-    max_budget_request || 50000
+    max_budget_request || 50_000
   end
 
   def min_project_cost
@@ -183,64 +201,63 @@ class Submission < ActiveRecord::Base
   end
 
   def status
-    return "Incomplete" if project.blank? or applicant.blank?
-    return "Incomplete" if project.show_project_cost and direct_project_cost.blank?
-    return "Incomplete" if project.show_effort_approver and effort_approver_username.blank?
-    return "Incomplete" if project.show_department_administrator and department_administrator_username.blank?
-    return "Incomplete" if project.show_core_manager and core_manager_username.blank?
-    return "Incomplete" if project.show_abstract_field and abstract.blank?
-    return "Incomplete" if project.show_manage_other_support and other_support_document_id.blank?
-    return "Incomplete" if project.show_document1 and document1_id.blank?
-    return "Incomplete" if project.show_document2 and document2_id.blank?
-    return "Incomplete" if project.show_document3 and document3_id.blank?
-    return "Incomplete" if project.show_document4 and document4_id.blank?
-    return "Incomplete" if project.show_budget_form and budget_document_id.blank?
-    return "Incomplete" if project.show_manage_biosketches and applicant_biosketch_document_id.blank?
-    return "Incomplete" if project.show_application_doc and application_document_id.blank?
-    "Complete"
+    return 'Incomplete' if project.blank? || applicant.blank?
+    return 'Incomplete' if project.show_project_cost && direct_project_cost.blank?
+    return 'Incomplete' if project.show_effort_approver && effort_approver_username.blank?
+    return 'Incomplete' if project.show_department_administrator && department_administrator_username.blank?
+    return 'Incomplete' if project.show_core_manager && core_manager_username.blank?
+    return 'Incomplete' if project.show_abstract_field && abstract.blank?
+    return 'Incomplete' if project.show_manage_other_support && other_support_document_id.blank?
+    return 'Incomplete' if project.show_document1 && document1_id.blank?
+    return 'Incomplete' if project.show_document2 && document2_id.blank?
+    return 'Incomplete' if project.show_document3 && document3_id.blank?
+    return 'Incomplete' if project.show_document4 && document4_id.blank?
+    return 'Incomplete' if project.show_budget_form && budget_document_id.blank?
+    return 'Incomplete' if project.show_manage_biosketches && applicant_biosketch_document_id.blank?
+    return 'Incomplete' if project.show_application_doc && application_document_id.blank?
+    'Complete'
   end
 
   def is_complete?
-    self.status == 'Complete'
+    status == 'Complete'
   end
 
   def key_personnel_names
-    self.key_personnel.map{|k| k.name|| k.user.name}
+    key_personnel.map { |k| k.name || k.user.name }
   end
 
   def key_personnel_emails
-    self.key_personnel.map{|k| k.email|| k.user.email}
+    key_personnel.map { |k| k.email || k.user.email }
   end
 
   def status_reason
-    out=[]
-    return ["Project undefined"] if project.blank? or applicant.blank?
-    out << "Project cost is undefined. Please enter a project cost. " if project.show_project_cost and direct_project_cost.blank?
-    out << "#{project.effort_approver_title} unset. Complete in title page. " if project.show_effort_approver and effort_approver_username.blank?
-    out << "#{project.department_administrator_title} unset. Complete in title page. "  if project.show_department_administrator and department_administrator_username.blank?
-    out << "Core Manager unset. Complete in title page. "  if project.show_core_manager and core_manager_username.blank?
-    out << "Abstract needs to be completed. Complete in title page. "   if project.show_abstract_field and abstract.blank?
-    out << "Manage Other Support document needs to be uploaded. "  if project.show_manage_other_support and other_support_document_id.blank?
-    out << "#{project.document1_name} document needs to be uploaded. "  if project.show_document1 and document1_id.blank?
-    out << "#{project.document2_name} document needs to be uploaded. "  if project.show_document2 and document2_id.blank?
-    out << "#{project.document3_name} document needs to be uploaded. "  if project.show_document3 and document3_id.blank?
-    out << "#{project.document4_name} document needs to be uploaded. "  if project.show_document4 and document4_id.blank?
-    out << "Budget document needs to be uploaded. "  if project.show_budget_form and budget_document_id.blank?
-    out << "PI biosketch needs to be uploaded. " if project.show_manage_biosketches and applicant_biosketch_document_id.blank?
-    out << "Application document needs to be uploaded. "  if project.show_application_doc and application_document_id.blank?
-    out << "Application has been fully completed!" if out.blank?
+    out = []
+    return ['Project undefined'] if project.blank? || applicant.blank?
+    out << 'Project cost is undefined. Please enter a project cost. ' if project.show_project_cost && direct_project_cost.blank?
+    out << "#{project.effort_approver_title} unset. Complete in title page. " if project.show_effort_approver && effort_approver_username.blank?
+    out << "#{project.department_administrator_title} unset. Complete in title page. " if project.show_department_administrator && department_administrator_username.blank?
+    out << 'Core Manager unset. Complete in title page. ' if project.show_core_manager && core_manager_username.blank?
+    out << 'Abstract needs to be completed. Complete in title page. ' if project.show_abstract_field && abstract.blank?
+    out << 'Manage Other Support document needs to be uploaded. ' if project.show_manage_other_support && other_support_document_id.blank?
+    out << "#{project.document1_name} document needs to be uploaded. " if project.show_document1 && document1_id.blank?
+    out << "#{project.document2_name} document needs to be uploaded. " if project.show_document2 && document2_id.blank?
+    out << "#{project.document3_name} document needs to be uploaded. " if project.show_document3 && document3_id.blank?
+    out << "#{project.document4_name} document needs to be uploaded. " if project.show_document4 && document4_id.blank?
+    out << 'Budget document needs to be uploaded. ' if project.show_budget_form && budget_document_id.blank?
+    out << 'PI biosketch needs to be uploaded. ' if project.show_manage_biosketches && applicant_biosketch_document_id.blank?
+    out << 'Application document needs to be uploaded. ' if project.show_application_doc && application_document_id.blank?
+    out << 'Application has been fully completed!' if out.blank?
     out.compact
   end
 
   def self.approved_submissions(username)
-    self.where('effort_approver_username = :username', { :username => username }).all
+    self.where('effort_approver_username = :username', { username: username }).all
   end
 
+  # this will update the applicant's personal biosketch and then add to the submission
   def uploaded_biosketch=(data_field)
-    # this will update the applicant's personal biosketch and then add to the submission as well
-    # set the current biosketch
     unless data_field.blank?
-      self.applicant_biosketch_document = FileDocument.new if self.applicant_biosketch_document.nil?
+      self.applicant_biosketch_document = FileDocument.new if applicant_biosketch_document.nil?
       self.applicant_biosketch_document.uploaded_file = data_field
       # do not update the applicant's biosketch
       # self.applicant.uploaded_biosketch = data_field
@@ -279,7 +296,12 @@ class Submission < ActiveRecord::Base
     self.document4.uploaded_file = data_field unless data_field.blank?
   end
 
-  # this defines the connection between the model attribute exposed to the form (uploaded_application )
+  def uploaded_supplemental_document=(data_field)
+    self.supplemental_document = FileDocument.new if self.supplemental_document.nil?
+    self.supplemental_document.uploaded_file = data_field unless data_field.blank?
+  end
+
+  # this defines the connection between the model attribute exposed to the form (uploaded_application)
   # and the storage fields for the file
   def uploaded_application=(data_field)
     self.application_document = FileDocument.new if self.application_document.nil?
@@ -293,30 +315,28 @@ class Submission < ActiveRecord::Base
     txt = txt.to_s
     txt = txt.split('.')[0]
     txt = txt.split(',').join
-    txt = txt.sub(/\D+(\d*)/,'\1')
-    self.direct_project_cost=txt
+    txt = txt.sub(/\D+(\d*)/, '\1')
+    self.direct_project_cost = txt
   end
 
   def set_defaults
-    if self.submission_status.blank?
-      self.submission_status = 'Pending'
-    end
+    self.submission_status = PENDING if self.submission_status.blank?
   end
 
   def save_documents
-    do_save(self.budget_document, "budget document")
-    do_save(self.other_support_document, "other support document")
+    do_save(self.budget_document, 'budget document')
+    do_save(self.other_support_document, 'other support document')
     do_save(self.document1)
     do_save(self.document2)
     do_save(self.document3)
     do_save(self.document4)
-    do_save(self.application_document, "application document")
+    do_save(self.application_document, 'application document')
     set_applicant_biosketch
-    do_save(self.applicant_biosketch_document, "pi biosketch document")
+    do_save(self.applicant_biosketch_document, 'pi biosketch document')
   end
 
   def set_applicant_biosketch
-    unless self.applicant.blank? or self.applicant.biosketch.blank? # self.applicant.biosketch_document_id.blank?
+    unless self.applicant.blank? || self.applicant.biosketch.blank? # self.applicant.biosketch_document_id.blank?
       if self.applicant_biosketch_document_id.blank?
         # create a new copy of the file associated only with the submission
         unless self.applicant.biosketch.file.blank?
@@ -330,22 +350,19 @@ class Submission < ActiveRecord::Base
           self.applicant_biosketch_document.save
         end
         begin
-          logger.error "saving biosketch:  updated_at: #{self.applicant_biosketch_document.last_updated_at} was #{self.applicant.biosketch.updated_at}"
+          logger.error "saving biosketch: updated_at: #{self.applicant_biosketch_document.last_updated_at} was #{self.applicant.biosketch.updated_at}"
         rescue
+          puts 'error logging error when saving biosketch'
         end
         self.save
       end
     end
   end
 
-  def do_save(model, name = "document")
-    if !model.nil? and model.changed?
-      if model.errors.blank?
-        model.save
-      end
-      unless model.errors.blank?
-        self.errors.add "unable to save #{name}: " + model.errors.full_messages.join("; ")
-      end
+  def do_save(model, name = 'document')
+    if !model.nil? && model.changed?
+      model.save if model.errors.blank?
+      self.errors.add "unable to save #{name}: " + model.errors.full_messages.join('; ') unless model.errors.blank?
     end
   end
 end
