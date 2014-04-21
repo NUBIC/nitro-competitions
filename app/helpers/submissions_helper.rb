@@ -34,10 +34,6 @@ module SubmissionsHelper
     link_to_application_template(project) + link_to_application_info(project)
   end
 
-  def link_to_application_info(project)
-    project.application_info_url.blank? ? '' : ' ' + link_to_document(project.application_info_url_label, project.application_info_url)
-  end
-
   def link_to_application_template(project)
     project.application_template_url.blank? ? '' : link_to_document(project.application_template_url_label, project.application_template_url)
   end
@@ -163,6 +159,7 @@ module SubmissionsHelper
     out << "#{submission.project.document2_name} doc: " + format_document_info(submission.document2) unless !submission.project.show_document2 || submission.document2_id.blank?
     out << "#{submission.project.document3_name} doc: " + format_document_info(submission.document3) unless !submission.project.show_document3 || submission.document3_id.blank?
     out << "#{submission.project.document4_name} doc: " + format_document_info(submission.document4) unless !submission.project.show_document4 || submission.document4_id.blank?
+    out << "#{submission.project.supplemental_document_name}: " + format_document_info(submission.supplemental_document) unless submission.supplemental_document_id.blank?
     out << list_key_personnel_documents_as_array(submission.key_people)
     out.flatten.compact
   end
@@ -223,6 +220,13 @@ module SubmissionsHelper
                    'document',
                    project.document4_name,
                    project.show_document4,
+                   edit_documents_submission_path(submission.id),
+                   lookup),
+      link_to_file(submission.supplemental_document_id,
+                   project.supplemental_document_name,
+                   'document',
+                   nil,
+                   true,
                    edit_documents_submission_path(submission.id),
                    lookup),
       link_to_key_personnel_documents(submission.key_people, true, false)
