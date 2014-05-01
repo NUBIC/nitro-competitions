@@ -16,7 +16,8 @@
     <li><%= link_to "Actions", '#' %>
       <ul>
         <li>
-          <%= link_to "View this competition", show_competition_url(current_project.program.program_name, current_project.project_name) %>
+          <%= link_to "View this competition",
+                      show_competition_url(@project.program.program_name, @project.project_name) %>
         </li>
         <li>
           <%= link_to "All Competitions", projects_path %>
@@ -29,8 +30,8 @@
             <%= link_to "All your submissions", all_submissions_path %>
           </li>
           <% end -%>
-          <% unless @project.blank? or @project.id.blank? -%>
-            <% if current_user_session.submission_reviews.this_project(current_project.id).length > 0 -%>
+          <% unless @project.blank? || @project.id.blank? -%>
+            <% if current_user.submission_reviews.this_project(@project.id).length > 0 -%>
               <li>
                 <%= link_to "Assigned Reviews", project_reviewers_path(@project.id) %>
               </li>
@@ -41,10 +42,11 @@
                 <%= link_to "Assigned Reviews and all proposals", complete_listing_project_reviewers_path(@project.id) %>
               </li>
               <li>
-                <%= link_to "Assigned Reviews and all proposals with files", complete_listing_with_files_project_reviewers_path(@project.id) %>
+                <%= link_to "Assigned Reviews and all proposals with files",
+                            complete_listing_with_files_project_reviewers_path(@project.id) %>
               </li>
             <% end -%>
-            <% unless current_user_session.submission_reviews.blank? -%>
+            <% unless current_user.submission_reviews.blank? -%>
               <li>
                 <%= link_to "All your reviews", all_reviews_project_reviewers_path(@project.id) %>
               </li>
@@ -67,7 +69,7 @@
     <li>
       <a href="#">Admin</a>
       <ul>
-        <% unless @project.blank? or @project.id.blank? -%>
+        <% unless @project.blank? || @project.id.blank? -%>
           <li>
             <%= link_to "View All Submissions", submissions_project_admins_path(@project.id) %>
           </li>
@@ -88,7 +90,7 @@
           </li>
         <% end %>
 
-        <% unless @program.blank? or @program.id.blank? -%>
+        <% unless @program.blank? || @program.id.blank? -%>
           <li>
             <%= link_to "Manage Roles", sponsor_roles_path(:sponsor_id=>@program.id) %>
           </li>
@@ -103,7 +105,7 @@
     <li>
       <a href="#">Audit</a>
       <ul>
-        <% unless @project.blank? or @project.id.blank? -%>
+        <% unless @project.blank? || @project.id.blank? -%>
           <li>
             <%= link_to "Graph All activities", audits_path %>
           </li>

@@ -1,8 +1,4 @@
 <script language="javascript">
-  function SetFieldValue(object_id) {
-    $(object_id).value = 'Completed';
-  }
-
   // textCounter usage:
   // onKeyDown="textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)"
   // onKeyUp="textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)"
@@ -45,9 +41,10 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, :size => 81, :maxlength => 81,
+    <%= f.text_field :submission_title, :size => 81, :maxlength => 81, :required => true, :minlength => 6,
                      :onkeyup => "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)",
                      :onkeydown => "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)" %>
+    <span class='required_marker'> * </span>
     <span id="submission_title_cnt"></span>
   </td>
   <td class="notes">
@@ -102,7 +99,7 @@
       <%= f.label :abstract %>
     </td>
     <td>
-      <%= f.text_area :abstract, { :rows => 7, :cols => 80, :wrap => "virtual" } %>
+      <%= f.text_area :abstract, :rows => 7, :cols => 80, :wrap => "virtual", :required => true %>
     </td>
     <td class="notes">
       <%= project.abstract_text.html_safe %>
@@ -153,14 +150,14 @@
       <%= f.label :nucats_cru_contact_name, "NUCATS CRU contact" %>
     </td>
     <td>
-      <%= f.text_field :nucats_cru_contact_name %>
+      <%= f.text_field :nucats_cru_contact_name, :required => true %>
     </td>
     <td class="notes">
       Please enter your CRU contact, if you will make use of the NUCATS CRU.
       If you have not made contact with the CRU, please contact
-      <%= mail_to("k-carroll@northwestern.edu", "Kelly Carroll at k-carroll@northwestern.edu",
+      <%= mail_to("b-ferry@northwestern.edu", "Barb Ferry at b-ferry@northwestern.edu",
                   :subject => "CRU usage for a NUCATS Assist Competition",
-                  :encode => "javascript", :title => "Click to send Kelly Carroll an email") %>
+                  :encode => "javascript", :title => "Click to send Barb Ferry an email") %>
     </td>
   </tr>
 <% end %>
@@ -209,7 +206,9 @@
       <%= f.label :direct_project_cost, project.direct_project_cost_wording %>
     </td>
     <td>
-      <%= f.text_field :direct_project_cost %>
+      <%= f.text_field :direct_project_cost,
+                       required: true,
+                       min: project.min_budget_request, max: project.max_budget_request %>
     </td>
     <td class="notes">
       <% unless project.direct_project_cost_wording.blank? %>
@@ -228,7 +227,7 @@
       <%= f.label :cost_sharing_amount %>
     </td>
     <td>
-      <%= f.text_field :cost_sharing_amount %>
+      <%= f.text_field :cost_sharing_amount, :required => true %>
     </td>
     <td class="notes">
       Please enter the total amount of cost sharing for this request
@@ -241,7 +240,7 @@
       <%= f.label :cost_sharing_organization %>
     </td>
     <td>
-      <%= f.text_area :cost_sharing_organization, { :rows => 3, :cols => 80, :wrap => "virtual" } %>
+      <%= f.text_area :cost_sharing_organization, :rows => 3, :cols => 80, :wrap => "virtual", :required => true %>
     </td>
     <td class="notes">
       Please list the organization(s) providing the cost sharing
@@ -262,7 +261,7 @@
         If you received prior support, please indicate when the award(s) was made and
         how much money was awarded for each item - be specific:
         <br/>
-        <%= f.text_area :previous_support_description, { :rows => 3, :cols => 80, :wrap => "virtual" } %>
+        <%= f.text_area :previous_support_description, :rows => 3, :cols => 80, :wrap => "virtual", :required => true %>
       <% end %>
     </td>
   </tr>
@@ -278,13 +277,13 @@
       <% if project.show_not_new_explanation %>
         If not, please explain:
         <span>
-          <%= f.text_area :not_new_explanation, { :rows => 4, :wrap=>"virtual" } %>
+          <%= f.text_area :not_new_explanation, :rows => 4, :wrap=>"virtual", :required => true %>
         </span>
       <% end %>
     </td>
   </tr>
 <% end %>
-<% if project.show_use_nmh or project.show_use_nmff or project.show_use_va or project.show_use_ric or project.show_use_cmh %>
+<% if project.show_use_nmh || project.show_use_nmff || project.show_use_va || project.show_use_ric || project.show_use_cmh %>
   <tr>
     <td colspan="3">
       Will this project require use of facilities, staff or patients at: &nbsp; &nbsp;
@@ -304,7 +303,7 @@
       <%= f.label :other_funding_sources, project.other_funding_sources_wording.html_safe %>
     </td>
     <td class="notrequired">
-      <%= f.text_area :other_funding_sources, { :rows => 4, :wrap => "virtual", :class => "narrow" } %>
+      <%= f.text_area :other_funding_sources, :rows => 4, :wrap => "virtual", :class => "narrow", :required => true %>
     </td>
     <td class="notes">
       Are there alternative sources of funding for this project? Please list current support and
@@ -359,7 +358,8 @@
     <td class="notrequired">
       <%= f.text_field :effort_approver_username %>
       <%= netid_lookup_tag.html_safe %>
-      <%= netid_lookup_observer(:submission_effort_approver_username).html_safe %><span id='submission_effort_approver_username_id'></span>
+      <%= netid_lookup_observer(:submission_effort_approver_username).html_safe %>
+      <span id='submission_effort_approver_username_id'></span>
       <%= netid_lookup_function(:submission_effort_approver_username, false).html_safe %>
       </td>
       <td class="notes">

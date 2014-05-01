@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # == Schema Information
-# Schema version: 20140213161624
+# Schema version: 20140418191443
 #
 # Table name: submissions
 #
@@ -54,6 +54,7 @@
 #  submission_reviews_count          :integer          default(0)
 #  submission_status                 :string(255)
 #  submission_title                  :string(255)
+#  supplemental_document_id          :integer
 #  updated_at                        :datetime
 #  updated_id                        :integer
 #  updated_ip                        :string(255)
@@ -120,6 +121,16 @@ describe Submission do
         submission = FactoryGirl.build(:submission, :direct_project_cost => 10)
         submission.should_not be_valid
         submission.errors[:direct_project_cost].should_not be_blank
+      end
+    end
+    describe 'submission_status' do
+      it 'validates inclusion in Submission::STATUSES' do
+        Submission::STATUSES.each do |s|
+          submission = FactoryGirl.build(:submission, :submission_status => "#{s}xxx")
+          submission.should_not be_valid
+          submission.submission_status = s
+          submission.should be_valid
+        end
       end
     end
   end

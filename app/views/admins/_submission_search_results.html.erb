@@ -1,0 +1,16 @@
+<% if @submissions.any? %>
+  <table>
+    <thead>
+      <th>Title</th>
+    </thead>
+    <tbody>
+      <% @submissions.each do |sub| %>
+        <tr>
+          <td><%= sub.submission_title %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No submissions match your search criteria.</p>
+<% end %>

@@ -2,6 +2,10 @@
 
 module ProjectsHelper
 
+  def projects_collection
+    @projects_collection ||= Project.all.map { |proj| [proj.project_title, proj.id] }
+  end
+
   def project_status
     return if current_projects.nil?
     s = ''
@@ -17,11 +21,11 @@ module ProjectsHelper
         s << ns { project_recently_closed(project.review_end_date, project.project_title + ' review ') }
       end
       # pulled this for now. email from Jim Bray 2/19/2010
-      unless true || project.project_period_start_date.nil?
-        s << ns { project_will_start(project.project_period_start_date, project.project_title + ' Project Period ') }
-        s << ns { project_is_ongoing(project.project_period_start_date, project.project_period_end_date, project.project_title + ' Project Period ') }
-        s << ns { project_recently_closed(project.project_period_end_date, project.project_title + ' Project Period ') }
-      end
+      # unless project.project_period_start_date.nil?
+      #   s << ns { project_will_start(project.project_period_start_date, project.project_title + ' Project Period ') }
+      #   s << ns { project_is_ongoing(project.project_period_start_date, project.project_period_end_date, project.project_title + ' Project Period ') }
+      #   s << ns { project_recently_closed(project.project_period_end_date, project.project_title + ' Project Period ') }
+      # end
     end
     s
   end

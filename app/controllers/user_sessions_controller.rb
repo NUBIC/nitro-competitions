@@ -18,8 +18,7 @@ class UserSessionsController < ApplicationController
     set_session_attributes(user, omniauth)
     check_session
     flash[:notice] = 'You have successfully logged in!'
-    # FIXME: redirect to requested URL (if possible)
-    redirect_to projects_path
+    redirect_to request.env['omniauth.origin'] || projects_path
   end
 
   # Omniauth failure callback
@@ -32,6 +31,7 @@ class UserSessionsController < ApplicationController
   def destroy
     clear_session_attributes
     flash[:errors] = 'You have successfully signed out!'
-    redirect_to welcome_path
+    redirect_to "#{ENV['OAUTH_CLIENT_PROVIDER_URL']}/people/sign_out?client_id=#{ENV['OAUTH_CLIENT_APP_ID']}"
   end
+
 end

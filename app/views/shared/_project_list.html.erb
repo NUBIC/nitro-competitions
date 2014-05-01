@@ -3,14 +3,9 @@
     <div class='apply'>
       <%= project.current_status %>
       <% if project.current_status =~ /open for/i %>
-        <% if show_links %>
-          <% apply_link_path = new_project_applicant_path(project.id) %>
-        <% else %>
-          <% apply_link_path = projects_path %>
-        <% end %>
         <div class='apply_link'>
           <%= link_to('Apply',
-              apply_link_path,
+              new_project_applicant_path(project.id),
               :title => "Create an application for you or someone else for the competition '#{project.project_title}'") %>
         </div>
       <% end %>

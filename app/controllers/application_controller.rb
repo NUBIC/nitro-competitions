@@ -54,8 +54,13 @@ class ApplicationController < ActionController::Base
   # For authorization using lib/nucats_membership.rb
   # as omniauth authority
   def login_required
-    redirect_to '/auth/nucatsmembership' if session[:user_info].blank?
+    redirect_to "/auth/nucatsmembership?origin=#{request_origin}" if session[:user_info].blank?
   end
+
+  def request_origin
+    "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+  end
+  private :request_origin
 
   def get_client_ip
     request.remote_ip

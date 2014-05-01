@@ -62,7 +62,7 @@ class ReviewersController < ApplicationController
   end
 
   def cannot_save_changes_error_message
-    'Sorry - You cannot save changes to this review! -  The review date for this competition is over. ' +
+    'Sorry - You cannot save changes to this review!<br/>The review date for this competition is over.<br/>' +
     'Please contact the administrator for the competition if you need to submit additional reviews!'
   end
   private :cannot_save_changes_error_message

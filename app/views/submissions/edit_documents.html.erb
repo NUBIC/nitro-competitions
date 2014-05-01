@@ -8,7 +8,7 @@
 
 <%= form_for(:submission,
       :url => submission_path(@submission.id),
-      :html => { :multipart => true, :method => :put }) do |f| %>
+      :html => { :multipart => true, :method => :put, :id => 'submission_form' }) do |f| %>
   <%= f.hidden_field :submission_status %>
   <%= f.hidden_field :id %>
 
@@ -25,3 +25,7 @@
 
 <br />
 <%= link_to 'List of submissions', project_submissions_path( @submission.project_id) %>
+
+<script>
+  jQuery('#submission_form').validate();
+</script>
