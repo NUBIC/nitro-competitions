@@ -22,6 +22,29 @@ class ApplicationController < ActionController::Base
                                       :reviewer_data, :review_data, :login_data]
 
   before_filter :authenticate_user, except: [:login, :welcome] unless Rails.env == 'test'
+  before_filter :check_cookie
+  def check_cookie
+    clear_session_attributes unless cookie_valid?
+  end
+
+  def cookie_valid?
+    cookie_present = cookies[:nucats_auth].present?
+    Rails.logger.info("~~~ cookie_present = #{cookie_present}")
+
+    session_active = session[:user_id].present?
+    Rails.logger.info("~~~ session_active = #{session_active}")
+
+    cookie_value   = cookies[:nucats_auth].to_s
+    Rails.logger.info("~~~ cookie_value = #{cookie_value}")
+
+    session_value  = session[:user_id].to_s
+    Rails.logger.info("~~~ session_value = #{session_value}")
+
+    cookie_and_session_match = cookie_value == session_value
+    Rails.logger.info("~~~ cookie_and_session_match = #{cookie_and_session_match}")
+
+    cookie_present
+  end
 
   ##
   # With the addition of omniauth as a authentication mechanism, determine
@@ -54,8 +77,20 @@ class ApplicationController < ActionController::Base
   # For authorization using lib/nucats_membership.rb
   # as omniauth authority
   def login_required
-    redirect_to "/auth/nucatsmembership?origin=#{request_origin}" if session[:user_info].blank?
+    not_authorized unless current_user
   end
+
+  def not_authorized
+    respond_to do |format|
+      format.html{ auth_redirect }
+      format.json{ head :unauthorized }
+    end
+  end
+
+  def auth_redirect
+    redirect_to "/auth/nucatsmembership?origin=#{request_origin}"
+  end
+  private :auth_redirect
 
   def request_origin
     "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
