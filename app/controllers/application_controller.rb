@@ -22,28 +22,47 @@ class ApplicationController < ActionController::Base
                                       :reviewer_data, :review_data, :login_data]
 
   before_filter :authenticate_user, except: [:login, :welcome] unless Rails.env == 'test'
-  before_filter :check_cookie
-  def check_cookie
-    clear_session_attributes unless cookie_valid?
+  before_filter :check_session
+  def check_session
+    clear_session_attributes unless session_valid?
   end
 
-  def cookie_valid?
+  require 'net/http'
+  def session_valid?
     cookie_present = cookies[:nucats_auth].present?
     Rails.logger.info("~~~ cookie_present = #{cookie_present}")
 
-    session_active = session[:user_id].present?
-    Rails.logger.info("~~~ session_active = #{session_active}")
+    Rails.logger.info("~~~ code = #{params[:code]}") if params[:code]
+    Rails.logger.info("~~~ response_type = #{params[:response_type]}") if params[:response_type]
+    Rails.logger.info("~~~ state = #{params[:state]}") if params[:state]
 
-    cookie_value   = cookies[:nucats_auth].to_s
-    Rails.logger.info("~~~ cookie_value = #{cookie_value}")
+    token = session[:user_info].try('[]', :credentials).try('[]', :token)
+    if token
+      # Check oauth provider for valid session
+      Net::HTTP.start('nucats-membershipdb.example.com', 80) do |http|
+        path = "/auth/nucats_membership/user.json?oauth_token=#{token}"
+        body = http.get(path).body
+        Rails.logger.info("~~~ token = #{token}")
+        Rails.logger.info("~~~ #{body}")
+      end
+    end
 
-    session_value  = session[:user_id].to_s
-    Rails.logger.info("~~~ session_value = #{session_value}")
+    refresh_token = session[:user_info].try('[]', :credentials).try('[]', :refresh_token)
+    if refresh_token
+      # Check oauth provider for valid session
+      Net::HTTP.start('nucats-membershipdb.example.com', 80) do |http|
+        client_id = ENV['OAUTH_CLIENT_APP_ID']
+        client_secret = ENV['OAUTH_CLIENT_APP_SECRET']
+        path = "/auth/nucats_membership/access_token.json?grant_type=refresh_token&refresh_token=#{refresh_token}&client_id=#{client_id}&client_secret=#{client_secret}"
+        body = http.get(path).body
+        Rails.logger.info("~~~ refresh_token = #{refresh_token}")
+        Rails.logger.info("~~~ #{body}")
+      end
+    end
 
-    cookie_and_session_match = cookie_value == session_value
-    Rails.logger.info("~~~ cookie_and_session_match = #{cookie_and_session_match}")
+    Rails.logger.info("~~~ current_user = #{current_user.inspect}")
 
-    cookie_present
+    true
   end
 
   ##
