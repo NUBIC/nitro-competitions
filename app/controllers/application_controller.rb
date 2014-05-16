@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
     if token
       # Check oauth provider for valid session
       Net::HTTP.start('accounts.dev.example.com', 80) do |http|
-        path = "/auth/nucats_membership/user.json?oauth_token=#{token}"
+        path = "/auth/nucats_accounts/user.json?oauth_token=#{token}"
         body = http.get(path).body
         Rails.logger.info("~~~ token = #{token}")
         Rails.logger.info("~~~ #{body}")
@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
       Net::HTTP.start('accounts.dev.example.com', 80) do |http|
         client_id = ENV['OAUTH_CLIENT_APP_ID']
         client_secret = ENV['OAUTH_CLIENT_APP_SECRET']
-        path = "/auth/nucats_membership/access_token.json?grant_type=refresh_token&refresh_token=#{refresh_token}&client_id=#{client_id}&client_secret=#{client_secret}"
+        path = "/auth/nucats_accounts/access_token.json?grant_type=refresh_token&refresh_token=#{refresh_token}&client_id=#{client_id}&client_secret=#{client_secret}"
         body = http.get(path).body
         Rails.logger.info("~~~ refresh_token = #{refresh_token}")
         Rails.logger.info("~~~ #{body}")
@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_redirect
-    redirect_to "/auth/nucatsmembership?origin=#{request_origin}"
+    redirect_to "/auth/nucatsaccounts?origin=#{request_origin}"
   end
   private :auth_redirect
 

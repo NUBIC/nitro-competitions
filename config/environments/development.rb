@@ -49,6 +49,12 @@ NucatsAssist::Application.configure do
       central '/etc/nubic/aker-local.yml'
     end
   end
+
+  OmniAuthConfigure.configure {
+    app :nucats_assist
+    strategies :nucats_accounts
+    central '/etc/nubic/omniauth/local.yml'
+  }
 end
 
 Paperclip.options[:command_path] = '/opt/local/bin/'
