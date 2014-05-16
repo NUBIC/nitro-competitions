@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
     token = session[:user_info].try('[]', :credentials).try('[]', :token)
     if token
       # Check oauth provider for valid session
-      Net::HTTP.start('nucats-membershipdb.example.com', 80) do |http|
+      Net::HTTP.start('accounts.dev.example.com', 80) do |http|
         path = "/auth/nucats_membership/user.json?oauth_token=#{token}"
         body = http.get(path).body
         Rails.logger.info("~~~ token = #{token}")
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     refresh_token = session[:user_info].try('[]', :credentials).try('[]', :refresh_token)
     if refresh_token
       # Check oauth provider for valid session
-      Net::HTTP.start('nucats-membershipdb.example.com', 80) do |http|
+      Net::HTTP.start('accounts.dev.example.com', 80) do |http|
         client_id = ENV['OAUTH_CLIENT_APP_ID']
         client_secret = ENV['OAUTH_CLIENT_APP_SECRET']
         path = "/auth/nucats_membership/access_token.json?grant_type=refresh_token&refresh_token=#{refresh_token}&client_id=#{client_id}&client_secret=#{client_secret}"
