@@ -22,47 +22,20 @@ class ApplicationController < ActionController::Base
                                       :reviewer_data, :review_data, :login_data]
 
   before_filter :authenticate_user, except: [:login, :welcome] unless Rails.env == 'test'
-  before_filter :check_session
-  def check_session
-    clear_session_attributes unless session_valid?
+  before_filter :check_cookie
+  def check_cookie
+    clear_session_attributes unless cookie_valid?
   end
 
   require 'net/http'
-  def session_valid?
-    cookie_present = cookies[:nucats_auth].present?
-    Rails.logger.info("~~~ cookie_present = #{cookie_present}")
+  def cookie_valid?
+    cookies[:nucats_auth].present? && cookie_and_session_match
+  end
 
-    Rails.logger.info("~~~ code = #{params[:code]}") if params[:code]
-    Rails.logger.info("~~~ response_type = #{params[:response_type]}") if params[:response_type]
-    Rails.logger.info("~~~ state = #{params[:state]}") if params[:state]
-
-    token = session[:user_info].try('[]', :credentials).try('[]', :token)
-    if token
-      # Check oauth provider for valid session
-      Net::HTTP.start('accounts.dev.example.com', 80) do |http|
-        path = "/auth/nucats_accounts/user.json?oauth_token=#{token}"
-        body = http.get(path).body
-        Rails.logger.info("~~~ token = #{token}")
-        Rails.logger.info("~~~ #{body}")
-      end
-    end
-
-    refresh_token = session[:user_info].try('[]', :credentials).try('[]', :refresh_token)
-    if refresh_token
-      # Check oauth provider for valid session
-      Net::HTTP.start('accounts.dev.example.com', 80) do |http|
-        client_id = ENV['OAUTH_CLIENT_APP_ID']
-        client_secret = ENV['OAUTH_CLIENT_APP_SECRET']
-        path = "/auth/nucats_accounts/access_token.json?grant_type=refresh_token&refresh_token=#{refresh_token}&client_id=#{client_id}&client_secret=#{client_secret}"
-        body = http.get(path).body
-        Rails.logger.info("~~~ refresh_token = #{refresh_token}")
-        Rails.logger.info("~~~ #{body}")
-      end
-    end
-
-    Rails.logger.info("~~~ current_user = #{current_user.inspect}")
-
-    true
+  def cookie_and_session_match
+    return false if current_user.blank?
+    vals = cookies[:nucats_auth].split(',')
+    vals.include?(current_user.username) || vals.include?(current_user.email)
   end
 
   ##
