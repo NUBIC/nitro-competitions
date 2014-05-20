@@ -15,6 +15,7 @@ namespace :db do
       %w(aga261 Anabel Mendez anabel.mendez@northwestern.edu),
       %w(agd118 Ahmane Glover ahmane.glover@northwestern.edu),
       %w(pfr957 Paul Friedman p-friedman@northwestern.edu),
+      %w(myu793 Mara Yurasek m-yurasek@northwestern.edu),
     ].each do |arr|
       user = find_or_create_user(arr)
       create_admin_role(user, program) if user && program
