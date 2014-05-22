@@ -49,4 +49,9 @@ NucatsAssist::Application.configure do
     authority Aker::Authorities::Static.from_file(login_config)
     # central '/etc/nubic/aker-local.yml'
   end
+  OmniAuthConfigure.configure {
+    app :nucats_assist
+    strategies :nucats_accounts
+    central '/etc/nubic/omniauth/local.yml'
+  }
 end

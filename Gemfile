@@ -16,9 +16,8 @@ gem 'bcdatabase'
 # TODO: remove aker in favor of omniauth
 gem 'aker-rails'
 gem 'aker'
-gem 'omniauth'
-gem 'omniauth-oauth2'
-gem 'nucats_omniauth_client', path: 'vendor/gems/nucats_omniauth_client-0.0.1'
+gem 'omniauth-nucats-accounts'
+gem 'omniauth_configure'
 
 # ActionView::Template::Error (Could not find a JavaScript runtime.
 # See https://github.com/sstephenson/execjs for a list of available runtimes.
