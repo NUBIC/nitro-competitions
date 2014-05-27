@@ -29,7 +29,6 @@
           <li>
             <%= link_to "All your submissions", all_submissions_path %>
           </li>
-          <% end -%>
           <% unless @project.blank? || @project.id.blank? -%>
             <% if current_user.submission_reviews.this_project(@project.id).length > 0 -%>
               <li>
@@ -57,11 +56,10 @@
               </li>
             <% end -%>
           <% end -%>
-          <% unless session[:user_id].blank? -%>
-            <li>
-              <%= link_to "Edit your profile", edit_applicant_path(session[:user_id]) %>
-            </li>
-          <% end -%>
+          <li>
+            <%= link_to "Edit your profile", edit_applicant_path(session[:user_id]) %>
+          </li>
+        <% end -%>
       </ul>
     </li>
 
