@@ -80,5 +80,4 @@ NucatsAssist::Application.configure do
     strategies :nucats_accounts
     central '/etc/nubic/omniauth/stage.yml'
   }
-
 end
