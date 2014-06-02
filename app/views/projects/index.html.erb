@@ -1,19 +1,15 @@
-<div class='information'>
-  Below is a list of available competitions and projects.
-  <br />
-  If the application period is open, an 'Apply' button will appear to the left of the competition name.
-  <br />
-  To view additional information or access existing your submissions, reviews, etc., click the listing for a competition.
-</div>
-
-<%= render 'shared/project_selection_list', :programs => @programs, :show_links => true %>
+<%= render 'shared/project_selection_list',
+           programs: @programs,
+           show_project_link: true,
+           show_action_links: false %>
 
 <% unless @submissions.blank? %>
-  <%= render 'shared/submissions_list', :submissions => @submissions, :title => "All your submissions" %>
+  <%= render 'shared/submissions_list', submissions: @submissions, title: 'All your submissions' %>
 <% end %>
 
 <% if is_admin? %>
   <div class='links'>
-    <%= link_to image_tag("add.png", :width=>"16px", :height=>"16px") + ' New project', new_project_path, :class => 'add_link' %>
+    <%= link_to image_tag("add.png", :width=>"16px", :height=>"16px") + ' New project', new_project_path,
+        :class => 'add_link' %>
   </div>
 <% end %>

@@ -1,10 +1,24 @@
 <% include_sponsor_and_competition = 0 unless @project.blank? %>
 
-<%= render('shared/project_details', projects: @projects) %>
+<div id='title'>
+  <div id='program_title' title='Current Selected Program'>
+    <%= current_program.program_title %>
+  </div>
+  <div id='project_title' title='Current Selected Project'>
+    <%= current_project.project_title %>
+  </div>
+</div>
 
-<%= render('shared/submissions_list',
+<%= render 'shared/project_list',
+           projects: @projects,
+           show_project_link: true,
+           show_action_links: true,
+           show_details: true %>
+
+
+<%= render 'shared/submissions_list',
            submissions: @submissions,
-           title: "Your submissions and those you are associated with for this competition",
-           include_sponsor_and_competition: include_sponsor_and_competition) %>
+           title: 'Your submissions and those you are associated with for this competition',
+           include_sponsor_and_competition: include_sponsor_and_competition %>
 
-<%= render('shared/admin_links') %>
+<%= render 'shared/admin_links' %>

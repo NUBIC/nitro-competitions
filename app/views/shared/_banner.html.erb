@@ -1,4 +1,3 @@
-<% show_title ||= false %>
 <div id="app_title">
   NUCATS Competition and Awards Application Site
 </div>
@@ -40,16 +39,6 @@
   <div id="test" class="notice">
     <div id="notice">
       <%= flash[:notice].html_safe %>
-    </div>
-  </div>
-<% end %>
-<% if show_title %>
-  <div id='title'>
-    <div id='program_title' title='Current Selected Program'>
-      <%= current_program.program_title %>
-    </div>
-    <div id='project_title' title='Current Selected Project'>
-      <%= current_project.project_title %>
     </div>
   </div>
 <% end %>
