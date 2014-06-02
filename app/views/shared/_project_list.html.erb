@@ -2,13 +2,14 @@
 <% projects.each_with_index do |project, i| %>
   <div class='project'>
     <div class='apply'>
-      <%= project.current_status %>
       <% if project.current_status =~ /open for/i %>
         <div class='apply_link'>
           <%= link_to('Apply',
               new_project_applicant_path(project.id),
               title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
         </div>
+      <% else %>
+        <%= project.current_status %>
       <% end %>
       <% if show_details %>
         <div>

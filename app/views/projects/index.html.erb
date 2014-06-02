@@ -3,10 +3,6 @@
            show_project_link: true,
            show_action_links: false %>
 
-<% unless @submissions.blank? %>
-  <%= render 'shared/submissions_list', submissions: @submissions, title: 'All your submissions' %>
-<% end %>
-
 <% if is_admin? %>
   <div class='links'>
     <%= link_to image_tag("add.png", :width=>"16px", :height=>"16px") + ' New project', new_project_path,

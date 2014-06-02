@@ -12,7 +12,6 @@ class ProjectsController < ApplicationController
   def index
     begin
       initialize_projects
-      initialize_submissions
       respond_to do |format|
         format.html # index.html.erb
         format.xml { render xml: @projects }
@@ -40,11 +39,6 @@ class ProjectsController < ApplicationController
     end
   end
   private :initialize_projects
-
-  def initialize_submissions
-    @submissions = Submission.associated_with_user(current_user_session.id) unless current_user_session.blank? || current_user_session.id.blank?
-  end
-  private :initialize_submissions
 
   # GET /projects/1
   # GET /projects/1.xml
