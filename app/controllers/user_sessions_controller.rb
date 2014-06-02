@@ -8,13 +8,16 @@
 # @see routes.rb
 class UserSessionsController < ApplicationController
   before_filter :authenticate_user, only: [:destroy]
+  skip_before_filter :check_cookie, only: [:create, :failure]
 
   respond_to :html
 
   # omniauth callback method
   def create
     omniauth = env['omniauth.auth']
+    Rails.logger.info("~~~ omniauth = #{omniauth}")
     user = User.find_or_create_from_omniauth(omniauth)
+    Rails.logger.info("~~~ user = #{user}")
     set_session_attributes(user, omniauth)
     check_session
     flash[:notice] = 'You have successfully logged in!'
