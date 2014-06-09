@@ -9,7 +9,7 @@
     </li>
     <li><%= link_to "Actions", '#' %>
       <ul>
-        <% if @project %>
+        <% if @project && !@project.project_name.blank? %>
           <li>
             <%= link_to "View current competition - #{@project.project_title}",
                         show_competition_url(@project.program.program_name, @project.project_name) %>
