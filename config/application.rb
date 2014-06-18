@@ -59,6 +59,7 @@ module NucatsAssist
 
     # Emails will be sent from this address
     config.from_address = 'p-friedman@northwestern.edu'
+    config.testing_to_address = 'p-friedman@northwestern.edu'
   end
 
 end

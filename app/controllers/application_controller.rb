@@ -22,9 +22,12 @@ class ApplicationController < ActionController::Base
                                       :reviewer_data, :review_data, :login_data]
 
   before_filter :authenticate_user, except: [:login, :welcome] unless Rails.env == 'test'
-  before_filter :check_cookie
+  before_filter :check_cookie unless Rails.env == 'test'
   def check_cookie
-    clear_session_attributes unless cookie_valid?
+    unless cookie_valid?
+      clear_session_attributes
+      redirect_to root_path
+    end
   end
 
   require 'net/http'

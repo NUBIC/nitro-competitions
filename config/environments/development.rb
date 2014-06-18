@@ -35,6 +35,7 @@ NucatsAssist::Application.configure do
       address: 'localhost',
       port: 1025
   }
+  config.send_notification_to_all = false
 
   config.aker do
     if Rails.root.to_s =~ /Users/

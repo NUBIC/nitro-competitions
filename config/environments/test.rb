@@ -39,6 +39,7 @@ NucatsAssist::Application.configure do
 
   # do not use omniauth in testing
   config.use_omniauth = false
+  config.send_notification_to_all = false
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr

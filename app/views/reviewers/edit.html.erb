@@ -23,7 +23,7 @@
 
 <%= form_for(:submission_review,
              url: project_reviewer_path(project_id: @submission_review.submission.project_id, id: @submission_review.id),
-             html: { method: :put }) do |f| %>
+             html: { method: :put, id: 'submission_review_form' }) do |f| %>
   <%= render 'review_form', :f => f, :submission_review => @submission_review %>
   <%= f.submit('Save/Update Scores') %>
 <% end %>
@@ -31,3 +31,8 @@
 <p>
   You will be able to change your scores and written critique at any time until the review period is over.
 </p>
+
+<script>
+  jQuery.extend(jQuery.validator.messages, { digits: "Please enter a whole number." });
+  jQuery('#submission_review_form').validate();
+</script>

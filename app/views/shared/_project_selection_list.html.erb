@@ -1,20 +1,23 @@
-<h1>Current and recent competitions</h1>
+<h1>Current and Recent Competitions</h1>
 <div class='project_selection_list'>
   <% programs.each do |program, projects| %>
     <div class='program'>
       <div class='program_information'>
         <% if program.program_url.blank? %>
-          <h3>Listing of all competitions sponsored by <%= program.program_title %></h3>
+          <h3><%= program.program_title %></h3>
         <% else %>
           <h3>
-            <%= link_to(h("Listing of all competitions sponsored by #{program.program_title}"),
+            <%= link_to(h(program.program_title),
                         program.program_url,
                         :title => "Get more information on #{program.program_title}",
                         :target => '_blank' ) %>
           </h3>
         <% end %>
       </div>
-      <%= render 'shared/project_list', :projects => projects, :show_links => show_links %>
+      <%= render 'shared/project_list',
+                 projects: projects,
+                 show_project_link: show_project_link,
+                 show_action_links: show_action_links %>
     </div>
   <% end %>
 </div>

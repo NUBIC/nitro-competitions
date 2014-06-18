@@ -11,7 +11,7 @@
 <table  class="lined">
   <%= form_tag(new_project_applicant_path(:project_id=>params[:project_id]), :method => :get, :id=>"username_form") do %>
     <tr>
-      <td class="title">PI NU NetID</td>
+      <td class="title">PI Username</td>
       <td>
         <%= text_field_tag :username, @applicant.username %>
         <%= link_to_function(image_tag("arrow_refresh.png",
@@ -19,8 +19,11 @@
                              :title => "click here to reload this page with a new NetID"), "$('#username_form').submit()") -%>
       </td>
       <td class="notes">
-        NU NetID <%= netid_lookup_tag %> for the Principal Investigator. By default, this is the submitter's NetID.
-        To change, enter a new netid and click on the 'reload' icon.
+        NUCATS Assist Username <%= netid_lookup_tag %> for the Principal Investigator.
+        By default, this is the submitter's NUCATS Assist Username.
+        To change, you can enter a new NU NetID and click on the 'reload' icon.
+        <br/>
+        (Currently this change PI feature works only for Northwestern afflilated personnel.)
       </td>
     </tr>
   <% end %>
