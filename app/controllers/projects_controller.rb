@@ -43,6 +43,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.xml
   def show
+    Rails.logger.error('~~~ projects/show l. 46')
     if params[:project_name].blank? || params[:program_name].blank?
       project = Project.find(params[:id])
       @projects = [project]
@@ -68,6 +69,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    Rails.logger.error('~~~ projects/show l. 72')
     unless params[:project_name].blank? || params[:program_name].blank?
       program = Program.find_by_program_name(params[:program_name])
       unless program.blank?

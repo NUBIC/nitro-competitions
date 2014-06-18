@@ -1593,8 +1593,10 @@ Element.Methods = {
 
   show: function(element) {
     element = $(element);
-    element.style.display = '';
-    return element;
+    if(element) {
+      element.style.display = '';
+      return element;
+    }
   },
 
   remove: function(element) {

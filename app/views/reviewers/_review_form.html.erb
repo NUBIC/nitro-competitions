@@ -11,7 +11,7 @@
         <span style='float: left; width:325px;'>
           <%= submission_review.submission.project.impact_title.html_safe %> score:
         </span>
-        <%= f.text_field :impact_score, :size => 4  %>
+        <%= f.text_field :impact_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -31,7 +31,7 @@
         <span style='float: left; width:325px;'>
           <%= submission_review.submission.project.team_title.html_safe %> score:
         </span>
-        <%= f.text_field :team_score, :size => 4  %>
+        <%= f.text_field :team_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -51,7 +51,7 @@
         <span style='float: left; width:325px;'>
           <%= submission_review.submission.project.innovation_title.html_safe %> score:
         </span>
-        <%= f.text_field :innovation_score, :size => 4 %>
+        <%= f.text_field :innovation_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -71,7 +71,7 @@
         <span style="float: left;width:325px;">
           <%= submission_review.submission.project.scope_title.html_safe %> score:
         </span>
-        <%= f.text_field :scope_score, :size => 4 %>
+        <%= f.text_field :scope_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -91,7 +91,7 @@
         <span style='float: left; width:325px;'>
           <%= submission_review.submission.project.environment_title.html_safe %> score:
         </span>
-        <%= f.text_field :environment_score, :size => 4 %>
+        <%= f.text_field :environment_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -111,7 +111,7 @@
         <span style='float: left; width:325px;'>
           <%= submission_review.submission.project.budget_title.html_safe %> score:
         </span>
-        <%= f.text_field :budget_score, :size => 4 %>
+        <%= f.text_field :budget_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -131,7 +131,7 @@
         <span style='float: left; width:325px;'>
           <%= submission_review.submission.project.other_title %>.html_safe score:
         </span>
-        <%= f.text_field :other_score, :size => 4 %>
+        <%= f.text_field :other_score, :size => 4, :digits => true %>
         <br/>
         <span style='float: left; width:325px;'>
           Strengths and weaknesses
@@ -154,7 +154,7 @@
       <span style='float: left; width:325px;'>
         <%= submission_review.submission.project.overall_impact_title.html_safe %> score:
       </span>
-      <%= f.text_field :overall_score, :size => 4 %>
+      <%= f.text_field :overall_score, :size => 4, :digits => true %>
       <br/>
       <span style='float: left; width:325px;'>
         <%= submission_review.submission.project.overall_impact_direction.html_safe %>
