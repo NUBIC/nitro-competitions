@@ -76,7 +76,7 @@ class ApplicantsController < ApplicationController
   end
 
   def get_connection
-    Faraday.new(url: ENV['OAUTH_CLIENT_PROVIDER_URL']) do |faraday|
+    Faraday.new(url: ENV['MEMBERSHIP_URL']) do |faraday|
       faraday.request  :url_encoded
       faraday.response :logger
       faraday.adapter  Faraday.default_adapter
