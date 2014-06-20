@@ -76,6 +76,7 @@ NucatsAssist::Application.configure do
     # authority :ldap
     # central '/etc/nubic/aker-staging.yml'
   end
+
   OmniAuthConfigure.configure {
     app :nucats_assist
     strategies :nucats_accounts

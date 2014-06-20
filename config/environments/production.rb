@@ -76,4 +76,10 @@ NucatsAssist::Application.configure do
     # cc_pers, netid LDAP, and policy values
     central '/etc/nubic/bcsec-prod.yml'
   end
+
+  OmniAuthConfigure.configure {
+    app :nucats_assist
+    strategies :nucats_accounts
+    central '/etc/nubic/omniauth/prod.yml'
+  }
 end
