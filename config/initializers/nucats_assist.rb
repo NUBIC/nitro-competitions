@@ -3,5 +3,5 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '2.2.0.beta'
+  VERSION = '2.2.0'
 end
