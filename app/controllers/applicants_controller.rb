@@ -70,7 +70,7 @@ class ApplicantsController < ApplicationController
   def is_member?(applicant)
     # TODO: check if applicant is a NUCATS member
     #       using more than simply the nu domain information
-    nucats_members = query_nucats_membership(username: "nu\\#{applicant.username}")
+    nucats_members = query_nucats_membership(netid: applicant.username)
     return %w(enrolled netid_verified).include? nucats_members.first['state'] if nucats_members.count == 1
     false
   end
