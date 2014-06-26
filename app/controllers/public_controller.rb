@@ -21,6 +21,11 @@ class PublicController < ActionController::Base
     end
   end
 
+  # GET /public/auth
+  def auth
+    redirect_to "#{provider_site}?client_id=#{client_id}&client_secret=#{client_secret}"
+  end
+
   def disallowed
   end
 

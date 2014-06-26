@@ -116,6 +116,7 @@ NucatsAssist::Application.routes.draw do
   resources :applicants, except: [:destroy]
   root to: 'public#welcome'
   match 'welcome' => 'public#welcome', :as => :welcome
+  match 'auth' => 'public#auth', :as => :auth
   match 'competitions/:program_name/:project_name' => 'projects#show', :as => :show_competition
   match 'competitions/:program_name' => 'projects#index', :as => :competitions
   match 'role/:id/add_user/:user_id' => 'roles#add_user', :as => :add_user_role

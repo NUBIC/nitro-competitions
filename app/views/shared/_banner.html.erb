@@ -24,6 +24,9 @@
                   :class => 'menu_link',
                   :title => "Login to NUCATS Assist" %>
     <% end %>
+    <% if !cookies[:nucats_auth].present? || !session[:user_info].present? %>
+      <%= link_to 'Authentication', auth_path, :class => 'menu_link' %>
+    <% end %>
   </div>
 </div>
 <%# TODO: Fix CSRF Detected error coming from OmniAuth %>

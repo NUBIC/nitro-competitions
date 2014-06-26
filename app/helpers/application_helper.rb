@@ -359,4 +359,24 @@ module ApplicationHelper
     content_tag('div', attributes, &block)
   end
 
+  def omniauth_config
+    @omniauth_config ||= OmniAuthConfigure.configuration.parameters_for(:nucats_assist, :nucats_accounts)
+  end
+
+  def oauth_provider_uri
+    URI(provider_site)
+  end
+
+  def provider_site
+    omniauth_config[:client_options][:site]
+  end
+
+  def client_id
+    omniauth_config[:client_id]
+  end
+
+  def client_secret
+    omniauth_config[:client_secret]
+  end
+
 end
