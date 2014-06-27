@@ -25,7 +25,7 @@ module RolesHelper
     return false unless is_logged_in?
     return false if current_user_session.blank?
     return false if current_user_session.roles_users.blank?
-    current_user_session.roles_users.for_program(program.id).each do |user_role|
+    current_user_session.roles_users.for_program(program.try(:id)).each do |user_role|
       return true if user_role.role.name == role
     end
     false
