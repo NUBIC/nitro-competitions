@@ -25,12 +25,7 @@ class AddNrtdpSponsor < ActiveRecord::Migration
 
   def create_admins_for_program(program)
     [
-      %w(pmt706 Paul Thomas paul-thomas@northwestern.edu),
-      %w(nlk432 Neil Kelleher n-kelleher@northwestern.edu),
-      %w(hmt981 Haylee Thomas h-thomas@northwestern.edu),
-      %w(pdc947 Phil Compton philip-compton@northwestern.edu),
-      %w(int357 Ioanna Ntai i-ntai@northwestern.edu),
-      %w(pfr957 Paul Friedman p-friedman@northwestern.edu),
+      %w(netid Paul Friedman p-friedman@northwestern.edu),
     ].each do |arr|
       user = User.where(username: arr[0]).first
       if user.blank?

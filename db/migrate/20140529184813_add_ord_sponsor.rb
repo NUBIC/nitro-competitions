@@ -25,10 +25,7 @@ class AddOrdSponsor < ActiveRecord::Migration
 
   def create_admins_for_program(program)
     [
-      %w(fye745 Fruma Yehiely yehiely@northwestern.edu),
-      %w(klc201 Karen Cielo k-cielo@northwestern.edu),
-      %w(amz203 Aleksandra Mechetner aleksandra.mechetner@northwestern.edu),
-      %w(pfr957 Paul Friedman p-friedman@northwestern.edu),
+      %w(netid Paul Friedman p-friedman@northwestern.edu),
     ].each do |arr|
       user = find_or_create_user(arr)
       admin = Role.where(name: 'Admin').first
