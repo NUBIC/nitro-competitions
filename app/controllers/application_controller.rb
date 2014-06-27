@@ -37,8 +37,18 @@ class ApplicationController < ActionController::Base
 
   def cookie_and_session_match
     return false if current_user.blank?
-    vals = cookies[:nucats_auth].split(',')
+    data = decrypt_cookie_data(cookies[:nucats_auth])
+    vals = data.split(',')
     vals.include?(current_user.username) || vals.include?(current_user.email)
+  end
+
+  def decrypt_cookie_data(encrypted_data)
+    begin
+      crypt = ActiveSupport::MessageEncryptor.new(cookie_key)
+      crypt.decrypt_and_verify(encrypted_data)
+    rescue
+      encrypted_data
+    end
   end
 
   ##

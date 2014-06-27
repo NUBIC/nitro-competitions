@@ -379,4 +379,8 @@ module ApplicationHelper
     omniauth_config[:client_secret]
   end
 
+  def cookie_key
+    omniauth_config[:client_options][:cookie_key]
+  end
+
 end
