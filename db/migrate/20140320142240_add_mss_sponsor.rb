@@ -25,9 +25,7 @@ class AddMssSponsor < ActiveRecord::Migration
 
   def create_admins_for_program(program)
     [
-      %w(jka504 Julie Kay julie-kay@northwestern.edu),
-      %w(dej892 Dennis Smith dennis-smith@northwestern.edu),
-      %w(pfr957 Paul Friedman p-friedman@northwestern.edu),
+      %w(netid Paul Friedman p-friedman@northwestern.edu),
     ].each do |arr|
       user = find_or_create_user(arr)
       admin = Role.where(name: 'Admin').first
