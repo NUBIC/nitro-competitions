@@ -25,7 +25,7 @@
                   :title => "Login to NUCATS Assist" %>
     <% end %>
     <% if !cookies[:nucats_auth].present? || !session[:user_info].present? %>
-      <%= link_to 'Authentication', auth_path, :class => 'menu_link' %>
+      <%= link_to 'My Session', auth_path, :class => 'menu_link' %>
     <% end %>
   </div>
 </div>
