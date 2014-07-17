@@ -26,6 +26,11 @@
   background: #114411;
 }
 
+#submenu {
+  float: right;
+  font-size: 0.85em;
+}
+
 #menu {
   float: right;
   z-index: 4;
@@ -33,6 +38,11 @@
   color: #AAA;
   padding-right: 15px;
   padding-bottom: 5px;
+}
+
+#submenu .user_link,
+#submenu .menu_link {
+
 }
 
 #menu .user_link,

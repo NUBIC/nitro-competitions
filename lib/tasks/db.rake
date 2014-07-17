@@ -1,11 +1,7 @@
 namespace :db do
 
   task :admin_maintenance => :environment do
-    create_admins_for_program(Program.find_by_program_name("CFAR"))
-  end
-
-  def create_admins_for_program(program)
-    [
+    cfar_admins = [
       %w(rtd723 Rich D'Aquila RICHARD.DAQUILA@northwestern.edu),
       %w(bsm292 Brian Mustanski brian@northwestern.edu),
       %w(rlm065 Rob Murphy r-murphy@northwestern.edu),
@@ -16,7 +12,27 @@ namespace :db do
       %w(agd118 Ahmane Glover ahmane.glover@northwestern.edu),
       %w(pfr957 Paul Friedman p-friedman@northwestern.edu),
       %w(myu793 Mara Yurasek m-yurasek@northwestern.edu),
-    ].each do |arr|
+    ]
+    cfar = Program.find_by_program_name("CFAR")
+    create_admins_for_program(cfar_admins, cfar)
+
+    mss_admins = [
+      %w(hol855 Jane Holl j-holl@northwestern.edu),
+      %w(fps166 Frank Penedo fpenedo@northwestern.edu),
+      %w(rwchang Rowland Chang rwchang@northwestern.edu),
+      %w(lsw201 Lauren Wakschlag lauriew@northwestern.edu),
+      %w(dwb962 David Baker dwbaker@northwestern.edu),
+      %w(dce946 David Cella d-cella@northwestern.edu),
+      %w(cwy381 Clyde Yancy c-yancy@northwestern.edu),
+      %w(mehrotra Sanjay Mehrotra mehrotra@northwestern.edu),
+      %w(rta936 Ron Ackerman r.ackermann@northwestern.edu),
+    ]
+    mss = Program.find_by_program_name("MSS")
+    create_mss_admins_for_program(mss_admins, mss)
+  end
+
+  def create_admins_for_program(users, program)
+    users.each do |arr|
       user = find_or_create_user(arr)
       create_admin_role(user, program) if user && program
     end

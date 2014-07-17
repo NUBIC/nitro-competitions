@@ -24,11 +24,15 @@
                   :class => 'menu_link',
                   :title => "Login to NUCATS Assist" %>
     <% end %>
-    <% if !cookies[:nucats_auth].present? || !session[:user_info].present? %>
-      <%= link_to 'My Session', auth_path, :class => 'menu_link' %>
-    <% end %>
   </div>
 </div>
+<% if !cookies[:nucats_auth].present? || !session[:user_info].present? %>
+  <div id="submenu">
+    Having trouble logging in?
+    <%= link_to 'Click here', auth_path, :class => 'menu_link' %>
+    to reset your session.
+  </div>
+<% end %>
 <%# TODO: Fix CSRF Detected error coming from OmniAuth %>
 <% if !flash[:errors].blank? && flash[:errors].to_s.downcase != 'csrf detected' %>
   <div id="results" class="notice">

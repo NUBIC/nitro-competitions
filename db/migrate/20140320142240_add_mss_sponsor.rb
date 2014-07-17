@@ -58,3 +58,34 @@ class AddMssSponsor < ActiveRecord::Migration
     end
   end
 end
+
+
+program = Program.where(program_name: 'MSS').first
+admin = Role.where(name: 'Admin').first
+
+def create_admins)for
+  [
+    %w(netid Paul Friedman p-friedman@northwestern.edu),
+  ].each do |arr|
+    user = find_or_create_user(arr)
+    admin = Role.where(name: 'Admin').first
+    if admin && user && program
+      ru = RolesUser.new
+      ru.user = user
+      ru.role = admin
+      ru.program = program
+      ru.save!
+    end
+  end
+end
+
+def find_or_create_user(arr)
+  user = User.where(username: arr[0]).first
+  if user.blank?
+    user = User.create username: arr[0],
+                       first_name: arr[1],
+                       last_name: arr[2],
+                       email: arr[3]
+  end
+  user
+end
