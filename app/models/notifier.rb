@@ -5,28 +5,40 @@ class Notifier < ActionMailer::Base
   require "#{Rails.root}/app/helpers/submissions_helper"
   include SubmissionsHelper
 
-  def finalize_message(from, subject, submission, the_submission_url, the_project_url)
-    to = determine_recipients(submission)
-    cc_list = determine_cc_recipients(submission)
-    status_notes = determine_status_notes(submission)
+  # NUCATS Administrator email addresses
+  ADMIN_EMAIL_LIST = %w( p-friedman@northwestern.edu wakibbe@northwestern.edu)
 
-    @recipients   = to
-    @cc           = cc_list
-    @bcc          = 'wakibbe@northwestern.edu'
+  def finalize_message(from, subject, submission, the_submission_url, the_project_url)
+    set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
+    mail(from: from, to: @recipients, cc: @cc, bcc: @bcc, subject: subject)
+  end
+
+  def ord_message(from, subject, submission, the_submission_url, the_project_url)
+    set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
+    mail(from: from, to: @recipients, cc: @cc, bcc: @bcc, subject: subject)
+  end
+
+  def set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
     @from         = from
-    headers         'Reply-to' => "#{from}"
-    @subject      = subject
+    headers       'Reply-to' => "#{from}"
+    @recipients   = determine_recipients(submission)
+    @cc           = determine_cc_recipients(submission)
+
+    @bcc          = ADMIN_EMAIL_LIST
     @sent_on      = Time.now
     @content_type = 'text/html'
 
+    # from the parameters
+    @subject            = subject
+    @the_submission_url = the_submission_url
+    @the_project_url    = the_project_url
+
+    # determined from the submission
     @name = submission.applicant.try(:first_name)
     @submission = submission
     @key_personnel = submission.key_personnel_names
-    @the_submission_url = the_submission_url
-    @the_project_url = the_project_url
-    @status_notes = status_notes
+    @status_notes = determine_status_notes(submission)
     @docs_array = list_submission_files_as_array(submission)
-    mail(from: from, to: to, cc: cc_list, subject: subject)
   end
 
   def determine_recipients(submission)
@@ -42,8 +54,9 @@ class Notifier < ActionMailer::Base
       result = submission.key_personnel_emails || []
       result += submission.project.program.admins.map(&:email)
     else
-      result = Rails.application.config.testing_to_address
+      result = [Rails.application.config.testing_to_address]
     end
+    result = result - ADMIN_EMAIL_LIST
     result
   end
 

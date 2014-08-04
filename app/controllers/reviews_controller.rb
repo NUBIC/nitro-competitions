@@ -4,6 +4,8 @@
 # Controller for SubmissionReviews to be evaluated by Reviewers
 class ReviewsController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token
+
   # GET /submission/:submission_id/reviews
   # GET /submission/:submission_id/reviews.xml
   def index
@@ -29,12 +31,12 @@ class ReviewsController < ApplicationController
     if can_update_submission_review?(@submission_review) || is_admin?
       if @submission_review.update_attributes(params[:submission_review])
         respond_to do |format|
-          format.html { redirect_to submission_reviews(@submission_review.id) }
+          format.html { redirect_to submission_reviews_path(@submission_review.submission_id) }
           format.js { render nothing: true }
         end
       else
         respond_to do |format|
-          format.html { redirect_to submission_reviews(@submission_review.id) }
+          format.html { redirect_to submission_reviews_path(@submission_review.submission_id) }
           format.xml { render xml: @reviewer.errors, status: :unprocessable_entity }
           format.js { render nothing: true }
         end
@@ -42,7 +44,7 @@ class ReviewsController < ApplicationController
     else
       flash[:notice] ||= ''
       flash[:notice] += 'You either do not have permission to do this or else the review period has ended'
-      redirect_to submission_reviews(@submission_review.id)
+      redirect_to submission_reviews_path(@submission_review.submission_id)
     end
   end
 
