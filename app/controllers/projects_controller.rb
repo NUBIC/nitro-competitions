@@ -43,33 +43,6 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.xml
   def show
-    Rails.logger.error('~~~ projects/show l. 46')
-    if params[:project_name].blank? || params[:program_name].blank?
-      project = Project.find(params[:id])
-      @projects = [project]
-      program = Program.find(project.program_id)
-    else
-      program = Program.find_by_program_name(params[:program_name])
-      unless program.blank?
-        @projects = Project.where('program_id = :program_id and project_name = :project_name',
-                                  { project_name: params[:project_name], program_id: program.id }).to_a
-      end
-    end
-    if @projects.blank?
-      redirect_to projects_url
-    else
-      @submissions = Submission.associated(@projects.map(&:id), current_user_session.id)
-      set_current_project(@projects[0])
-      @project = current_project
-      respond_to do |format|
-        format.html # show.html.erb
-        format.xml { render xml: @project }
-      end
-    end
-  end
-
-  def show
-    Rails.logger.error('~~~ projects/show l. 72')
     unless params[:project_name].blank? || params[:program_name].blank?
       program = Program.find_by_program_name(params[:program_name])
       unless program.blank?

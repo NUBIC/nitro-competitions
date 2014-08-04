@@ -254,6 +254,10 @@ class Submission < ActiveRecord::Base
     self.where('effort_approver_username = :username', { username: username }).all
   end
 
+  def program_name
+    project.try(:program).try(:program_name)
+  end
+
   # this will update the applicant's personal biosketch and then add to the submission
   def uploaded_biosketch=(data_field)
     unless data_field.blank?
