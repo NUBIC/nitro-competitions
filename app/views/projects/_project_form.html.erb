@@ -161,6 +161,18 @@
   </tr>
 
   <tr>
+    <td class="title">
+      <%= f.label :closed_status_wording %>
+    </td>
+    <td class="notes" colspan="2">
+      <%= f.text_field :closed_status_wording %>
+      <div class='attribute_description'>
+        Wording for project status used when project has closed. Default is 'Awarded'.
+      </div>
+    </td>
+  </tr>
+
+  <tr>
     <td id="title" colspan="3">
       <strong>Select elements to require / show</strong>
     </td>
@@ -1213,6 +1225,21 @@
   <tr>
     <td id="title11" colspan="3">
       <strong>Review Form Information</strong>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label :show_review_guidance %>
+    </td>
+    <td class="notes" colspan="2">
+      <%= f.check_box :show_review_guidance %>
+      <div class='attribute_description'>
+        Default is set to 'true', but if for some reason
+        the review guidance directions should be hidden
+        uncheck this.
+        <br />
+        By doing so the Review Guidance URL will not be shown.
+      </div>
     </td>
   </tr>
   <tr>
