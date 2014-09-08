@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # == Schema Information
-# Schema version: 20140418191443
+# Schema version: 20140908190758
 #
 # Table name: projects
 #
@@ -20,6 +20,7 @@
 #  budget_title                        :string(255)      default("Budget")
 #  budget_wording                      :text             default("Is the budget reasonable and appropriate for the request?")
 #  category_wording                    :text             default("Core Facility Name")
+#  closed_status_wording               :string(255)      default("Awarded")
 #  completion_title                    :string(255)      default("Completion")
 #  completion_wording                  :text             default("Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?")
 #  created_at                          :datetime
@@ -125,6 +126,7 @@
 #  show_previous_support_description   :boolean          default(FALSE)
 #  show_project_cost                   :boolean          default(TRUE)
 #  show_received_previous_support      :boolean          default(FALSE)
+#  show_review_guidance                :boolean          default(TRUE)
 #  show_review_summaries_to_applicants :boolean          default(TRUE)
 #  show_review_summaries_to_reviewers  :boolean          default(TRUE)
 #  show_scope_score                    :boolean          default(TRUE)

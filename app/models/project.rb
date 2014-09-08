@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140418191443
+# Schema version: 20140908190758
 #
 # Table name: projects
 #
@@ -20,6 +20,7 @@
 #  budget_title                        :string(255)      default("Budget")
 #  budget_wording                      :text             default("Is the budget reasonable and appropriate for the request?")
 #  category_wording                    :text             default("Core Facility Name")
+#  closed_status_wording               :string(255)      default("Awarded")
 #  completion_title                    :string(255)      default("Completion")
 #  completion_wording                  :text             default("Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?")
 #  created_at                          :datetime
@@ -125,6 +126,7 @@
 #  show_previous_support_description   :boolean          default(FALSE)
 #  show_project_cost                   :boolean          default(TRUE)
 #  show_received_previous_support      :boolean          default(FALSE)
+#  show_review_guidance                :boolean          default(TRUE)
 #  show_review_summaries_to_applicants :boolean          default(TRUE)
 #  show_review_summaries_to_reviewers  :boolean          default(TRUE)
 #  show_scope_score                    :boolean          default(TRUE)
@@ -190,15 +192,66 @@ class Project < ActiveRecord::Base
   scope :late, lambda { where('projects.review_end_date <= :then', { :then => 80.days.ago }) }
 
   def current_status
+    way_before_today = Date.today - 300
+    in_the_future = review_end_date + 1000
     case Date.today
-      when Date.today-300..initiation_date then "Pre-announcement"
-      when initiation_date..submission_open_date then "New announcement" # + " - opens on "+ submission_open_date.to_s(:justdate)
-      when submission_open_date..submission_close_date then "Open for Applications"
-      when submission_close_date..review_start_date then "Closed for Review"
-      when review_start_date..review_end_date then "Under Review"
-      when review_end_date..review_end_date+1000 then "Awarded"
-    else "Unknown"
+    when way_before_today..initiation_date
+      pre_initiation_date_status
+    when initiation_date..submission_open_date
+      pre_submission_date_status
+    when submission_open_date..submission_close_date
+      open_submission_status
+    when submission_close_date..review_start_date
+      closed_submission_status
+    when review_start_date..review_end_date
+      under_review_status
+    when review_end_date..in_the_future
+      closed_status
+    else
+      'Unknown'
     end
+  end
+
+  ##
+  # Status shown when today is less than
+  # the @initiation_date
+  def pre_initiation_date_status
+    'Pre-announcement'
+  end
+
+  ##
+  # Status shown after initiation but
+  # before submissions accepted
+  def pre_submission_date_status
+    'New announcement'
+  end
+
+  ##
+  # Status shown when submissions
+  # are being accepted
+  def open_submission_status
+    'Open for Applications'
+  end
+
+  ##
+  # Status shown when submissions
+  # are no longer being accepted
+  def closed_submission_status
+    'Closed for Review'
+  end
+
+  ##
+  # Status shown when submissions
+  # are being reviewed
+  def under_review_status
+    'Under Review'
+  end
+
+  ##
+  # Status shown when the project is no
+  # longer
+  def closed_status
+    closed_status_wording || 'Awarded'
   end
 
   def count_review_criteria?

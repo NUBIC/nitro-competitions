@@ -77,22 +77,21 @@ class CreateProjects < ActiveRecord::Migration
       t.string :overall_impact_title, :default => 'Overall Impact'
       t.text :overall_impact_description, :default => 'Please summarize the strengths and weaknesses of the application; assess the potential benefit of the instrument requested for the overall research community and its potential impact on NIH-funded research; and provide comments on the overall need of the users which led to their final recommendation and level of enthusiasm.'
       t.text :overall_impact_direction, :default => 'Overall Strengths and Weaknesses:<br/>Please do not exceed 3 paragraphs'
-       t.boolean :show_impact_score, :default=>true
-       t.boolean :show_team_score, :default=>true
-       t.boolean :show_innovation_score, :default=>true
-       t.boolean :show_scope_score, :default=>true
-       t.boolean :show_environment_score, :default=>true
-       t.boolean :show_budget_score, :default=>false
-       t.boolean :show_completion_score, :default=>false
 
-       t.boolean :show_other_score, :default=>false
+      t.boolean :show_impact_score, :default=>true
+      t.boolean :show_team_score, :default=>true
+      t.boolean :show_innovation_score, :default=>true
+      t.boolean :show_scope_score, :default=>true
+      t.boolean :show_environment_score, :default=>true
+      t.boolean :show_budget_score, :default=>false
+      t.boolean :show_completion_score, :default=>false
+      t.boolean :show_other_score, :default=>false
 
-       t.string :impact_title, :default => 'Significance'
+      t.string :impact_title, :default => 'Significance'
+      t.text :impact_wording, :default => 'Does the project address an important unmet health need? If the aims of the project are achieved, how will scientific knowledge, technical capability, and/or clinical practice be improved? How will successful completion of the aims change the methods, technologies, treatments, services, or preventative interventions that drive this field?'
 
-       t.text :impact_wording, :default => 'Does the project address an important unmet health need? If the aims of the project are achieved, how will scientific knowledge, technical capability, and/or clinical practice be improved? How will successful completion of the aims change the methods, technologies, treatments, services, or preventative interventions that drive this field?'
-
-       t.string :team_title, :default => 'Investigator(s)'
-       t.text :team_wording, :default => 'Are the PIs, collaborators, and other researchers well suited to the project? If Early Stage Investigators or New Investigators, do they have appropriate experience and training? If established, have they demonstrated an ongoing record of accomplishments that have advanced their field(s)? If the project is collaborative, do the investigators have complementary and integrated expertise; are their leadership approach, governance and organizational structure appropriate for the project?'
+      t.string :team_title, :default => 'Investigator(s)'
+      t.text :team_wording, :default => 'Are the PIs, collaborators, and other researchers well suited to the project? If Early Stage Investigators or New Investigators, do they have appropriate experience and training? If established, have they demonstrated an ongoing record of accomplishments that have advanced their field(s)? If the project is collaborative, do the investigators have complementary and integrated expertise; are their leadership approach, governance and organizational structure appropriate for the project?'
 
       t.string :innovation_title, :default => 'Innovation'
       t.text :innovation_wording, :default => 'Does the application challenge and seek to shift current clinical practice paradigms by utilizing novel approaches or methodologies, instrumentation, or interventions? Are the approaches or methodologies, instrumentation, or interventions novel to one field of research or novel in a broad sense? Is a refinement, improvement, or new application of approaches or methodologies, instrumentation, or interventions proposed?'
@@ -117,39 +116,40 @@ class CreateProjects < ActiveRecord::Migration
 
       t.boolean :show_manage_other_support, :default=>true
       t.string :projects, :manage_other_support_text, :default=>"Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href='http://grants.nih.gov/grants/funding/phs398/othersupport.doc'>here</a>."
+
       t.boolean :show_document1, :default=>false
       t.string :document1_name, :default=>"Replace with document name, like 'OSR-1 form'"
       t.string :document1_description, :default=>"Replace with detailed description of the document, the url for a template for the document, etc."
-      t.string :document1_template_url 
-      t.string :document1_info_url 
+      t.string :document1_template_url
+      t.string :document1_info_url
       t.string :project_url_label, :default=>"Competition RFA"
-      t.string :application_template_url 
+      t.string :application_template_url
       t.string :application_template_url_label, :default=>"Application template"
-      t.string :application_info_url 
+      t.string :application_info_url
       t.string :application_info_url_label, :default=>"Application instructions"
-      t.string :budget_template_url 
+      t.string :budget_template_url
       t.string :budget_template_url_label, :default=>"Budget template"
-      t.string :budget_info_url 
+      t.string :budget_info_url
       t.string :budget_info_url_label, :default=>"Budget instructions"
 
       t.boolean :only_allow_pdfs, :default=>false
       t.boolean :show_document2, :default=>false
       t.string :document2_name, :default=>"Replace with document name, like 'OSR-1 form'"
       t.string :document2_description, :default=>"Replace with detailed description of the document, the url for a template for the document, etc."
-      t.string :document2_template_url 
-      t.string :document2_info_url 
+      t.string :document2_template_url
+      t.string :document2_info_url
 
       t.boolean :show_document3, :default=>false
       t.string :document3_name, :default=>"Replace with document name, like 'OSR-1 form'"
       t.string :document3_description, :default=>"Replace with detailed description of the document, the url for a template for the document, etc."
-      t.string :document3_template_url 
-      t.string :document3_info_url 
+      t.string :document3_template_url
+      t.string :document3_info_url
 
       t.boolean :show_document4, :default=>false
       t.string :document4_name, :default=>"Replace with document name, like 'OSR-1 form'"
       t.string :document4_description, :default=>"Replace with detailed description of the document, the url for a template for the document, etc."
-      t.string :document4_template_url 
-      t.string :document4_info_url 
+      t.string :document4_template_url
+      t.string :document4_info_url
 
       t.boolean :show_project_cost, :default=>true
       t.boolean :show_composite_scores_to_applicants, :default=>false
@@ -165,12 +165,12 @@ class CreateProjects < ActiveRecord::Migration
       t.string :application_doc_name, :default=>"Application"
       t.string :application_doc_description, :default=>"Please upload the completed application here."
 
-      t.integer   :created_id  
+      t.integer   :created_id
       t.string    :created_ip
-      t.integer   :updated_id  
+      t.integer   :updated_id
       t.string    :updated_ip
       t.timestamp :deleted_at
-      t.integer   :deleted_id  
+      t.integer   :deleted_id
       t.string    :deleted_ip
 
       t.timestamps
