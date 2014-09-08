@@ -70,6 +70,7 @@ class ReviewersController < ApplicationController
   # GET /reviewers/1/edit
   def edit
     @submission_review = SubmissionReview.find(params[:id])
+    @project = @submission_review.project
     if @submission_review.submission.project.review_end_date < Date.today && is_admin?(current_program)
       flash[:errors] = cannot_save_changes_error_message
       render :edit
