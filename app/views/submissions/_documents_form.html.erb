@@ -8,7 +8,10 @@
   <td colspan="3" style="background:#ADE387;">
     <div class="h3">
       Manage documents for this submission (you can add or update your documents using this form)
-      <%= "<br/>Your documents are currently COMPLETE" if submission.status == 'Complete' %>
+      <% if submission.status == 'Complete' %>
+        <br/>
+        Your documents are currently COMPLETE
+      <% end %>
     </div>
   </td>
 </tr>
