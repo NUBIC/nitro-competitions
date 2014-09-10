@@ -98,6 +98,7 @@
   <tr>
     <td class="title">
       <%= f.label :review_start_date  %>
+      <span class='required_marker'> * </span>
     </td>
     <td class="notes" colspan="2">
       <%= f.text_field :review_start_date, :size=>15, required: true %>
@@ -115,7 +116,8 @@
       <span class='required_marker'> * </span>
     </td>
     <td class="notes" colspan="2">
-      <%= f.text_field :review_end_date, :size=>15 %>
+      <%= f.text_field :review_end_date, :size=>15, required: true %>
+      <span class='required_marker'> * </span>
       <div class='attribute_description'>
         End of the Review process.
         <br />
@@ -125,8 +127,7 @@
   </tr>
   <tr>
     <td class="title">
-      <%= f.label :project_period_start_date, required: true %>
-      <span class='required_marker'> * </span>
+      <%= f.label :project_period_start_date %>
     </td>
     <td class="notes" colspan="2">
       <%= f.text_field :project_period_start_date, :size=>15 %>
@@ -137,8 +138,7 @@
   </tr>
   <tr>
     <td class="title">
-      <%= f.label :project_period_end_date, required: true %>
-      <span class='required_marker'> * </span>
+      <%= f.label :project_period_end_date %>
     </td>
     <td class="notes" colspan="2">
       <%= f.text_field :project_period_end_date, :size=>15 %>
