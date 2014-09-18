@@ -32,14 +32,22 @@ class ApplicationController < ActionController::Base
 
   require 'net/http'
   def cookie_valid?
+    Rails.logger.error('cookie_valid?: nucats_auth cookie is not present') unless cookies[:nucats_auth].present?
     cookies[:nucats_auth].present? && cookie_and_session_match
   end
 
   def cookie_and_session_match
-    return false if current_user.blank?
+    if current_user.blank?
+      Rails.logger.error('cookie_and_session_match: current_user is blank')
+      return false
+    end
     data = decrypt_cookie_data(cookies[:nucats_auth])
     vals = data.split(',')
-    vals.include?(current_user.username) || vals.include?(current_user.email)
+    vals = vals.map(&:to_s).map(&:downcase)
+    Rails.logger.error("cookie_and_session_match: vals = #{vals}")
+    Rails.logger.error("cookie_and_session_match: current_user.username = #{current_user.username}")
+    Rails.logger.error("cookie_and_session_match: current_user.email = #{current_user.email}")
+    vals.include?(current_user.username.to_s.downcase) || vals.include?(current_user.email.to_s.downcase)
   end
 
   def decrypt_cookie_data(encrypted_data)
@@ -87,8 +95,8 @@ class ApplicationController < ActionController::Base
 
   def not_authorized
     respond_to do |format|
-      format.html{ auth_redirect }
-      format.json{ head :unauthorized }
+      format.html { auth_redirect }
+      format.json { head :unauthorized }
     end
   end
 
