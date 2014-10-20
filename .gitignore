@@ -3,9 +3,8 @@ db/*.out
 .powrc
 .rvmrc
 bin/
-tmp/restart.txt
-tmp/cache
-tmp/pids
+tmp/
+log/
 assets/files/
 coverage/
 public/assets/
