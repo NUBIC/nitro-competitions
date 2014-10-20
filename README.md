@@ -18,22 +18,22 @@ default.
 
 **NITRO ARM** is written in [Ruby on Rails 3][2] and uses [PostgreSQL][3] as the
 backend database by default. However, any RDBMS that is supported by
-[ActiveRecord][4] should. work.
+[ActiveRecord][4] should work.
 
 ## Data model
 
 **NITRO ARM** has the following major models to organize sponsoring
 organizations, competitions, reviewers, submitters, applicants, and reviews:
 
-1. **Sponsors**: the sponsoring organization running the competition
-2. **Competitions**: the competitions to be managed
-3. **Users**: Individuals who log in or are listed with a role are in the Users
-  table. Users can have one or more roles, such as:
-  * administrators
-  * reviewers
-  * key personnel
-  * applicants
-4. **Submissions**: Submissions have the following:
+1. **Sponsor**: A sponsoring organization running a competition
+2. **Competition**: A competition to be managed
+3. **User**: An individual who logs in, or is listed with a role, is in the
+  `users` table. Users can have one or more of the following roles:
+  * administrator
+  * reviewer
+  * key person
+  * applicant
+4. **Submission**: Submissions have the following:
   * submitter
   * applicant (the submitter and applicant can be the same)
   * key personnel
@@ -41,7 +41,7 @@ organizations, competitions, reviewers, submitters, applicants, and reviews:
   * a cover page
   * assigned reviewers (assigned by the administrators of the sponsoring
     organization for the competition)
-5. **Reviews**:  Reviews, by default, follow the NIH review criteria, and consist
+5. **Review**:  Reviews, by default, follow the NIH review criteria, and consist
   of these review categories:
   * Overall
   * Significance
@@ -62,19 +62,23 @@ against Ruby 1.9.x and 2.x.x
 ## Running the test suite
 
 **NITRO ARM** has a number of rspec tests. To run these specs run the following
-command:
+command in the project folder:
 
     $ bundle exec rspec spec/
 
 ## Authentication
 
-The current version of **NITRO ARM** is configured to authenticate via OAuth
-provider, via the [`omniauth` gem][1].
+### OAuth
+
+The current version of **NITRO ARM** uses OAuth providers for authentication,
+via the [`omniauth` gem][1].
+
+See [`config/application.rb line 58`][6]
+
+### aker
 
 Support for authentication via [the `aker` gem][5] also works, but is officially
 deprecated as of `v2.2.9`.
-
-See [`config/application.rb line 58`][6]
 
 To use the original LDAP Aker implementation, change this line from `true` to
 `false`.
