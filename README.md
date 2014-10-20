@@ -1,5 +1,5 @@
 **NITRO ARM** is a web-based application for managing institutional funding
-competitions. It supports:
+competitions.
 
 ## Main features
 
