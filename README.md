@@ -80,7 +80,7 @@ See [`config/application.rb line 58`][6]
 Support for authentication via [the `aker` gem][5] also works, but is officially
 deprecated as of `v2.2.9`.
 
-To use the original LDAP Aker implementation, change this line from `true` to
+To use the original LDAP Aker implementation, change [this line][6] from `true` to
 `false`.
 
 If you DO use an OAuth provider, note that you must register this application as
