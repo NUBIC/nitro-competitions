@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140908190758
 #
 # Table name: submission_reviews
 #
@@ -12,7 +12,7 @@
 #  budget_score                    :integer          default(0)
 #  budget_text                     :text
 #  completion_score                :integer          default(0)
-#  created_at                      :datetime
+#  created_at                      :datetime         not null
 #  created_id                      :integer
 #  created_ip                      :string(255)
 #  deleted_at                      :datetime
@@ -42,7 +42,7 @@
 #  team_text                       :text
 #  thank_you_sent_at               :datetime
 #  thank_you_sent_id               :integer
-#  updated_at                      :datetime
+#  updated_at                      :datetime         not null
 #  updated_id                      :integer
 #  updated_ip                      :string(255)
 #

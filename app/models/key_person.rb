@@ -1,17 +1,17 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140908190758
 #
 # Table name: key_personnel
 #
-#  created_at    :datetime
+#  created_at    :datetime         not null
 #  email         :string(255)
 #  first_name    :string(255)
 #  id            :integer          not null, primary key
 #  last_name     :string(255)
 #  role          :string(255)
 #  submission_id :integer
-#  updated_at    :datetime
+#  updated_at    :datetime         not null
 #  user_id       :integer
 #  username      :string(255)
 #

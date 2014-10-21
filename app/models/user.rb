@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140908190758
 #
 # Table name: users
 #
@@ -11,7 +11,7 @@
 #  campus_address        :text
 #  city                  :string(255)
 #  country               :string(255)
-#  created_at            :datetime
+#  created_at            :datetime         not null
 #  created_id            :integer
 #  created_ip            :string(255)
 #  degrees               :string(255)
@@ -41,7 +41,7 @@
 #  primary_department    :string(255)
 #  state                 :string(255)
 #  title                 :string(255)
-#  updated_at            :datetime
+#  updated_at            :datetime         not null
 #  updated_id            :integer
 #  updated_ip            :string(255)
 #  username              :string(255)      not null
