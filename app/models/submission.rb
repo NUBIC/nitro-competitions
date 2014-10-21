@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140418191443
+# Schema version: 20140908190758
 #
 # Table name: submissions
 #
@@ -9,13 +9,13 @@
 #  applicant_id                      :integer
 #  application_document_id           :integer
 #  budget_document_id                :integer
-#  committee_review_approval         :boolean
+#  committee_review_approval         :boolean          default(FALSE)
 #  completion_at                     :datetime
 #  conflict_explanation              :text
 #  core_manager_username             :string(255)
 #  cost_sharing_amount               :float
 #  cost_sharing_organization         :text
-#  created_at                        :datetime
+#  created_at                        :datetime         not null
 #  created_id                        :integer
 #  created_ip                        :string(255)
 #  deleted_at                        :datetime
@@ -48,14 +48,14 @@
 #  other_support_document_id         :integer
 #  previous_support_description      :text
 #  project_id                        :integer
-#  received_previous_support         :boolean
+#  received_previous_support         :boolean          default(FALSE)
 #  submission_at                     :datetime
 #  submission_category               :string(255)
 #  submission_reviews_count          :integer          default(0)
 #  submission_status                 :string(255)
 #  submission_title                  :string(255)
 #  supplemental_document_id          :integer
-#  updated_at                        :datetime
+#  updated_at                        :datetime         not null
 #  updated_id                        :integer
 #  updated_ip                        :string(255)
 #  use_cmh                           :boolean

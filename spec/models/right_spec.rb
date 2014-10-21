@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 # == Schema Information
-# Schema version: 20140213161624
+# Schema version: 20140908190758
 #
 # Table name: rights
 #
 #  action     :string(255)
 #  controller :string(255)
-#  created_at :datetime
+#  created_at :datetime         not null
 #  id         :integer          not null, primary key
 #  name       :string(255)
-#  updated_at :datetime
+#  updated_at :datetime         not null
 #
 
 require 'spec_helper'

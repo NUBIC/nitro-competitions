@@ -1,13 +1,13 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140908190758
 #
 # Table name: roles
 #
-#  created_at :datetime
+#  created_at :datetime         not null
 #  id         :integer          not null, primary key
 #  name       :string(255)
-#  updated_at :datetime
+#  updated_at :datetime         not null
 #
 
 class Role < ActiveRecord::Base

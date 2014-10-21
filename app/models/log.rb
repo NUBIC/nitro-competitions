@@ -1,19 +1,19 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20130511121216
+# Schema version: 20140908190758
 #
 # Table name: logs
 #
 #  action_name     :string(255)
 #  activity        :string(255)
 #  controller_name :string(255)
-#  created_at      :datetime
+#  created_at      :datetime         not null
 #  created_ip      :string(255)
 #  id              :integer          not null, primary key
 #  params          :text
 #  program_id      :integer
 #  project_id      :integer
-#  updated_at      :datetime
+#  updated_at      :datetime         not null
 #  user_id         :integer
 #
 
