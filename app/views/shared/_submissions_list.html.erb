@@ -17,7 +17,7 @@
           Applicant:
           <%= link_to(submission.applicant.name, applicant_url(submission.applicant.id)) %>
           <%= mail_to(submission.applicant.email, submission.applicant.email,
-                      :subject => "NITRO ARM colleague",
+                      :subject => "#{NucatsAssist.app_name} colleague",
                       :encode => "javascript", :title=>"Send email to this applicant") unless submission.applicant.email.blank? %>
         </div>
         <div class='submission_title'>

@@ -28,12 +28,12 @@
       <td><%= unless submission.applicant.email.blank? then
   		unless defined?(@pdf) then
   		mail_to(submission.applicant.email, "email",
-  				:subject => "NITRO ARM",
-  				:encode => "javascript", :title=>"Send email to this applicant")
+  				:subject => NucatsAssist.email_subject,
+  				:encode => "javascript", :title => "Send email to this applicant")
   		else
   			mail_to(submission.applicant.email, "email",
-  					:subject => "NITRO ARM",
-  					:title=>"Send email to this applicant")
+  					:subject => NucatsAssist.email_subject,
+  					:title => "Send email to this applicant")
   		end
   		end -%> </td>
       <td><%=h submission.applicant.business_phone %></td>

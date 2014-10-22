@@ -2,7 +2,7 @@
 require 'config'
 
 def send_finalize_email(submission, user)
-  if allow_emails? || %w(wakibbe pfr957).include?(user.username)
+  if allow_emails? || NucatsAssist.admin_netids.include?(user.username)
     before_notify_email(submission)
     begin
       message = create_message(submission)
@@ -37,7 +37,7 @@ end
 
 def create_message(submission)
   from = determine_from_address(submission)
-  subject = 'Thank you for your NITRO ARM Submission'
+  subject = "Thank you for your #{NucatsAssist.app_name} Submission"
 
   path = "#{Rails.root}/app/views/notifier/#{sponsor_name(submission)}_message.html.erb"
   if File.exists?(path)

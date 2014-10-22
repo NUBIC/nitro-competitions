@@ -1,10 +1,14 @@
-<h2>Contact Info for  <%=h [@contact.name,@contact.name_suffix,@contact.degrees].compact.join(", ") %></h2>
+<h2>Contact Info for  <%=h [@contact.name, @contact.name_suffix, @contact.degrees].compact.join(", ") %></h2>
 
 <p>
   <b>Email:</b>
-  <%= mail_to(@contact.email, @contact.email,
-				:subject => "From NITRO ARM", 
-				:title=>"Send email to #{@contact.name}") unless @contact.email.blank? %>
+  <% if @contact.email.blank? %>
+    No email on record.
+  <% else %>
+    <%= mail_to(@contact.email, @contact.email,
+				        :subject => NucatsAssist.email_subject, 
+				        :title => "Send email to #{@contact.name}") %>
+  <% end %> 
 </p>
 
 <p>

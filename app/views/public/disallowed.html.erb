@@ -8,12 +8,11 @@
   </p>
 
   <p>
-    Only Northwestern, CMH, NMFF, NorthShore, and NMH IPs are allowed!
+    Only <%= NucatsAssist.allowable_ip_locations %> IPs are allowed!
   </p>
 
   <p>
     If you feel you have gotten this message in error, please contact
-    <%# TODO: configure the email address %>
-    <a href='mailto:nucatsassist@nubic.northwestern.edu'>the NITRO ARM application support desk.</a>
+    <a href="mailto:#{NucatsAssist.from_email_address}">the <%= NucatsAssist.app_name %> application support desk.</a>
   </p>
 </div>
