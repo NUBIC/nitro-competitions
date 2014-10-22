@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140908190758
+# Schema version: 20141022182109
 #
 # Table name: projects
 #
@@ -50,8 +50,8 @@
 #  effort_approver_title               :text             default("Effort approver")
 #  environment_title                   :string(255)      default("Environment")
 #  environment_wording                 :text             default("Will the scientific environment in which the work will be done contribute to the probability of success? Are the institutional support, equipment and other physical resources available to the investigators adequate for the project proposed? Will the project benefit from unique features of the scientific environment, subject populations, or collaborative arrangements?")
-#  help_document_url_block             :text             default("<a href=\"/docs/NUCATS_Pilot_Proposal_Form.doc\" title=\"NUCATS Pilot Proposal Form\">Application template</a>\n      <a href=\"/docs/Application_Instructions.pdf\" title=\"NUCATS Pilot Proposal Application Instructions\">Application instructions</a>\n      <a href=\"/docs/NUCATS_Pilot_Budget.doc\" title=\"NUCATS Pilot Proposal Budget Template\">Budget Template</a>\n      <a href=\"/docs/Budget_Instructions.pdf\" title=\"NUCATS Pilot Proposal Budget Instructions\">Budget instructions</a>")
-#  how_to_url_block                    :text             default("<a href=\"/docs/NUCATS_Assist_Instructions.pdf\" title=\"NUCATS Pilot Proposal Web Site Instructions/Help/HowTo\">Site instructions</a>")
+#  help_document_url_block             :text             default("<a href=\"/docs/Pilot_Proposal_Form.doc\" title=\"Pilot Proposal Form\">Application template</a>\n<a href=\"/docs/Application_Instructions.pdf\" title=\"Pilot Proposal Application Instructions\">Application instructions</a>\n<a href=\"/docs/Pilot_Budget.doc\" title=\"Pilot Proposal Budget Template\">Budget Template</a>\n<a href=\"/docs/Pilot_Budget_Instructions.pdf\" title=\"Pilot Proposal Budget Instructions\">Budget instructions</a>")
+#  how_to_url_block                    :text             default("<a href=\"/docs/NITRO-ARM_Instructions.pdf\" title=\"NITRO-ARM Web Site Instructions/Help/HowTo\">Site instructions</a>")
 #  human_subjects_research_text        :text             default("Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.")
 #  id                                  :integer          not null, primary key
 #  impact_title                        :string(255)      default("Significance")
@@ -86,7 +86,7 @@
 #  review_end_date                     :date
 #  review_guidance_url                 :string(255)      default("../docs/review_criteria.html")
 #  review_start_date                   :date
-#  rfp_url_block                       :text             default("<a href=\"/docs/NUCATS_CTI_RFA.pdf\" title=\"NUCATS Pilot Proposal Request for Applications\">CTI RFA</a>")
+#  rfp_url_block                       :text             default("<a href=\"/docs/CTI_RFA.pdf\" title=\"Pilot Proposal Request for Applications\">CTI RFA</a>")
 #  scope_title                         :string(255)      default("Approach")
 #  scope_wording                       :text             default("Are the overall strategy, methodology, and analyses well-reasoned and appropriate to accomplish the specific aims of the project? Are potential problems, alternative strategies, and benchmarks for success presented? If the project is in the early stages of development, will the strategy establish feasibility and will particularly risky aspects be managed?")
 #  show_abstract_field                 :boolean          default(TRUE)

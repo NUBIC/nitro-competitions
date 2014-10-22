@@ -180,7 +180,7 @@ class User < ActiveRecord::Base
       omniauth['extra']['raw_info']['person_identities'].each do |identity|
         if identity['provider_username'].blank?
           # TODO: what if the email is blank?
-          # * omniauth.auth : {"provider"=>"nucatsaccounts", "uid"=>nil, "info"=>{"name"=>"Amanda Saratsis", "email"=>nil, "first_name"=>"Amanda", "last_name"=>"Saratsis"}, "credentials"=>{"token"=>"2932d009b8ddf9ccc012c94bf26f74b1", "refresh_token"=>"b64936c6cddb2c5c43d91d3768745cb9", "expires_at"=>1404856796, "expires"=>true}, "extra"=>{"raw_info"=>{"first_name"=>"Amanda", "middle_name"=>nil, "last_name"=>"Saratsis", "suffix"=>nil, "degrees"=>nil, "email"=>nil, "uuid"=>"7277e6bf-7f66-47b2-983d-9dc2eb36927d", "person_identities"=>[{"provider"=>"twitter", "uid"=>"405189205", "email"=>nil, "provider_username"=>nil, "username"=>nil, "nickname"=>"DrAmanda10", "domain"=>nil}]}}}
+          # * omniauth.auth : {"provider"=>"nucatsaccounts", "uid"=>nil, "info"=>{"name"=>"fname lname", "email"=>nil, "first_name"=>"fname", "last_name"=>"lname"}, "credentials"=>{"token"=>"2932d009b8ddf9ccc012c94bf26f74b1", "refresh_token"=>"b64936c6cddb2c5c43d91d3768745cb9", "expires_at"=>1404856796, "expires"=>true}, "extra"=>{"raw_info"=>{"first_name"=>"fname", "middle_name"=>nil, "last_name"=>"lname", "suffix"=>nil, "degrees"=>nil, "email"=>nil, "uuid"=>"7277e6bf-7f66-47b2-983d-9dc2eb36927d", "person_identities"=>[{"provider"=>"twitter", "uid"=>"405189205", "email"=>nil, "provider_username"=>nil, "username"=>nil, "nickname"=>"twittername", "domain"=>nil}]}}}
           result = identity['email']
         else
           result = identity['provider_username']

@@ -15,7 +15,7 @@
     <td>
       <% unless reviewer.user.email.blank? %>
         <%= mail_to(user.email, user.name,
-                    subject: 'From NUCATS Assist',
+                    subject: 'From NITRO ARM',
                     encode: 'javascript',
                     title: "Send email to #{user.name}") %>
       <% end %>

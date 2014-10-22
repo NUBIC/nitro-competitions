@@ -1,5 +1,5 @@
 <div id="app_title">
-  NUCATS Competition and Awards Application Site
+  NITRO ARM (Application, Review, and Management)
 </div>
 <div id="banner">
   <%= image_tag "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;" %>
@@ -11,6 +11,7 @@
     <% end %>
   </div>
   <div id="menu">
+    <%# TODO: update instructions documentation %>
     <%= link_to('Help', image_path("../docs/NUCATS_Assist_Instructions.pdf"),
                 :title => "Instructions on how to use NUCATS Assist and general help manual",
                 :class => 'menu_link') %>
@@ -18,11 +19,11 @@
       <%= session[:name] || current_user_session.try(:username) %>
       <%= link_to "Sign Out", application_logout_path,
                   :class => 'user_link',
-                  :title => "Logout of NUCATS Assist" %>
+                  :title => "Logout of NITRO ARM" %>
     <% else %>
       <%= link_to 'Login', projects_path,
                   :class => 'menu_link',
-                  :title => "Login to NUCATS Assist" %>
+                  :title => "Login to NITRO ARM" %>
     <% end %>
   </div>
 </div>
