@@ -28,7 +28,7 @@
     <td><%=h log_entry.user.username %></td>
     <td><%= log_entry.user.sort_name %></td>
     <td><%= mail_to(log_entry.user.email, "email",
-                    :subject => "NUCATS Assist",
+                    :subject => "NITRO ARM",
                     :encode => "javascript",
                     :title => "Send email to this applicant") unless log_entry.user.email.blank? %> </td>
     <td><%=h log_entry.user.business_phone %></td>

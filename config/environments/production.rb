@@ -60,10 +60,11 @@ NucatsAssist::Application.configure do
 
   config.send_notification_to_all = true
 
+  # TODO: 
   config.middleware.use ExceptionNotification::Rack,
                         email: {
-                          email_prefix: '[Exception] NUCATS Assist ',
-                          sender_address: %{'NUCATS Assist Exception Notifier [PRODUCTION]' <p-friedman@northwestern.edu>},
+                          email_prefix: '[Exception] NITRO ARM ',
+                          sender_address: %{'NITRO ARM Exception Notifier [PRODUCTION]' <p-friedman@northwestern.edu>},
                           exception_recipients: %w{p-friedman@northwestern.edu}
                         }
 

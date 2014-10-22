@@ -156,7 +156,7 @@
 			Biosketch saved on <%= (applicant.biosketch.last_updated_at||applicant.biosketch.updated_at).to_s(:justdate) %>
 		<br/>
 			This is your default biosketch. It will be used as the biosketch for applications where you are named as key personnel
-			(<em>not</em> as PI) and as the default biosketch for any new proposals you submit in NUCATS Assist.
+			(<em>not</em> as PI) and as the default biosketch for any new proposals you submit in NITRO ARM.
 			You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 	<% else %>
 	Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info.html_safe %>

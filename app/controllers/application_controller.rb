@@ -87,8 +87,8 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # For authorization using lib/nucats_membership.rb
-  # as omniauth authority
+  # For authorization using omniauth 
+  # @see authenticate_user
   def login_required
     not_authorized unless current_user
   end

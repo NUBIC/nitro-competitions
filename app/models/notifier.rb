@@ -5,8 +5,9 @@ class Notifier < ActionMailer::Base
   require "#{Rails.root}/app/helpers/submissions_helper"
   include SubmissionsHelper
 
-  # NUCATS Administrator email addresses
-  ADMIN_EMAIL_LIST = %w( p-friedman@northwestern.edu wakibbe@northwestern.edu)
+  # Administrator email addresses
+  # TODO: make this a configuration option
+  ADMIN_EMAIL_LIST = %w( p-friedman@northwestern.edu wakibbe@northwestern.edu )
 
   def finalize_message(from, subject, submission, the_submission_url, the_project_url)
     set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
