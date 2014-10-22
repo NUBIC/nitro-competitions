@@ -323,9 +323,9 @@ module ApplicationHelper
 
   def netid_lookup_tag
     link_to(image_tag('search.gif', style: 'margin-bottom:-5px;'),
-            'http://directory.northwestern.edu/',
+            NucatsAssist.ldap_url,
             target: '_blank',
-            title: 'Click here to go to the Northwestern Directory to look up netids')
+            title: NucatsAssist.ldap_link_title)
   end
 
   def netid_lookup_observer(field_name)

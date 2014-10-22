@@ -65,8 +65,8 @@
 		Please enter <%= pronoun %> NIH eRA Commons name <%= completion %>.
 		eRA Commons registration is required.
 		Please see more information at
-		<%= link_to "http://www.research.northwestern.edu/osr/commons.html",
-								"http://www.research.northwestern.edu/osr/commons.html",
+		<%= link_to NucatsAssist.era_commons_name_url,
+								NucatsAssist.era_commons_name_url,
 								:target => "_blank" %>
 	</td>
 </tr>
@@ -156,7 +156,7 @@
 			Biosketch saved on <%= (applicant.biosketch.last_updated_at||applicant.biosketch.updated_at).to_s(:justdate) %>
 		<br/>
 			This is your default biosketch. It will be used as the biosketch for applications where you are named as key personnel
-			(<em>not</em> as PI) and as the default biosketch for any new proposals you submit in NITRO ARM.
+			(<em>not</em> as PI) and as the default biosketch for any new proposals you submit in <%= NucatsAssist.app_name %>.
 			You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 	<% else %>
 	Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info.html_safe %>

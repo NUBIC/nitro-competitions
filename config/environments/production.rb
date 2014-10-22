@@ -63,9 +63,9 @@ NucatsAssist::Application.configure do
   # TODO: 
   config.middleware.use ExceptionNotification::Rack,
                         email: {
-                          email_prefix: '[Exception] NITRO ARM ',
-                          sender_address: %{'NITRO ARM Exception Notifier [PRODUCTION]' <p-friedman@northwestern.edu>},
-                          exception_recipients: %w{p-friedman@northwestern.edu}
+                          email_prefix: "[Exception] #{NucatsAssist.app_name}",
+                          sender_address: %{'Exception Notifier [PRODUCTION]' <#{NucatsAssist.exception_email_address}>},
+                          exception_recipients: NucatsAssist.exception_nofication_recipients
                         }
 
   config.aker do
