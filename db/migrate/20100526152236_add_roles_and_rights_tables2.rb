@@ -18,12 +18,12 @@ class AddRolesAndRightsTables2 < ActiveRecord::Migration
       t.column :program_id, :integer
       t.timestamps
       t.integer   :created_id  
-       t.string    :created_ip
-       t.integer   :updated_id  
-       t.string    :updated_ip
-       t.timestamp :deleted_at
-       t.integer   :deleted_id  
-       t.string    :deleted_ip
+      t.string    :created_ip
+      t.integer   :updated_id  
+      t.string    :updated_ip
+      t.timestamp :deleted_at
+      t.integer   :deleted_id  
+      t.string    :deleted_ip
     end  
 
     create_table :rights_roles, :id => false do |t| 
@@ -38,16 +38,11 @@ class AddRolesAndRightsTables2 < ActiveRecord::Migration
     Right.create :name => "Edit Reviewer", :controller=> 'reviewer', :action => 'update'
     Right.create :name => "Remove Reviewer", :controller=> 'reviewer', :action => 'destroy'
     Right.create :name => "Admin", :controller=> 'admin'
-#    Role.create  :name => "Reviewer Admin"
+
     Role.create  :name => "Admin"
     Role.create  :name => "Full Read-only Access"
-#    the_role = Role.find_by_name("Reviewer Admin")
-#    the_rights = Right.find(:all, :conditions => ['lower(name) like  :role_name', {:role_name => '%reviewer%'} ] )
-#    the_rights.each do |the_right|
-#      the_role.rights << the_right
-#    end
+    
     user = User.find_by_username("wakibbe")
-#    user.roles << the_role if ! user.blank? and 
     the_role = Role.find_by_name("Admin")
     user.roles << the_role if ! user.blank? && !the_role.blank?
     the_role = Role.find_by_name("Full Read-only Access")
