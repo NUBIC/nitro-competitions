@@ -65,7 +65,7 @@ NucatsAssist::Application.configure do
                         email: {
                           email_prefix: '[Exception] NUCATS Assist ',
                           sender_address: %{'NUCATS Assist Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
-                          exception_recipients: %w{p-friedman@northwestern.edu}
+                          exception_recipients: NucatsAssist.exception_nofication_recipients
                         }
 
   config.aker do

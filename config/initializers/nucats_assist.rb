@@ -63,15 +63,15 @@ module NucatsAssist
     end
 
     def exception_nofication_recipients
-      %w{p-friedman@northwestern.edu}
+      %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
     end
 
     def admin_email_addresses
-      %w( p-friedman@northwestern.edu wakibbe@northwestern.edu )
+      %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu wakibbe@northwestern.edu}
     end
 
     def admin_netids
-      %w( pfr957 wakibbe )
+      %w{pfr957 jml588 wakibbe}
     end
 
     def cru_contact_email
