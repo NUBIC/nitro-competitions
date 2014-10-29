@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'http://download.bioinformatics.northwestern.edu/gems'
 
 gem 'bundler'
 gem 'rails', '3.2.16'
