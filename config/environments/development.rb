@@ -42,8 +42,6 @@ NucatsAssist::Application.configure do
       login_config = File.join(Rails.root, %w(config logins development.yml))
       authority Aker::Authorities::Static.from_file(login_config)
       puts 'loading local static aker file'
-      # staff_portal = Aker::Authorities::StaffPortal.new
-      # authorities :cas, staff_portal
       central '/etc/nubic/aker-local.yml'
     else
       authority :ldap

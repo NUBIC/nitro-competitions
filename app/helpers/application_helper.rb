@@ -127,7 +127,6 @@ module ApplicationHelper
     if session[:program_id].blank?
       program = Program.find_by_program_name(default_program_name)
       session[:program_id] = program.id unless program.blank?
-      # projects = program.projects.active unless program.blank?
     end
 
     act_as_admin if session[:act_as_admin].blank?
