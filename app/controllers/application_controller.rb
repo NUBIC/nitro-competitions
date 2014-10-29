@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
 
   require 'net/http'
   def cookie_valid?
+    return true unless Rails.application.config.use_omniauth
     Rails.logger.error('cookie_valid?: nucats_auth cookie is not present') unless cookies[:nucats_auth].present?
     cookies[:nucats_auth].present? && cookie_and_session_match
   end
@@ -82,7 +83,7 @@ class ApplicationController < ActionController::Base
       return nil unless session[:user_info]
       @current_user ||= User.find_user_from_omniauth(session[:user_info])
     else
-      request.env['aker.check'].user
+      @current_user ||= User.where(username: request.env['aker.check'].user.username).first
     end
   end
 
