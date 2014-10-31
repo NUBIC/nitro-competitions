@@ -3,25 +3,10 @@
   '<i><%= @submission_review.submission.submission_title %></i>'
   submitted by <i><%= @submission_review.submission.applicant.name %></i>
 </h2>
-<% if @project.try(:show_review_guidance) %>
-  <p>
-    After considering all of the
-    <% review_guidance_url = @submission_review.submission.project.review_guidance_url %>
-    <% review_guidance_url = '/docs/review_criteria.html' if review_guidance_url.blank? %>
-    <%= link_to("review criteria, considerations, and scoring guidance available here",
-                review_guidance_url,
-                target: '_blank',
-                title: 'Click to view additional materials on the review process in a new window') %>
-    <%= link_to(image_tag("hyperlink_blue.png", :width => "16px", :height => "16px", :style => "margin-top:-5px; margin-bottom:-3px;"),
-                review_guidance_url,
-                target: '_blank') %>,
-    please assign a final overall score, ranging from 1-9, following the current NIH guidelines below.
-    You are encouraged to use the entire numerical scale.
-    Please consider each of the review criteria below in the determination of scientific and technical merit, and give a separate score for each.
-    An application does not need to be strong in all categories to be judged likely to have major scientific impact.
-    Please write a short (1-3 sentence) critique for each criterion.
-  </p>
-<% end %>
+
+<%= render 'review_guidance' if @project.try(:show_review_guidance) %>
+<%= @project.try(:custom_review_guidance).html_safe if @project.try(:custom_review_guidance) %>
+
 <%= form_for(:submission_review,
              url: project_reviewer_path(project_id: @submission_review.submission.project_id, id: @submission_review.id),
              html: { method: :put, id: 'submission_review_form' }) do |f| %>
