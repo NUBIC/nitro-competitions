@@ -1,5 +1,13 @@
 source 'https://rubygems.org'
 
+##
+# These two lines are NUCATS specific. 
+# Uncomment these lines if you are a part of NUCATS.
+source 'http://download.bioinformatics.northwestern.edu/gems'
+gem 'omniauth-nucats-accounts'
+
+gem 'omniauth_configure'
+
 gem 'bundler'
 gem 'rails', '3.2.16'
 gem 'pg'
@@ -12,11 +20,8 @@ gem 'net-ldap'
 gem 'bcdatabase'
 
 # Authorization
-# TODO: remove aker in favor of omniauth
 gem 'aker-rails'
 gem 'aker'
-gem 'omniauth-nucats-accounts'
-gem 'omniauth_configure'
 
 # ActionView::Template::Error (Could not find a JavaScript runtime.
 # See https://github.com/sstephenson/execjs for a list of available runtimes.
