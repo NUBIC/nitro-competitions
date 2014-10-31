@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20141022182109
+# Schema version: 20141031150750
 #
 # Table name: projects
 #
@@ -21,11 +21,13 @@
 #  budget_wording                      :text             default("Is the budget reasonable and appropriate for the request?")
 #  category_wording                    :text             default("Core Facility Name")
 #  closed_status_wording               :string(255)      default("Awarded")
+#  comment_review_only                 :boolean          default(FALSE)
 #  completion_title                    :string(255)      default("Completion")
 #  completion_wording                  :text             default("Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?")
 #  created_at                          :datetime         not null
 #  created_id                          :integer
 #  created_ip                          :string(255)
+#  custom_review_guidance              :text
 #  deleted_at                          :datetime
 #  deleted_id                          :integer
 #  deleted_ip                          :string(255)
