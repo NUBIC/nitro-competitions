@@ -35,7 +35,7 @@ module ApplicationHelper
   end
 
   def current_program
-    current_project.program
+    current_project.try(:program)
   end
 
   def set_current_project(project)
@@ -160,6 +160,7 @@ module ApplicationHelper
     session[:user_email] = nil
     session[:user_id]    = nil
     session[:user_info]  = nil
+    session[:project_id] = nil
     @current_user_session = nil
     log_request('clear_session')
   end
@@ -172,6 +173,7 @@ module ApplicationHelper
 
     return unless session_exists?
     return if session[:user_id].blank?
+    return if current_program.blank? || current_project.blank?
     log_entry = Log.create(
         user_id: session[:user_id],
         activity: activity || controller_name + ':' + action_name,
