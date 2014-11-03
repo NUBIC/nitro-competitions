@@ -1,31 +1,13 @@
 users:
-  wakibbe:
+  admin:
     first_name: Super
     last_name: Admin
     password: demo
     portals:
       - NUCATSassist:
-  onk999:
-    first_name: Jane
-    last_name: Admin
-    password: admin
-    portals:
-      - NUCATSassist:
-  oni227:
-    first_name: Joe
-    last_name: User
-    password: user
-    portals:
-      - NUCATSassist:
-  chisholm:
-    first_name: Rex
-    last_name: Chisholm
-    password: chisholm
-    portals:
-      - NUCATSassist:
-  tcga:
+  user:
     first_name: Test
     last_name: User
-    password: tcga
+    password: user
     portals:
       - NUCATSassist:

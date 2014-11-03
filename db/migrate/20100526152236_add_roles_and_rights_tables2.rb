@@ -41,12 +41,7 @@ class AddRolesAndRightsTables2 < ActiveRecord::Migration
 
     Role.create  :name => "Admin"
     Role.create  :name => "Full Read-only Access"
-    
-    user = User.find_by_username("wakibbe")
-    the_role = Role.find_by_name("Admin")
-    user.roles << the_role if ! user.blank? && !the_role.blank?
-    the_role = Role.find_by_name("Full Read-only Access")
-    user.roles << the_role if ! user.blank? && !the_role.blank?
+
   end
   
   def self.down
