@@ -1,10 +1,27 @@
-namespace :sponsor do
+namespace :setup do
+
+  desc 'Creates an applicant, an admin, and a reviewer user, plus a sponsor and a competition'
+  task :demo => [:create_users, :create_sponsor] do
+    puts 'ran setup:demo'
+  end
+
+
+  desc 'Creates a user, an admin, and a reviewer' 
+  task :create_users => :environment do 
+    [
+      %w(user Test User test-user@example.edu),
+      %w(admin Admin User admin-user@example.edu),
+      %w(reviewer Reviewer User reviewer-user@example.edu),
+    ].each do |arr|
+      find_or_create_user(arr)
+    end
+  end
 
   ##
   # Update this information for your sponsor and competition then run
   # $ rake sponsor:create
   desc 'Example of how to setup a new sponsor and competition' 
-  task :create => :environment do
+  task :create_sponsor => :environment do
     program = Program.create program_title:          'Sponsor Name',                          # the name of the people running the competition
                              program_name:           'SN',                                    # an abbreviation for the above
                              program_url:            'http://www.example.edu/sponsor/'        # URL to the website for the sponsor
@@ -12,17 +29,17 @@ namespace :sponsor do
     project = Project.new project_title:             'Sponsor Pilot Program',                 # the name of the competition
                           project_url:               'http://www.example.edu/sponsor/pilot',  # URL to the website for the competition
                           project_name:              'sponsor_pilot_2015',                    # this is the SEO name - no spaces!
-                          initiation_date:           '01-JAN-2015',                           # the date the competition shows on the website
-                          submission_open_date:      '15-JAN-2015',                           # the date when submissions are accepted
+                          initiation_date:           '01-NOV-2014',                           # the date the competition shows on the website
+                          submission_open_date:      '01-NOV-2014',                           # the date when submissions are accepted
                           submission_close_date:     '31-MAR-2015',                           # the date when submissions are no longer accepted
-                          review_start_date:         '01-APR-2015',                           # the date when reviews start
-                          review_end_date:           '31-APR-2015',                           # the date when reviews should be completed
-                          project_period_start_date: '01-MAY-2015',                           # the date when the project starts (informational only)
+                          review_start_date:         '01-NOV-2014',                           # the date when reviews start
+                          review_end_date:           '31-AUG-2015',                           # the date when reviews should be completed
+                          project_period_start_date: '01-NOV-2014',                           # the date when the project starts (informational only)
                           project_period_end_date:   '31-DEC-2015',                           # the date when the project ends   (informational only)
                           program_id: program.id
     project.save!
-
-    create_admins_for_program(%w(username Firstname Lastname f-lastname@example.edu), program)
+    admin = User.where(username: 'admin').first
+    create_admin_role(admin, program) if admin && program
   end
 
   ##
@@ -36,6 +53,7 @@ namespace :sponsor do
   def create_admins_for_program(users, program)
     users.each do |arr|
       user = find_or_create_user(arr)
+      puts "~~~ creating admin for user #{user.inspect}"
       create_admin_role(user, program) if user && program
     end
   end
