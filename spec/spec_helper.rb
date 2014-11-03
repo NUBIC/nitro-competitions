@@ -25,11 +25,11 @@ require 'factory_girl'
 
 module TestLogins
   def user_login
-    Aker.authority.valid_credentials?(:user, 'chisholm', 'chisholm')
+    Aker.authority.valid_credentials?(:user, 'user', 'user ')
   end
 
   def admin_login
-    Aker.authority.valid_credentials?(:user, 'wakibbe', 'demo')
+    Aker.authority.valid_credentials?(:user, 'admin', 'demo')
   end
 
   def login(as)
