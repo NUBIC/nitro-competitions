@@ -26,6 +26,10 @@ module NucatsAssist
       'myNUCATS'
     end
 
+    def institute_id_name
+      'NU NetID'
+    end
+
     def allowable_ip_locations
       'Northwestern, CMH, NMFF, NorthShore, and NMH'
     end

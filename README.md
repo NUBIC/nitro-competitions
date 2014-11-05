@@ -59,6 +59,8 @@ Since **NITRO Competitions** is a standard Rails app, installing it is just like
 installing any other Rails app. The current version of the code is tested
 against Ruby 1.9.x and 2.x.x
 
+See the INSTALL_GUIDE.md for specific configuration options.  
+
 ## Running the test suite
 
 **NITRO Competitions** has a number of rspec tests. To run these specs run the following

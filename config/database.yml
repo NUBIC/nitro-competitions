@@ -3,7 +3,7 @@
   bcdb = Bcdatabase.load
 %>
 
-<%= bcdb.development :local_postgresql, :nucats_assist %>
+<%= bcdb.development :local_postgresql, :nucats_assist_development %>
 <%= bcdb.test :local_postgresql, :nucats_assist_test %>
 <%= bcdb.staging :pstage, :nucats_assist %>
 <%= bcdb.production :pprod, :nucats_assist %>

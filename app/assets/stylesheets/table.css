@@ -15,7 +15,7 @@ table.wide {
 }
 
 table.lined {
-  border-bottom: 1px solid indigo;
+  border: 1px solid indigo;
   border-collapse: collapse;
   font-size: 16px;
   font-family: Arial, Helvetica, Geneva, sans-serif;

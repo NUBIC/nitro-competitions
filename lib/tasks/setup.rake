@@ -26,6 +26,7 @@ namespace :setup do
                              program_name:           'SN',                                    # an abbreviation for the above
                              program_url:            'http://www.example.edu/sponsor/'        # URL to the website for the sponsor
 
+    puts "=> created sponsor #{program.program_title}"
     project = Project.new project_title:             'Sponsor Pilot Program',                 # the name of the competition
                           project_url:               'http://www.example.edu/sponsor/pilot',  # URL to the website for the competition
                           project_name:              'sponsor_pilot_2015',                    # this is the SEO name - no spaces!
@@ -38,6 +39,8 @@ namespace :setup do
                           project_period_end_date:   '31-DEC-2015',                           # the date when the project ends   (informational only)
                           program_id: program.id
     project.save!
+    puts "=> created competition #{project.project_title}"
+    
     admin = User.where(username: 'admin').first
     create_admin_role(admin, program) if admin && program
   end
@@ -53,7 +56,6 @@ namespace :setup do
   def create_admins_for_program(users, program)
     users.each do |arr|
       user = find_or_create_user(arr)
-      puts "~~~ creating admin for user #{user.inspect}"
       create_admin_role(user, program) if user && program
     end
   end
@@ -70,6 +72,7 @@ namespace :setup do
       ru.role = admin
       ru.program = program
       ru.save!
+      puts "=> created admin role for #{user.name}"
     end
   end
 
@@ -90,6 +93,7 @@ namespace :setup do
                          first_name: arr[1],
                          last_name: arr[2],
                          email: arr[3]
+      puts "=> created user #{user.name}"
     end
     user
   end

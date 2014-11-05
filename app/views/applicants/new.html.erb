@@ -1,4 +1,4 @@
-<span style="float:right; padding: 6px; border:1px solid indigo;">
+<span style="float:right; margin-top: 1.5em; padding: 6px; border:1px solid indigo;">
   You will only need to complete this page once <br />but can edit it at any time
 </span>
 
@@ -9,20 +9,21 @@
 </h3>
 
 <table  class="lined">
-  <%= form_tag(new_project_applicant_path(:project_id=>params[:project_id]), :method => :get, :id=>"username_form") do %>
+  <%= form_tag(new_project_applicant_path(:project_id => params[:project_id]), :method => :get, :id => "username_form") do %>
     <tr>
       <td class="title">PI Username</td>
       <td>
         <%= text_field_tag :username, @applicant.username %>
         <%= link_to_function(image_tag("arrow_refresh.png",
-                             :style => "margin-left:10px;margin-bottom:-10px;margin-top:-5px;",
-                             :title => "click here to reload this page with a new NetID"), "jQuery('#username_form').submit()") -%>
+                             :style => "margin-left:10px; margin-bottom:-10px; margin-top:-5px;",
+                             :title => "click here to reload this page with a new #{NucatsAssist.institute_id_name}"), 
+                             "jQuery('#username_form').submit()") -%>
       </td>
       <%# FIXME: Why does this only work for NU personnel? %>
       <td class="notes">
         <%= NucatsAssist.app_name %> Username <%= netid_lookup_tag %> for the Principal Investigator.
         By default, this is the submitter's <%= NucatsAssist.app_name %> Username.
-        To change, you can enter a new NU NetID and click on the 'reload' icon.
+        To change, you can enter a new <%= NucatsAssist.institute_id_name %> and click on the 'reload' icon.
         <br/>
         (Currently this change PI feature works only for Northwestern afflilated personnel.)
       </td>

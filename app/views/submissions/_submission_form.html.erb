@@ -216,7 +216,7 @@
         <br/>
       <% end %>
       <% unless project.min_budget_request.blank? and project.max_budget_request.blank? %>
-        Amount should be between $<%= project.min_budget_request %> and $<%= project.max_budget_request %>
+        Amount should be between <%= number_to_currency(project.min_budget_request) %> and <%= number_to_currency(project.max_budget_request) %>
       <% end %>
     </td>
   </tr>
