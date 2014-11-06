@@ -7,7 +7,7 @@ div#banner_menu {
 }
 
 .ddsmoothmenu{
-font: normal 13px Verdana;
+font: normal 13px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 background: #656565; /*background of menu bar (default state)*/
 height: 29px;
 text-align: left;
@@ -29,7 +29,7 @@ float: left;
 
 /*Top level menu link items style*/
 .ddsmoothmenu ul li a{
-font: normal 13px Verdana;
+font: normal 13px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 display: block;
 background: #656565; /*background of menu items (default state)*/
 color: white;
@@ -82,7 +82,7 @@ top: 0;
 
 /* Sub level menu links style */
 .ddsmoothmenu ul li ul li a{
-font: normal 13px Verdana;
+font: normal 13px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 width: 200px; /*width of sub menus*/
 padding: 5px;
 margin: 0;

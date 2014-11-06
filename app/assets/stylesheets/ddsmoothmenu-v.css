@@ -3,7 +3,7 @@ margin: 0;
 padding: 0;
 width: 160px; /* Main Menu Item widths */
 list-style-type: none;
-font: bold 12px Verdana;
+font: bold 12px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 border-bottom: 1px solid #ccc;
 }

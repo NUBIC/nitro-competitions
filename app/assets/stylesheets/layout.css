@@ -6,7 +6,7 @@
   height: 28px;
   vertical-align: bottom;
   text-align: center;
-  font: normal 15px Verdana;
+  font: normal 15px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   display: block;
 }
 
@@ -103,4 +103,21 @@
 
 .mail_to {
   text-decoration: underline;
+}
+
+/* sticky footer */
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+  height: 100%;
+  margin: 0 auto -145px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+  height: 145px; /* .push must be the same height as .footer */
 }
