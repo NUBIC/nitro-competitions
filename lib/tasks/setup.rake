@@ -69,7 +69,7 @@ namespace :setup do
     if user.roles_users.for_program(program.id).blank?
       ru = RolesUser.new
       ru.user = user
-      ru.role = admin
+      ru.role = admin_role
       ru.program = program
       ru.save!
       puts "=> created admin role for #{user.name}"
@@ -79,7 +79,7 @@ namespace :setup do
   ##
   # Get the Admin Role record
   # @return[Role]
-  def admin
+  def admin_role
     @admin ||= Role.where(name: 'Admin').first
   end
 

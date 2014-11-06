@@ -4,7 +4,10 @@
 <% include_files ||= false %>
 <% speed_display ||= false %>
 <% include_competition ||= false %>
-<% unless submission_reviews.blank? %>
+
+<% if submission_reviews.blank? %>
+
+<% else %>
   <p style="margin-top: 1em; float:right;">
   <% unless controller.action_name =~ /with_files/ %>
     <% if controller.action_name =~ /index/ %>
@@ -20,7 +23,7 @@
   <% end %>
 <% end  %>
 </p>
-<h1><%= title %></h1>
+<h3><%= title %></h3>
 
 <table id="<%= table_id -%>" class="tablesorter { sortList: [[2,0]] }">
   <thead>

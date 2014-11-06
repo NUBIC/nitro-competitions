@@ -1,9 +1,9 @@
 /* tables */
 table.tablesorter {
-	font-family: Arial;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 	background-color: #CDCDCD;
 	border: 0px;
-    border-collapse: collapse;
+  border-collapse: collapse;
 	margin:10px 0pt 15px;
 	font-size: 12pt;
 	width: 100%;
@@ -22,7 +22,7 @@ table.tablesorter thead tr .header {
 	cursor: pointer;
 }
 table.tablesorter tbody td {
-	font-family: Arial;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 	border: 0px;
 	font-size: 11pt;
 	color: #3D3D3D;

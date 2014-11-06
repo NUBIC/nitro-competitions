@@ -15,10 +15,16 @@
            show_action_links: true,
            show_details: true %>
 
-
 <%= render 'shared/submissions_list',
            submissions: @submissions,
            title: 'Your submissions and those you are associated with for this competition',
            include_sponsor_and_competition: include_sponsor_and_competition %>
+
+<%= render('reviewers/submission_review_table',
+           :submission_reviews => @assigned_submission_reviews,
+           :title => 'Your assigned proposals to review for this competition',
+           :table_id => 'assigned_submission_reviews',
+           :include_files => false,
+           :speed_display => false) %>
 
 <%= render 'shared/admin_links' %>

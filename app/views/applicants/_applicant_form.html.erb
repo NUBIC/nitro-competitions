@@ -59,7 +59,7 @@
 		<%= f.label :era_commons_name, "eRA Commons" %>
 	</td>
 	<td>
-		<%= f.text_field :era_commons_name %>
+		<%= f.text_field :era_commons_name, required: true %>
 	</td>
 	<td class="notes">
 		Please enter <%= pronoun %> NIH eRA Commons name<%= completion %>.
@@ -208,3 +208,7 @@
 		Please enter country, if not USA
 	</td>
 </tr>
+
+<script>
+  jQuery('#applicant_form').validate();
+</script>

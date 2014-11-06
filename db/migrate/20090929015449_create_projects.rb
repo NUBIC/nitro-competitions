@@ -73,7 +73,7 @@ class CreateProjects < ActiveRecord::Migration
       t.boolean :show_manage_biosketches, :default=>false
       t.boolean :require_era_commons_name, :default=>false
 
-      t.string :review_guidance_url, :default => '../docs/review_criteria.html'
+      t.string :review_guidance_url, :default => '/docs/review_criteria.html'
       t.string :overall_impact_title, :default => 'Overall Impact'
       t.text :overall_impact_description, :default => 'Please summarize the strengths and weaknesses of the application; assess the potential benefit of the instrument requested for the overall research community and its potential impact on NIH-funded research; and provide comments on the overall need of the users which led to their final recommendation and level of enthusiasm.'
       t.text :overall_impact_direction, :default => 'Overall Strengths and Weaknesses:<br/>Please do not exceed 3 paragraphs'

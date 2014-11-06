@@ -7,11 +7,15 @@ module NucatsAssist
 
   class << self
     def app_name
-      'NITRO Competitions'
+      'NITRO-Competitions'
     end
 
     def app_name_complete
-      'NITRO Competitions'
+      'NITRO-Competitions'
+    end
+
+    def app_name_html
+      '<b>NITRO</b>Competitions'
     end
 
     def email_subject

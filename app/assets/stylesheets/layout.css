@@ -26,10 +26,11 @@
   background: #114411;
 }
 
-#submenu {
+#supermenu {
   border: 1px solid #fff;
   float: right;
   font-size: 0.85em;
+  padding-top: 2em;
 }
 
 #menu {
@@ -39,11 +40,6 @@
   color: #AAA;
   padding-right: 15px;
   padding-bottom: 5px;
-}
-
-#submenu .user_link,
-#submenu .menu_link {
-
 }
 
 #menu .user_link,

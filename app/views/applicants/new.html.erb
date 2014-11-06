@@ -32,7 +32,7 @@
 
   <%= form_for(:applicant,
                :url => project_applicants_path({ :project_id => params[:project_id], :id => @applicant.id }),
-               :html => { :multipart => true, :method => :post }) do |f| %>
+               :html => { :class => 'none', :id => "applicant_form", :multipart => true, :method => :post }) do |f| %>
 
     <!-- f and submission are existing variables passed in -->
     <%= render(:partial => 'applicant_form', :locals => { :f => f, :applicant => @applicant}) %>
