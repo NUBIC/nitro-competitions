@@ -22,14 +22,14 @@ namespace :setup do
   # $ rake sponsor:create
   desc 'Example of how to setup a new sponsor and competition' 
   task :create_sponsor => :environment do
-    program = Program.create program_title:          'Sponsor Name',                          # the name of the people running the competition
-                             program_name:           'SN',                                    # an abbreviation for the above
+    program = Program.create program_title:          'The Name of the Sponsor',               # the name of the people running the competition
+                             program_name:           'TNotS',                                 # an abbreviation for the above
                              program_url:            'http://www.example.edu/sponsor/'        # URL to the website for the sponsor
 
     puts "=> created sponsor #{program.program_title}"
-    project = Project.new project_title:             'Sponsor Pilot Program',                 # the name of the competition
-                          project_url:               'http://www.example.edu/sponsor/pilot',  # URL to the website for the competition
-                          project_name:              'sponsor_pilot_2015',                    # this is the SEO name - no spaces!
+    project = Project.new project_title:             '2015 Sponsor Pilot Program',            # the name of the competition
+                          project_url:               'http://www.nucats.northwestern.edu/funding/pilot-funding/nucats-pilot-and-voucher-program.html',  # URL to the website for the competition
+                          project_name:              'sponsor_pilot_2015',                    # this is the SEO name - no spaces! 
                           initiation_date:           '01-NOV-2014',                           # the date the competition shows on the website
                           submission_open_date:      '01-NOV-2014',                           # the date when submissions are accepted
                           submission_close_date:     '31-MAR-2015',                           # the date when submissions are no longer accepted

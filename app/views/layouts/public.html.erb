@@ -15,14 +15,19 @@
     </style>
   </head>
   <body>
-    <%= render "shared/js_warning" %>
-    <%= render "shared/debug_info" %>
-    <div id="main" class="autoclear">
-      <%= render "shared/banner" %>
-      <div id='content'>
-        <%= yield %>
+    <div class='wrapper'>
+      <%= render "shared/js_warning" %>
+      <%= render "shared/debug_info" %>
+      <div id='main' class="autoclear">
+        <%= render 'shared/banner' %>
+        <div id='content'>
+          <%= yield %>
+        </div>
       </div>
+      <div class='push'>&nbsp;</div>
     </div>
-    <%= render "shared/footer" %>
+    <div class='footer'>
+      <%= render "shared/footer" %>
+    </div>
   </body>
 </html>
