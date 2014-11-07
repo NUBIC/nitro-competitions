@@ -10,7 +10,6 @@ div.information {
 .program {
   float: left;
   width: 98%;
-  border-bottom: 3px solid gray;
   margin-bottom: 1em;
   padding: 0 0.5em;
 }
@@ -19,7 +18,7 @@ div.information {
   float: left;
   width: 98%;
   border-bottom: 1px solid lightgray;
-  margin-bottom: 0;
+  margin-bottom: 0.5em;
   padding: 1em 0.5em;
 }
 

@@ -55,7 +55,8 @@ module NucatsAssist
 
     # To switch to Omniauth in favor of aker for authentication
     # set the `use_omniauth` configuration attribute to true
-    config.use_omniauth = true
+    # config.use_omniauth = true
+    config.use_omniauth = false
 
     # Emails will be sent from this address
     config.from_address = 'p-friedman@northwestern.edu'

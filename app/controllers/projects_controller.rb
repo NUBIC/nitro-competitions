@@ -54,9 +54,18 @@ class ProjectsController < ApplicationController
       program = Program.find(@projects[0].program_id)
     end
     unless @projects.blank?
+      # get all the submissions for the current user
       @submissions = Submission.associated(@projects.map(&:id), current_user_session.id)
+      
+      # set the current project to the first item in the @projects list (see above)
       set_current_project(@projects[0])
       @project = current_project
+
+      # get all the assigned_submission_reviews for the current user
+      @assigned_submission_reviews = nil
+      submission_reviews = current_user_session.submission_reviews
+      @assigned_submission_reviews = submission_reviews.this_project(@project.id) unless submission_reviews.blank?
+      
       respond_to do |format|
         format.html # show.html.erb
         format.xml { render xml: @project }

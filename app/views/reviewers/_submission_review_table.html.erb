@@ -4,8 +4,11 @@
 <% include_files ||= false %>
 <% speed_display ||= false %>
 <% include_competition ||= false %>
-<% unless submission_reviews.blank? %>
-  <p style="float:right;">
+
+<% if submission_reviews.blank? %>
+
+<% else %>
+  <p style="margin-top: 1em; float:right;">
   <% unless controller.action_name =~ /with_files/ %>
     <% if controller.action_name =~ /index/ %>
       <%= link_to("List with files", index_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
@@ -20,7 +23,7 @@
   <% end %>
 <% end  %>
 </p>
-<h1><%= title %></h1>
+<h3><%= title %></h3>
 
 <table id="<%= table_id -%>" class="tablesorter { sortList: [[2,0]] }">
   <thead>
@@ -85,8 +88,10 @@
       <%= link_to_submission_pdf(review.submission).html_safe %>
       <br />
       <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
-        <%= lnk.html_safe %>
-        <br/>
+        <% unless lnk.blank? %>
+          <%= lnk.html_safe %>
+          <br/>
+        <% end %>
       <% end %>
     </td>
     <td>

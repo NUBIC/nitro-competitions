@@ -37,7 +37,7 @@
 div.notice {
   margin: 0;
   background-color: white;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-weight: bold;
   font-size: 1.25em;
 }

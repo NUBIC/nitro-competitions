@@ -15,15 +15,15 @@ table.wide {
 }
 
 table.lined {
-  border-bottom: 1px solid indigo;
+  border: 1px solid indigo;
   border-collapse: collapse;
   font-size: 16px;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
 
 table.lined tr th {
   font-size: 16px;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   border-bottom: 1px solid indigo;
   border-right: 1px solid indigo;
   padding: 2px 4px 3px 5px;
@@ -31,7 +31,7 @@ table.lined tr th {
 
 table.lined tr td {
   font-size: 16px;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   border-bottom: 1px solid indigo;
   border-right: 1px solid indigo;
   padding: 2px 4px 3px 5px;
@@ -43,7 +43,7 @@ table.lined tr td.title {
 
 table.lined tr td.notes {
   font-size: 16px;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   color: #5555aa;
 }
 

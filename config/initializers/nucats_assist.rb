@@ -3,15 +3,19 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '2.2.11'
+  VERSION = '2.2.12'
 
   class << self
     def app_name
-      'NITRO Competitions'
+      'NITRO-Competitions'
     end
 
     def app_name_complete
-      'NITRO Competitions'
+      'NITRO-Competitions'
+    end
+
+    def app_name_html
+      '<b>NITRO</b>Competitions'
     end
 
     def email_subject
@@ -24,6 +28,10 @@ module NucatsAssist
 
     def ctsa_membership_app_name
       'myNUCATS'
+    end
+
+    def institute_id_name
+      'NU NetID'
     end
 
     def allowable_ip_locations

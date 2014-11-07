@@ -8,6 +8,12 @@ users:
   user:
     first_name: Test
     last_name: User
-    password: user
+    password: demo
+    portals:
+      - NUCATSassist:
+  reviewer:
+    first_name: Reviewer
+    last_name: Person
+    password: demo
     portals:
       - NUCATSassist:

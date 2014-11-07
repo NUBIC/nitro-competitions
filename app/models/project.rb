@@ -86,7 +86,7 @@
 #  projects                            :string(255)      default("Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.")
 #  require_era_commons_name            :boolean          default(FALSE)
 #  review_end_date                     :date
-#  review_guidance_url                 :string(255)      default("../docs/review_criteria.html")
+#  review_guidance_url                 :string(255)      default("/docs/review_criteria.html")
 #  review_start_date                   :date
 #  rfp_url_block                       :text             default("<a href=\"/docs/CTI_RFA.pdf\" title=\"Pilot Proposal Request for Applications\">CTI RFA</a>")
 #  scope_title                         :string(255)      default("Approach")

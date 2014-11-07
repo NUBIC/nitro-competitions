@@ -1,3 +1,7 @@
+div#submissions_list {
+  border-bottom: 1px solid lightgray;
+}
+
 div.submission {
   float: left;
   width: 98%;
@@ -26,12 +30,15 @@ label.error {
   border: 2px solid crimson;
   background-color: lightpink;
   padding: 0.25em;
-  margin-left: 0.5em;
+  margin-top: 0.5em;
+  display: block;
+  width: 25em;
 }
 
+textarea.error,
 input.error {
   color: crimson;
-  border-bottom: 2px solid crimson;
+  border: 2px solid crimson;
 }
 
 #submission_submission_title {

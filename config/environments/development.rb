@@ -38,15 +38,18 @@ NucatsAssist::Application.configure do
   config.send_notification_to_all = false
 
   config.aker do
-    if Rails.root.to_s =~ /Users/
-      login_config = File.join(Rails.root, %w(config logins development.yml))
-      authority Aker::Authorities::Static.from_file(login_config)
-      puts 'loading local static aker file'
-      central '/etc/nubic/aker-local.yml'
-    else
-      authority :ldap
-      central '/etc/nubic/aker-local.yml'
-    end
+    # Aker configuration for static file
+    # cf. config/logins/development.yml for user login accounts
+    # note that these logins (usernames) correspond to the users created in the 
+    # rake setup:create_users task
+    login_config = File.join(Rails.root, %w(config logins development.yml))
+    authority Aker::Authorities::Static.from_file(login_config)
+    puts 'loading local static aker file'
+    central '/etc/nubic/aker-local.yml'
+
+    # # Sample ldap setup
+    # authority :ldap
+    # central '/etc/nubic/aker-local.yml'
   end
 
   OmniAuthConfigure.configure {

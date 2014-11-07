@@ -59,10 +59,10 @@
 		<%= f.label :era_commons_name, "eRA Commons" %>
 	</td>
 	<td>
-		<%= f.text_field :era_commons_name %>
+		<%= f.text_field :era_commons_name, required: true %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> NIH eRA Commons name <%= completion %>.
+		Please enter <%= pronoun %> NIH eRA Commons name<%= completion %>.
 		eRA Commons registration is required.
 		Please see more information at
 		<%= link_to NucatsAssist.era_commons_name_url,
@@ -79,7 +79,7 @@
 		<%= f.text_field :degrees %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> advanced degrees such as PhD or MD <%= completion %>.
+		Please enter <%= pronoun %> advanced degrees such as PhD or MD<%= completion %>.
 		Use a comma to separate multiple degrees.
 	</td>
 </tr>
@@ -91,7 +91,7 @@
 		<%= f.text_field :business_phone %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> best contact phone number <%= completion %>.
+		Please enter <%= pronoun %> best contact phone number<%= completion %>.
 	</td>
 </tr>
 
@@ -103,7 +103,7 @@
 		<%= f.text_field :title %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> faculty rank (Professor, Associate Professor, etc) <%= completion %>.
+		Please enter <%= pronoun %> faculty rank (Professor, Associate Professor, etc)<%= completion %>.
 	</td>
 </tr>
 
@@ -115,7 +115,7 @@
 		<%= f.text_area :primary_department, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
 	</td>
 	<td class="notes">
-		Please enter the University unit that holds <%= pronoun %> primary appointment <%= completion %>.
+		Please enter the University unit that holds <%= pronoun %> primary appointment<%= completion %>.
 	</td>
 </tr>
 
@@ -127,7 +127,7 @@
 		<%= f.text_field :campus %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> main campus (usually one of these: Chicago, Evanston, CMH, Off campus)  <%= completion %>.
+		Please enter <%= pronoun %> main campus (usually one of these: Chicago, Evanston, CMH, Off campus)<%= completion %>.
 	</td>
 </tr>
 
@@ -139,7 +139,7 @@
 		<%= f.text_area :campus_address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> campus mailing address <%= completion %>.
+		Please enter <%= pronoun %> campus mailing address<%= completion %>.
 	</td>
 </tr>
 
@@ -174,10 +174,10 @@
 		<%= f.label :address %>
 	</td>
 	<td>
-		<%= f.text_area :address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
+		<%= f.text_area :address, {:rows => 4, :cols => 40, :wrap => "virtual"} %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> mailing address if off-campus <%= completion %>.
+		Please enter <%= pronoun %> mailing address if off-campus<%= completion %>.
 	</td>
 </tr>
 
@@ -193,7 +193,7 @@
 		<%= f.text_field :state, :size => 4 %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> mailing address city, postal code, state <%= completion %>.
+		Please enter <%= pronoun %> mailing address city, postal code, state<%= completion %>.
 	</td>
 </tr>
 
@@ -208,3 +208,7 @@
 		Please enter country, if not USA
 	</td>
 </tr>
+
+<script>
+  jQuery('#applicant_form').validate();
+</script>

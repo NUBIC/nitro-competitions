@@ -1,5 +1,6 @@
 body {
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
   font-size: 16px;
   color: black;
   background-color: white;
@@ -10,7 +11,7 @@ body {
 }
 
 p, ol, ul, td {
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 18px;
   line-height: 21px;
 }
@@ -20,7 +21,7 @@ p {
   margin: 2px 0px 2px 0px;
   color: black;
   font-size: 18px;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
 
 ul {
@@ -47,21 +48,21 @@ pre {
 }
 
 h1, h2, h3 {
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 400;
   color: #222266;
   line-height: 29px;
   padding-bottom: 0px;
   margin-bottom: 4px;
-  margin-top: 1em;
+  margin-top: 0.25em;
   padding-top: 0px;
 }
 
 .h1, .h2, .h3 {
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 400;
   color: #222266;
   line-height: 29px;
   padding: 0 0 0 0;
@@ -113,17 +114,17 @@ a:hover {
 #app_title {
   margin: 0;
   padding: .5em;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 2em;
-  font-weight: bold;
+  font-weight: normal;
   color: #222266;
   background-color: inherit;
 }
 
 #title {
   margin: 0;
-  padding: 0.25em 0 .5em .75em;
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  padding: 0.25em 0 .5em .25em;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 1.75em;
   font-weight: bold;
   color: #222266;
@@ -142,7 +143,7 @@ a:hover {
 }
 
 #add_key_personnel_link {
-  font-family: Arial, Helvetica, Geneva, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 1.25em;
   font-weight: bold;
   padding: 5px;
