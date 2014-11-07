@@ -63,8 +63,8 @@ NucatsAssist::Application.configure do
 
   config.middleware.use ExceptionNotification::Rack,
                         email: {
-                          email_prefix: '[Exception] NUCATS Assist ',
-                          sender_address: %{'NUCATS Assist Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
+                          email_prefix: '[Exception] NITRO-Competitions ',
+                          sender_address: %{'NITRO-Competitions Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
                           exception_recipients: %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
                         }
 
