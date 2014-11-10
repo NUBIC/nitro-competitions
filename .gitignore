@@ -8,6 +8,7 @@ log/
 assets/files/
 coverage/
 public/assets/
+public/system/
 doc/notes/
 
 # Ignore .env files

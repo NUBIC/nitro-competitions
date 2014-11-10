@@ -19,12 +19,10 @@
 #
 
 class FileDocument < ActiveRecord::Base
-  # since we are not using a publicly accessible path, need to provide a protected file access method
-  has_attached_file :file, :path => ":rails_root/public/assets/:attachment/:id/:basename.:extension"
+  has_attached_file :file, :path => ":rails_root/public/system/:attachment/:id/:basename.:extension"
 
   validates_attachment_presence :file
-  # added /application\/x-/i and /application\/x-download/i as windows 7 has a different content-type reported
-  validates_attachment_content_type :file, :content_type => [/application\/zip/i, /application\/x-/i, /application\/x-zip/i, /application\/x-zip-compressed/i, /application\/pdf/i, /application\/x-pdf/i, /^application\/.*word/i, /pdf/i, /office/i, /excel/i, /rtf/i, /application\/oct/i, /^text/i, /openxml/i, /application\/x-download/i], :message=>' '
+  validates_attachment_content_type :file, :content_type => [/application\/zip/i, /application\/x-/i, /application\/x-zip/i, /application\/x-zip-compressed/i, /application\/pdf/i, /application\/x-pdf/i, /^application\/.*word/i, /pdf/i, /office/i, /excel/i, /rtf/i, /application\/oct/i, /^text/i, /openxml/i, /application\/x-download/i], :message => ' '
   validates_attachment_size :file, :less_than =>50.megabytes
 
   before_validation(:on => :create) do |file|
