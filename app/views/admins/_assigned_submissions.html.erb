@@ -1,4 +1,4 @@
-<ul id='assigned_submission_list'>
+<ul class='assigned_submission_list'>
   <% reviewer.submission_reviews.this_project(project.id).each do |item| %>
    <% domid = "submission_review_#{item.id}" %>
     <li class="assigned_submission" id='<%= domid %>'>
