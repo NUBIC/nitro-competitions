@@ -2,6 +2,7 @@
 db/*.out
 .powrc
 .rvmrc
+config/database.yml
 bin/
 tmp/
 log/
