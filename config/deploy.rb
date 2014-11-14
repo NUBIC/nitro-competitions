@@ -3,22 +3,14 @@ set :application, 'nucats_assist'
 set :repo_url, 'https://github.com/NUBIC/nitro-arm.git'
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-# set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || 'master'
 
 set :deploy_to, '/var/www/apps/nucats_assist'
 set :deploy_via, :copy
-# set :deploy_via, :remote_cache
 set :scm, :git
 
-# set :format, :pretty
-# set :log_level, :debug
-# set :pty, true
-
-# set :linked_files, %w{config/database.yml}
 set :linked_files, %w{.env}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets public/system}
 
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
 
 # capistrano bundler properties
