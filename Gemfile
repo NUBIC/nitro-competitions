@@ -17,7 +17,6 @@ gem 'fastercsv'
 gem 'princely'
 
 gem 'net-ldap'
-gem 'bcdatabase'
 
 # Authorization
 gem 'aker-rails'

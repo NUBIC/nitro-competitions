@@ -41,4 +41,13 @@ namespace :deploy do
   end
 
   after :finishing, 'deploy:cleanup'
+
+  namespace :symlink do
+    task :database_config do
+      on roles(:web) do
+        execute "ln -nfs /etc/nubic/db/nitro_competitions.yml #{release_path}/config/database.yml"
+      end
+    end
+  end
+  before 'deploy:assets:precompile', 'deploy:symlink:database_config'
 end
