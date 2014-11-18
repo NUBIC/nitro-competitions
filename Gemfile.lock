@@ -48,9 +48,6 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.3)
-    bcdatabase (1.2.4)
-      highline (~> 1.5, < 1.6.9)
-      thor (~> 0.14)
     builder (3.0.4)
     capistrano (3.2.1)
       i18n
@@ -104,7 +101,6 @@ GEM
     haml (4.0.5)
       tilt
     hashie (3.3.1)
-    highline (1.6.8)
     hike (1.2.3)
     i18n (0.6.11)
     journey (1.0.4)
@@ -254,7 +250,6 @@ DEPENDENCIES
   aker
   aker-rails
   annotate (~> 2.5.0)
-  bcdatabase
   bundler
   capistrano
   capistrano-bundler
