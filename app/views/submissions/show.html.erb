@@ -1,7 +1,12 @@
-<%= render(:partial => 'show_submission', :locals=>{:submission=>@submission}) %>
+<%= render('show_submission', submission: @submission) %>
 
 <br/>
-<p><%= link_to image_tag("page_white_acrobat.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px;border:none;") + ' download/view as PDF',  submission_path(@submission.id, :format=>:pdf) %>
-&nbsp;
-<%= link_to 'Back', project_submissions_path(@submission.project_id) %>
+<p>
+  <%= link_to(image_tag('page_white_acrobat.png',
+                        width: '16px', 
+                        height: '16px', 
+                        style: 'margin-bottom: -2px; margin-top: -5px; border: none;') + ' download/view as PDF',  
+                        submission_path(@submission.id, format: :pdf)) %>
+  &nbsp;
+  <%= link_to 'Back', project_submissions_path(@submission.project_id) %>
 </p>

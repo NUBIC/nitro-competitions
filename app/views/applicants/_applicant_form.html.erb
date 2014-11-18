@@ -11,7 +11,7 @@
 <% if f.object && !f.object.try(:errors).blank? %>
 	<tr>
 		<td colspan="3">
-			<%= render('shared/error_messages', :object => f.object) %>
+			<%= render('shared/error_messages', object: f.object) %>
 		</td>
 	</tr>
 <% end %>
@@ -29,7 +29,7 @@
 	<td class="notes">
 		Full name, from LDAP
 		<%= link_to('Add info for external people', '',
-								:onclick => visual_effect(:appear, 'applicant_fields', :duration => 0.5) + ";return false;" ) if ldap_name.blank? %>
+								onclick: visual_effect(:appear, 'applicant_fields', duration: 0.5) + ";return false;" ) if ldap_name.blank? %>
 	</td>
 </tr>
 
@@ -48,8 +48,8 @@
 
 <tr>
 	<td colspan="3">
-		<% hidden_div_if(true, :id => "applicant_fields") do %>
-			<%= render("applicant_fields", :f => f, :applicant => applicant) %>
+		<% hidden_div_if(true, id: "applicant_fields") do %>
+			<%= render("applicant_fields", f: f, applicant: applicant) %>
 		<% end %>
 	</td>
 </tr>
@@ -67,7 +67,7 @@
 		Please see more information at
 		<%= link_to NucatsAssist.era_commons_name_url,
 								NucatsAssist.era_commons_name_url,
-								:target => "_blank" %>
+								target: "_blank" %>
 	</td>
 </tr>
 
@@ -112,7 +112,7 @@
 		<%= f.label :primary_department %>
 	</td>
 	<td>
-		<%= f.text_area :primary_department, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
+		<%= f.text_area :primary_department, {rows: 4, cols: 40, wrap: "virtual"} %>
 	</td>
 	<td class="notes">
 		Please enter the University unit that holds <%= pronoun %> primary appointment<%= completion %>.
@@ -136,7 +136,7 @@
 		<%= f.label :campus_address %>
 	</td>
 	<td>
-		<%= f.text_area :campus_address, {:rows => 4, :cols => 40, :wrap=>"virtual"} %>
+		<%= f.text_area :campus_address, {rows: 4, cols: 40, wrap: "virtual"} %>
 	</td>
 	<td class="notes">
 		Please enter <%= pronoun %> campus mailing address<%= completion %>.
@@ -174,7 +174,7 @@
 		<%= f.label :address %>
 	</td>
 	<td>
-		<%= f.text_area :address, {:rows => 4, :cols => 40, :wrap => "virtual"} %>
+		<%= f.text_area :address, {rows: 4, cols: 40, wrap: "virtual"} %>
 	</td>
 	<td class="notes">
 		Please enter <%= pronoun %> mailing address if off-campus<%= completion %>.
@@ -183,17 +183,17 @@
 
 <tr>
 	<td class="title">
-		<%= f.label :city, "City, Postal Code, State" %>
+		<%= f.label :city, "City, State" %>
 	</td>
 	<td>
-		<%= f.text_field :city, :size => 20 %>
+		<%= f.text_field :city, size: 20 %>
 		&nbsp;
-		<%= f.text_field :postal_code, :size => 6 %>
+		<%= f.text_field :state, size: 2 %>
 		&nbsp;
-		<%= f.text_field :state, :size => 4 %>
+		<%= f.text_field :postal_code, size: 4 %>
 	</td>
 	<td class="notes">
-		Please enter <%= pronoun %> mailing address city, postal code, state<%= completion %>.
+		Please enter <%= pronoun %> mailing address city, state, postal code<%= completion %>.
 	</td>
 </tr>
 

@@ -5,6 +5,11 @@ module ApplicationHelper
 
   require 'config'
 
+  def blank_safe(word, filler = '-')
+    return filler if word.blank?
+    word
+  end
+
   def internetexplorer_user_agent?
     request.env['HTTP_USER_AGENT'] && request.env['HTTP_USER_AGENT'][/(MSIE)/]
   end
