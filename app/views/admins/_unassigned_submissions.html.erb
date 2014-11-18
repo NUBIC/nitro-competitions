@@ -1,4 +1,4 @@
-<ul id='unassigned_submission_list' style='display:block; height:80px;'>
+<ul class='unassigned_submission_list' style='display:block; height:80px;'>
   <% @unfilled_submissions.each do |item| %>
     <% domid = "submission_#{item.id}" %>
     <li class='unassigned_submission' id='<%= domid %>'>

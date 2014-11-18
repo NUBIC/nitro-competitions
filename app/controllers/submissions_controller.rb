@@ -19,7 +19,7 @@ class SubmissionsController < ApplicationController
     else
       respond_to do |format|
         format.html # index.html.erb
-        format.xml  { render :xml => @submissions }
+        format.xml  { render xml: @submissions }
       end
     end
   end
@@ -32,7 +32,7 @@ class SubmissionsController < ApplicationController
     else
       respond_to do |format|
         format.html { render :index }# index.html.erb
-        format.xml  { render :xml => @submissions }
+        format.xml  { render xml: @submissions }
       end
     end
   end
@@ -47,13 +47,13 @@ class SubmissionsController < ApplicationController
                        @submissions.map(&:id).include?(@submission.id) ||
                        @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
-        format.html { render :layout => 'pdf' } # show.html.erb
+        format.html { render stylesheets: %w(submission pdf), layout: 'pdf' } # show.html.erb
         format.pdf do
-          render :pdf => @submission.submission_title,
-                 :stylesheets => ['pdf'],
-                 :layout => 'pdf'
+          render pdf: @submission.submission_title,
+                 stylesheets: %w(submission pdf),
+                 layout: 'pdf'
         end
-        format.xml  { render :xml => @submission }
+        format.xml  { render xml: @submission }
       end
     else
       redirect_url = @submission.project.blank? ? projects_path : project_submissions_path(@submission.project.id)
@@ -71,10 +71,10 @@ class SubmissionsController < ApplicationController
       redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
       redirect_to redirect_url
     else
-      @submission = Submission.new(:applicant_id => @applicant.id, :project_id => @project.id)
+      @submission = Submission.new(applicant_id: @applicant.id, project_id: @project.id)
       respond_to do |format|
         format.html # new.html.erb
-        format.xml  { render :xml => @submission }
+        format.xml  { render xml: @submission }
       end
     end
   end
@@ -107,12 +107,12 @@ class SubmissionsController < ApplicationController
           handle_key_personnel_param(@submission) unless params[:submission].blank?
           flash[:errors] = nil
           flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully created"
-          format.html { render :action => 'edit_documents' }
-          format.xml  { render :xml => @submission, :status => :created, :location => @submission }
+          format.html { render action: 'edit_documents' }
+          format.xml  { render xml: @submission, status: :created, location: @submission }
         else
           flash[:errors] = "Submission #{@submission.submission_title} could not be created. #{@submission.errors.full_messages.join('; ')}"
-          format.html { render :action => 'new' }
-          format.xml  { render :xml => @submission.errors, :status => :unprocessable_entity }
+          format.html { render action: 'new' }
+          format.xml  { render xml: @submission.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -143,8 +143,8 @@ class SubmissionsController < ApplicationController
         format.html { redirect_to project_path(@project.id) }
         format.xml  { head :ok }
       else
-        format.html { render :action => 'edit' }
-        format.xml  { render :xml => @submission.errors, :status => :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.xml  { render xml: @submission.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -172,8 +172,8 @@ class SubmissionsController < ApplicationController
         format.xml  { head :ok }
       else
         flash[:errors] = "Submission  <i>#{submission.submission_title}</i> could not be reassigned;  #{submission.errors.full_messages.join('; ')}"
-        format.html { render :action => 'edit' }
-        format.xml  { render :xml => submission.errors, :status => :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.xml  { render xml: submission.errors, status: :unprocessable_entity }
       end
     end
   end
