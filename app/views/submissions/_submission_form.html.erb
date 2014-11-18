@@ -27,7 +27,7 @@
 <% if f.object && !f.object.try(:errors).blank? %>
   <tr>
     <td colspan="3">
-      <%= render 'shared/error_messages', :object => f.object %>
+      <%= render 'shared/error_messages', object: f.object %>
     </td>
   </tr>
   <tr>
@@ -41,9 +41,9 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, :size => 81, :maxlength => 81, :required => true, :minlength => 6,
-                     :onkeyup => "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)",
-                     :onkeydown => "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)" %>
+    <%= f.text_field :submission_title, size: 81, maxlength: 81, required: true, minlength: 6,
+                     onkeyup: "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)",
+                     onkeydown: "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)" %>
     <span class='required_marker'> * </span>
     <span id="submission_title_cnt"></span>
   </td>
@@ -57,7 +57,7 @@
       <%= f.label :submission_category, project.category_wording.html_safe %>
     </td>
     <td>
-      <%= f.text_field :submission_category, :size => 60 %>
+      <%= f.text_field :submission_category, size: 60 %>
     </td>
     <td class="notes">
       <%= project.submission_category_description.html_safe %>
@@ -99,7 +99,7 @@
       <%= f.label :abstract %>
     </td>
     <td>
-      <%= f.text_area :abstract, :rows => 7, :cols => 80, :wrap => "virtual", :required => true %>
+      <%= f.text_area :abstract, rows: 7, cols: 80, wrap: "virtual", required: true %>
     </td>
     <td class="notes">
       <%= project.abstract_text.html_safe %>
@@ -120,7 +120,7 @@
     </td>
   </tr>
 <% end %>
-<% if project.show_irb_approved %>
+<% if project.show_irb_approved || project.show_irb_study_num %>
   <tr>
     <td class="title">
       <%= f.label :is_irb_approved, "IRB approved" %>
@@ -128,7 +128,19 @@
     <td class="notes" colspan="2">
       <%= f.check_box :is_irb_approved %>
       Please check if this is study has IRB approval.
-      If so, enter the study number: <%= f.text_field :irb_study_num %>
+      If so, enter the IRB study number: <%= f.text_field :irb_study_num %>
+    </td>
+  </tr>
+<% end %>
+<% if project.show_iacuc_approved %>
+  <tr>
+    <td class="title">
+      <%= f.label :is_iacuc_approved, "IACUC approved" %>
+    </td>
+    <td class="notes" colspan="2">
+      <%= f.check_box :is_iacuc_approved %>
+      Please check if this is study has IACUC approval.
+      If so, enter the IACUC study number: <%= f.text_field :iacuc_study_num %>
     </td>
   </tr>
 <% end %>
@@ -140,7 +152,7 @@
     <td class="notes" colspan="2">
       <%= f.check_box :use_nucats_cru %>
       Please check if this project will make use of the
-      <%= link_to "NUCATS Clinical Research Unit", NucatsAssist.cru_url, :target=>"_blank" %>
+      <%= link_to "NUCATS Clinical Research Unit", NucatsAssist.cru_url, target: "_blank" %>
     </td>
   </tr>
 <% end %>
@@ -150,14 +162,14 @@
       <%= f.label :nucats_cru_contact_name, "NUCATS CRU contact" %>
     </td>
     <td>
-      <%= f.text_field :nucats_cru_contact_name, :required => true %>
+      <%= f.text_field :nucats_cru_contact_name, required: true %>
     </td>
     <td class="notes">
       Please enter your CRU contact, if you will make use of the NUCATS CRU.
       If you have not made contact with the CRU, please contact
       <%= mail_to(NucatsAssist.cru_contact_email, NucatsAssist.cru_contact_email_text,
-                  :subject => "CRU usage for a #{NucatsAssist.app_name} Competition",
-                  :encode => "javascript", :title => "Click to send CRU Contact an email") %>
+                  subject: "CRU usage for a #{NucatsAssist.app_name} Competition",
+                  encode: "javascript", title: "Click to send CRU Contact an email") %>
     </td>
   </tr>
 <% end %>
@@ -227,7 +239,7 @@
       <%= f.label :cost_sharing_amount %>
     </td>
     <td>
-      <%= f.text_field :cost_sharing_amount, :required => true %>
+      <%= f.text_field :cost_sharing_amount, required: true %>
     </td>
     <td class="notes">
       Please enter the total amount of cost sharing for this request
@@ -240,7 +252,7 @@
       <%= f.label :cost_sharing_organization %>
     </td>
     <td>
-      <%= f.text_area :cost_sharing_organization, :rows => 3, :cols => 80, :wrap => "virtual", :required => true %>
+      <%= f.text_area :cost_sharing_organization, rows: 3, cols: 80, wrap: "virtual", required: true %>
     </td>
     <td class="notes">
       Please list the organization(s) providing the cost sharing
@@ -261,7 +273,7 @@
         If you received prior support, please indicate when the award(s) was made and
         how much money was awarded for each item - be specific:
         <br/>
-        <%= f.text_area :previous_support_description, :rows => 3, :cols => 80, :wrap => "virtual", :required => true %>
+        <%= f.text_area :previous_support_description, rows: 3, cols: 80, wrap: "virtual", required: true %>
       <% end %>
     </td>
   </tr>
@@ -277,7 +289,7 @@
       <% if project.show_not_new_explanation %>
         If not, please explain:
         <span>
-          <%= f.text_area :not_new_explanation, :rows => 4, :wrap=>"virtual", :required => true %>
+          <%= f.text_area :not_new_explanation, rows: 4, wrap: "virtual", required: true %>
         </span>
       <% end %>
     </td>
@@ -303,7 +315,7 @@
       <%= f.label :other_funding_sources, project.other_funding_sources_wording.html_safe %>
     </td>
     <td class="notrequired">
-      <%= f.text_area :other_funding_sources, :rows => 4, :wrap => "virtual", :class => "narrow", :required => true %>
+      <%= f.text_area :other_funding_sources, rows: 4, wrap: "virtual", class: "narrow", required: true %>
     </td>
     <td class="notes">
       Are there alternative sources of funding for this project? Please list current support and
@@ -319,7 +331,7 @@
     <td class="notes" colspan="2">
       <%= f.check_box :is_conflict %>
       Please check if there are any conflicts of interest. If yes, please explain:
-      <%= f.text_area :conflict_explanation, { :rows => 4, :wrap => "virtual", :class => "narrow"} %>
+      <%= f.text_area :conflict_explanation, { rows: 4, wrap: "virtual", class: "narrow"} %>
     </td>
   </tr>
 <% end %>

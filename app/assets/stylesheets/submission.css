@@ -2,6 +2,19 @@ div#submissions_list {
   border-bottom: 1px solid lightgray;
 }
 
+div#show_submission {
+  margin-left: 0.5em;
+}
+
+div#show_submission div {
+  margin-bottom: 1em;
+  font-weight: bold;
+}
+
+div#show_submission div p {
+  font-weight: normal;
+}
+
 div.submission {
   float: left;
   width: 98%;

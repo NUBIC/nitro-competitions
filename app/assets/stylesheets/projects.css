@@ -104,3 +104,8 @@ div#project_membership_required p {
   font-size: 0.8em;
   color: gray;
 }
+
+.assigned_submission_list,
+.unassigned_submission_list {
+  min-height: 2em;
+}
