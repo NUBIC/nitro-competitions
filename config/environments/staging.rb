@@ -61,13 +61,6 @@ NucatsAssist::Application.configure do
 
   config.send_notification_to_all = false
 
-  config.middleware.use ExceptionNotification::Rack,
-                        email: {
-                          email_prefix: '[Exception] NITRO-Competitions ',
-                          sender_address: %{'NITRO-Competitions Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
-                          exception_recipients: %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
-                        }
-
   config.aker do
     login_config = File.join(Rails.root, %w(config logins development.yml))
     authority Aker::Authorities::Static.from_file(login_config)

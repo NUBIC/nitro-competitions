@@ -60,14 +60,6 @@ NucatsAssist::Application.configure do
 
   config.send_notification_to_all = true
 
-  # TODO: 
-  config.middleware.use ExceptionNotification::Rack,
-                        email: {
-                          email_prefix: '[Exception] NITRO-Competitions ',
-                          sender_address: %{'NITRO-Competitions Exception Notifier [PRODUCTION]' <p-friedman@northwestern.edu>},
-                          exception_recipients: %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
-                        }
-
   config.aker do
     # Provide one or more authenticators to use.
     # See doc/authenticators for more details

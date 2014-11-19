@@ -61,6 +61,13 @@ module NucatsAssist
     # Emails will be sent from this address
     config.from_address = 'p-friedman@northwestern.edu'
     config.testing_to_address = 'p-friedman@northwestern.edu'
+
+    config.middleware.use ExceptionNotification::Rack,
+                          email: {
+                            email_prefix: NucatsAssist::exception_subject_prefix
+                            sender_address: NucatsAssist::exception_from_email
+                            exception_recipients: NucatsAssist::exception_recipients
+                          }
   end
 
 end
