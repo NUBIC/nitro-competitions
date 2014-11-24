@@ -3,28 +3,27 @@
 =form_for(@sponsor, :url => sponsor_path(@sponsor)) do |f|
   =render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
 
-
   %table
     %tr
-      %td.title=f.label "Sponsor Name"
+      %td.title=f.label "Name"
       %td.notes
-        =f.text_field :program_name, :size=>20
+        =f.text_field :program_name, :size=>40
         %br
-        <i>This field is used in the competition URL. Ex: grants.nubic.northwestern.edu/competitions/<strong>sponsor_name</strong></i>
+        <i>Used in competition URL. Ex: grants.nubic.northwestern.edu/competitions/<strong>sponsor_name</strong>/competition_name</i>
     %tr
-      %td.title=f.label "Sponsor Title"
+      %td.title=f.label "Contact email"
+      %td.notes
+        =f.text_field :email, :size=>40
+        %br
+        <i>Where can applicants contact you for help with your competitions?</i>
+    %tr
+      %td.title=f.label "Title"
       %td.notes
         =f.text_field :program_title, :size=>80
-        %br
-        <i>Descriptive title. Required</i>
     %tr
-      %td.title=f.label "Sponsor URL"
+      %td.title=f.label "Website"
       %td.notes
         =f.text_field :program_url, :size=>80
-        %br
-        <i>Sponsor's home page</i>
-        
-  </table>
 
   %p
     = f.submit 'Update'
@@ -32,4 +31,3 @@
 = render('shared/admin_links')
 
 %p
-  = link_to "List of all competitions for #{@sponsor.program_title}", sponsor_path(@sponsor.id)
