@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # == Schema Information
-# Schema version: 20140908190758
+# Schema version: 20141124223129
 #
 # Table name: roles_users
 #
-#  created_at :datetime         not null
+#  created_at :datetime
 #  created_id :integer
 #  created_ip :string(255)
 #  deleted_at :datetime
@@ -13,7 +13,7 @@
 #  id         :integer          not null, primary key
 #  program_id :integer
 #  role_id    :integer
-#  updated_at :datetime         not null
+#  updated_at :datetime
 #  updated_id :integer
 #  updated_ip :string(255)
 #  user_id    :integer

@@ -1,10 +1,10 @@
 # encoding: UTF-8
 # == Schema Information
-# Schema version: 20140908190758
+# Schema version: 20141124223129
 #
 # Table name: file_documents
 #
-#  created_at        :datetime         not null
+#  created_at        :datetime
 #  created_id        :integer
 #  created_ip        :string(255)
 #  file_content_type :string(255)
@@ -13,7 +13,7 @@
 #  file_updated_at   :datetime
 #  id                :integer          not null, primary key
 #  last_updated_at   :datetime
-#  updated_at        :datetime         not null
+#  updated_at        :datetime
 #  updated_id        :integer
 #  updated_ip        :string(255)
 #

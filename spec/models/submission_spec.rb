@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # == Schema Information
-# Schema version: 20140908190758
+# Schema version: 20141124223129
 #
 # Table name: submissions
 #
@@ -15,7 +15,7 @@
 #  core_manager_username             :string(255)
 #  cost_sharing_amount               :float
 #  cost_sharing_organization         :text
-#  created_at                        :datetime         not null
+#  created_at                        :datetime
 #  created_id                        :integer
 #  created_ip                        :string(255)
 #  deleted_at                        :datetime
@@ -55,7 +55,7 @@
 #  submission_status                 :string(255)
 #  submission_title                  :string(255)
 #  supplemental_document_id          :integer
-#  updated_at                        :datetime         not null
+#  updated_at                        :datetime
 #  updated_id                        :integer
 #  updated_ip                        :string(255)
 #  use_cmh                           :boolean
