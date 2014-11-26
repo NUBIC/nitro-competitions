@@ -1,23 +1,4 @@
 # encoding: UTF-8
-# == Schema Information
-# Schema version: 20141124223129
-#
-# Table name: file_documents
-#
-#  created_at        :datetime
-#  created_id        :integer
-#  created_ip        :string(255)
-#  file_content_type :string(255)
-#  file_file_name    :string(255)
-#  file_file_size    :integer
-#  file_updated_at   :datetime
-#  id                :integer          not null, primary key
-#  last_updated_at   :datetime
-#  updated_at        :datetime
-#  updated_id        :integer
-#  updated_ip        :string(255)
-#
-
 class FileDocument < ActiveRecord::Base
   has_attached_file :file, :path => ":rails_root/public/system/:attachment/:id/:basename.:extension"
 
