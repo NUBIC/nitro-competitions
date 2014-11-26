@@ -45,7 +45,6 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'annotate', '~> 2.5.0'
 end
 
 gem 'prototype-rails'

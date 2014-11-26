@@ -45,8 +45,6 @@ GEM
     aker-rails (3.0.2)
       aker (~> 3.0)
       rails (~> 3.0, >= 3.0.4)
-    annotate (2.5.0)
-      rake
     arel (3.0.3)
     builder (3.0.4)
     capistrano (3.2.1)
@@ -249,7 +247,6 @@ PLATFORMS
 DEPENDENCIES
   aker
   aker-rails
-  annotate (~> 2.5.0)
   bundler
   capistrano
   capistrano-bundler
