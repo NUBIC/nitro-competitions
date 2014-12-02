@@ -11,7 +11,7 @@ describe 'Public Section' do
       end
 
       it 'shows the home page' do
-        expect(page).to have_content('NITRO-Competitions')
+        expect(page).to have_content(NucatsAssist::app_name)
         expect(page).to have_content('Current and Recent Competitions')
       end
     end
