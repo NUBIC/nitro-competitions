@@ -7,7 +7,7 @@ module NucatsAssist
 
   class << self
     def app_name
-      'NITRO-Competitions'
+      'NITROCompetitions'
     end
 
     def app_name_complete
