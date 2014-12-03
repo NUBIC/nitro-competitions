@@ -68,7 +68,7 @@ describe SubmissionReview do
         end
         submission_review.review_score.should be_blank
         submission_review.composite_score.should eq 0
-        submission_review.has_zero?.should be_true
+        submission_review.has_zero?.should be_truthy
         submission_review.count_nonzeros?.should eq 0
       end
     end
@@ -82,7 +82,7 @@ describe SubmissionReview do
         end
         submission_review.review_score.should_not be_blank
         submission_review.composite_score.should be > 0
-        submission_review.has_zero?.should be_false
+        submission_review.has_zero?.should be_falsey
         submission_review.count_nonzeros?.should be > 5
       end
     end

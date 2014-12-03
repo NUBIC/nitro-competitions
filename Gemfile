@@ -59,7 +59,7 @@ gem 'jquery-rails'
 gem 'exception_notification'
 
 group :test do
-  gem 'rspec-rails', '~> 2.14'
+  gem 'rspec-rails', '~> 2.99'
   gem 'capybara'
   gem 'poltergeist'
   gem 'database_cleaner'

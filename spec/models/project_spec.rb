@@ -54,7 +54,7 @@ describe Project do
     end
 
     it 'defaults membership_required to false' do
-      project.membership_required.should be_false
+      project.membership_required.should be_falsey
     end
   end
 end
