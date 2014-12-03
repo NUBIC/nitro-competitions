@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe SubmissionReview do
+describe SubmissionReview, :type => :model do
 
-  it { should belong_to(:submission) }
-  it { should have_one(:applicant) }
-  it { should have_one(:project) }
-  it { should belong_to(:reviewer) }
-  it { should belong_to(:user) }
+  it { is_expected.to belong_to(:submission) }
+  it { is_expected.to have_one(:applicant) }
+  it { is_expected.to have_one(:project) }
+  it { is_expected.to belong_to(:reviewer) }
+  it { is_expected.to belong_to(:user) }
 
   it 'can be instantiated' do
-    FactoryGirl.build(:submission_review).should be_an_instance_of(SubmissionReview)
+    expect(FactoryGirl.build(:submission_review)).to be_an_instance_of(SubmissionReview)
   end
 
   it 'can be saved successfully' do
-    FactoryGirl.create(:submission_review).should be_persisted
+    expect(FactoryGirl.create(:submission_review)).to be_persisted
   end
 
   describe '.this_project' do
@@ -22,11 +22,11 @@ describe SubmissionReview do
     let(:project) { submission_review.project }
     it 'returns SubmissionReviews for the given project' do
       submission_reviews = SubmissionReview.this_project(project.id)
-      submission_reviews.should_not be_blank
+      expect(submission_reviews).not_to be_blank
       submission_reviews.each do |sr|
-        sr.submission.should_not be_blank
-        sr.submission.project.should_not be_blank
-        sr.submission.project.should eq project
+        expect(sr.submission).not_to be_blank
+        expect(sr.submission.project).not_to be_blank
+        expect(sr.submission.project).to eq project
       end
     end
   end
@@ -38,9 +38,9 @@ describe SubmissionReview do
       projects = Project.all
       submission_reviews = SubmissionReview.active(projects)
       submission_reviews.each do |sr|
-        sr.submission.should_not be_blank
-        sr.submission.project.should_not be_blank
-        projects.should include(sr.submission.project)
+        expect(sr.submission).not_to be_blank
+        expect(sr.submission.project).not_to be_blank
+        expect(projects).to include(sr.submission.project)
       end
     end
   end
@@ -63,13 +63,13 @@ describe SubmissionReview do
         submission_review = SubmissionReview.new
         scores.each do |s|
           score = submission_review.send(s)
-          score.should_not be_blank
-          score.should eq 0
+          expect(score).not_to be_blank
+          expect(score).to eq 0
         end
-        submission_review.review_score.should be_blank
-        submission_review.composite_score.should eq 0
-        submission_review.has_zero?.should be_truthy
-        submission_review.count_nonzeros?.should eq 0
+        expect(submission_review.review_score).to be_blank
+        expect(submission_review.composite_score).to eq 0
+        expect(submission_review.has_zero?).to be_truthy
+        expect(submission_review.count_nonzeros?).to eq 0
       end
     end
     describe 'for an existing SubmissionReview' do
@@ -77,13 +77,13 @@ describe SubmissionReview do
         submission_review = FactoryGirl.create(:submission_review)
         scores.each do |s|
           score = submission_review.send(s)
-          score.should_not be_blank
-          score.should be > 0
+          expect(score).not_to be_blank
+          expect(score).to be > 0
         end
-        submission_review.review_score.should_not be_blank
-        submission_review.composite_score.should be > 0
-        submission_review.has_zero?.should be_falsey
-        submission_review.count_nonzeros?.should be > 5
+        expect(submission_review.review_score).not_to be_blank
+        expect(submission_review.composite_score).to be > 0
+        expect(submission_review.has_zero?).to be_falsey
+        expect(submission_review.count_nonzeros?).to be > 5
       end
     end
   end

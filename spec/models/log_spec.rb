@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Log do
+describe Log, :type => :model do
 
-  it { should belong_to(:project) }
-  it { should belong_to(:program) }
-  it { should belong_to(:user) }
+  it { is_expected.to belong_to(:project) }
+  it { is_expected.to belong_to(:program) }
+  it { is_expected.to belong_to(:user) }
 
   it 'can be instantiated' do
-    FactoryGirl.build(:log).should be_an_instance_of(Log)
+    expect(FactoryGirl.build(:log)).to be_an_instance_of(Log)
   end
 
   it 'can be saved successfully' do
-    FactoryGirl.create(:log).should be_persisted
+    expect(FactoryGirl.create(:log)).to be_persisted
   end
 
 end

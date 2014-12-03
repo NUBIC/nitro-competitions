@@ -2,21 +2,21 @@
 
 require 'spec_helper'
 
-describe PublicController do
+describe PublicController, :type => :controller do
   describe 'GET welcome' do
     it 'renders the page' do
       get :welcome
-      response.should be_success
-      assigns[:projects].should_not be_nil
-      response.should render_template('public/welcome')
+      expect(response).to be_success
+      expect(assigns[:projects]).not_to be_nil
+      expect(response).to render_template('public/welcome')
     end
   end
 
   describe 'GET disallowed' do
     it 'renders the page' do
       get :disallowed
-      response.should be_success
-      response.should render_template('public/disallowed')
+      expect(response).to be_success
+      expect(response).to render_template('public/disallowed')
     end
   end
 end

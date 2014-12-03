@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe 'Public Section' do
+describe 'Public Section', :type => :feature do
 
   context 'for a person who has not logged in' do
 

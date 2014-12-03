@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe ApplicantsController do
+describe ApplicantsController, :type => :controller do
 
   context "with an authenticated user" do
     before(:each) do
@@ -15,15 +15,15 @@ describe ApplicantsController do
         let(:project) { FactoryGirl.create(:project) }
         it 'assigns @project' do
           get :index, :project_id => project.id
-          assigns[:project].should eq project
+          expect(assigns[:project]).to eq project
         end
         it 'assigns @sponsor' do
           get :index, :project_id => project.id
-          assigns[:sponsor].should eq project.program
+          expect(assigns[:sponsor]).to eq project.program
         end
         it 'redirects to projects_path' do
           get :index, :project_id => project.id
-          response.should redirect_to(projects_path)
+          expect(response).to redirect_to(projects_path)
         end
       end
     end
@@ -40,10 +40,10 @@ describe ApplicantsController do
       # end
 
       it 'renders the new template' do
-        controller.stub(:handle_ldap).and_return(true)
+        allow(controller).to receive(:handle_ldap).and_return(true)
         get :new, :project_id => project.id, :username => 'spuds'
-        response.should be_success
-        response.should render_template('applicants/new')
+        expect(response).to be_success
+        expect(response).to render_template('applicants/new')
       end
     end
 
@@ -53,7 +53,7 @@ describe ApplicantsController do
         let(:user) { FactoryGirl.create(:user) }
         it 'redirects to the project_path' do
           get :show, :id => user, :project_id => project.id
-          response.should redirect_to(project_path(project))
+          expect(response).to redirect_to(project_path(project))
         end
       end
     end
@@ -64,7 +64,7 @@ describe ApplicantsController do
         let(:user) { FactoryGirl.create(:user) }
         it 'redirects to the project_path' do
           get :edit, :id => user, :project_id => project.id
-          response.should redirect_to(project_path(project))
+          expect(response).to redirect_to(project_path(project))
         end
       end
     end

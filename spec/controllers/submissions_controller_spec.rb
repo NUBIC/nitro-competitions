@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe SubmissionsController do
+describe SubmissionsController, :type => :controller do
 
   context 'with a logged in user' do
     before do
@@ -11,11 +11,11 @@ describe SubmissionsController do
     describe 'GET index' do
       it 'renders the page' do
         get :index
-        response.should be_success
+        expect(response).to be_success
       end
       it 'assigns variables' do
         get :index
-        assigns[:submissions].should_not be_nil
+        expect(assigns[:submissions]).not_to be_nil
       end
     end
 
@@ -23,7 +23,7 @@ describe SubmissionsController do
       context 'without parameters' do
         it 'redirects to projects_path' do
           get :new
-          response.should redirect_to(projects_path)
+          expect(response).to redirect_to(projects_path)
         end
       end
     end
@@ -32,17 +32,17 @@ describe SubmissionsController do
       let(:submission) { FactoryGirl.create(:submission) }
       context 'where the current logged in user is associated with the submission' do
         before do
-          Submission.stub(:associated_with_user).and_return([submission])
+          allow(Submission).to receive(:associated_with_user).and_return([submission])
         end
         it 'renders the page' do
           get :show, :id => submission.id
-          response.should be_success
+          expect(response).to be_success
         end
       end
       context 'where the current logged in user is not associated with the submission' do
         it 'redirects the user to the project_submissions_path' do
           get :show, :id => submission.id
-          response.should redirect_to(project_submissions_path(submission.project))
+          expect(response).to redirect_to(project_submissions_path(submission.project))
         end
       end
     end
@@ -51,7 +51,7 @@ describe SubmissionsController do
       let(:submission) { FactoryGirl.create(:submission) }
       it 'renders the page' do
         get :edit, :id => submission.id
-        response.should be_success
+        expect(response).to be_success
       end
     end
 

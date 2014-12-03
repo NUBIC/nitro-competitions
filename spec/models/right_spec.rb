@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Right do
+describe Right, :type => :model do
 
-  it { should have_and_belong_to_many(:roles) }
+  it { is_expected.to have_and_belong_to_many(:roles) }
 
   it 'can be instantiated' do
-    FactoryGirl.build(:right).should be_an_instance_of(Right)
+    expect(FactoryGirl.build(:right)).to be_an_instance_of(Right)
   end
 
   it 'can be saved successfully' do
-    FactoryGirl.create(:right).should be_persisted
+    expect(FactoryGirl.create(:right)).to be_persisted
   end
 end

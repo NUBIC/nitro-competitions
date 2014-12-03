@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ReviewersController do
+describe ReviewersController, :type => :controller do
 
   context 'with a logged in user' do
     before do
@@ -11,8 +11,8 @@ describe ReviewersController do
     describe 'GET index' do
       it 'renders the page' do
         get :index
-        response.should be_success
-        assigns[:assigned_submission_reviews].should eq []
+        expect(response).to be_success
+        expect(assigns[:assigned_submission_reviews]).to eq []
       end
     end
 
@@ -20,7 +20,7 @@ describe ReviewersController do
       let(:review) { FactoryGirl.create(:submission_review) }
       it 'redirects to projects_path' do
         get :edit, id: review.id, project_id: review.project.id
-        response.should redirect_to(project_path(review.project))
+        expect(response).to redirect_to(project_path(review.project))
       end
     end
 

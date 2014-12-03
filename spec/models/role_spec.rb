@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Role do
+describe Role, :type => :model do
 
   it 'can be instantiated' do
-    FactoryGirl.build(:role).should be_an_instance_of(Role)
+    expect(FactoryGirl.build(:role)).to be_an_instance_of(Role)
   end
 
   it 'can be saved successfully' do
-    FactoryGirl.create(:role).should be_persisted
+    expect(FactoryGirl.create(:role)).to be_persisted
   end
 end
