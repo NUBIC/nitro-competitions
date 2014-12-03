@@ -1,8 +1,6 @@
 div#banner_menu {
-  float: left;
-  z-index: 3;
-  margin: 0;
-  width: 650px;
+  margin-left: 150px;
+  width: 450px;
  /* background-image: url('../images/banner_menu.jpg'); */
 }
 
