@@ -91,6 +91,16 @@ whoever your OAuth provider is). Details on how to do that are
 provider-specific, and the provider's documentation should be consulted in those
 cases.
 
+## Contributing
+
+Currently we host our issue and bug tracking system internally. However, if
+you'd like to submit a github issue, we'll take a look at it and get back to
+you.
+
+If you want to report a security problem that you feel should be reported
+privately first, you can email
+[competitions@northwestern.edu](mailto:competitions@northwestern.edu).
+
   [1]: https://github.com/intridea/omniauth/wiki/List-of-Strategies
   [2]: http://rubyonrails.org/
   [3]: http://www.postgresql.org/
