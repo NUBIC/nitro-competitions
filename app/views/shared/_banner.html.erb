@@ -17,9 +17,7 @@
   </div>
   <div id="menu">
     <%# TODO: update instructions documentation %>
-    <%= link_to('Help', image_path("../docs/NITRO-Competitions_Instructions.pdf"),
-                :title => "Instructions on how to use #{NucatsAssist.app_name} and general help manual",
-                :class => 'menu_link') %>
+    <%= link_to 'Help', 'http://www.nucats.northwestern.edu/funding/nitro-competitions.html', :class => 'menu_link' %>
     <% if defined?(current_user_session) && !current_user_session.blank? %>
       <%= session[:name] || current_user_session.try(:username) %>
       <%= link_to "Sign Out", application_logout_path,
