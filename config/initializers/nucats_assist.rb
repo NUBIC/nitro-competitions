@@ -55,11 +55,11 @@ module NucatsAssist
     end
 
     def from_email_address
-      'nucatsassist@nubic.northwestern.edu'
+      'competitions@northwestern.edu'
     end
 
     def app_support_email_address
-      'nucatsassist@nubic.northwestern.edu'
+      'competitions@northwestern.edu'
     end
 
     def mail_to_app_support_href
