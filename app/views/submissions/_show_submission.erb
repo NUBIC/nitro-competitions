@@ -87,14 +87,14 @@
   <% if project.show_department_administrator %>
     <div>
       <p><%= project.department_administrator_title %></p>
-      <%=h blank_safe submission.department_administrator.name %>
+      <%=h blank_safe submission.department_administrator.try(:name) %>
     </div>
   <% end %>
 
   <% if project.show_effort_approver %>
     <div>
       <p><%= project.effort_approver_title %></p>
-      <%=h blank_safe submission.effort_approver.name %>
+      <%=h blank_safe submission.effort_approver.try(:name) %>
     </div>
   <% end %>
 
