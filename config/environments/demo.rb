@@ -14,14 +14,5 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :notify
   config.send_notification_to_all = true
 
-  config.aker do
-    authorities :ldap
-    central '/etc/nubic/bcsec-prod.yml'
-  end
-
-  OmniAuthConfigure.configure {
-    app :nucats_assist
-    strategies :nucats_accounts
-    central '/etc/nubic/omniauth/prod.yml'
-  }
+  config.use_omniauth = false
 end
