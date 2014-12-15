@@ -1,0 +1,30 @@
+<% include_sponsor_and_competition = 0 unless @project.blank? %>
+
+<div id='title'>
+  <div id='program_title' title='Current Selected Program'>
+    <%= current_program.program_title %>
+  </div>
+  <div id='project_title' title='Current Selected Project'>
+    <%= current_project.project_title %>
+  </div>
+</div>
+
+<%= render 'shared/project_list',
+           projects: @projects,
+           show_project_link: true,
+           show_action_links: true,
+           show_details: true %>
+
+<%= render 'shared/submissions_list',
+           submissions: @submissions,
+           title: 'Your submissions and those you are associated with for this competition',
+           include_sponsor_and_competition: include_sponsor_and_competition %>
+
+<%= render('reviewers/submission_review_table',
+           :submission_reviews => @assigned_submission_reviews,
+           :title => 'Your assigned proposals to review for this competition',
+           :table_id => 'assigned_submission_reviews',
+           :include_files => false,
+           :speed_display => false) %>
+
+<%= render 'shared/admin_links' %>

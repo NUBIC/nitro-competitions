@@ -1,0 +1,6 @@
+<% if applicant.email.blank? %> 
+  <%= applicant.name %>
+<% else %>
+  <%= mail_to(applicant.email, applicant.name, :subject => "Pilot Project", :title => "Send email to this individual") %>
+<% end %> 
+			

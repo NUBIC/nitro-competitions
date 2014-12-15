@@ -1,0 +1,20 @@
+<h1>Editing '<%= @project.project_title %>'</h1>
+
+<%= form_for(@project) do |f| %>
+  <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
+
+  <%= render('project_form', :f => f, :project => @project) %>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'View', project_path(@project.id) %> |
+<%= link_to 'List of all competitions', projects_path %>
+
+<script>
+  jQuery('.edit_project').validate();
+  jQuery(function() { 
+    jQuery( "#tabs" ).tabs(); 
+  });
+</script>

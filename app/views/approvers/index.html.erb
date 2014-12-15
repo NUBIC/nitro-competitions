@@ -1,0 +1,38 @@
+<h1>List of submissions needing effort approval</h1>
+
+<table>
+  <tr>
+    <th>Applicant</th>
+    <th>Project title</th>
+    <th>Approver</th>
+    <th>Approval</th>
+    <th>Files</th>
+    <th>Additional Biosketches</th>
+  </tr>
+
+<% @submissions.each do |submission| %>
+  <% style="" %>
+  <% style="style='background-color:thistle;'" if submission.effort_approval_at.nil? %>
+    <tr <%= style %>>
+      <td><%=h submission.applicant.name %></td>
+      <td><%=h submission.submission_title %></td>
+      <td><%= submission.effort_approver_username %></td>
+      <td>
+        <span id="approval_<%= submission.id -%>">
+          <%= render('approval', :submission=>submission) %>
+        </span>
+      </td>
+      <td>
+        <%= link_to_submission_pdf(submission).html_safe %>
+        <% link_to_submission_files(submission, submission.project, false).each do |lnk| %>
+          <%= lnk.html_safe %>
+        <% end %>
+      </td>
+      <td>
+        <%= link_to_key_personnel_documents( submission.key_people ).html_safe %>
+      </td>
+     </tr>
+  <% end %>
+</table>
+
+<br />

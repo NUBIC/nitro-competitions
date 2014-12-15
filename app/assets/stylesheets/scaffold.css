@@ -1,0 +1,209 @@
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
+  font-size: 16px;
+  color: black;
+  background-color: white;
+  line-height: 20px;
+  margin-top: 0px;
+  margin-left: 1em;
+  min-width: 800px;
+}
+
+p, ol, ul, td {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 18px;
+  line-height: 21px;
+}
+
+p {
+  padding: 2px 0px 2px 0px;
+  margin: 2px 0px 2px 0px;
+  color: black;
+  font-size: 18px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+ul {
+  margin-left: 0px;
+  padding-left: 1em;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+ul.squareBullets {
+  list-style-type: square;
+}
+
+ol li {
+  padding-bottom: 1em;
+}
+
+pre {
+  background-color: #e3e3e3;
+  padding: 0.5em;
+  font-size: 16px;
+  line-height: 21px;
+  margin-top: -2px;
+}
+
+h1, h2, h3 {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 24px;
+  font-weight: 400;
+  color: #222266;
+  line-height: 29px;
+  padding-bottom: 0px;
+  margin-bottom: 4px;
+  margin-top: 0.25em;
+  padding-top: 0px;
+}
+
+.h1, .h2, .h3 {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 24px;
+  font-weight: 400;
+  color: #222266;
+  line-height: 29px;
+  padding: 0 0 0 0;
+  margin-bottom: 2px;
+  margin-top: 0.25em;
+}
+
+h1, .h1 {
+  font-size: 26px;
+  line-height: 31px;
+  border-bottom: 3px;
+}
+
+h3, .h3 {
+  font-size: 22px;
+  line-height: 26px;
+}
+
+a {
+  background-color: inherit;
+  color: blue;
+  text-decoration: none;
+}
+
+a:visited {
+  color: blue;
+}
+
+a:hover {
+  background-color: inherit;
+  text-decoration: underline;
+  color: blue;
+}
+
+#nci-logo {
+  float: left;
+  margin: 50px 0px 0px 10px;
+  display: inline;
+}
+
+.smaller {
+  font-size: 15px;
+}
+
+#upper {
+  text-transform: uppercase;
+}
+
+#app_title {
+  margin: 0;
+  padding: .5em;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 2em;
+  font-weight: normal;
+  color: #222266;
+  background-color: inherit;
+}
+
+#title {
+  margin: 0;
+  padding: 0.25em 0 .5em .25em;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 1.75em;
+  font-weight: bold;
+  color: #222266;
+  background-color: inherit;
+}
+
+#title a {
+  padding: 5px;
+  color: #222266;
+  text-decoration: none;
+  background: inherit;
+}
+
+#program_title, #project_title {
+  padding: 0.5em 0 0.25em 0;
+}
+
+#add_key_personnel_link {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 1.25em;
+  font-weight: bold;
+  padding: 5px;
+  line-height: 1.5em;
+}
+
+#search {
+  padding: 3px;
+  padding-left: 115px;
+  margin: 0px;
+  color: white;
+  font-size: 18px;
+  background-color: #520063;
+}
+
+#niceline {
+  padding-left: 50px;
+  height: 8px;
+  margin: 0px;
+  color: white;
+  font-size: 17px;
+  background-color: #a3a3a3;
+}
+
+div.autoclear:after {
+  display: block;
+  content: " ";
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+
+img {
+  border: 0px;
+}
+
+.no-gap {
+  margin-bottom: 0;
+}
+
+.indented {
+  margin-left: 20px;
+}
+
+.indented table td, .indented table th {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+div.final_line {
+  background-color: #222266;
+  line-height: 21px;
+  margin: 10px 0 0 0;
+}
+
+.last {
+  margin-bottom: 0;
+}
+
+.clearing {
+  height: 0;
+  clear: both;
+}

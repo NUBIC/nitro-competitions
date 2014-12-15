@@ -1,0 +1,22 @@
+<h3>
+  <%= "Update Title Page for application <i>#{@submission.submission_title}</i>".html_safe %>
+</h3>
+
+<%= form_for(:submission,
+             url: submission_path(@submission.id),
+             html: { multipart: true, method: :put }) do |f| %>
+  <%= f.hidden_field :submission_status %>
+
+  <table class="lined">
+    <%= render 'submission_form', f: f, project: @project, submission: @submission, applicant: @applicant %>
+    <tr>
+      <td colspan="3" align="center" style="background:#ADE387;padding:10px;">
+        <%= f.submit 'Update Application' %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<div class='links'>
+  <%= link_to 'List of submissions', project_submissions_path(@submission.project_id) %>
+</div>

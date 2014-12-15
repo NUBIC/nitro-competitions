@@ -1,0 +1,6 @@
+<% @project.submissions.each do |submission| %>
+  <%= render('reviews/index', :reviews=>submission.submission_reviews, :submission=>submission) %>
+<% end %>
+<%= link_to 'PDF',  all_reviews_project_path(@project.id,:format=>:pdf) %>
+
+<br />

@@ -1,0 +1,264 @@
+<!-- need this for ajax calls to build the personnel associations -->
+<% pronoun = "your" %>
+<% pronoun = "the" if current_user_session.try(:username) != applicant.username %>
+<% completion = "" %>
+<% completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username %>
+
+<tr>
+  <td colspan="3" style="background:#ADE387;">
+    <div class="h3">
+      Manage documents for this submission (you can add or update your documents using this form)
+      <% if submission.status == 'Complete' %>
+        <br/>
+        Your documents are currently COMPLETE
+      <% end %>
+    </div>
+  </td>
+</tr>
+
+<% if project.show_manage_biosketches %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_biosketch, "PI Biosketch Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% biosketch_missing = submission.applicant_biosketch_document_id.blank? %>
+      <% if biosketch_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"No biosketch is available. Please upload a Biosketch") %>
+      <% end %>
+      <%= f.file_field("uploaded_biosketch", required: biosketch_missing) %> &nbsp; &nbsp;
+      <% if biosketch_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"No biosketch is available. Please upload a Biosketch") %>
+        Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info.html_safe %>
+      <% else %>
+        <i>
+          <%= link_to_file(submission.applicant_biosketch_document_id, "#{submission.applicant_biosketch_document.file_file_name}") %>
+        </i> &nbsp;
+        File saved on <%= (submission.applicant_biosketch_document.last_updated_at || submission.applicant_biosketch_document.updated_at).to_s(:justdate) %>
+        <br/>
+        Uploading your biosketch here only changes the biosketch for this submission - it does not change your default biosketch for your next submission or for any proposals you are listed as key personnel on.
+        To change your default biosketch, upload your biosketch in your
+        <%= link_to("Profile", edit_applicant_path(submission.applicant.id), :title=>"Edit #{submission.applicant.name}'s profile") %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_application_doc %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_application, "#{submission.project.application_doc_name} Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% application_missing = submission.application_document_id.blank? %>
+      <% if application_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.application_doc_name} document is not available. Please upload this document") %>
+      <% end %>
+      <%= f.file_field("uploaded_application", required: application_missing) %> &nbsp; &nbsp;
+      <% if application_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.application_doc_name} document is not available. Please upload this document") %>
+        <i>
+          <%= (project.application_doc_description.html_safe || "Please upload the completed application document.") %>
+        </i>
+      <% else %>
+        <%= link_to_file(submission.application_document_id, "Filename: #{submission.application_document.file_file_name}") %>&nbsp;
+        File saved on <%= submission.application_document.updated_at.to_s(:justdate) %>
+      <% end %> &nbsp;
+      <%= link_to_application_documents(submission.project) %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_budget_form %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_budget, "Budget Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% budget_missing = submission.budget_document_id.blank? %>
+      <% if budget_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"No budget document is available. Please upload the budget") %>
+      <% end %>
+      <%= f.file_field("uploaded_budget", required: budget_missing) %> &nbsp; &nbsp;
+      <% if budget_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"No budget document is available. Please upload the budget") %>
+        <i>Please upload the budget document</i>
+      <% else %>
+        <%= link_to_file(submission.budget_document_id, "", "spreadsheet") %>
+        <i>Budget uploaded</i>.
+        Filename: <%= submission.budget_document.file_file_name %>
+      <% end %>
+      <%= link_to_budget_template(current_project).html_safe %>
+      <%= link_to_budget_info(current_project).html_safe %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_manage_other_support %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_other_support, "NIH Other Support Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% other_support_missing = submission.other_support_document_id.blank? %>
+      <% if other_support_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The NIH Other Support document is not available. Please upload the NIH Other Support document") %>
+      <% end %>
+      <%= f.file_field("uploaded_other_support", required: other_support_missing) %> &nbsp; &nbsp;
+      <% if other_support_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The NIH Other Support document is not available. Please upload the NIH Other Support document") %>
+        <i><%= (project.manage_other_support_text.html_safe || "File is missing") %></i>
+      <% else %>
+        <%= link_to_file(submission.other_support_document_id, "", "document") %>
+        <i>NIH Other Support uploaded</i>.
+        Filename: <%= submission.other_support_document.file_file_name %>
+      <% end %>
+      <%= link_to_other_support_documents.html_safe %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_document1 %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_document1, "#{submission.project.document1_name} Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% document1_missing = submission.document1_id.blank? %>
+      <% if document1_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document1_name} document is not available. Please upload this document") %>
+      <% end %>
+      <%= f.file_field("uploaded_document1", required: document1_missing) %> &nbsp; &nbsp;
+      <% if document1_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document1_name} document is not available. Please upload this document") %>
+        <i><%= (project.document1_description || "File is missing") %></i>
+      <% else %>
+        <%= link_to_file(submission.document1_id, "", "document") %>
+        <i><%= submission.project.document1_name %> uploaded</i>.
+        Filename: <%=  submission.document1.file_file_name %>
+      <% end %>
+      <%= link_to_document1_template_info(submission.project) %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_document2 %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_document2, "#{submission.project.document2_name} Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% document2_missing = submission.document2_id.blank? %>
+      <% if document2_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document2_name} document is not available. Please upload this document") %>
+      <% end %>
+      <%= f.file_field("uploaded_document2", required: document2_missing) %> &nbsp; &nbsp;
+      <% if document2_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document2_name} document is not available. Please upload this document") %>
+        <i><%= (project.document2_description || "File is missing") %></i>
+      <% else %>
+        <%= link_to_file(submission.document2_id, "", "document") %>
+        <i><%= submission.project.document2_name %> uploaded</i>.
+        Filename: <%=  submission.document2.file_file_name %>
+      <% end %>
+      <%= link_to_document2_template_info(submission.project) %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_document3 %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_document3, "#{submission.project.document3_name} Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% document3_missing = submission.document3_id.blank? %>
+      <% if document3_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document3_name} document is not available. Please upload this document") %>
+      <% end %>
+      <%= f.file_field("uploaded_document3", required: document3_missing) %> &nbsp; &nbsp;
+      <% if document3_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document3_name} document is not available. Please upload this document") %>
+        <i><%= (project.document3_description || "File is missing") %></i>
+      <% else %>
+        <%= link_to_file(submission.document3_id, "", "document") %>
+        <i><%= submission.project.document3_name %> uploaded</i>.
+        Filename: <%=  submission.document3.file_file_name %>
+      <% end %>
+      <%= link_to_document3_template_info(submission.project) %>
+    </td>
+  </tr>
+<% end %>
+
+<% if project.show_document4 %>
+  <tr>
+    <td>
+      <%= f.label :uploaded_document4, "#{submission.project.document4_name} Document" %>
+    </td>
+    <td class="notes" colspan="2">
+      <% document4_missing = submission.document4_id.blank? %>
+      <% if document4_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document4_name} document is not available. Please upload this document") %>
+      <% end %>
+      <%= f.file_field("uploaded_document4", required: document4_missing) %> &nbsp; &nbsp;
+      <% if document4_missing %>
+        <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
+                      :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
+                      :title=>"The #{submission.project.document4_name} document is not available. Please upload this document") %>
+        <i><%= (project.document4_description || "File is missing") %></i>
+      <% else %>
+        <%= link_to_file(submission.document4_id, "", "document") %>
+        <i><%= submission.project.document4_name %> uploaded</i>.
+        Filename: <%=  submission.document4.file_file_name %>
+      <% end %>
+      <%= link_to_document4_template_info(submission.project) %>
+    </td>
+  </tr>
+<% end %>
+
+<tr>
+  <td>
+    <%= f.label :uploaded_supplemental_document, submission.project.supplemental_document_name.html_safe %>
+  </td>
+  <td class="notes" colspan="2">
+    <%= f.file_field("uploaded_supplemental_document") %> &nbsp; &nbsp;
+    <% if submission.supplemental_document_id.blank? %>
+      <i>
+        <%= (project.supplemental_document_description.html_safe || "Please upload any supplmental document.") %>
+      </i>
+    <% else %>
+      <%= link_to_file(submission.supplemental_document_id, "Filename: #{submission.supplemental_document.file_file_name}") %>&nbsp;
+      File saved on <%= submission.supplemental_document.updated_at.to_s(:justdate) %>
+    <% end %> &nbsp;
+  </td>
+</tr>

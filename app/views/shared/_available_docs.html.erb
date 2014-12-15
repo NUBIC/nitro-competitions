@@ -1,0 +1,19 @@
+Docs for <i><%= current_project.project_title %></i>: 
+<% unless current_project.project_url.blank? %>
+	<%= link_to( h( current_project.project_url_label), current_project.project_url, :title=>"Download the #{current_project.project_title} #{current_project.project_url_label}" ) %>
+<% end %>
+
+<% unless current_project.application_template_url.blank? %>
+	<%= link_to( h( current_project.application_template_url_label), current_project.application_template_url, :title=>"Download the  #{current_project.application_template_url_label}" ) %>
+<% end %>
+<% unless current_project.application_info_url.blank? %>
+	<%= link_to( h( current_project.application_info_url_label), current_project.application_info_url, :title=>"Download the  #{current_project.application_info_url_label}" ) %>
+<% end %>
+
+<% unless current_project.budget_template_url.blank? %>
+	<%= link_to( h( current_project.budget_template_url_label), current_project.budget_template_url, :title=>"Download the  #{current_project.budget_template_url_label}" ) %>
+<% end %>
+<% unless current_project.budget_info_url.blank? %>
+	<%= link_to( h( current_project.budget_info_url_label), current_project.budget_info_url, :title=>"Download the  #{current_project.budget_info_url_label}" ) %>
+<% end %>
+<br />

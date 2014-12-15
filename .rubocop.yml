@@ -1,0 +1,21 @@
+ClassLength:
+  Max: 150
+LineLength:
+  Max: 180
+MethodLength:
+  Max: 40
+HashSyntax:
+  Enabled: false
+RedundantSelf:
+  Enabled: false
+Lambda:
+  Enabled: false
+AllCops:
+  Includes:
+    - Rakefile
+    - config.ru
+  Excludes:
+    - db/**
+    - config/initializers/**
+    - script/**
+    - vendor/gems/**

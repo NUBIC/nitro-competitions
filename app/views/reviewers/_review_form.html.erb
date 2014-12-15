@@ -1,0 +1,55 @@
+<h2>Scores</h2>
+<div id='scores'>
+  <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
+  <% project = submission_review.submission.project %>
+  <ol>
+    <% %w( impact team innovation scope environment budget other ).each do |section| %>
+      <% if project.send("show_#{section}_score") %>
+        <li>
+          <p>
+            <%= project.send("#{section}_title").html_safe %>.
+            <%= project.send("#{section}_wording").html_safe %>
+          </p>
+          <% unless project.comment_review_only %>
+            <span style='float: left; width:325px;'>
+              <%= project.send("#{section}_title").html_safe %> score:
+            </span>
+            <%= f.text_field "#{section}_score".to_sym, :size => 4, :digits => true %>
+          <% end %>
+          <br/>
+          <span style='float: left; width:325px;'>
+            Strengths and weaknesses
+          </span>
+          <%= f.text_area "#{section}_text".to_sym, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= review_item_observer("#{section}_score", "#{submission_review.id}") %>
+          <%= review_item_observer("#{section}_text", "#{submission_review.id}") %>
+        </li>
+      <% end %>
+    <% end %> 
+
+    <div style="background-color:#226;margin-top:10px;margin-bottom:10px;margin-left:-30px;">
+      &nbsp;
+    </div>
+
+    <p>
+      <p>
+        <%= project.overall_impact_description.html_safe %>
+      </p>
+      <br/>
+      <% unless project.comment_review_only %>
+        <span style='float: left; width:325px;'>
+          <%= project.overall_impact_title.html_safe %> score:
+        </span>
+        <%= f.text_field :overall_score, :size => 4, :digits => true %>
+        <br/>
+      <% end %>
+      <span style='float: left; width:325px;'>
+        <%= project.overall_impact_direction.html_safe %>
+      </span>
+      <%= f.text_area :overall_text, {:rows => 12, :cols => 80, :wrap=>"virtual"} %>
+      <%= review_item_observer("overall_score", "#{submission_review.id}") %>
+      <%= review_item_observer("overall_text", "#{submission_review.id}") %>
+    </p>
+
+  </ol>
+</div>

@@ -1,0 +1,5 @@
+<%= render 'index', :reviews => @reviews, :submission => @submission %>
+
+<%= link_to 'PDF',  submission_reviews_path(@submission.id,:format=>:pdf) %>
+
+<br />

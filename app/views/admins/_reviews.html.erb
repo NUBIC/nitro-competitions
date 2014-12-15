@@ -1,0 +1,51 @@
+<% unless submissions.blank? || project.blank? %>
+  <h3>Submissions</h3>
+  <table id="submissionTable" class="tablesorter { sortList: [[2,0]] }">
+    <thead>
+    <tr>
+      <th>Applicant</th>
+      <th>Title</th>
+      <th>Status</th>
+      <th><%= project.effort_approver_title %></th>
+      <th>Contact</th>
+      <th>Documents</th>
+      <th>Composite Scores</th>
+      <th>Overall Scores</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% submissions.each_with_index do |submission, i | %>
+    <tr>
+      <td><%= submission.applicant.sort_name %></td>
+      <td><%= link_to( truncate_words(submission.submission_title, 20), submission_path(submission.id) ) %></td>
+      <td><%= submission.status %></td>
+      <td><%= submission.effort_approver.nil? ? "unset" : submission.effort_approver.sort_name %></td>
+      <td><%= submission.department_administrator.nil? ? "unset" : submission.department_administrator.sort_name %></td>
+      <td>
+        <%= link_to_submission_pdf(submission) %>
+        <% link_to_submission_files(submission, project, false).each do |lnk| %>
+          <%= lnk.html_safe %>
+        <% end %>
+        <% if submission.submission_reviews.collect{|r| r.has_zero? ? 0 : 1 }.sum > 0 %>
+          <%= link_to(image_tag("page_white_link.png", :width=>"16px", :height=>"16px")+' Reviews', submission_reviews_path(submission.id), :title=>"View the review summary for this submission") %>
+        <% end %>
+      </td>
+    </td>
+     <td><%=h submission.composite_scores_string %></td>
+     <td><%=h submission.overall_scores_string %></td>
+    </tr>
+  <% end %>
+  </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#submissionTable").tablesorter(
+        // turn off sorting on the 6th header
+        { headers: { 5: {sorter: false} } }
+      ); });
+  <% end %>
+<% else %>
+  <h3>You do not have any existing submissions for this competition.</h3>
+<% end %>
+<br />

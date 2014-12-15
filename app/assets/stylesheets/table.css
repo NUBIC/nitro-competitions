@@ -1,0 +1,104 @@
+table {
+  border: none;
+}
+
+td, th {
+  margin: 0px;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  vertical-align: top;
+  text-align: left;
+}
+
+table.wide {
+  width: 95%;
+}
+
+table.lined {
+  border: 1px solid indigo;
+  border-collapse: collapse;
+  font-size: 16px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+table.lined tr th {
+  font-size: 16px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  border-bottom: 1px solid indigo;
+  border-right: 1px solid indigo;
+  padding: 2px 4px 3px 5px;
+}
+
+table.lined tr td {
+  font-size: 16px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  border-bottom: 1px solid indigo;
+  border-right: 1px solid indigo;
+  padding: 2px 4px 3px 5px;
+}
+
+table.lined tr td.title {
+  text-transform: uppercase;
+}
+
+table.lined tr td.notes {
+  font-size: 16px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  color: #5555aa;
+}
+
+table.borderless {
+  border: 0;
+}
+
+table.borderless tr th, table.borderless td {
+  padding-right: 0.8em;
+}
+
+table.borderless tr th a, table.borderless td a {
+  color: #332299;
+  text-decoration: none;
+}
+
+table.borderless tr th a:hover, table.borderless td a:hover {
+  text-decoration: underline;
+}
+
+table.compact {
+  border: 0;
+}
+
+table.compact tr th, table.compact td {
+  margin: 0;
+  padding: 0;
+  padding-right: 0.8em;
+}
+
+table.compact tr th a, table.compact td a {
+  color: #222266;
+  text-decoration: none;
+}
+
+td.list-left, th.list-left {
+  padding-left: 1em;
+}
+
+td.list-right, th.list-right {
+  padding-right: 1em;
+  text-align: right;
+}
+
+td.list-title-left {
+  padding-left: 1em;
+  color: #224444;
+  font-weight: bold;
+}
+
+td.list-title-center {
+  text-align: center;
+}
+
+td.list-title-right {
+  padding-right: 1em;
+  text-align: right;
+}

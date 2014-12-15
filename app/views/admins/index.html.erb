@@ -1,0 +1,308 @@
+<h1>Listing Applicants (<%= @applicants.length %>) for <i><%= current_project.project_title %></i></h1>
+
+<table id="applicantTable" class="tablesorter { sortList: [[2,0]] }">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>eRA Commmons name</th>
+      <th>Name</th>
+      <th>email</th>
+      <th>Work phone</th>
+      <th>Rank</th>
+      <th>Primary department</th>
+      <th>Campus</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @applicants.each do |applicant| %>
+    <tr>
+      <td><%=h applicant.username %></td>
+      <td><%=h applicant.era_commons_name %></td>
+      <td><%= applicant.sort_name %></td>
+      <td><%= mail_to(applicant.email, "email",
+          :subject => NucatsAssist.email_subject,
+          :encode => "javascript", :title=>"Send email to this applicant") unless applicant.email.blank? %> </td>
+      <td><%=h applicant.business_phone %></td>
+      <td><%=h applicant.title %></td>
+      <td><%=h applicant.primary_department %></td>
+      <td><%=h applicant.campus %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= javascript_tag do %>
+  jQuery(document).ready(function() {
+    // call the tablesorter plugin
+    jQuery("#applicantTable").tablesorter(
+      // turn off sorting on the 4th header
+      { headers: { 3: {sorter: false} } }
+    ); });
+<% end %>
+
+<br />
+
+<% unless @key_personnel.blank? %>
+  <h1>Listing Key Personnel (<%= @key_personnel.length %>) for <i><%= current_project.project_title %></i></h1>
+
+  <table id="keyPersonnelTable" class="tablesorter { sortList: [[2,0]] }">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>eRA Commmons name</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Role</th>
+        <th>Work phone</th>
+        <th>Rank</th>
+        <th>Primary department</th>
+        <th>Campus</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @key_personnel.each do |key_person| %>
+      <tr>
+        <td><%=h key_person.username %></td>
+        <td><%=h key_person.user.era_commons_name unless key_person.user.blank? %></td>
+        <td><%= (key_person.user.blank?) ? key_person.sort_name : key_person.user.sort_name %></td>
+        <td>
+          <%= mail_to(key_person.user.email, "email",
+                      :subject => NucatsAssist.email_subject,
+                      :encode => "javascript",
+                      :title=>"Send email to this applicant") unless key_person.user.blank? or key_person.user.email.blank? %>
+        </td>
+        <td><%=h key_person.role %></td>
+        <td><%=h key_person.user.business_phone unless key_person.user.blank? %></td>
+        <td><%=h key_person.user.title unless key_person.user.blank? %></td>
+        <td><%=h key_person.user.primary_department unless key_person.user.blank?  %></td>
+        <td><%=h key_person.user.campus unless key_person.user.blank? %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#keyPersonnelTable").tablesorter(
+        // turn off sorting on the 4th header
+        { headers: { 3: {sorter: false} } }
+      ); });
+  <% end %>
+  <br />
+<% end %>
+
+<% unless @core_managers.blank? %>
+  <h1>Listing Core Managers (<%= @core_managers.length %>)  for <i><%= current_project.project_title %></i></h1>
+
+  <table id="coreManagersTable" class="tablesorter { sortList: [[2,0]] }">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>eRA Commmons name</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Role</th>
+        <th>Work phone</th>
+        <th>Rank</th>
+        <th>Primary department</th>
+        <th>Campus</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @core_managers.each do |core_manager| %>
+      <tr>
+        <td><%=h core_manager.username %></td>
+        <td><%=h core_manager.era_commons_name %></td>
+        <td><%= core_manager.sort_name %></td>
+        <td><%= mail_to(core_manager.email, "email",
+            :subject => NucatsAssist.email_subject,
+            :encode => "javascript", :title=>"Send email to this applicant") unless core_manager.email.blank? %> </td>
+        <td>Core Manager</td>
+        <td><%=h core_manager.business_phone %></td>
+        <td><%=h core_manager.title %></td>
+        <td><%=h core_manager.primary_department %></td>
+        <td><%=h core_manager.campus %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#coreManagersTable").tablesorter(
+        // turn off sorting on the 4th header
+        { headers: { 3: {sorter: false} } }
+      ); });
+  <% end %>
+
+  <br />
+<% end %>
+
+
+<% unless @submitters.blank? %>
+  <h1>Listing Submitters (<%= @submitters.length %>) for <i><%= current_project.project_title %></i></h1>
+
+  <table id="submittersTable" class="tablesorter { sortList: [[1,0]] }">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Work phone</th>
+        <th>Rank</th>
+        <th>Primary department</th>
+        <th>Campus</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @submitters.each do |user| %>
+      <tr>
+        <td><%=h user.username %></td>
+        <td><%= user.sort_name %></td>
+        <td><%= mail_to(user.email, "email",
+            :subject => NucatsAssist.email_subject,
+            :encode => "javascript", :title=>"Send email to this applicant") unless user.email.blank? %> </td>
+        <td><%=h user.business_phone %></td>
+        <td><%=h user.title %></td>
+        <td><%=h user.primary_department %></td>
+        <td><%=h user.campus %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#submittersTable").tablesorter(
+        // turn off sorting on the 3rd header
+        { headers: { 2: {sorter: false} } }
+      ); });
+  <% end %>
+<% end %>
+
+<br />
+
+<% unless @approvers.blank? %>
+  <h1>Listing <%= current_project.effort_approver_title -%>s (<%= @approvers.length %>) for <i><%= current_project.project_title %></i></h1>
+
+  <table id="approversTable" class="tablesorter { sortList: [[1,0]] }">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Work phone</th>
+        <th>Rank</th>
+        <th>Primary department</th>
+        <th>Campus</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @approvers.each do |user| %>
+      <tr>
+        <td><%=h user.username %></td>
+        <td><%= user.sort_name %></td>
+        <td><%= mail_to(user.email, "email",
+            :subject => NucatsAssist.email_subject,
+            :encode => "javascript", :title=>"Send email to this applicant") unless user.email.blank? %> </td>
+        <td><%=h user.business_phone %></td>
+        <td><%=h user.title %></td>
+        <td><%=h user.primary_department %></td>
+        <td><%=h user.campus %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#approversTable").tablesorter(
+        // turn off sorting on the 3rd header
+        { headers: { 2: {sorter: false} } }
+      ); });
+  <% end %>
+<% end %>
+
+<% unless @business_admins.blank? %>
+  <br />
+  <h1>Listing Business Admins (<%= @business_admins.length %>) for <i><%= current_project.project_title %></i></h1>
+
+  <table id="businessAdminsTable" class="tablesorter { sortList: [[1,0]] }">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Work phone</th>
+        <th>Rank</th>
+        <th>Primary department</th>
+        <th>Campus</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @business_admins.each do |user| %>
+      <tr>
+        <td><%=h user.username %></td>
+        <td><%= user.sort_name %></td>
+        <td><%= mail_to(user.email, "email",
+            :subject => NucatsAssist.email_subject,
+            :encode => "javascript", :title=>"Send email to this applicant") unless user.email.blank? %> </td>
+        <td><%=h user.business_phone %></td>
+        <td><%=h user.title %></td>
+        <td><%=h user.primary_department %></td>
+        <td><%=h user.campus %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#businessAdminsTable").tablesorter(
+        // turn off sorting on the 3rd header
+        { headers: { 2: {sorter: false} } }
+      ); });
+  <% end %>
+<% end %>
+
+<% unless @reviewers.blank? && @reviewers.length > 0 %>
+  <br />
+  <h1>Listing Reviewers (<%= @reviewers.length %>) for <i><%= current_project.project_title %></i></h1>
+
+  <table id="reviewersTable" class="tablesorter { sortList: [[1,0]] }">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>email</th>
+        <th>Work phone</th>
+        <th>Rank</th>
+        <th>Primary department</th>
+        <th>Campus</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @reviewers.each do |user| %>
+      <tr>
+        <td><%=h user.username %></td>
+        <td><%= user.sort_name %></td>
+        <td><%= mail_to(user.email, "email",
+            :subject => NucatsAssist.email_subject,
+            :encode => "javascript", :title=>"Send email to this applicant") unless user.email.blank? %> </td>
+        <td><%=h user.business_phone %></td>
+        <td><%=h user.title %></td>
+        <td><%=h user.primary_department %></td>
+        <td><%=h user.campus %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#reviewersTable").tablesorter(
+        // turn off sorting on the 3rd header
+        { headers: { 2: {sorter: false} } }
+      ); });
+  <% end %>
+<% end %>

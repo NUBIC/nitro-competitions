@@ -1,0 +1,9 @@
+<% @include_sponsor_and_competition = 0 %>
+
+<%= render 'shared/submissions_list', submissions: @submissions, include_sponsor_and_competition: @include_sponsor_and_competition %>
+
+<%= render 'shared/admin_links' %>
+
+<br />
+<%= link_to 'Current competition', project_path(current_project.id) %>
+<%= link_to 'List of all competitions', projects_path() %>

@@ -1,0 +1,37 @@
+#scores {
+  padding-bottom: 1px;
+  padding-top: 0;
+}
+
+#scores .reviewer {
+  background-color: #dddddd;
+  color: #520063;
+}
+
+#scores .hanging-indent {
+  text-indent: -70px;
+  padding-left: 80px;
+  padding-bottom: 5px;
+  margin-top: 5px;
+}
+
+#scores ol li {
+  padding: 1em;
+  margin: 1em 0;
+}
+
+#scores h2 {
+  padding-bottom: 1px;
+  margin: 0;
+}
+
+#scores div.line {
+  background-color: #222266;
+  line-height: 21px;
+  margin: 10px 0 0 0;
+}
+
+#scores h3 {
+  padding-bottom: 5px;
+  padding-top: 15px;
+}

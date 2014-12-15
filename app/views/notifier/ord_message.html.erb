@@ -1,0 +1,28 @@
+<p>
+  Dear <i><%= @name %></i>,
+</p>
+
+<p>
+  We have received your submission,
+  <i><%= @submission.submission_title %></i>, for the limited submission funding opportunity: <b><%= @submission.project.project_title %>.</b>
+</p>
+
+<p>
+  If you would like to edit your submission at any point before the due date
+  you may do so by clicking on your submission on the competition page
+  (<%= link_to( @the_project_url, @the_project_url) %>).
+</p>
+
+<% unless @submission.key_personnel_names.blank? %>
+  <p>Key Personnel: You have listed the following key personnel:</p>
+  <ul>
+    <% @submission.key_personnel.each do |p| %>
+      <li><%= p.name || p.user.name %>. Role: <%= p.role %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<p>
+  Sincerely, <br/><br/>
+  Office of Research Development (ORD) and <%= NucatsAssist.app_name %>
+</p>

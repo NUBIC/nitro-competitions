@@ -1,0 +1,19 @@
+users:
+  admin:
+    first_name: Super
+    last_name: Admin
+    password: demo
+    portals:
+      - NUCATSassist:
+  user:
+    first_name: Test
+    last_name: User
+    password: demo
+    portals:
+      - NUCATSassist:
+  reviewer:
+    first_name: Reviewer
+    last_name: Person
+    password: demo
+    portals:
+      - NUCATSassist:

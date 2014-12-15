@@ -1,0 +1,15 @@
+<%= render 'sponsor_list', :sponsors => @sponsors %>
+
+<% if @projects.length > 0 %>
+  <h2>Listing of all competitions sponsored by <%= @sponsor.program_title %></h2>
+  <div class='program'>
+    <%= render 'shared/project_list',
+               projects: @projects,
+               show_project_link: true,
+               show_action_links: true %>
+  </div>
+<% else %>
+  <h2>No valid competitions have been sponsored by <%= @sponsor.program_title %></h2>
+<% end %>
+
+<%= render 'shared/admin_links' %>

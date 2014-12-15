@@ -1,0 +1,50 @@
+<h1>Listing applicants</h1>
+
+<table id="applicantTable" class="tablesorter { sortList: [[2,0]] }">
+  <thead>
+  <tr>
+   <th>Username</th>
+   <th>eRA Commmons name</th>
+   <th>Name</th>
+   <th>email</th>
+    <th>Work phone</th>
+    <th>Rank</th>
+    <th>Primary department</th>
+    <th>Campus</th>
+  </tr>
+ </thead>
+ <tbody>
+<% @applicants.each do |applicant| %>
+  <tr>
+    <td><%=h applicant.username %></td>
+    <td><%=h applicant.era_commons_name %></td>
+    <td><%= applicant.sort_name %></td>
+    <td><%= mail_to(applicant.email, "email",
+				:subject => "#{NucatsAssist.app_name} colleague",
+				:encode => "javascript", :title=>"Send email to this applicant") unless applicant.email.blank? %> </td>
+    <td><%=h applicant.business_phone %></td>
+    <td><%=h applicant.title %></td>
+    <td><%=h applicant.primary_department %></td>
+    <td><%=h applicant.campus %></td>
+    <td><%= link_to 'Show', applicant_path(applicant) %></td>
+    <td><%= link_to 'Edit', edit_applicant_path(applicant) %></td>
+    <td><%= link_to 'New Application', new_submission_path(:applicant_id=>applicant.id) %></td>
+    <td><%= link_to( 'Destroy', applicant_path(applicant), :confirm => 'Are you sure you want to delete this applicant?', :method => :delete) if is_admin? %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+
+<br />
+
+<%= javascript_tag do %>
+  jQuery(document).ready(function() {
+    // call the tablesorter plugin
+    jQuery("#applicantTable").tablesorter(
+      // turn off sorting on the 4th header
+      { headers: { 3: {sorter: false} } }
+    );
+});
+<% end %>
+
+<%= link_to 'New applicant', new_applicant_path %>

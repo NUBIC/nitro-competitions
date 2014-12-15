@@ -1,0 +1,52 @@
+<% @activity ||= "logged"%>
+<h1>Listing <%= @activity -%> activities (<%= @logs.length -%>) for <i><%= @project.project_title %></i></h1>
+
+<table id="allLogsTable" class="tablesorter { sortList: [[2,0]] }">
+  <thead>
+  <tr>
+   <th>Program</th>
+   <th>Project</th>
+   <th>Activity</th>
+   <th width="75px">params</th>
+   <th>Username</th>
+   <th>Name</th>
+   <th>email</th>
+    <th>Work phone</th>
+    <th>Campus</th>
+    <th>When</th>
+    <th>Where</th>
+    <th>Created on</th>
+  </tr>
+ </thead>
+ <tbody>
+<% @logs.each do |log_entry| %>
+  <tr>
+    <td><%=h log_entry.project.program.program_name unless log_entry.project.blank? %></td>
+    <td><%=h log_entry.project.project_name unless log_entry.project.blank? %></td>
+    <td><%=h log_entry.activity %></td>
+    <td><%=h log_entry.params %></td>
+    <td><%=h log_entry.user.username %></td>
+    <td><%= log_entry.user.sort_name %></td>
+    <td><%= mail_to(log_entry.user.email, "email",
+                    :subject => NucatsAssist.email_subject,
+                    :encode => "javascript",
+                    :title => "Send email to this applicant") unless log_entry.user.email.blank? %> </td>
+    <td><%=h log_entry.user.business_phone %></td>
+    <td><%=h log_entry.user.campus %></td>
+    <td><%= log_entry.created_at.to_s(:justdate) %></td>
+    <td><%= log_entry.created_ip %></td>
+    <td><%= log_entry.user.created_at.to_s(:justdate) %></td>
+    <td><%= link_to("Edit", edit_applicant_path(log_entry.user_id)) %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+
+<%= javascript_tag do %>
+  jQuery(document).ready(function() {
+    // call the tablesorter plugin
+    jQuery("#allLogsTable").tablesorter(
+      // turn off sorting on the 9th header
+      { headers: { 8: {sorter: false} } }
+    ); });
+<% end %>

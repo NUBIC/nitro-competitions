@@ -1,0 +1,60 @@
+div#submissions_list {
+  border-bottom: 1px solid lightgray;
+}
+
+div#show_submission {
+  margin-left: 0.5em;
+}
+
+div#show_submission div {
+  margin-bottom: 1em;
+  font-weight: bold;
+}
+
+div#show_submission div p {
+  font-weight: normal;
+}
+
+div.submission {
+  float: left;
+  width: 98%;
+  border: 1px solid gray;
+  margin-bottom: 1em;
+  padding: 1em 0.5em;
+}
+
+div.submission_info {
+  width: 60%;
+  float: left;
+}
+
+div.submission_actions {
+  width: 35%;
+  float: left;
+}
+
+#unassigned_submissions {
+  position: relative;
+}
+
+label.error {
+  color: crimson;
+  font-weight: bold;
+  border: 2px solid crimson;
+  background-color: lightpink;
+  padding: 0.25em;
+  margin-top: 0.5em;
+  display: block;
+  width: 25em;
+}
+
+textarea.error,
+input.error {
+  color: crimson;
+  border: 2px solid crimson;
+}
+
+#submission_submission_title {
+  display: block;
+  margin-bottom: 0.5em;
+}

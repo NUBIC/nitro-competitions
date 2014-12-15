@@ -1,0 +1,38 @@
+#listing .list-title {
+  color: #520063;
+  font-weight: bold;
+}
+
+#listing .list-title-center {
+  color: #520063;
+  font-weight: bold;
+  text-align: center;
+}
+
+#listing .list-title-right {
+  color: #520063;
+  font-weight: bold;
+  padding-right: 1em;
+  text-align: right;
+}
+
+#listing .list-image {
+  width: 60px;
+  height: 70px;
+}
+
+#listing .list-actions {
+  font-size: 16px;
+  text-align: right;
+  padding-left: 1em;
+}
+
+#listing .list-line-even {
+  background: aliceblue;
+  padding-bottom: 1em;
+}
+
+#listing .list-line-odd {
+  background: lightyellow;
+  padding-bottom: 1em;
+}

@@ -1,0 +1,61 @@
+<% @activity ||= "logged"%>
+<h1>Listing <%= @activity -%> (<%= @submissions.length %>)</h1>
+
+<table id="allLogsTable" class="tablesorter { sortList: [[2,0]] }">
+  <thead>
+    <tr>
+     <th>Program</th>
+     <th>Project</th>
+     <th>Username</th>
+     <th>ERA Commons</th>
+     <th>Name</th>
+     <th>email</th>
+      <th>Work phone</th>
+      <th>Campus</th>
+      <th>Submission started</th>
+      <th>Submitted from</th>
+      <th>Applicant entered on</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @submissions.each do |submission| %>
+    <tr>
+      <td><%=h submission.project.program.program_name unless submission.project.blank? %></td>
+      <td><%=h submission.project.project_name unless submission.project.blank? %></td>
+      <td><%=h submission.applicant.username %></td>
+      <td><%=h submission.applicant.era_commons_name %></td>
+      <td><%= submission.applicant.sort_name %></td>
+      <td><%= unless submission.applicant.email.blank? then
+  		unless defined?(@pdf) then
+  		mail_to(submission.applicant.email, "email",
+  				:subject => NucatsAssist.email_subject,
+  				:encode => "javascript", :title => "Send email to this applicant")
+  		else
+  			mail_to(submission.applicant.email, "email",
+  					:subject => NucatsAssist.email_subject,
+  					:title => "Send email to this applicant")
+  		end
+  		end -%> </td>
+      <td><%=h submission.applicant.business_phone %></td>
+      <td><%=h submission.applicant.campus %></td>
+      <td><%= submission.created_at.to_s(:justdate) %></td>
+      <td><%= submission.created_ip %></td>
+      <td><%= submission.applicant.created_at.to_s(:justdate) %></td>
+      <td><%= link_to("Edit", edit_applicant_path(submission.applicant_id)) unless defined?(@pdf)%></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% unless defined?(@pdf) %>
+  <%= javascript_tag do %>
+    jQuery(document).ready(function() {
+      // call the tablesorter plugin
+      jQuery("#allLogsTable").tablesorter(
+        // turn off sorting on the 11th header
+        { headers: { 10: {sorter: false} } }
+      ); });
+  <% end %>
+<% end %>
+
+<br />

@@ -1,0 +1,22 @@
+.DS_Store
+db/*.out
+.powrc
+.rvmrc
+config/database.yml
+bin/
+tmp/
+log/
+assets/files/
+coverage/
+public/assets/
+public/system/
+doc/notes/
+
+# Ignore .env files
+.powenv
+.env
+.env.test
+.env.development
+.env.staging
+.env.production
+*_data.txt

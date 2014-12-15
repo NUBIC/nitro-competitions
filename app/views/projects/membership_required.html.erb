@@ -1,0 +1,20 @@
+<div id='project_membership_required'>
+  <p>
+    <% project_title = @project.project_title.blank? ? 'competition' : "#{@project.project_title} competition" %>
+    The <%= link_to project_title, project_path(@project) %> requires all applicants to be <%= NucatsAssist.ctsa_name %> Members
+    and our records indicate that you are not currently a <%= NucatsAssist.ctsa_name %> Member.
+  </p>
+  <p>
+    If this information is incorrect and you are a <%= NucatsAssist.ctsa_name %> Member, please contact
+    <a href=<%= NucatsAssist.mail_to_app_support_href %>>the <%= NucatsAssist.app_name %> application support desk</a>
+    to investigate this issue.
+  </p>
+  <p>
+    Otherwise membership is free and easy. Simply go to the
+    <a href="<%= ENV['MEMBERSHIP_URL'] %>/people/join"><%= NucatsAssist.ctsa_name %> Membership (<%= NucatsAssist.ctsa_membership_app_name %>) website</a>
+    and sign up. The process takes less than one minute.
+  </p>
+  <p>
+    After you have become a <%= NucatsAssist.ctsa_name %> Member, return to <%= NucatsAssist.app_name %> to apply for this competition.
+  </p>
+</div>

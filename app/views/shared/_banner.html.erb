@@ -1,0 +1,48 @@
+<% if !cookies[:nucats_auth].present? || !session[:user_info].present? %>
+  <div id="supermenu">
+    Having trouble logging in?
+    <%= link_to 'Click here', auth_path, :class => 'menu_link' %>
+    to reset your session.
+  </div>
+<% end %>
+<div id="app_title">
+  <%= NucatsAssist.app_name_html.html_safe %>
+</div>
+<div id="banner">
+  <%= image_tag "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;" %>
+  <div style="float:left; z-index:2; margin-top:-29px;">
+    <% if defined?(current_user_session) && !current_user_session.blank? %>
+      <%= render "shared/menus"  %>
+    <% end %>
+  </div>
+  <div id="menu">
+    <%# TODO: update instructions documentation %>
+    <%= link_to 'Help', 'http://www.nucats.northwestern.edu/funding/nitro-competitions.html', :class => 'menu_link' %>
+    <% if defined?(current_user_session) && !current_user_session.blank? %>
+      <%= session[:name] || current_user_session.try(:username) %>
+      <%= link_to "Sign Out", application_logout_path,
+                  :class => 'user_link',
+                  :title => "Logout of #{NucatsAssist.app_name}" %>
+    <% else %>
+      <%= link_to 'Login', projects_path,
+                  :class => 'menu_link',
+                  :title => "Login to #{NucatsAssist.app_name}" %>
+    <% end %>
+  </div>
+</div>
+<%# TODO: Fix CSRF Detected error coming from OmniAuth %>
+<% if !flash[:errors].blank? && flash[:errors].to_s.downcase != 'csrf detected' %>
+  <div id="results" class="notice">
+    <div id="errors">
+      <%= flash[:errors].html_safe %>
+    </div>
+  <%= image_tag 'loading.gif', :id => 'spinner' %>
+  </div>
+<% end %>
+<% unless flash[:notice].blank? %>
+  <div id="test" class="notice">
+    <div id="notice">
+      <%= flash[:notice].html_safe %>
+    </div>
+  </div>
+<% end %>

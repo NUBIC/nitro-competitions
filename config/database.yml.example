@@ -1,0 +1,12 @@
+development:
+  adapter: postgresql
+  database: nitro_competitions
+  username: nitro_competitions
+  password: nitro_competitions
+
+test:
+  adapter: postgresql
+  database: nitro_competitions_test
+  username: nitro_competitions
+  password: nitro_competitions
+  database: nitro_competitions

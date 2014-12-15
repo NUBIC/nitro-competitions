@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <%= csrf_meta_tag %>
+    <title><%= NucatsAssist.app_name %>: <%= controller.action_name %></title>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag 'application' %>
+    <%= render "shared/menu_scripts" %>
+
+    <link rel="shortcut icon" href='<%= image_path("favicon.ico") -%>' />
+    <style type="text/css">
+      #search {
+        background: url(<%= image_path("titlebar.jpg") %>) ;
+      }
+    </style>
+    <script type="text/javascript">
+      jQuery.noConflict();
+      var $j = jQuery;
+    </script>
+  </head>
+  <body>
+    <div class='wrapper'>
+      <div id='main' class="autoclear">
+        <%= render 'shared/banner' %>
+        <div id='content'>
+          <%= yield %>
+        </div>
+      </div>
+      <div class='push'>&nbsp;</div>
+    </div>
+  </body>
+</html>
