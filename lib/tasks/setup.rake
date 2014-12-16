@@ -6,7 +6,7 @@ namespace :setup do
     puts 'All data has been reset to demonstration mode.'
   end
 
-  desc "\e[31mTHIS IS FOR THE DEMO SERVER ONLY!!! If you run this it will DELETE ALL YOUR DATA.\e[39m"
+  desc "THIS IS FOR THE DEMO SERVER ONLY!!! If you run this it will DELETE ALL YOUR DATA."
   task :truncate_tables => :environment do
     # Leaves 'schema_migrations' and 'roles' tables in place.
     tables = ActiveRecord::Base.connection.tables
