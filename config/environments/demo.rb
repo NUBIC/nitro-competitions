@@ -15,4 +15,9 @@ NucatsAssist::Application.configure do
   config.send_notification_to_all = true
 
   config.use_omniauth = false
+  OmniAuthConfigure.configure {
+    app :nucats_assist
+    strategies :nucats_accounts
+    central '/etc/nubic/omniauth/demo.yml'
+  }
 end
