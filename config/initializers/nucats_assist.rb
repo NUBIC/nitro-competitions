@@ -9,7 +9,7 @@ module NucatsAssist
     def plain_app_name
       'NITROCompetitions'
     end
-  
+
     def html_app_name
       '<b>NITRO</b>Competitions'.html_safe
     end
@@ -75,11 +75,11 @@ module NucatsAssist
     end
 
     def admin_email_addresses
-      %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu wakibbe@northwestern.edu}
+      %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
     end
 
     def admin_netids
-      %w{pfr957 jml588 wakibbe}
+      %w{pfr957 jml588}
     end
 
     def cru_contact_email
