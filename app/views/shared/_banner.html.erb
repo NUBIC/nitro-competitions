@@ -9,7 +9,6 @@
     <% end %>
   </div>
   <div id="menu">
-    <%# TODO: update instructions documentation %>
     <%= link_to 'Help', 'http://www.nucats.northwestern.edu/funding/nitro-competitions.html', :class => 'menu_link' %>
     <% if defined?(current_user_session) && !current_user_session.blank? %>
       <%= session[:name] || current_user_session.try(:username) %>
