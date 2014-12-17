@@ -60,8 +60,8 @@ module NucatsAssist
     # config.use_omniauth = false
 
     # Emails will be sent from this address
-    config.from_address = 'p-friedman@northwestern.edu'
-    config.testing_to_address = 'p-friedman@northwestern.edu'
+    config.from_address = 'competitions@northwestern.edu'
+    config.testing_to_address = 'competitions@northwestern.edu'
 
     config.middleware.use ExceptionNotification::Rack,
                           email: {
