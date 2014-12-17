@@ -67,7 +67,7 @@ module NucatsAssist
     end
 
     def exception_from_email
-      "'NC-notifier [#{Rails.env}]' <p-friedman@northwestern.edu>"
+      "'[#{Rails.env}]' <competitions@northwestern.edu>"
     end
 
     def exception_recipients
