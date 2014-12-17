@@ -9,7 +9,6 @@ end
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 
 # For front-end testing with phantomjs and poltergeist
 require 'capybara/rspec'
