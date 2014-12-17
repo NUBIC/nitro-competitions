@@ -10,7 +10,7 @@
     <p>
   <% end %>
   If you would like to edit your submission at any point up until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>)
-  you may do so by clicking on your submission on (<%= link_to("the competition's page", @the_project_url) %>).
+  you may do so by clicking on your submission on <%= link_to("the competition's page", @the_project_url) %>.
 </p>
 <% unless @submission.key_personnel_names.blank? %>
   <p>Key Personnel: You have listed the following key personnel:</p>

@@ -1,11 +1,11 @@
-**NITRO Competitions** is a web-based application for managing institutional funding
+**NITRO**Competitions is a web-based application for managing institutional funding
 competitions.
 
 ## Main features
 
 * Create a competition framework
 * Publish the competition and associated details
-* Ability for faculty and staff to authenticate to **NITRO Competitions** using any OAuth
+* Ability for faculty and staff to authenticate to **NITRO**Competitions using any OAuth
   provider via the [`omniauth` gem][1]
 * Submission of proposals
 * A workflow for reviewing submissions via one or more members of a review panel
@@ -16,13 +16,13 @@ default.
 
 ## About
 
-**NITRO Competitions** is written in [Ruby on Rails 3][2] and uses [PostgreSQL][3] as the
+**NITRO**Competitions is written in [Ruby on Rails 3][2] and uses [PostgreSQL][3] as the
 backend database by default. However, any RDBMS that is supported by
 [ActiveRecord][4] should work.
 
 ## Data model
 
-**NITRO Competitions** has the following major models to organize sponsoring
+**NITRO**Competitions has the following major models to organize sponsoring
 organizations, competitions, reviewers, submitters, applicants, and reviews:
 
 1. **Sponsor**: A sponsoring organization running a competition
@@ -53,17 +53,17 @@ organizations, competitions, reviewers, submitters, applicants, and reviews:
 The categories can be customized on a per-competition basis. A 1-9 score, and
 descriptive text can be entered for each criterion.
 
-## Installing NITRO Competitions
+## Installing NITROCompetitions
 
-Since **NITRO Competitions** is a standard Rails app, installing it is just like
+Since **NITRO**Competitions is a standard Rails app, installing it is just like
 installing any other Rails app. The current version of the code is tested
 against Ruby 1.9.x and 2.x.x
 
-See the INSTALL_GUIDE.md for specific configuration options.  
+See the INSTALL_GUIDE.md for specific configuration options.
 
 ## Running the test suite
 
-**NITRO Competitions** has a number of rspec tests. To run these specs run the following
+**NITRO**Competitions has a number of rspec tests. To run these specs run the following
 command in the project folder:
 
     $ bundle exec rspec spec/
@@ -72,7 +72,7 @@ command in the project folder:
 
 ### OAuth
 
-The current version of **NITRO Competitions** uses OAuth providers for authentication,
+The current version of **NITRO**Competitions uses OAuth providers for authentication,
 via the [`omniauth` gem][1].
 
 See [`config/application.rb line 58`][6]
