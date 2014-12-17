@@ -6,20 +6,16 @@ module NucatsAssist
   VERSION = '2.3.7'
 
   class << self
-    def app_name
+    def plain_app_name
       'NITROCompetitions'
     end
-
-    def app_name_complete
-      'NITRO-Competitions'
-    end
-
-    def app_name_html
-      '<b>NITRO</b>Competitions'
+  
+    def html_app_name
+      '<b>NITRO</b>Competitions'.html_safe
     end
 
     def email_subject
-      "FROM #{app_name}"
+      "FROM NITROCompetitions"
     end
 
     def ctsa_name

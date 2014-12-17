@@ -168,7 +168,7 @@
       Please enter your CRU contact, if you will make use of the NUCATS CRU.
       If you have not made contact with the CRU, please contact
       <%= mail_to(NucatsAssist.cru_contact_email, NucatsAssist.cru_contact_email_text,
-                  subject: "CRU usage for a #{NucatsAssist.app_name} Competition",
+                  subject: "CRU usage for a #{NucatsAssist.plain_app_name} Competition",
                   encode: "javascript", title: "Click to send CRU Contact an email") %>
     </td>
   </tr>

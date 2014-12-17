@@ -1,5 +1,5 @@
 <div id="app_title">
-  <%= NucatsAssist.app_name_html.html_safe %>
+  <%= NucatsAssist.html_app_name %>
 </div>
 <div id="banner">
   <%= image_tag "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;" %>
@@ -12,13 +12,9 @@
     <%= link_to 'Help', 'http://www.nucats.northwestern.edu/funding/nitro-competitions.html', :class => 'menu_link' %>
     <% if defined?(current_user_session) && !current_user_session.blank? %>
       <%= session[:name] || current_user_session.try(:username) %>
-      <%= link_to "Sign Out", application_logout_path,
-                  :class => 'user_link',
-                  :title => "Logout of #{NucatsAssist.app_name}" %>
+      <%= link_to "Logout", application_logout_path, :class => 'user_link' %>
     <% else %>
-      <%= link_to 'Login', projects_path,
-                  :class => 'menu_link',
-                  :title => "Login to #{NucatsAssist.app_name}" %>
+      <%= link_to 'Login', projects_path, :class => 'menu_link' %>
     <% end %>
   </div>
 </div>
