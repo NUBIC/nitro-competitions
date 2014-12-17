@@ -66,18 +66,6 @@ module NucatsAssist
       "mailto:#{app_support_email_address}"
     end
 
-    def exception_subject_prefix
-      "[#{Rails.env}] NITROCompetitions "
-    end
-
-    def exception_from_email
-      "'NC-notifier [#{Rails.env}]' <p-friedman@northwestern.edu>"
-    end
-
-    def exception_recipients
-      %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
-    end
-
     def admin_email_addresses
       %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu wakibbe@northwestern.edu}
     end

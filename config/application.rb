@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 require File.expand_path('../boot', __FILE__)
-require_relative './initializers/nucats_assist.rb'
 
 require 'rails/all'
 
@@ -65,9 +64,9 @@ module NucatsAssist
 
     config.middleware.use ExceptionNotification::Rack,
                           email: {
-                            email_prefix: NucatsAssist::exception_subject_prefix,
-                            sender_address: NucatsAssist::exception_from_email,
-                            exception_recipients: NucatsAssist::exception_recipients
+                            email_prefix: "[#{Rails.env}] NITROCompetitions ",
+                            sender_address: "competitions@northwestern.edu",
+                            exception_recipients: %w{p-friedman@northwestern.edu jeff.lunt@northwestern.edu}
                           }
   end
 
