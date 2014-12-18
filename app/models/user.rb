@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class User < ActiveRecord::Base
-
+  # Associations
   has_many :reviewers  # really program reviewers since the reviewer model is a user + program
   belongs_to :biosketch, :class_name => 'FileDocument', :foreign_key => 'biosketch_document_id'
   has_many :key_personnel
@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 
   has_many :submissions, :foreign_key => 'applicant_id'
   has_many :proxy_submissions, :class_name => 'Submission', :foreign_key => 'created_id'
+
+  # Accessors
   attr_accessor :validate_for_applicant
   attr_accessor :validate_era_commons_name
   attr_accessor :validate_name
@@ -19,22 +21,24 @@ class User < ActiveRecord::Base
   attr_accessible *column_names
   attr_accessible :biosketch, :uploaded_biosketch, :uploaded_photo
 
-  after_save :save_documents
-
-  scope :project_applicants, lambda { |*args| joins([:submissions]).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
-
+  # Scopes
   default_scope order('lower(users.last_name),lower(users.first_name)')
+  scope :project_applicants, lambda { |*args| joins([:submissions]).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
   scope :program_reviewers, lambda { |*args| joins(:reviewers).where('reviewers.program_id = :program_id', { :program_id => args.first }) }
-
   scope :applicants, joins('join submissions on submissions.applicant_id = users.id')
 
+  # Callbacks
+  after_save :save_documents
+
+  # Validations
   validates_presence_of :username
-  validates_uniqueness_of :username
   validates_presence_of :first_name, :if => :validate_first_last
   validates_presence_of :last_name, :if => :validate_first_last
   validates_presence_of :era_commons_name, :if => :validate_era_commons
-  validates_uniqueness_of :era_commons_name, :if => :validate_era_commons
   validates_presence_of :email, :if => :validate_email
+
+  validates_uniqueness_of :username
+  validates_uniqueness_of :era_commons_name, :if => :validate_era_commons
   validates_uniqueness_of :email, :if => :validate_email
   validates_format_of :email,
                       :with => %r{^[a-zA-Z0-9\.\-\_][a-zA-Z0-9\.\-\_]+@[^\.]+\..+$}i,
