@@ -12,27 +12,13 @@ describe KeyPerson, :type => :model do
     it { is_expected.to validate_presence_of :last_name }
   end
 
-  context '#name' do
-    it 'should combine first_name and last_name with a space' do
-      fake_key_person = KeyPerson.new(first_name: 'Fake', last_name: 'Person')
-      expect(fake_key_person.name).to eq("Fake Person")
-    end
-
-    it 'should strip leading whitespace' do
-      fake_key_person = KeyPerson.new(first_name: '   Fake', last_name: 'Person')
-      expect(fake_key_person.name).to eq("Fake Person")
-    end
-
-    it 'should strip trailing whitespace' do
-      fake_key_person = KeyPerson.new(first_name: 'Fake', last_name: 'Person   ')
-      expect(fake_key_person.name).to eq("Fake Person")
-    end
+  context '#name normalization' do
+    subject { KeyPerson.new(first_name: '   Name is combined with a space', last_name: 'and whitespace removed    ').name }
+    it { is_expected.to eq("Name is combined with a space and whitespace removed") }
   end
 
   context '#sort_name' do
-    it 'should put first name last, joined with a command and space' do
-      fake_key_person = KeyPerson.new(first_name: 'Fake', last_name: 'Person')
-      expect(fake_key_person.sort_name).to eq("Person, Fake")
-    end
+    subject { KeyPerson.new(first_name: 'First', last_name: 'Last').sort_name }
+    it { is_expected.to eq('Last, First') }
   end
 end
