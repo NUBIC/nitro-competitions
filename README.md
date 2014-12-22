@@ -66,7 +66,7 @@ See the INSTALL_GUIDE.md for specific configuration options.
 **NITRO**Competitions has a number of rspec tests. To run these specs run the following
 command in the project folder:
 
-    $ bundle exec rspec spec/
+    $ bundle exec rspec
 
 ## Authentication
 
