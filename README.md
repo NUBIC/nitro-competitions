@@ -93,6 +93,12 @@ cases.
 
 ## Contributing
 
+### Feedback and bug/issue reports
+
+We welcome new ideas and perspectives on the app's usage that have not been
+considered before. If you have an idea feel free to
+[let us know](mailto:competitions@northwestern.edu).
+
 Currently we host our issue and bug tracking system internally. However, if
 you'd like to submit a github issue, we'll take a look at it and get back to
 you.
@@ -101,9 +107,14 @@ If you want to report a security problem that you feel should be reported
 privately first, you can email
 [competitions@northwestern.edu](mailto:competitions@northwestern.edu).
 
+### Code contributions
+
+Please see the [code contribution guide][7] for more details.
+
   [1]: https://github.com/intridea/omniauth/wiki/List-of-Strategies
   [2]: http://rubyonrails.org/
   [3]: http://www.postgresql.org/
   [4]: http://guides.rubyonrails.org/active_record_querying.html
   [5]: https://github.com/NUBIC/aker
   [6]: https://github.com/NUBIC/nitro-arm/blob/v2.2.9/config/application.rb#L58
+  [7]: https://github.com/NUBIC/nitro-competitions/wiki/Contributing-code
