@@ -1,3 +1,10 @@
+<% if !cookies[:nucats_auth].present? || !session[:user_info].present? %>
+  <div id="supermenu">
+    Having trouble logging in?
+    <%= link_to 'Click here', auth_path, :class => 'menu_link' %>
+    to reset your session.
+  </div>
+<% end %>
 <div id="app_title">
   <%= NucatsAssist.html_app_name %>
 </div>
