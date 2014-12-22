@@ -1,7 +1,5 @@
-<p>Dear <i><%= @name %></i>, </p>
-
 <p>
-  Thank you for using <%= NucatsAssist.app_name %>. We have received your submission,
+  Thank you for using <%= NucatsAssist.html_app_name %>. We have received your submission,
   <i><%= @submission.submission_title %></i>, for the <b><%= @submission.project.project_title %></b>
   competition.
   Your submission is currently
@@ -12,9 +10,8 @@
     <p>
   <% end %>
   If you would like to edit your submission at any point up until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>)
-  you may do so by clicking on your submission on the competition page (<%= link_to( @the_project_url, @the_project_url) %>).
+  you may do so by clicking on your submission on <%= link_to("the competition's page", @the_project_url) %>.
 </p>
-
 <% unless @submission.key_personnel_names.blank? %>
   <p>Key Personnel: You have listed the following key personnel:</p>
   <ul>
@@ -31,8 +28,4 @@
     <% end %>
   </ul>
 <% end %>
-
-  <p>Thank you again for your submission.</p>
-
-  <%= NucatsAssist.app_name %>: <%= link_to(NucatsAssist.root_url, NucatsAssist.root_url) %>
 </p>

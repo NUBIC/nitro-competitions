@@ -37,7 +37,7 @@ end
 
 def create_message(submission)
   from = determine_from_address(submission)
-  subject = "Thank you for your #{NucatsAssist.app_name} Submission"
+  subject = "Thank you for your #{NucatsAssist.plain_app_name} Submission"
 
   path = "#{Rails.root}/app/views/notifier/#{sponsor_name(submission)}_message.html.erb"
   if File.exists?(path)
