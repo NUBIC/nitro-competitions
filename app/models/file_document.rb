@@ -1,11 +1,12 @@
 # encoding: UTF-8
 class FileDocument < ActiveRecord::Base
+  # Associations
   has_attached_file :file, :path => ":rails_root/public/system/:attachment/:id/:basename.:extension"
+  # Accessors
+  attr_accessible :file, :uploaded_file
+  attr_accessible *column_names
 
-  validates_attachment_presence :file
-  validates_attachment_content_type :file, :content_type => [/application\/zip/i, /application\/x-/i, /application\/x-zip/i, /application\/x-zip-compressed/i, /application\/pdf/i, /application\/x-pdf/i, /^application\/.*word/i, /pdf/i, /office/i, /excel/i, /rtf/i, /application\/oct/i, /^text/i, /openxml/i, /application\/x-download/i], :message => ' '
-  validates_attachment_size :file, :less_than =>50.megabytes
-
+  # Callbacks
   before_validation(:on => :create) do |file|
     if file.file_content_type == 'application/octet-stream'
       mime_type = MIME::Types.type_for(file.file_file_name)
@@ -18,8 +19,10 @@ class FileDocument < ActiveRecord::Base
   before_create :set_on_create
   before_update :set_last_update
 
-  attr_accessible *column_names
-  attr_accessible :file, :uploaded_file
+  # Validations
+  validates_attachment_presence :file
+  validates_attachment_content_type :file, :content_type => [/application\/zip/i, /application\/x-/i, /application\/x-zip/i, /application\/x-zip-compressed/i, /application\/pdf/i, /application\/x-pdf/i, /^application\/.*word/i, /pdf/i, /office/i, /excel/i, /rtf/i, /application\/oct/i, /^text/i, /openxml/i, /application\/x-download/i], :message => ' '
+  validates_attachment_size :file, :less_than =>50.megabytes
 
   # this defines the connection between the model attribute exposed to the form (uploaded_file)
   # and the storage fields- file_name, content_type, photo
