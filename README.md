@@ -57,7 +57,7 @@ descriptive text can be entered for each criterion.
 
 Since **NITRO**Competitions is a standard Rails app, installing it is just like
 installing any other Rails app. The current version of the code is tested
-against Ruby 1.9.x and 2.x.x
+against Ruby 2.x.x
 
 See the INSTALL_GUIDE.md for specific configuration options.
 
