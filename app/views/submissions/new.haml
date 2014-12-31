@@ -3,11 +3,7 @@
 
 = form_for(:submission, :url => project_applicant_submissions_path(params[:project_id], params[:applicant_id]), :html => { :multipart => true, :method => :post, :id => 'new_submission_form' }) do |f|
   = f.hidden_field :submission_status
-  %table
-    = render 'submission_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant
-    %tr
-      %td{colspan: '3', style: 'background:#ADE387;'}
-        = f.submit( @submission.id.blank? ? 'Save Draft and Continue' : 'Save Update' )
+  = render 'submission_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant
 
 %script{type: 'text/javascript'}
   jQuery('#new_submission_form').validate();
