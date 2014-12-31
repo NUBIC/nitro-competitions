@@ -1,0 +1,19 @@
+%h2 Application Process - Step 1
+
+%table{cellpadding: '10px', cellspacing: '10px'}
+  = form_tag(new_project_applicant_path(:project_id => params[:project_id]), :method => :get, :id => "username_form") do
+    %tr
+      %td{colspan: '3'}
+        %h3 Please review this Investigator Profile information to ensure that it is accurate and up-to-date.
+
+    %tr
+      %td PI Username
+      %td
+        = text_field_tag :username, @applicant.username
+        = link_to_function(image_tag("arrow_refresh.png", :style => "margin-left:10px; margin-bottom:-10px; margin-top:-5px;", :title => "click here to reload this page with a new #{NucatsAssist.institute_id_name}"), "jQuery('#username_form').submit()")
+      - # FIXME: Why does this only work for NU personnel? %>
+      %td
+        = "Username #{netid_lookup_tag} for the Principal Investigator".html_safe
+
+= form_for(:applicant, :url => project_applicants_path({ :project_id => params[:project_id], :id => @applicant.id }), :html => { :class => 'none', :id => "applicant_form", :multipart => true, :method => :post }) do |f|
+  = render(:partial => 'applicant_proxy_form', :locals => { :f => f, :applicant => @applicant})

@@ -1,0 +1,273 @@
+%script{type: 'text/javascript'}
+  // textCounter script
+  function textCounter(field,cntfield_id,maxlimit) { if (field.value.length > maxlimit) { field.value = field.value.substring(0, maxlimit); } else { $(cntfield_id).innerHTML = maxlimit - field.value.length; } }
+
+= f.hidden_field :project_id
+= f.hidden_field :id
+
+%table
+  - if f.object && !f.object.try(:errors).blank?
+    %tr
+      %td{colspan: '3'}
+        = render 'shared/error_messages', object: f.object
+
+    %tr
+      %td{colspan: '3'}
+        = submission.inspect
+  %tr
+    %td
+      = f.label :submission_title, project.title_wording.html_safe
+    %td
+      = f.text_field :submission_title, size: 81, maxlength: 81, required: true, minlength: 6, onkeyup: "textCounter(document.forms[0].submission_submission_title,'submission_title_cnt',81)"
+      %span#submission_title_cnt
+        left
+    %td Please make the title between 6 and 81 characters, including spaces and punctuation
+
+  - if project.show_submission_category
+    %tr
+      %td
+        = f.label :submission_category, project.category_wording.html_safe
+      %td
+        = f.text_field :submission_category, size: 60
+      %td
+        = project.submission_category_description.html_safe
+
+  %tr
+    %td
+      = f.label :applicant_id, project.applicant_wording.html_safe
+    %td
+      = applicant.name
+      = f.hidden_field :applicant_id
+    %td
+      = link_to "Go back to #{project.applicant_wording} form to edit", edit_project_applicant_path(project.id, applicant.id)
+      = link_to "Enter a submission for a different #{project.applicant_abbreviation_wording}", new_project_applicant_path(project.id)
+
+  - if project.show_core_manager
+    %tr
+      %td>
+        = f.label :core_manager_username, "Core Manager NetID"
+      %td
+        = f.text_field :core_manager_username
+        = netid_lookup_tag.html_safe
+        = netid_lookup_observer(:submission_core_manager_username).html_safe
+        %span#submission_core_manager_username_id
+        = netid_lookup_function(:submission_core_manager_username, false).html_safe
+      %td
+        Please enter the NetID of the Core Manager
+
+  - if project.show_abstract_field
+    %tr
+      %td
+        = f.label :abstract
+      %td
+        = f.text_area :abstract, rows: 7, cols: 80, wrap: "virtual", required: true
+      %td
+        = project.abstract_text.html_safe
+
+  - if project.show_human_subjects_research
+    %tr
+      %td
+        = f.label :is_human_subjects_research, "Human Subjects Research"
+      %td
+        = f.check_box :is_human_subjects_research
+        Please check if this is human subjects research
+      %td
+        = project.human_subjects_research_text.html_safe
+
+  - if project.show_irb_approved || project.show_irb_study_num
+    %tr
+      %td
+        = f.label :is_irb_approved, "IRB approved"
+      %td{colspan: '2'}
+        = f.check_box :is_irb_approved
+        = 'Please check if this study has IRB approval.'
+        = "If so, enter the IRB study number: #{f.text_field :irb_study_num}".html_safe
+
+  - if project.show_iacuc_approved
+    %tr
+      %td
+        = f.label :is_iacuc_approved, "IACUC approved"
+      %td{colspan: '2'}
+        = f.check_box :is_iacuc_approved
+        = 'Please check if this is study has IACUC approval.'
+        = "If so, enter the IACUC study number: #{f.text_field :iacuc_study_num}".html_safe
+
+  - if project.show_use_nucats_cru
+    %tr
+      %td
+        = f.label :use_nucats_cru, "Use the NUCATS CRU"
+      %td{colspan: '2'}
+        = f.check_box :use_nucats_cru
+        = 'Please check if this project will make use of the'
+        = link_to 'NUCATS Clinical Research Unit', NucatsAssist.cru_url, target: "_blank"
+
+  - if project.show_nucats_cru_contact_name
+    %tr
+      %td
+        = f.label :nucats_cru_contact_name, "NUCATS CRU contact"
+      %td
+        = f.text_field :nucats_cru_contact_name, required: true
+      %td
+        = 'Please enter your CRU contact, if you will make use of the NUCATS CRU.'
+        = 'If you have not made contact with the CRU, please contact'
+        = mail_to(NucatsAssist.cru_contact_email, NucatsAssist.cru_contact_email_text, subject: "CRU usage for a #{NucatsAssist.plain_app_name} Competition", encode: "javascript", title: "Click to send CRU Contact an email")
+
+  - if project.show_use_stem_cells
+    %tr
+      %td
+        = f.label :use_stem_cells
+      %td{colspan: '2'}
+        = f.check_box :use_stem_cells
+        = 'Please check if this research will involve the collection, derivation or use of human stem cells.'
+
+  - if project.show_use_embryonic_stem_cells
+    %tr
+      %td
+        = f.label :use_embryonic_stem_cells
+      %td{colspan: '2'}
+        = f.check_box :use_embryonic_stem_cells
+        = 'Please check if this project will involve embryonic human stem cells.'
+
+  - if project.show_use_vertebrate_animals
+    %tr
+      %td
+        = f.label :use_vertebrate_animals
+      %td{colspan: '2'}
+        = f.check_box :use_vertebrate_animals
+        = 'Please check if this project will make use of vertebrate animals.'
+
+  %tr
+    %td{colspan: '3'}
+      = 'Dates of the proposed period of support:'
+      = "From #{project.project_period_start_date} through #{project.project_period_end_date}."
+
+  - if project.show_project_cost
+    %tr
+      %td
+        = f.label :direct_project_cost, project.direct_project_cost_wording
+      %td
+        = f.text_field :direct_project_cost, required: true, min: project.min_budget_request, max: project.max_budget_request
+      %td
+        - unless project.direct_project_cost_wording.blank?
+          = "Please enter the #{project.direct_project_cost_wording} requested for the proposed period of support."
+          %br
+        - unless project.min_budget_request.blank? and project.max_budget_request.blank?
+          = "Amount should be between #{number_to_currency(project.min_budget_request)} and #{number_to_currency(project.max_budget_request)}"
+
+  - if project.show_cost_sharing_amount
+    %tr
+      %td
+        = f.label :cost_sharing_amount
+      %td
+        = f.text_field :cost_sharing_amount, required: true
+      %td
+        = 'Please enter the total amount of cost sharing for this request.'
+
+  - if project.show_cost_sharing_organization
+    %tr
+      %td
+        = f.label :cost_sharing_organization
+      %td
+        = f.text_area :cost_sharing_organization, rows: 3, cols: 80, wrap: "virtual", required: true
+      %td
+        = 'Please list the organization(s) providing the cost sharing.'
+
+  - if project.show_received_previous_support
+    %tr
+      %td
+        = f.label :received_previous_support
+      %td{colspan: '2'}
+        = f.check_box :received_previous_support
+        = 'Please check if you received Office of Research support for equipment or operating expenses in the previous two years.'
+        %br
+        - if project.show_previous_support_description
+          = 'If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:'
+          %br
+          = f.text_area :previous_support_description, rows: 3, cols: 80, wrap: "virtual", required: true
+
+  - if project.show_is_new
+    %tr
+      %td
+        = f.label :is_new, project.is_new_wording
+      %td{colspan: '2'}
+        = f.check_box :is_new
+        = 'Please check if this is a new proposal.'
+        - if project.show_not_new_explanation
+          = 'If not, please explain:'
+          %span
+            = f.text_area :not_new_explanation, rows: 4, wrap: "virtual", required: true
+
+  - if project.show_use_nmh || project.show_use_nmff || project.show_use_va || project.show_use_ric || project.show_use_cmh
+    %tr
+      %td{colspan: '3'}
+        = 'Will this project require use of facilities, staff or patients at: &nbsp; &nbsp;'.html_safe
+        %span
+          - if project.show_use_nmh
+            = f.check_box :use_nmh
+            NMH&nbsp;&nbsp;
+          - if project.show_use_nmff
+            = f.check_box :use_nmff
+            NMFF&nbsp;&nbsp;
+          - if project.show_use_va
+            = f.check_box :use_va
+            VA&nbsp;&nbsp;
+          - if project.show_use_ric
+            = f.check_box :use_ric
+            RIC&nbsp;&nbsp;
+          - if project.show_use_cmh
+            = f.check_box :use_cmh
+            CMH&nbsp;&nbsp;
+
+  - if project.show_other_funding_sources
+    %tr
+      %td
+        = f.label :other_funding_sources, project.other_funding_sources_wording.html_safe
+      %td
+        = f.text_area :other_funding_sources, rows: 4, wrap: "virtual", class: "narrow", required: true
+      %td
+        = 'Are there alternative sources of funding for this project? Please list current support and pending/planned applications (including other internal competitions).'
+
+  - if project.show_is_conflict
+    %tr
+      %td
+        = f.label :is_conflict, "Conflicts of Interest"
+      %td{colspan: '2'}
+        = f.check_box :is_conflict
+        = 'Please check if there are any conflicts of interest. If yes, please explain:'
+        = f.text_area :conflict_explanation, { rows: 4, wrap: "virtual", class: "narrow"}
+
+  - if project.show_department_administrator
+    %tr
+      %td
+        = f.label :department_administrator_username, "Contact NetID"
+      %td
+        = f.text_field :department_administrator_username
+        = netid_lookup_tag.html_safe
+        %span
+          = netid_lookup_observer(:submission_department_administrator_username).html_safe
+          %span#submission_department_administrator_username_id
+        = netid_lookup_function(:submission_department_administrator_username, false).html_safe
+      %td
+        = "Please enter the NetID of your #{project.department_administrator_title}"
+  - if project.show_committee_review_approval
+    %tr
+      %td
+        = f.label :committee_review_approval
+      %td{colspan: '2'}
+        = f.check_box :committee_review_approval
+        = 'Please check if you have received the approval of your review committee for this request.'
+  - if project.show_effort_approver
+    %tr
+      %td
+        = f.label :effort_approver_username, "#{project.effort_approver_title.capitalize} NetID"
+      %td
+        = f.text_field :effort_approver_username
+        = netid_lookup_tag.html_safe
+        = netid_lookup_observer(:submission_effort_approver_username).html_safe
+        %span#submission_effort_approver_username_id
+        = netid_lookup_function(:submission_effort_approver_username, false).html_safe
+      %td
+        = "Please enter the NetID of your #{project.effort_approver_title}"
+
+%script{type: 'text/javascript'}
+  textCounter(document.forms[0].submission_submission_title, 'submission_title_cnt', 81);
