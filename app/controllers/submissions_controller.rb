@@ -100,7 +100,7 @@ class SubmissionsController < ApplicationController
       @submission.min_budget_request = @project.min_budget_request || 1000
       @submission.applicant_id = @applicant.id
       handle_usernames(@submission)
-      @title = 'Application Process - Step 3 (last step!)'
+      @title = 'Application Process - step 3 of 3'
       before_create(@submission)
       respond_to do |format|
         if @submission.save
