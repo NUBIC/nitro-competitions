@@ -128,7 +128,7 @@
 
   %tr
     %td{colspan: '3', align: 'center', style: 'background:#ADE387;padding:10px;'}
-      = f.submit(@applicant.id.blank? ? 'Submit Investigator Profile' : 'Update')
+      = f.submit('Update')
 
   %script{type: "text/javascript"}
     jQuery('#applicant_form').validate();
