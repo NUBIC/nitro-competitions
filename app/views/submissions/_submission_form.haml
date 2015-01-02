@@ -155,7 +155,7 @@
   - if project.show_project_cost
     %tr
       %td
-        = f.text_field :direct_project_cost, required: true, min: project.min_budget_request, max: project.max_budget_request
+        = f.text_field :direct_project_cost, {required: true, placeholder: 'Direct cost', min: project.min_budget_request, max: project.max_budget_request}
       %td
         = f.label :direct_project_cost, project.direct_project_cost_wording
         - unless project.direct_project_cost_wording.blank?
