@@ -1,143 +1,114 @@
-- pronoun = "your"
-- pronoun = "the" if current_user_session.try(:username) != applicant.username
-
-- completion = ""
-- completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username
-- ldap_name = [applicant.name, applicant.name_suffix].compact.join(",")
-
 - if f.object && !f.object.try(:errors).blank?
-  %tr
-    %td{:colspan=>"2"}
-      = render('shared/error_messages', object: f.object)
-%tr
-  %td.title
-    = f.label :name, "name"
-  %td
-    = f.hidden_field :username
-    = f.hidden_field :first_name
-    = f.hidden_field :middle_name
-    = f.hidden_field :last_name
-    = ldap_name.blank? ? "<span style='color:red;'>username not found in ldap</span>" : ldap_name
-    - if ldap_name.blank?
-      %br
-      = link_to('Add info for external people', '', onclick: visual_effect(:appear, 'applicant_fields', duration: 0.5) + ";return false;" )
+  = render('shared/error_messages', object: f.object)
 
-%tr
-  %td.title
-    email
-  %td
-    = applicant.email
+%h3 Contact
+.form-group
+  = f.label :email, 'Email', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :email, {required: true, class: 'form-control'}
 
-%tr
-  %td{:colspan=>"2"}
-    - hidden_div_if(true, id: "applicant_fields") do
-      = render("applicant_fields", f: f, applicant: applicant)
+.form-group
+  = f.label :business_phone, 'Phone', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
 
-%tr
-  %td.title
-    = f.label :era_commons_name, "eRA Commons"
-  %td
-    = f.text_field :era_commons_name, required: true
-    %br
-    %br
-    = "This is #{pronoun} NIH eRA Commons name#{completion}."
+%br
+%h3 Name
+.form-group
+  = f.label :title, 'Academic title', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :title, {placeholder: 'Professor, Associate Professor, etc.', class: 'form-control'}
+
+.form-group
+  = f.label :first_name, 'First name', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :first_name, {required: true, placeholder: 'First name', class: 'form-control'}
+
+.form-group
+  = f.label :last_name, 'Last name', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :last_name, {required: true, placeholder: 'Last name', class: 'form-control'}
+
+%br
+%h3 On-campus mailing address
+.form-group
+  = f.label :campus, 'Campus', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :campus, {placeholder: 'campus name', class: 'form-control'}
+
+.form-group
+  = f.label :campus_address, 'Address', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_area :campus_address, {placeholder: 'address', class: 'form-control', rows: 5}
+
+%br
+%h3 Off-campus mailing address (if you have one)
+.form-group
+  = f.label :address, 'Address', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_area :address, {placeholder: 'address', class: 'form-control', rows: 5}
+
+.form-group
+  = f.label :city, {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :city, {placeholder: 'City', class: 'form-control'}
+
+.form-group
+  = f.label :state, {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :state, {placeholder: 'State', class: 'form-control'}
+
+.form-group
+  = f.label :postal_code, 'ZIP', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :postal_code, {placeholder: 'Postal code', class: 'form-control'}
+
+.form-group
+  = f.label :country, {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :country, {placeholder: 'Country', class: 'form-control'}
+
+%br
+%h3 Research and credentials
+.form-group
+  .col-xs-4
     %strong eRA Commons registration is required.
-    %br
-    More information at
-    = link_to NucatsAssist.era_commons_name_url, NucatsAssist.era_commons_name_url, target: "_blank"
+    = link_to 'More information here.', NucatsAssist.era_commons_name_url, target: '_blank'
+  .col-xs-8
+    = f.text_field :era_commons_name, {required: true, placeholder: 'eRA Commons name', class: 'form-control'}
 
-%tr
-  %td.title
-    = f.label :degrees, "Degree(s)"
-  %td
-    = f.text_field :degrees
-    %br
-    %br
-    = "#{pronoun.capitalize} advanced degrees such as PhD or MD#{completion}."
-    Use a comma to separate multiple degrees.
+.form-group
+  = f.label :degrees, 'Advanced degrees', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_field :degrees, {placeholder: 'PhD, MD, etc.', class: 'form-control'}
 
-%tr
-  %td.title
-    = f.label :business_phone, "Contact phone"
-  %td
-    = f.text_field :business_phone
+.form-group
+  = f.label :primary_department, 'Primary department', {class: 'col-xs-4 control-label'}
+  .col-xs-8
+    = f.text_area :primary_department, {placeholder: 'The university unit that holds your primary appointment.', class: 'form-control', rows: 3}
 
-%tr
-  %td.title
-    = f.label :title, "Title"
-  %td
-    = f.text_field :title
+.form-group
+  .col-xs-4
+    = f.label :uploaded_biosketch, 'Default biosketch document'
     %br
     %br
-    = "#{pronoun.capitalize} faculty rank (Professor, Associate Professor, etc)#{completion}."
-
-%tr
-  %td.title
-    = f.label :primary_department
-  %td
-    = f.text_area :primary_department, {rows: 4, cols: 40, wrap: "virtual"}
+    This should be uploaded in <b>MS Word or PDF format</b>.
     %br
     %br
-    = "The University unit that holds #{pronoun} primary appointment#{completion}."
-
-%tr
-  %td.title
-    = f.label :campus
-  %td
-    = f.text_field :campus
-
-%tr
-  %td.title
-    = f.label :campus_address, "campus mailing address#{completion}"
-  %td
-    = f.text_area :campus_address, {rows: 4, cols: 40, wrap: "virtual"}
-
-%tr
-  %td
-    = f.label :uploaded_biosketch, "Biosketch Document"
-  %td
-    = f.file_field("uploaded_biosketch")
+    Your default biosketch document will be used as the biosketch for applications where you are named as key personnel
+    (<em>not</em> as PI) and as the default biosketch for any new proposals you submit.
+    You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
+  .col-xs-8
+    = f.file_field('uploaded_biosketch', class: 'form-control')
     - unless applicant.biosketch_document_id.blank?
+      %br
+      %br
       %em
         = link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name}").html_safe
         = "updated on #{(applicant.biosketch.last_updated_at || applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
-    %br
-    %br
-    Biosketch should be in <b>MS Word or PDF format</b>
-    %br
-    %br
-    This is your default biosketch.
-    %br
-    %br
-    It will be used as the biosketch for applications where you are named as key personnel
-    (<em>not</em> as PI) and as the default biosketch for any new proposals you submit.
-    You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 
-%tr
-  %td.title{:colspan=>"2", :style=>"background:#ADE387;"}
-    Off-campus business address, if you have one
+.form-group
+  = f.submit('Update', {class: 'form-control btn btn-default btn-info'})
 
-%tr
-  %td.title
-    = f.label :address
-  %td
-    = f.text_area :address, {rows: 4, cols: 40, wrap: "virtual"}
-
-%tr
-  %td.title
-    = f.label :city, "City, State"
-  %td
-    = f.text_field :city, size: 20
-    &nbsp;
-    = f.text_field :state, size: 2
-    &nbsp;
-    = f.text_field :postal_code, size: 4
-
-%tr
-  %td.title
-    = f.label :country
-  %td
-    = f.text_field :country
-
-%script{:type=>"text/javascript"}
-  jQuery('#applicant_form').validate();
+  %script{type: "text/javascript"}
+    jQuery('#applicant_form').validate();

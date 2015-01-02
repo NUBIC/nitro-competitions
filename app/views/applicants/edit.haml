@@ -1,7 +1,3 @@
 %h2 Your Profile
-= form_for(:applicant, :url => (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id)), :html => { :multipart => true, :method => :put }) do |f|
-  %table.lined
-    = render(:partial => 'applicant_form', :locals=>{:f=>f, :applicant=>@applicant})
-    %tr
-      %td{:colspan=>"3", :align=>"center", :style=>"background:#ADE387;padding:10px;"}
-        = f.submit(@applicant.id.blank? ? 'Submit Investigator Profile' : 'Update')
+= form_for(:applicant, :url => (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id)), :html => { :multipart => true, :method => :put, class: 'form-horizontal' }) do |f|
+  = render(:partial => 'applicant_form', :locals=>{:f=>f, :applicant=>@applicant})

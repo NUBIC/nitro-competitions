@@ -32,7 +32,7 @@
                :html => { :class => 'none', :id => "applicant_form", :multipart => true, :method => :post }) do |f| %>
 
     <!-- f and submission are existing variables passed in -->
-    <%= render(:partial => 'applicant_form', :locals => { :f => f, :applicant => @applicant}) %>
+    <%= render(:partial => 'applicant_proxy_form', :locals => { :f => f, :applicant => @applicant}) %>
     <tr>
       <td colspan="3" align="center" style="background:#ADE387;padding:10px;">
         <%= f.submit('Save Draft and Continue') %>
