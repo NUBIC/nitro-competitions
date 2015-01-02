@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 
-##
-# (Mostly) RESTful controller for the Applicant model
 class ApplicantsController < ApplicationController
   helper :applicants
-  include ApplicationHelper
 
   before_filter :set_project
+  include ApplicationHelper
 
-  # GET /applicants
-  # GET /applicants.xml
   def index
     @sponsor = @project.program
     if has_read_all?(@sponsor)
@@ -24,8 +20,6 @@ class ApplicantsController < ApplicationController
     end
   end
 
-  # GET /applicants/1
-  # GET /applicants/1.xml
   def show
     @applicant = User.find(params[:id])
     @sponsor = @project.program
@@ -39,8 +33,6 @@ class ApplicantsController < ApplicationController
     end
   end
 
-  # GET /applicants/new
-  # GET /applicants/new.xml
   def new
     if username_blank?
       redirect_to(applicants_path)
@@ -63,10 +55,7 @@ class ApplicantsController < ApplicationController
   end
 
   ##
-  # Ask myNUCATS (the NUCATS Membership application) if
-  # the given User is a NUCATS member
-  # @param [User] applicant
-  # @return [Boolean]
+  # i.e "Is a myNUCATS member?"
   def is_member?(applicant)
     # TODO: check if applicant is a NUCATS member
     #       using more than simply the nu domain information
@@ -102,7 +91,6 @@ class ApplicantsController < ApplicationController
   end
   private :determine_username
 
-  # GET /applicants/1/edit
   def edit
     @applicant = User.find(params[:id])
     @sponsor = @project.program
@@ -116,8 +104,6 @@ class ApplicantsController < ApplicationController
     end
   end
 
-  # POST /applicants
-  # POST /applicants.xml
   def create
     if !params[:id].blank?
       @applicant = User.find(params[:id])
@@ -127,68 +113,43 @@ class ApplicantsController < ApplicationController
 
     @applicant = User.new(params[:applicant]) if @applicant.blank?
 
-    if request.post? || request.put?
-      update_applicant
-    else
-      new
-    end
-  end
-
-  def update_applicant
-    @applicant.validate_for_applicant = true
-    @applicant.validate_era_commons_name = false
-    @applicant.validate_era_commons_name = current_project.require_era_commons_name unless current_project.blank?
-    @applicant.new_record? ? handle_new_applicant_update : handle_existing_applicant_update
-  end
-  private :update_applicant
-
-  def handle_new_applicant_update
-    before_create(@applicant)
     respond_to do |format|
       if @applicant.save
         set_user_session(@applicant)
-        flash[:notice] = "Record for #{@applicant.name} was successfully created"
         format.html { redirect_to new_project_applicant_submission_path(params[:project_id], @applicant.id) }
         format.xml { render xml: @applicant, status: :created, location: @applicant }
       else
-        flash[:errors] = "Record for #{@applicant.name} could not be created"
         format.html { render action: 'new' }
         format.xml  { render xml: @applicant.errors, status: :unprocessable_entity }
       end
     end
   end
-  private :handle_new_applicant_update
 
-  def handle_existing_applicant_update
-    before_update(@applicant)
+  def update
+    @applicant = User.find(params[:id])
+
+    @applicant.validate_era_commons_name = false
+    @applicant.validate_era_commons_name = current_project.require_era_commons_name unless current_project.blank?
+
     respond_to do |format|
       if @applicant.update_attributes(params[:applicant])
         set_user_session(@applicant)
-        flash[:notice] = "Record for #{@applicant.name} was successfully updated"
+        flash[:notice] = "Profile updated"
         if params[:project_id].blank?
           redirect_path = current_project.blank? ? projects_path : project_path(current_project.id)
         else
           redirect_path = new_project_applicant_submission_path(params[:project_id], @applicant.id)
         end
-        format.html { redirect_to(redirect_path) }
+        format.html { redirect_to(edit_applicant_path(@applicant)) }
         format.xml  { head :ok }
       else
-        flash[:errors] = "Record for #{@applicant.name} could not be updated"
+        flash[:errors] = "Profile update failed. Please see error messages."
         format.html { render action: 'edit' }
         format.xml  { render xml: @applicant.errors, status: :unprocessable_entity }
       end
     end
   end
-  private :handle_existing_applicant_update
 
-  # PUT /applicants/1
-  # PUT /applicants/1.xml
-  def update
-    create
-  end
-
-  # DELETE /applicants/1
-  # DELETE /applicants/1.xml
   def destroy
     @applicant = User.find(params[:id])
     @applicant.destroy if is_admin?
@@ -241,5 +202,4 @@ class ApplicantsController < ApplicationController
     end
   end
   private :set_project
-
 end

@@ -17,7 +17,7 @@
     = f.hidden_field :first_name
     = f.hidden_field :middle_name
     = f.hidden_field :last_name
-    = ldap_name.blank? ? "<span style='color:red;'>username not found in ldap</span>" : ldap_name
+    = ldap_name.blank? ? "<span style='color:red;'>username not found in ldap</span>".html_safe : ldap_name
     - if ldap_name.blank?
       %br
       = link_to('Add info for external people', '', onclick: visual_effect(:appear, 'applicant_fields', duration: 0.5) + ";return false;" )

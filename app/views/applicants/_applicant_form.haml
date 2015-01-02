@@ -3,18 +3,18 @@
 
 %h3 Contact
 .form-group
-  = f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :email, {required: true, class: 'form-control'}
 
 .form-group
-  = f.label :business_phone, 'Phone', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :business_phone, 'Phone', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
 
 .form-group
-  = f.label :notifications, 'Email notifications', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :notifications, 'Email notifications', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.check_box :notify_on_new_submission
     New submissions
     %br
@@ -30,85 +30,85 @@
 %br
 %h3 Name
 .form-group
-  = f.label :title, 'Academic title', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :title, 'Academic title', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :title, {placeholder: 'Professor, Associate Professor, etc.', class: 'form-control'}
 
 .form-group
-  = f.label :first_name, 'First name', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :first_name, 'First name', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :first_name, {required: true, placeholder: 'first name', class: 'form-control'}
 
 .form-group
-  = f.label :last_name, 'Last name', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :last_name, 'Last name', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :last_name, {required: true, placeholder: 'last name', class: 'form-control'}
 
 %br
 %h3 On-campus mailing address
 .form-group
-  = f.label :campus, 'Campus', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :campus, 'Campus', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :campus, {placeholder: 'campus name', class: 'form-control'}
 
 .form-group
-  = f.label :campus_address, 'Address', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :campus_address, 'Address', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_area :campus_address, {placeholder: 'address', class: 'form-control', rows: 5}
 
 %br
 %h3 Off-campus mailing address (if you have one)
 .form-group
-  = f.label :address, 'Address', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :address, 'Address', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_area :address, {placeholder: 'address', class: 'form-control', rows: 5}
 
 .form-group
-  = f.label :city, {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :city, {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :city, {placeholder: 'city', class: 'form-control'}
 
 .form-group
-  = f.label :state, {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :state, {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :state, {placeholder: 'state', class: 'form-control'}
 
 .form-group
-  = f.label :postal_code, 'ZIP', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :postal_code, 'ZIP', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :postal_code, {placeholder: 'postal code', class: 'form-control'}
 
 .form-group
-  = f.label :country, {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :country, {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :country, {placeholder: 'country', class: 'form-control'}
 
 %br
 %h3 Research and credentials
 .form-group
-  .col-xs-4
+  .col-xs-3
     %strong eRA Commons registration is required.
     = link_to 'More information here.', NucatsAssist.era_commons_name_url, target: '_blank'
-  .col-xs-8
+  .col-xs-9
     = f.text_field :era_commons_name, {required: true, placeholder: 'eRA Commons name', class: 'form-control'}
 
 .form-group
-  = f.label :degrees, 'Advanced degrees', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :degrees, 'Advanced degrees', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_field :degrees, {placeholder: 'PhD, MD, etc.', class: 'form-control'}
 
 .form-group
-  = f.label :primary_department, 'Primary department', {class: 'col-xs-4 control-label'}
-  .col-xs-8
+  = f.label :primary_department, 'Primary department', {class: 'col-xs-3 control-label'}
+  .col-xs-9
     = f.text_area :primary_department, {placeholder: 'the university unit that holds your primary appointment.', class: 'form-control', rows: 3}
 
 .form-group
-  .col-xs-4
+  .col-xs-3
     = f.label :uploaded_biosketch, 'Default biosketch document'
     %br
     %br
     This should be uploaded in <b>MS Word or PDF format</b>.
-  .col-xs-8
+  .col-xs-9
     = f.file_field('uploaded_biosketch', class: 'form-control')
     - unless applicant.biosketch_document_id.blank?
       %br

@@ -14,7 +14,8 @@ class User < ActiveRecord::Base
   has_many :proxy_submissions, :class_name => 'Submission', :foreign_key => 'created_id'
 
   # Accessors
-  attr_accessor :validate_for_applicant
+# TODO: Attribute appears to be dead - remove after verification
+#  attr_accessor :validate_for_applicant
   attr_accessor :validate_era_commons_name
   attr_accessor :validate_name
   attr_accessor :validate_email_attr
