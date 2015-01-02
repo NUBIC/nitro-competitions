@@ -43,8 +43,8 @@ CREATE TABLE file_documents (
     file_file_size integer,
     file_updated_at timestamp without time zone,
     last_updated_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -80,8 +80,8 @@ CREATE TABLE key_personnel (
     first_name character varying(255),
     last_name character varying(255),
     email character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -118,8 +118,8 @@ CREATE TABLE logs (
     action_name character varying(255),
     params text,
     created_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -158,8 +158,8 @@ CREATE TABLE programs (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     email character varying(255)
 );
 
@@ -203,8 +203,8 @@ CREATE TABLE projects (
     project_period_start_date date,
     project_period_end_date date,
     status character varying(255),
-    min_budget_request double precision DEFAULT 1000.0,
-    max_budget_request double precision DEFAULT 50000.0,
+    min_budget_request double precision DEFAULT 1000,
+    max_budget_request double precision DEFAULT 50000,
     max_assigned_reviewers_per_proposal integer DEFAULT 2,
     max_assigned_proposals_per_reviewer integer DEFAULT 3,
     applicant_wording text DEFAULT 'Principal Investigator'::text,
@@ -255,7 +255,7 @@ CREATE TABLE projects (
     show_manage_coinvestigators boolean DEFAULT false,
     show_manage_biosketches boolean DEFAULT false,
     require_era_commons_name boolean DEFAULT false,
-    review_guidance_url character varying(255) DEFAULT '../docs/review_criteria.html'::character varying,
+    review_guidance_url character varying(255) DEFAULT '/docs/review_criteria.html'::character varying,
     overall_impact_title character varying(255) DEFAULT 'Overall Impact'::character varying,
     overall_impact_description text DEFAULT 'Please summarize the strengths and weaknesses of the application; assess the potential benefit of the instrument requested for the overall research community and its potential impact on NIH-funded research; and provide comments on the overall need of the users which led to their final recommendation and level of enthusiasm.'::text,
     overall_impact_direction text DEFAULT 'Overall Strengths and Weaknesses:<br/>Please do not exceed 3 paragraphs'::text,
@@ -286,10 +286,10 @@ CREATE TABLE projects (
     show_abstract_field boolean DEFAULT true,
     abstract_text character varying(255) DEFAULT 'Please include an abstract of your proposal, not to exceed 200 words.'::character varying,
     show_manage_other_support boolean DEFAULT true,
-    projects character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''''>here</a>.'::character varying,
-    manage_other_support_text character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''''>here</a>.'::character varying,
+    projects character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
+    manage_other_support_text character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
     show_document1 boolean DEFAULT false,
-    document1_name character varying(255) DEFAULT 'Replace with document name, like ''''OSR-1 form'''''::character varying,
+    document1_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
     document1_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
     document1_template_url character varying(255),
     document1_info_url character varying(255),
@@ -304,17 +304,17 @@ CREATE TABLE projects (
     budget_info_url_label character varying(255) DEFAULT 'Budget instructions'::character varying,
     only_allow_pdfs boolean DEFAULT false,
     show_document2 boolean DEFAULT false,
-    document2_name character varying(255) DEFAULT 'Replace with document name, like ''''OSR-1 form'''''::character varying,
+    document2_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
     document2_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
     document2_template_url character varying(255),
     document2_info_url character varying(255),
     show_document3 boolean DEFAULT false,
-    document3_name character varying(255) DEFAULT 'Replace with document name, like ''''OSR-1 form'''''::character varying,
+    document3_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
     document3_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
     document3_template_url character varying(255),
     document3_info_url character varying(255),
     show_document4 boolean DEFAULT false,
-    document4_name character varying(255) DEFAULT 'Replace with document name, like ''''OSR-1 form'''''::character varying,
+    document4_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
     document4_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
     document4_template_url character varying(255),
     document4_info_url character varying(255),
@@ -324,7 +324,7 @@ CREATE TABLE projects (
     show_review_summaries_to_applicants boolean DEFAULT true,
     show_review_summaries_to_reviewers boolean DEFAULT true,
     submission_category_description character varying(255) DEFAULT 'Please enter the core you are making this submission for.'::character varying,
-    human_subjects_research_text text DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''''counts'''' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::text,
+    human_subjects_research_text text DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::text,
     show_application_doc boolean DEFAULT true,
     application_doc_name character varying(255) DEFAULT 'Application'::character varying,
     application_doc_description character varying(255) DEFAULT 'Please upload the completed application here.'::character varying,
@@ -335,8 +335,8 @@ CREATE TABLE projects (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     membership_required boolean DEFAULT false,
     supplemental_document_name character varying(255) DEFAULT 'Supplemental Document (Optional)'::character varying,
     supplemental_document_description character varying(255) DEFAULT 'Please upload any supplemental information here. (Optional)'::character varying,
@@ -381,8 +381,8 @@ CREATE TABLE reviewers (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -414,8 +414,8 @@ CREATE TABLE rights (
     name character varying(255),
     controller character varying(255),
     action character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -445,8 +445,8 @@ ALTER SEQUENCE rights_id_seq OWNED BY rights.id;
 CREATE TABLE rights_roles (
     right_id integer,
     role_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -457,8 +457,8 @@ CREATE TABLE rights_roles (
 CREATE TABLE roles (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -490,8 +490,8 @@ CREATE TABLE roles_users (
     role_id integer,
     user_id integer,
     program_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     created_id integer,
     created_ip character varying(255),
     updated_id integer,
@@ -606,8 +606,8 @@ CREATE TABLE submission_reviews (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -695,8 +695,8 @@ CREATE TABLE submissions (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     supplemental_document_id integer
 );
 
@@ -764,8 +764,10 @@ CREATE TABLE users (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    notify_on_new_submission boolean DEFAULT true,
+    notify_on_complete_submission boolean DEFAULT true
 );
 
 
@@ -1047,29 +1049,13 @@ INSERT INTO schema_migrations (version) VALUES ('20091031200204');
 
 INSERT INTO schema_migrations (version) VALUES ('20091222043643');
 
-INSERT INTO schema_migrations (version) VALUES ('20100215201031');
-
 INSERT INTO schema_migrations (version) VALUES ('20100526152236');
 
 INSERT INTO schema_migrations (version) VALUES ('20100714211311');
 
-INSERT INTO schema_migrations (version) VALUES ('20130114160152');
-
-INSERT INTO schema_migrations (version) VALUES ('20130123222811');
-
-INSERT INTO schema_migrations (version) VALUES ('20130511121216');
-
-INSERT INTO schema_migrations (version) VALUES ('20140213161624');
-
-INSERT INTO schema_migrations (version) VALUES ('20140320142240');
-
 INSERT INTO schema_migrations (version) VALUES ('20140327162328');
 
 INSERT INTO schema_migrations (version) VALUES ('20140418191443');
-
-INSERT INTO schema_migrations (version) VALUES ('20140516203330');
-
-INSERT INTO schema_migrations (version) VALUES ('20140529184813');
 
 INSERT INTO schema_migrations (version) VALUES ('20140908190758');
 
@@ -1080,3 +1066,5 @@ INSERT INTO schema_migrations (version) VALUES ('20141031150750');
 INSERT INTO schema_migrations (version) VALUES ('20141124223129');
 
 INSERT INTO schema_migrations (version) VALUES ('20141215153829');
+
+INSERT INTO schema_migrations (version) VALUES ('20150102214520');
