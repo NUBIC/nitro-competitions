@@ -1,0 +1,30 @@
+- if Rails.configuration.use_omniauth
+  - if !cookies[:nucats_auth].present? || !session[:user_info].present?
+    #supermenu
+      Having trouble logging in?
+      = link_to 'Click here', auth_path, :class => 'menu_link'
+      to reset your session.
+#app_title
+  = NucatsAssist.html_app_name
+#banner
+  = image_tag "banner_right.jpg", :style=>"width: 100%; height:29px; z-index:1;"
+  %div{style: "float:left; z-index:2; margin-top:-29px;"}
+    - if defined?(current_user_session) && !current_user_session.blank?
+      = render "shared/menus"
+  #menu
+    = link_to 'Help', 'http://www.nucats.northwestern.edu/funding/nitro-competitions.html', :class => 'menu_link'
+    - if defined?(current_user_session) && !current_user_session.blank?
+      = session[:name] || current_user_session.try(:username)
+      = link_to "Logout", application_logout_path, :class => 'user_link'
+    - else
+      = link_to 'Login', projects_path, :class => 'menu_link'
+- # TODO: Fix CSRF Detected error coming from OmniAuth %>
+- if !flash[:errors].blank? && flash[:errors].to_s.downcase != 'csrf detected'
+  #results.notice
+    #errors
+      = flash[:errors].html_safe
+  = image_tag 'loading.gif', :id => 'spinner'
+- unless flash[:notice].blank?
+  #test.notice
+    #notice
+      = flash[:notice].html_safe
