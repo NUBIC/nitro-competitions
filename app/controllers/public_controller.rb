@@ -3,9 +3,16 @@
 # Unauthorized controller for welcome page.
 # All session attributes are cleared and user session
 # is nullified.
-class PublicController < ApplicationController
+
+# TODO: This should inherit from the ApplicationController, which means the
+# authentication/authorization needs to be de-coupled from this as well. If I
+# change it now the authorization for the public views breaks because by
+# default, everything on the Applicaitoncontroller requires an active session.
+class PublicController < ActionController::Base
   include ApplicationHelper
   include RolesHelper
+
+  layout 'application'
 
   before_filter :clear_session
 
