@@ -85,7 +85,6 @@
       <%= review.count_nonzeros? != review.submission.project.count_review_criteria? ? 'No' : 'Yes' %>
     </td>
     <td>
-      <%= link_to_submission_pdf(review.submission).html_safe %>
       <br />
       <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
         <% unless lnk.blank? %>

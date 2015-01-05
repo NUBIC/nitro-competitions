@@ -105,9 +105,10 @@ module SubmissionsHelper
     link_to_document_template(project, 4) + link_to_document_info(project, 4) + '.'
   end
 
-  def link_to_submission_pdf(submission)
-    link_to_download('Submission pdf ', submission_path(submission.id, format: :pdf), 'pdf', "'#{submission.submission_title}' submission form as pdf")
-  end
+# TODO: Deprecated PDF support
+#  def link_to_submission_pdf(submission)
+#    link_to_download('Submission pdf ', submission_path(submission.id, format: :pdf), 'pdf', "'#{submission.submission_title}' submission form as pdf")
+#  end
 
   def link_to_document(link_prefix, path, title = nil)
     title ||= link_prefix

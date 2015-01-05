@@ -3,16 +3,12 @@
 # Unauthorized controller for welcome page.
 # All session attributes are cleared and user session
 # is nullified.
-class PublicController < ActionController::Base
+class PublicController < ApplicationController
   include ApplicationHelper
   include RolesHelper
 
   before_filter :clear_session
 
-  ##
-  # This is the application root path
-  # GET /public/welcome
-  # GET /
   def welcome
     @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
     @programs = {}
@@ -21,7 +17,6 @@ class PublicController < ActionController::Base
     end
   end
 
-  # GET /public/auth
   def auth
     redirect_to "#{provider_site}?client_id=#{client_id}&client_secret=#{client_secret}"
   end
@@ -29,10 +24,9 @@ class PublicController < ActionController::Base
   def disallowed
   end
 
+private
   def clear_session
     clear_session_attributes
     @current_user_session = nil
   end
-  private :clear_session
-
 end

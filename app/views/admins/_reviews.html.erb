@@ -22,7 +22,6 @@
       <td><%= submission.effort_approver.nil? ? "unset" : submission.effort_approver.sort_name %></td>
       <td><%= submission.department_administrator.nil? ? "unset" : submission.department_administrator.sort_name %></td>
       <td>
-        <%= link_to_submission_pdf(submission) %>
         <% link_to_submission_files(submission, project, false).each do |lnk| %>
           <%= lnk.html_safe %>
         <% end %>

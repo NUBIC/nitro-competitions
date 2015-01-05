@@ -79,7 +79,8 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-      format.pdf { render pdf: "Reviews for #{@project.project_name}", layout: 'pdf' }
+# TODO: Deprecated pdf support - should be removed
+#      format.pdf { render pdf: "Reviews for #{@project.project_name}", layout: 'pdf' }
       format.xml { render xml: @project }
     end
   end

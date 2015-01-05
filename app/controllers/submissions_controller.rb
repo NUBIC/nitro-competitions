@@ -47,12 +47,13 @@ class SubmissionsController < ApplicationController
                        @submissions.map(&:id).include?(@submission.id) ||
                        @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
-        format.html { render stylesheets: %w(submission pdf), layout: 'pdf' } # show.html.erb
-        format.pdf do
-          render pdf: @submission.submission_title,
-                 stylesheets: %w(submission pdf),
-                 layout: 'pdf'
-        end
+        format.html
+# TODO: Deprecated PDF support
+#        format.pdf do
+#          render pdf: @submission.submission_title,
+#                 stylesheets: %w(submission pdf),
+#                 layout: 'pdf'
+#        end
         format.xml  { render xml: @submission }
       end
     else

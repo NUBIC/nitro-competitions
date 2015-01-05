@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+%html
+  %head
+    %meta{:'http-equiv'=>'X-UA-Compatible', :content=>'IE=edge'}
+    = csrf_meta_tag
+    %title=controller.action_name
+    = javascript_include_tag 'application'
+    = stylesheet_link_tag 'application'
+    = render 'shared/menu_scripts'
+
+    %link{rel: 'shortcut icon', href: image_path("favicon.ico")}
+    %script{type: 'text/javascript'}
+      jQuery.noConflict(); var $j = jQuery;
+
+  %body
+    = render 'shared/navigation'
+    = render 'shared/banner'
+    #content
+      = yield
+  .push
+    &nbsp;

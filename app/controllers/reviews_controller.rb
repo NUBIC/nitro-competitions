@@ -15,12 +15,13 @@ class ReviewsController < ApplicationController
       render :inline, 'reviews not found'
     else
       respond_to do |format|
-        format.html { render layout: 'pdf' } # show.html.erb
-        format.pdf do
-          render pdf: "Reviews: #{@submission.submission_title}",
-                 stylesheets: ['pdf'],
-                 layout: 'pdf'
-        end
+        format.html
+# TODO: Deprecated PDF format support
+#        format.pdf do
+#          render pdf: "Reviews: #{@submission.submission_title}",
+#                 stylesheets: ['pdf'],
+#                 layout: 'pdf'
+#        end
         format.xml { render xml: @reviews }
       end
     end

@@ -39,13 +39,14 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { render :view_applicants }
         format.xml  { render :xml => @applicants }
-        format.pdf do
-          @pdf = 1
-          render :pdf => "Applicant listing for #{Date.today.year}",
-                 :template => 'admins/view_applicants.html',
-                 :stylesheets => ['pdf'],
-                 :layout => 'pdf'
-        end
+# TODO: Deprecated pdf support - should be removed
+#        format.pdf do
+#          @pdf = 1
+#          render :pdf => "Applicant listing for #{Date.today.year}",
+#                 :template => 'admins/view_applicants.html',
+#                 :stylesheets => ['pdf'],
+#                 :layout => 'pdf'
+#        end
         format.xls do
           @pdf = 1
            send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
@@ -72,13 +73,14 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { render :view_applicants }
         format.xml  { render :xml => @applicants }
-        format.pdf do
-          @pdf = 1
-          render :pdf => "Applicant listing for #{Date.today.year}",
-                 :template => 'admins/view_applicants.html',
-                 :stylesheets => ['pdf'],
-                 :layout => 'pdf'
-        end
+# TODO: Deprecated pdf support - should be removed
+#        format.pdf do
+#          @pdf = 1
+#          render :pdf => "Applicant listing for #{Date.today.year}",
+#                 :template => 'admins/view_applicants.html',
+#                 :stylesheets => ['pdf'],
+#                 :layout => 'pdf'
+#        end
         format.xls do
           @pdf = 1
            send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),

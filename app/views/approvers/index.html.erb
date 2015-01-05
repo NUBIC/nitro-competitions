@@ -23,7 +23,6 @@
         </span>
       </td>
       <td>
-        <%= link_to_submission_pdf(submission).html_safe %>
         <% link_to_submission_files(submission, submission.project, false).each do |lnk| %>
           <%= lnk.html_safe %>
         <% end %>
