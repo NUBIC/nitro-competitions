@@ -47,13 +47,14 @@ class AdminsController < ApplicationController
 #                 :stylesheets => ['pdf'],
 #                 :layout => 'pdf'
 #        end
-        format.xls do
-          @pdf = 1
-           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
-                     :filename => "Applicant listing for #{Date.today.year}.xls",
-                     :type => 'application/vnd.ms-excel',
-                     :disposition => 'attachment')
-        end
+# TODO: Deprecated xls export - should be removed
+#        format.xls do
+#          @pdf = 1
+#           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
+#                     :filename => "Applicant listing for #{Date.today.year}.xls",
+#                     :type => 'application/vnd.ms-excel',
+#                     :disposition => 'attachment')
+#        end
       end
     else
       redirect_to projects_path
@@ -81,13 +82,14 @@ class AdminsController < ApplicationController
 #                 :stylesheets => ['pdf'],
 #                 :layout => 'pdf'
 #        end
-        format.xls do
-          @pdf = 1
-           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
-                     :filename => "Applicant listing for #{Date.today.year}.xls",
-                     :type => 'application/vnd.ms-excel',
-                     :disposition => 'attachment')
-        end
+# TODO: Deprecated xls export - should be removed
+#        format.xls do
+#          @pdf = 1
+#           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
+#                     :filename => "Applicant listing for #{Date.today.year}.xls",
+#                     :type => 'application/vnd.ms-excel',
+#                     :disposition => 'attachment')
+#        end
       end
     else
       redirect_to projects_path

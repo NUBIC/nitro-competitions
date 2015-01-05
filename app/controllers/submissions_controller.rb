@@ -6,8 +6,7 @@ class SubmissionsController < ApplicationController
 
   include KeyPersonnelHelper
   require 'submission_emails'
-  # GET /submissions
-  # GET /submissions.xml
+
   def index
     # project/:project_id/submissions should be the only way to get here
 
@@ -37,8 +36,6 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # GET /submissions/1
-  # GET /submissions/1.xml
   def show
     @submission = Submission.find(params[:id])
     @submissions = Submission.associated_with_user(current_user_session.id)
@@ -62,8 +59,6 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # GET /submissions/new
-  # GET /submissions/new.xml
   def new
     user_id = params[:applicant_id] || current_user_session.id
     @applicant = User.find(user_id) unless user_id.blank?
@@ -80,15 +75,12 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # GET /submissions/1/edit
   def edit
     @submission = Submission.find(params[:id])
     @project    = @submission.project
     @applicant  = @submission.applicant
   end
 
-  # POST /submissions
-  # POST /submissions.xml
   def create
     @applicant = User.find(params[:applicant_id])
     @project = Project.find(params[:project_id])
@@ -119,8 +111,6 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # PUT /submissions/1
-  # PUT /submissions/1.xml
   def update
     @submission = Submission.find(params[:id])
     @project = Project.find(@submission.project_id)
@@ -179,8 +169,6 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # DELETE /submissions/1
-  # DELETE /submissions/1.xml
   def destroy
     submission = Submission.find(params[:id])
     project = Project.find(submission.project_id)
@@ -205,7 +193,6 @@ class SubmissionsController < ApplicationController
     project.submission_open_date < Date.today && project.submission_close_date >= Date.today
   end
 
-  # GET /submissions/1/edit_documents
   def edit_documents
     edit
   end
@@ -224,5 +211,4 @@ class SubmissionsController < ApplicationController
     log_request('sending finalize email')
     send_finalize_email(submission, current_user_session)
   end
-
 end
