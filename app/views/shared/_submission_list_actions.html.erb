@@ -20,7 +20,7 @@
   <%= link_to image_tag("page_white_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px") +
                         ' View title page for this submission',
               submission_path(submission.id),
-              :title=>"Click here to view the title page for the submission '#{submission.submission_title}'" %> -
+              :title=>"Click here to view the title page for the submission '#{submission.submission_title}'" %>
 </div>
 <% if submission.submission_reviews.length > 0 and ! submission.project.review_end_date.blank? and submission.project.review_end_date < Date.today %>
   <div class='submission_action'>
