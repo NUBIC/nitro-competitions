@@ -12,10 +12,6 @@
       %ul.nav.navbar-nav.navbar-right
         %li=link_to 'Help', 'http://www.nucats.northwestern.edu/funding/nitro-competitions.html'
         - if defined?(current_user_session) && !current_user_session.blank?
-          %li=session[:name] || current_user_session.try(:username)
-          %ul.dropdown-menu
-            %li=session[:name] || current_user_session.try(:username)
-            %li=session[:name] || current_user_session.try(:username)
-          %li=link_to "Logout", application_logout_path, :class => 'user_link'
+          %li=link_to("Logout", application_logout_path, :class => 'user_link')
         - else
           %li=link_to 'Login', projects_path, :class => 'menu_link'
