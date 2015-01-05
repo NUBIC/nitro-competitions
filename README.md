@@ -59,7 +59,7 @@ Since **NITRO**Competitions is a standard Rails app, installing it is just like
 installing any other Rails app. The current version of the code is tested
 against Ruby 2.x.x
 
-See the INSTALL_GUIDE.md for specific configuration options.
+See the [wiki][8] for install instructions.
 
 ## Running the test suite
 
@@ -118,3 +118,4 @@ Please see the [code contribution guide][7] for more details.
   [5]: https://github.com/NUBIC/aker
   [6]: https://github.com/NUBIC/nitro-arm/blob/v2.2.9/config/application.rb#L58
   [7]: https://github.com/NUBIC/nitro-competitions/wiki/Contributing-code
+  [8]: https://github.com/NUBIC/nitro-competitions/wiki
