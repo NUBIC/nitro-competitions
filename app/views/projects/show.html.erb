@@ -1,12 +1,8 @@
 <% include_sponsor_and_competition = 0 unless @project.blank? %>
 
 <div id='title'>
-  <div id='program_title' title='Current Selected Program'>
-    <%= current_program.program_title %>
-  </div>
-  <div id='project_title' title='Current Selected Project'>
-    <%= current_project.project_title %>
-  </div>
+  <h2><%= current_program.program_title %></h2>
+  <h3><%= current_project.project_title %>
 </div>
 
 <%= render 'shared/project_list',
