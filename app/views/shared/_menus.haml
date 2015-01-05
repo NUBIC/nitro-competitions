@@ -36,8 +36,6 @@
             - if Submission.approved_submissions(current_user_session.username).length > 0
               %li
                 = link_to "Approvals", project_approvers_path(@project.id)
-          %li
-            = link_to "Edit your profile", edit_applicant_path(session[:user_id])
 
     - if is_admin?(@program)
       %li
