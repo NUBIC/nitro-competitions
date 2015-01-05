@@ -13,7 +13,6 @@ gem 'rails', '3.2.16'
 gem 'pg'
 gem 'haml'
 gem 'fastercsv'
-gem 'princely'
 
 gem 'net-ldap'
 

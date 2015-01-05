@@ -153,7 +153,6 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     polyglot (0.3.5)
-    princely (1.4.1)
     prototype-rails (3.2.1)
       rails (~> 3.2)
     rack (1.4.5)
@@ -267,7 +266,6 @@ DEPENDENCIES
   paperclip
   pg
   poltergeist
-  princely
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   rails (= 3.2.16)
