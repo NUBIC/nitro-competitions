@@ -61,29 +61,6 @@
           - if is_super_admin? && !@project.blank? && !@project.id.blank?
             %li
               = link_to "Act as user", act_as_user_project_admins_path(@project.id)
-      %li
-        %a{href: "#"} Audit
-        %ul
-          - unless @project.blank? || @project.id.blank?
-            %li
-              = link_to "Graph All activities", audits_path
-            %li
-              = link_to "Graph Sponsor activities", sponsor_audits_path
-            %li
-              = link_to "List Recent Applicants", view_applicants_project_admins_path(@project.id)
-            %li
-              = link_to "List All Sponsor Applicants", view_sponsor_applicants_project_admins_path(@project.id)
-            %li
-              = link_to "List All Competition People", project_admins_path(@project.id)
-            %li
-              = link_to "List Competition logins", view_logins_project_admins_path(@project.id)
-            %li
-              = link_to "List Competition submissions", view_submissions_project_admins_path(@project.id)
-            %li
-              = link_to "List Competition reviews", view_reviews_project_admins_path(@project.id)
-            %li
-              = link_to "List Competition activities", view_activities_project_admins_path(@project.id)
-
     - unless session[:user_id].blank?
       %li
         = link_to "Edit your profile", edit_applicant_path(session[:user_id])

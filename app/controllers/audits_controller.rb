@@ -1,3 +1,4 @@
+# TODO: This controller is deprecated.
 class AuditsController < ApplicationController
 
   caches_action(:user_data, :application_data, :applicant_data, :submission_data, :key_personnel_data, :reviewer_data, :review_data, :login_data, :activity_data, :program_data)
@@ -93,5 +94,4 @@ class AuditsController < ApplicationController
     data = generate_csv(logs, true)
     render :template => "shared/csv_data", :locals => {:data => data}, :layout => false
   end
-
 end
