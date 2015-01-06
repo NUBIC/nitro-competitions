@@ -11,7 +11,6 @@
 //= require jquery_noconflict
 //= require bootstrap.min
 //= require prototype
-//= require amstock
 //= require ddsmoothmenu
 //= require effects
 //= require dragdrop
