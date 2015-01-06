@@ -10,7 +10,6 @@
 //= require jquery.tablesorter.min
 //= require jquery_noconflict
 //= require bootstrap.min
-//= require prototype
 //= require ddsmoothmenu
 //= require effects
 //= require dragdrop
