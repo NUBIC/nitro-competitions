@@ -6,7 +6,6 @@
  *= require bootstrap.min
  *= require bootstrap-overrides
  *= require errors
- *= require facebox
  *= require form
  *= require jquery-ui
  *= require links

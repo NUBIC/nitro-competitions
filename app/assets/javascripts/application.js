@@ -8,12 +8,7 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.tablesorter.min
-//= require jquery_noconflict
-//= require bootstrap.min
-//= require effects
-//= require dragdrop
-//= require facebox
 //= require jquery.validate
 //= require additional-methods
-//= require facebox
+//= require bootstrap.min
 //= require_self
