@@ -11,6 +11,8 @@ coverage/
 public/assets/
 public/system/
 doc/notes/
+.bundle/
+vendor/bundle/*
 
 # Ignore .env files
 .powenv
