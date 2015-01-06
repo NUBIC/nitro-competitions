@@ -66,14 +66,6 @@ describe User, :type => :model do
     end
   end
 
-  # TODO: fix this test - or determine if this should be a test
-  #  test 'user is project reviewer' do
-  #    the_user = users(:one)
-
-  #    assert !the_user.nil?
-  #    assert the_user.valid?
-  # end
-
   describe '#key_personnel' do
     let(:key_person) { FactoryGirl.create(:key_person) }
     let(:user) { key_person.user }
