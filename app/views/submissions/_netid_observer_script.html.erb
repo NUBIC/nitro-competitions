@@ -1,0 +1,13 @@
+setInterval(function() {
+  var username = jQuery('#<%= element_to_observe_id %>').val();
+  jQuery.get('/username_lookup.json?username=' + username)
+    .success(function(response) {
+      console.log(response);
+      jQuery('#<%= element_to_update_id %>').text(response['lookup_result']);
+    })
+    .fail(function(response) {
+      console.log('failure');
+      console.log(response);
+      jQuery('#<%= element_to_update_id %>').text('lookup error');
+    });
+}, 2000);

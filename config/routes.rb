@@ -123,7 +123,7 @@ NucatsAssist::Application.routes.draw do
   match 'role/:user_role_id/remove_user' => 'roles#remove_user', :as => :remove_user_role
   match 'projects' => 'projects#index', :as => :login_target
   match 'review/:id/update_item' => 'reviews#update_item', :as => :update_review_item
-  match 'applicants/username_lookup/:id' => 'applicants#username_lookup', :as => :netid_lookup
+  match 'username_lookup' => 'applicants#username_lookup'
   match 'logout' => 'access#logout', :as => :logout
   match '/:controller(/:action(/:id))'
 end

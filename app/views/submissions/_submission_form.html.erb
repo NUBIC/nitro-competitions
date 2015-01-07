@@ -82,11 +82,10 @@
     <td>
       <%= f.label :core_manager_username, "Core Manager NetID" %>
     </td>
-    <td class="notrequired">
+    <td>
       <%= f.text_field :core_manager_username %>
       <%= netid_lookup_tag.html_safe %>
-      <%= netid_lookup_observer(:submission_core_manager_username).html_safe %><span id='submission_core_manager_username_id'></span>
-      <%= netid_lookup_function(:submission_core_manager_username, false).html_safe %>
+      <span id="core_manager_username_match"></span>
     </td>
     <td class="notes">
       Please enter the NetID of the Core Manager
@@ -343,8 +342,7 @@
     <td class="notrequired">
       <%= f.text_field :department_administrator_username %>
       <%= netid_lookup_tag.html_safe %>
-      <%= netid_lookup_observer(:submission_department_administrator_username).html_safe %><span id='submission_department_administrator_username_id'></span>
-      <%= netid_lookup_function(:submission_department_administrator_username, false).html_safe %>
+      <span id="department_administrator_username_match"></span>
     </td>
     <td class="notes">
       Please enter the NetID of your <%=  project.department_administrator_title %>
@@ -370,9 +368,7 @@
     <td class="notrequired">
       <%= f.text_field :effort_approver_username %>
       <%= netid_lookup_tag.html_safe %>
-      <%= netid_lookup_observer(:submission_effort_approver_username).html_safe %>
-      <span id='submission_effort_approver_username_id'></span>
-      <%= netid_lookup_function(:submission_effort_approver_username, false).html_safe %>
+      <span id="effort_approver_username_match"></span>
       </td>
       <td class="notes">
         Please enter the NetID of your <%= project.effort_approver_title %>
@@ -380,6 +376,24 @@
   </tr>
 <% end %>
 
-<script language="javascript">
+<script type="text/javascript">
   textCounter(document.forms[0].submission_submission_title, 'submission_title_cnt', 81)
 </script>
+
+<% if project.show_effort_approver %>
+  <script type="text/javascript">
+    <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_core_manager_username', element_to_update_id: 'core_manager_username_match' } %>
+  </script>
+<% end %>
+
+<% if project.show_core_manager %>
+  <script type="text/javascript">
+    <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_department_administrator_username', element_to_update_id: 'department_administrator_username_match' } %>
+  </script>
+<% end %>
+
+<% if project.show_department_administrator %>
+  <script type="text/javascript">
+    <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_effort_approver_username', element_to_update_id: 'effort_approver_username_match' } %>
+  </script>
+<% end %>

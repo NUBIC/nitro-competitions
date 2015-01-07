@@ -161,20 +161,23 @@ class ApplicantsController < ApplicationController
   end
 
   def username_lookup
-    raise StandardError, 'unset' if params[:username].blank?
-    @applicant = User.new(username: params[:username])
-    begin
-      @applicant = handle_ldap(@applicant)
-      fail StandardError, "<i>#{params[:username]}</i> not found" if @applicant.last_name.blank?
-      respond_to do |format|
-        format.html { redirect_to(applicants_path) }
-        format.js   { render partial: 'user_name', layout: false, locals: { applicant: @applicant } }
-        format.xml  { render layout: false }
+    lookup_result = ''
+
+    unless params[:username].blank?
+      username = params[:username]
+      @applicant = User.new(username: username)
+      begin
+        @applicant = handle_ldap(@applicant)
+        lookup_result = @applicant.last_name.blank? ? "#{username} not found" : @applicant.name
+      rescue Exception => error
+        lookup_result = error.message
       end
-    rescue StandardError => error
-      render inline: "<span style='color:red;'>#{error.message}</span>"
-    rescue Exception => error
-      render inline: "<span style='color:red;'>#{error.message}</span>"
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(applicants_path) }
+      format.json { render partial: 'user_name', layout: false, locals: { lookup_result: lookup_result } }
+      format.xml  { render layout: false }
     end
   end
 
