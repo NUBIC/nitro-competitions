@@ -72,7 +72,9 @@
 
 - if Rails.configuration.use_omniauth
   - if !cookies[:nucats_auth].present? || !session[:user_info].present?
-    .right
-      Having trouble logging in?
-      = link_to 'Click here', auth_path, :class => 'menu_link'
-      to reset your session.
+    .container-fluid
+      .row
+        .col-xs-12.text-right
+          Having trouble logging in?
+          = link_to 'Click here', auth_path, :class => 'menu_link'
+          to reset your session.
