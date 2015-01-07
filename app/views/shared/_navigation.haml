@@ -3,12 +3,6 @@
 - @project ||= current_project unless current_project.blank?
 - @project ||= nil
 
-- if Rails.configuration.use_omniauth
-  - if !cookies[:nucats_auth].present? || !session[:user_info].present?
-    #supermenu
-      Having trouble logging in?
-      = link_to 'Click here', auth_path, :class => 'menu_link'
-      to reset your session.
 %nav.navbar.navbar-default.navbar-fluid-top
   .container-fluid
     .navbar-header
@@ -75,3 +69,10 @@
           %li=link_to("Logout", application_logout_path, :class => 'user_link')
         - else
           %li=link_to 'Login', projects_path, :class => 'menu_link'
+
+- if Rails.configuration.use_omniauth
+  - if !cookies[:nucats_auth].present? || !session[:user_info].present?
+    .right
+      Having trouble logging in?
+      = link_to 'Click here', auth_path, :class => 'menu_link'
+      to reset your session.
