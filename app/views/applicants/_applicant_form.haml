@@ -12,21 +12,6 @@
   .col-xs-9
     = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
 
-.form-group
-  = f.label :notifications, 'Email notifications', {class: 'col-xs-3 control-label'}
-  .col-xs-9
-    = f.check_box :notify_on_new_submission
-    New submissions
-    %br
-    = f.check_box :notify_on_complete_submission
-    Complete submissions
-    %br
-    %br
-    A <strong>new submission</strong> is a competition submission that is saved, but <strong>does not</strong> yet have all the required documents included.
-    %br
-    %br
-    A <strong>complete submission</strong> is a competition submission that includes all required documents and can be reviewed.
-
 %br
 %h3 Name
 .form-group
