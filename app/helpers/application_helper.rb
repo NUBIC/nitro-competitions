@@ -211,17 +211,6 @@ module ApplicationHelper
   end
 
   # before_ helpers
-  def before_notify_email(model)
-    model.notification_sent_at = Time.now
-    begin
-      model.notification_sent_by_id = current_user.id
-      model.notification_sent_to = [current_user.email, submission.applicant.email].uniq.join(', ')
-      model.notification_cnt += 1
-    rescue Exception => error
-      puts "before_notify_email - error: #{error.message}"
-    end
-  end
-
   def before_create(model)
     model.created_ip ||= request.remote_ip if request_exists?
     model.created_id ||= session[:user_id] if session_exists?

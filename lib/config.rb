@@ -5,10 +5,6 @@ def default_program_name
   'CTI'
 end
 
-def allow_emails?
-  true
-end
-
 def image_name
   'pageheader.jpg'
 end

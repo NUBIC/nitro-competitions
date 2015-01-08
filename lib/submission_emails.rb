@@ -2,8 +2,7 @@
 require 'config'
 
 def send_finalize_email(submission, user)
-  if allow_emails? || NucatsAssist.admin_netids.include?(user.username)
-    before_notify_email(submission)
+  if NucatsAssist.admin_netids.include?(user.username)
     begin
       message = create_message(submission)
       logger.error("~~~ about to deliver message #{message.inspect}")
