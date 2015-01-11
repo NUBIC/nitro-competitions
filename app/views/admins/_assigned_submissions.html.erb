@@ -4,6 +4,13 @@
     <li class="assigned_submission" id='<%= domid %>'>
       PI: <%= item.submission.applicant.name %>; Title: <%= truncate_words(item.submission.submission_title, 20) %>
     </li>
-    <%= draggable_element(domid, ghosting: true, revert: true) %>
   <% end %>
 </ul>
+<script type="text/javascript">
+  jQuery('.assigned_submission_list').droppable({
+    drop: function(event, ui) {
+      console.log('Drop target: ');
+      console.log(jQuery(this));
+    }
+  });
+</script>
