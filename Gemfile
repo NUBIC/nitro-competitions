@@ -42,8 +42,6 @@ group :development do
   gem 'capistrano-rails'
 end
 
-gem 'prototype-rails'
-
 group :assets do
   gem 'sass-rails',   '~> 3.2'
   gem 'coffee-rails', '~> 3.2'

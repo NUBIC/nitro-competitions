@@ -147,8 +147,6 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     polyglot (0.3.5)
-    prototype-rails (3.2.1)
-      rails (~> 3.2)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -260,7 +258,6 @@ DEPENDENCIES
   paperclip
   pg
   poltergeist
-  prototype-rails
   rails (= 3.2.16)
   rdoc
   rspec-rails
