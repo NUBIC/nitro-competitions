@@ -50,14 +50,5 @@
     border: 1px solid gray;
   }
   </style>
-
-  <!-- START: define targets -->
-  <%= drop_receiving_element(div_id,
-        accept:     'unassigned_submission',
-        hoverclass: 'hover',
-        with:       "'submission_id=' + encodeURIComponent(element.id.split('_').last())",
-        url:        { action: :assign_submission, id: user })%>
-  <!-- END: define targets -->
-
 <% end %>
 </table>

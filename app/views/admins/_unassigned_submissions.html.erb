@@ -4,6 +4,5 @@
     <li class='unassigned_submission' id='<%= domid %>'>
       PI: <%= item.applicant.name %>; Title: <%= truncate_words(item.submission_title, 20) %>
     </li>
-    <%= draggable_element(domid, ghosting: true, revert: true) %>
   <% end %>
 </ul>
