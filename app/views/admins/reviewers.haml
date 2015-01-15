@@ -10,22 +10,25 @@
     border: none;
   }
 
-%table{style: 'width:100%;'}
-  %tr
-    %td.h2{style: 'width:60%;'} Reviewers
-    %td.h2 Unassigned Submissions
-  %tr
-    %td{style: 'width:60%;'}
+
+.container-fluid
+  .row
+    .col-xs-8
+      %h2 Reviewers
+    .col-xs-4
+      %h2 Unassigned Submissions
+  .row
+    .col-xs-8
       = render 'reviewers', reviewers: @reviewers, project: @project
-    %td#unassigned_submissions2{style: "height:500%;''"}
+    .col-xs-4
       #unassigned_submissions{style:'height:50px;'}
-        %ul.unassigned_submission_list{style: 'display:block; height:80px;'}
+        .unassigned_submission_list
           - @unfilled_submissions.each do |item|
-            %li.unassigned_submission{id: "submission_#{item.id}"}
+            .row.unassigned_submission{id: "submission_#{item.id}"}
               = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}"
 
-%h2 Add Reviewers #{netid_lookup_tag}
 
+%h2 Add Reviewers #{netid_lookup_tag}
 %p Enter a comma or space-separated list of usernames for the reviewers.
 = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
   = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
