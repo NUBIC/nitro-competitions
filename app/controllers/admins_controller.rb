@@ -262,7 +262,9 @@ class AdminsController < ApplicationController
       @review = @submission.submission_reviews.find_by_reviewer_id(params[:id])
       @submission.submission_reviews << SubmissionReview.new(:submission_id => params[:submission], :reviewer_id => @reviewer.id) if @review.blank?
     end
-    update_review_assignment
+
+    @unfilled_submissions = Submission.unfilled_submissions(@project.max_assigned_proposals_per_reviewer).find_all_by_project_id(@project.id)
+    render layout: false
   end
 
   def unassign_submission
@@ -277,17 +279,12 @@ class AdminsController < ApplicationController
         update_review_assignment
       end
     end
+
+    @unfilled_submissions = Submission.unfilled_submissions(@project.max_assigned_proposals_per_reviewer).find_all_by_project_id(@project.id)
+    render layout: false
   end
 
   private
-
-  def update_review_assignment
-    @unfilled_submissions = Submission.unfilled_submissions(@project.max_assigned_proposals_per_reviewer).find_all_by_project_id(@project.id)
-    render :update do |page|
-      page.replace_html "assigned_submissions_#{@reviewer.id}", :partial => 'assigned_submissions', :locals => { :reviewer => @reviewer, :project => @project }
-      page.replace_html 'unassigned_submissions', :partial => 'unassigned_submissions', :locals => { :unfilled_submissions => @unfilled_submissions }
-    end
-  end
 
   def prep_reviewer_data
     @reviewers = @sponsor.reviewers

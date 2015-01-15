@@ -1,0 +1,19 @@
+%ul.assigned_submission_list
+  - reviewer.submission_reviews.this_project(project.id).each do |item|
+    %li.assigned_submission{id: "submission_#{item.id}"}
+      = "PI: #{item.submission.applicant.name}; Title: #{truncate_words(item.submission.submission_title, 20)}"
+
+:javascript
+  jQuery('.assigned_submission_list').droppable({
+    hoverClass: 'hover',
+    drop: function(event, ui) {
+      reviewerID = jQuery(this).parent().attr('id').split('_').splice(-1)[0];
+      submissionID = jQuery(ui.draggable).attr('id').split('_').slice(-1)[0];
+
+      jQuery.ajax({
+        type: "POST",
+        url: '/projects/' + "#{project.id}" + '/admins/' + reviewerID + '/assign_submission.js',
+        data: { "submission_id": submissionID }
+      });
+    }
+  });
