@@ -1,0 +1,40 @@
+:css
+  .hover {
+    background-color: #888888;
+  }
+  #assigned_submissions ul li, #unassigned_submissions ul li {
+    list-style: none;
+    cursor: -moz-grab;
+  }
+  #assigned_submissions, #unassigned_submissions {
+    border: none;
+  }
+
+%table{style: 'width:100%;'}
+  %tr
+    %td.h2{style: 'width:60%;'} Reviewers
+    %td.h2 Unassigned Submissions
+  %tr
+    %td{style: 'width:60%;'}
+      = render 'reviewers', reviewers: @reviewers, project: @project
+    %td#unassigned_submissions2{style: "height:500%;''"}
+      #unassigned_submissions{style:'height:50px;'}
+        %ul.unassigned_submission_list{style: 'display:block; height:80px;'}
+          - @unfilled_submissions.each do |item|
+            %li.unassigned_submission{id: "submission_#{item.id}"}
+              = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}"
+
+%h2 Add Reviewers #{netid_lookup_tag}
+
+%p Enter a comma or space-separated list of usernames for the reviewers.
+= form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
+  = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
+  %p
+    = f.label :reviewer_list, "List of usernames for new reviewers"
+    %br
+    = f.text_area :reviewer_list, {:rows => 10, :cols => 40, :wrap=>"virtual"}
+  %p
+    = f.submit 'Add reviewers'
+
+:javascript
+  jQuery('.unassigned_submission').draggable();

@@ -1,7 +1,0 @@
-%ul.unassigned_submission_list{style: 'display:block; height:80px;'}
-  - @unfilled_submissions.each do |item|
-    %li.unassigned_submission{id: "submission_#{item.id}"}
-      = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}"
-
-:javascript
-  jQuery('.unassigned_submission').draggable();
