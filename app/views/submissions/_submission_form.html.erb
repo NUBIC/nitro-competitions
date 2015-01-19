@@ -110,7 +110,11 @@
     <td class="notes" colspan="2">
       <%= f.check_box :is_irb_approved %>
       Please check if this is study has IRB approval.
-      If so, enter the IRB study number: <%= f.text_field :irb_study_num %>
+      <br />
+      <br />
+      If so, enter the IRB study number:
+      <br />
+      <%= f.text_field :irb_study_num %>
     </td>
   </tr>
 <% end %>
@@ -122,7 +126,11 @@
     <td class="notes" colspan="2">
       <%= f.check_box :is_iacuc_approved %>
       Please check if this is study has IACUC approval.
-      If so, enter the IACUC study number: <%= f.text_field :iacuc_study_num %>
+      <br />
+      <br />
+      If so, enter the IACUC study number:
+      <br />
+      <%= f.text_field :iacuc_study_num %>
     </td>
   </tr>
 <% end %>
@@ -149,6 +157,7 @@
     <td class="notes">
       Please enter your CRU contact, if you will make use of the NUCATS CRU.
       If you have not made contact with the CRU, please contact
+      <br />
       <%= mail_to(NucatsAssist.cru_contact_email, NucatsAssist.cru_contact_email_text,
                   subject: "CRU usage for a #{NucatsAssist.plain_app_name} Competition",
                   encode: "javascript", title: "Click to send CRU Contact an email") %>
@@ -252,6 +261,7 @@
       operating expenses in the previous two years.
       <br/>
       <% if project.show_previous_support_description %>
+        <br />
         If you received prior support, please indicate when the award(s) was made and
         how much money was awarded for each item - be specific:
         <br/>
@@ -269,7 +279,9 @@
       <%= f.check_box :is_new %>
       Please check if this is a new proposal.
       <% if project.show_not_new_explanation %>
-        If not, please explain:
+        <br />
+        <br /
+        If this is NOT new work, please explain why:
         <span>
           <%= f.text_area :not_new_explanation, rows: 4, wrap: "virtual", required: true %>
         </span>
@@ -279,15 +291,18 @@
 <% end %>
 <% if project.show_use_nmh || project.show_use_nmff || project.show_use_va || project.show_use_ric || project.show_use_cmh %>
   <tr>
-    <td colspan="3">
-      Will this project require use of facilities, staff or patients at: &nbsp; &nbsp;
-      <span class="notes">
-        <% if project.show_use_nmh %><%= f.check_box :use_nmh %> NMH &nbsp; &nbsp; <% end %>
-        <% if project.show_use_nmff %><%= f.check_box :use_nmff %> NMFF &nbsp; &nbsp; <% end %>
-        <% if project.show_use_va %><%= f.check_box :use_va %> VA &nbsp; &nbsp; <% end %>
-        <% if project.show_use_ric %><%= f.check_box :use_ric %> RIC &nbsp; &nbsp; <% end %>
-        <% if project.show_use_cmh %><%= f.check_box :use_cmh %> CMH &nbsp; &nbsp; <% end %>
-      </span>
+    <td class="notes"></td>
+    <td colspan="2">
+      <br />
+      Will this project require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
+      <br />
+      <% if project.show_use_nmh %><br /><%= f.check_box :use_nmh %> NMH &nbsp; &nbsp; <% end %>
+      <% if project.show_use_nmff %><br /><%= f.check_box :use_nmff %> NMFF &nbsp; &nbsp; <% end %>
+      <% if project.show_use_va %><br /><%= f.check_box :use_va %> VA &nbsp; &nbsp; <% end %>
+      <% if project.show_use_ric %><br /><%= f.check_box :use_ric %> RIC &nbsp; &nbsp; <% end %>
+      <% if project.show_use_cmh %><br /><%= f.check_box :use_cmh %> CMH &nbsp; &nbsp; <% end %>
+      <br />
+      <br />
     </td>
   </tr>
 <% end %>
@@ -312,7 +327,11 @@
     </td>
     <td class="notes" colspan="2">
       <%= f.check_box :is_conflict %>
-      Please check if there are any conflicts of interest. If yes, please explain:
+      Please check if there are any conflicts of interest.
+      <br />
+      <br />
+      If yes, please explain:
+      <br />
       <%= f.text_area :conflict_explanation, { rows: 4, wrap: "virtual", class: "narrow"} %>
     </td>
   </tr>
