@@ -263,8 +263,7 @@ class AdminsController < ApplicationController
       @submission.submission_reviews << SubmissionReview.new(:submission_id => params[:submission], :reviewer_id => @reviewer.id) if @review.blank?
     end
 
-    @unfilled_submissions = Submission.unfilled_submissions(@project.max_assigned_proposals_per_reviewer).find_all_by_project_id(@project.id)
-    render layout: false
+    redirect_to project_reviewers_path(@project)
   end
 
   def unassign_submission
@@ -276,12 +275,10 @@ class AdminsController < ApplicationController
         @submission = @review.submission
         # SubmissionReview.delete(params[:submission_review_id])
         @submission.submission_reviews.destroy(@review)
-        update_review_assignment
       end
     end
 
-    @unfilled_submissions = Submission.unfilled_submissions(@project.max_assigned_proposals_per_reviewer).find_all_by_project_id(@project.id)
-    render layout: false
+    redirect_to project_reviewers_path(@project)
   end
 
   private

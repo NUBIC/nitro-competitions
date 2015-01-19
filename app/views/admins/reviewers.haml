@@ -10,7 +10,6 @@
     border: none;
   }
 
-
 .container-fluid
   .row
     .col-xs-8
@@ -27,7 +26,6 @@
             .row.unassigned_submission{id: "submission_#{item.id}"}
               = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}"
 
-
 %h2 Add Reviewers #{netid_lookup_tag}
 %p Enter a comma or space-separated list of usernames for the reviewers.
 = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
@@ -41,3 +39,22 @@
 
 :javascript
   jQuery('.unassigned_submission').draggable();
+  jQuery('.unassigned_submission_list').droppable({
+    hoverClass: 'hover',
+    drop: function(event, ui) {
+      submissionReviewID = jQuery(ui.draggable).attr('id').split('_').slice(-1)[0];
+
+      if (confirm('This will delete the review you just moved. Are you OK with that?')) {
+        jQuery.ajax({
+          type: "POST",
+          url: '/projects/' + "#{@project.id}" + '/admins/unassign_submission.js',
+          data: { "submission_review_id": submissionReviewID },
+          success: function(data) {
+            window.location.href = '/projects/' + #{@project.id} + '/admins/reviewers';
+          }
+        });
+      } else {
+        location.reload();
+      }
+    }
+  });
