@@ -379,10 +379,6 @@
   </tr>
 <% end %>
 
-<script type="text/javascript">
-  textCounter(document.forms[0].submission_submission_title, 'submission_title_cnt', 81)
-</script>
-
 <% if project.show_effort_approver %>
   <script type="text/javascript">
     <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_core_manager_username', element_to_update_id: 'core_manager_username_match' } %>
