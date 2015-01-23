@@ -113,13 +113,12 @@ class SubmissionsController < ApplicationController
 
   def update
     @submission = Submission.find(params[:id])
-    @project = Project.find(@submission.project_id)
-    @applicant = User.find(@submission.applicant_id)
+    @project = @submission.project
     @submission.max_budget_request = @project.max_budget_request || 50_000
     @submission.min_budget_request = @project.min_budget_request || 1000
+
     before_update(@submission)
     unless params[:submission].blank?
-      handle_key_personnel_param(@submission)
       handle_usernames(@submission)
     end
 

@@ -14,11 +14,8 @@
     </td>
     <td colspan="2">
       <div id="key_personnel">
-        <% submission.key_personnel.each_with_index do |key_person, index| %>
-          <%= render 'shared/new_personnel_fields', :key_person => key_person, :submission=> submission, :index => index %>
-        <% end %>
+        <%= render 'shared/personnel_fields', submission: submission, submission_form: f %>
       </div>
-      <%= render 'shared/add_personnel_link', :index => submission.key_personnel.size, :submission => submission %>
     </td>
   </tr>
 <% end %>

@@ -1,0 +1,57 @@
+%table.table
+  %thead
+    %tr
+      %th netID (for NU people), or email address for non-NU people
+      %th First name
+      %th Last name
+      %th Role
+      %th
+        Biosketch document
+        %br
+        (PDF or MS Word document)
+  %tbody
+    = submission_form.fields_for :key_personnel do |f|
+      %tr
+        %td
+          = f.hidden_field(:id)
+          = f.text_field(:username)
+        %td
+          = f.text_field(:first_name)
+        %td
+          = f.text_field(:last_name)
+        %td
+          = f.select(:role, ["co-Investigator", "Postdoctoral Fellow", "Statistician", "Informaticist", "Clinical Trialist", "Other"], { :include_blank => true })
+        %td
+          /= f.file_field(:uploaded_biosketch)
+          /- if submission.project.show_manage_biosketches
+          /  - if key_person.user.blank? || key_person.user.biosketch_document_id.blank?
+          /    :ruby
+          /      image_tag("warning_16.png",
+          /                  :width => "16px",
+          /                  :height => "16px",
+          /                  :style => "margin-top:-5px; margin-bottom:-2px; margin-right:5px;",
+          /                  :title => "No biosketch is available. Please upload a Biosketch")
+          /    - unless key_person.user.blank? || key_person.user.biosketch_document_id.blank?
+          /      = link_to_file(key_person.user.biosketch_document_id, "")
+          /  :ruby
+          /    link_to('Remove this key individual',
+          /            { :url => submission_key_person_path(submission.id, (key_person.id || 0)),
+          /              :with => "'index=1'" },
+          /            { :class => 'key_personnel_remove_link',
+          /              :title => "Click to remove this individual from your list of key personnel. It does not delete their profile.",
+          /              :remote => true,
+          /              :method => :delete })
+
+      - (20-submission.key_personnel.size).times do |index|
+        %tr
+          %td
+            = f.text_field(:username)
+          %td
+            = f.text_field(:first_name)
+          %td
+            = f.text_field(:last_name)
+          %td
+            = f.select(:role, ["co-Investigator", "Postdoctoral Fellow", "Statistician", "Informaticist", "Clinical Trialist", "Other"], { :include_blank => true })
+          %td
+            - if submission.project.show_manage_biosketches
+              = f.file_field(:uploaded_biosketch)

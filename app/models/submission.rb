@@ -29,6 +29,8 @@ class Submission < ActiveRecord::Base
   after_save :save_documents
 
   accepts_nested_attributes_for :applicant
+  accepts_nested_attributes_for :key_personnel
+
   attr_accessible *column_names
   attr_accessible :applicant_biosketch_document, :application_document, :budget_document, :other_support_document
   attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget, :uploaded_biosketch
