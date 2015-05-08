@@ -1,4 +1,51 @@
 # encoding: UTF-8
+# == Schema Information
+#
+# Table name: users
+#
+#  id                    :integer          not null, primary key
+#  username              :string(255)      not null
+#  era_commons_name      :string(255)
+#  first_name            :string(255)      not null
+#  last_name             :string(255)      not null
+#  middle_name           :string(255)
+#  email                 :string(255)
+#  degrees               :string(255)
+#  name_suffix           :string(255)
+#  business_phone        :string(255)
+#  fax                   :string(255)
+#  title                 :string(255)
+#  employee_id           :integer
+#  primary_department    :string(255)
+#  campus                :string(255)
+#  campus_address        :text
+#  address               :text
+#  city                  :string(255)
+#  postal_code           :string(255)
+#  state                 :string(255)
+#  country               :string(255)
+#  photo_content_type    :string(255)
+#  photo_file_name       :string(255)
+#  photo                 :binary
+#  biosketch_document_id :integer
+#  first_login_at        :datetime
+#  last_login_at         :datetime
+#  password_salt         :string(255)
+#  password_hash         :string(255)
+#  password_changed_at   :datetime
+#  password_changed_id   :integer
+#  password_changed_ip   :string(255)
+#  created_id            :integer
+#  created_ip            :string(255)
+#  updated_id            :integer
+#  updated_ip            :string(255)
+#  deleted_at            :datetime
+#  deleted_id            :integer
+#  deleted_ip            :string(255)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#
+
 class User < ActiveRecord::Base
   # Associations
   has_many :reviewers  # really program reviewers since the reviewer model is a user + program

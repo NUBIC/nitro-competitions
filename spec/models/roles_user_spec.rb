@@ -1,4 +1,23 @@
 # -*- coding: utf-8 -*-
+# == Schema Information
+#
+# Table name: roles_users
+#
+#  id         :integer          not null, primary key
+#  role_id    :integer
+#  user_id    :integer
+#  program_id :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  created_id :integer
+#  created_ip :string(255)
+#  updated_id :integer
+#  updated_ip :string(255)
+#  deleted_at :datetime
+#  deleted_id :integer
+#  deleted_ip :string(255)
+#
+
 require 'spec_helper'
 
 describe RolesUser, :type => :model do

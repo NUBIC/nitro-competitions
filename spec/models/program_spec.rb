@@ -1,4 +1,24 @@
 # -*- coding: utf-8 -*-
+# == Schema Information
+#
+# Table name: programs
+#
+#  id            :integer          not null, primary key
+#  program_name  :string(255)
+#  program_title :string(255)
+#  program_url   :string(255)
+#  created_id    :integer
+#  created_ip    :string(255)
+#  updated_id    :integer
+#  updated_ip    :string(255)
+#  deleted_at    :datetime
+#  deleted_id    :integer
+#  deleted_ip    :string(255)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  email         :string(255)
+#
+
 require 'spec_helper'
 
 describe Program, :type => :model do

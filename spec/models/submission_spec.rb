@@ -1,4 +1,73 @@
 # -*- coding: utf-8 -*-
+# == Schema Information
+#
+# Table name: submissions
+#
+#  id                                :integer          not null, primary key
+#  project_id                        :integer
+#  applicant_id                      :integer
+#  submission_title                  :string(255)
+#  submission_status                 :string(255)
+#  is_human_subjects_research        :boolean
+#  is_irb_approved                   :boolean
+#  irb_study_num                     :string(255)
+#  use_nucats_cru                    :boolean
+#  nucats_cru_contact_name           :string(255)
+#  use_stem_cells                    :boolean
+#  use_embryonic_stem_cells          :boolean
+#  use_vertebrate_animals            :boolean
+#  is_iacuc_approved                 :boolean
+#  iacuc_study_num                   :string(255)
+#  direct_project_cost               :float
+#  is_new                            :boolean
+#  use_nmh                           :boolean
+#  use_nmff                          :boolean
+#  use_va                            :boolean
+#  use_ric                           :boolean
+#  use_cmh                           :boolean
+#  not_new_explanation               :text
+#  other_funding_sources             :text
+#  is_conflict                       :boolean
+#  conflict_explanation              :text
+#  effort_approver_ip                :string(255)
+#  submission_at                     :datetime
+#  completion_at                     :datetime
+#  effort_approver_username          :string(255)
+#  department_administrator_username :string(255)
+#  effort_approval_at                :datetime
+#  submission_reviews_count          :integer          default(0)
+#  submission_category               :string(255)
+#  core_manager_username             :string(255)
+#  cost_sharing_amount               :float
+#  cost_sharing_organization         :text
+#  received_previous_support         :boolean          default(FALSE)
+#  previous_support_description      :text
+#  committee_review_approval         :boolean          default(FALSE)
+#  application_document_id           :integer
+#  budget_document_id                :integer
+#  abstract                          :text
+#  other_support_document_id         :integer
+#  document1_id                      :integer
+#  document2_id                      :integer
+#  document3_id                      :integer
+#  document4_id                      :integer
+#  applicant_biosketch_document_id   :integer
+#  notification_cnt                  :integer          default(0)
+#  notification_sent_at              :datetime
+#  notification_sent_by_id           :integer
+#  notification_sent_to              :string(255)
+#  created_id                        :integer
+#  created_ip                        :string(255)
+#  updated_id                        :integer
+#  updated_ip                        :string(255)
+#  deleted_at                        :datetime
+#  deleted_id                        :integer
+#  deleted_ip                        :string(255)
+#  created_at                        :datetime         not null
+#  updated_at                        :datetime         not null
+#  supplemental_document_id          :integer
+#
+
 require 'spec_helper'
 
 describe Submission, :type => :model do
