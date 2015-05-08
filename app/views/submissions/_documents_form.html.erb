@@ -72,7 +72,7 @@
         <%= link_to_file(submission.application_document_id, "Filename: #{submission.application_document.file_file_name}") %>&nbsp;
         File saved on <%= submission.application_document.updated_at.to_s(:justdate) %>
       <% end %> &nbsp;
-      <%= link_to_application_documents(submission.project) %>
+      <%= link_to_application_documents(submission.project).html_safe %>
     </td>
   </tr>
 <% end %>
@@ -155,9 +155,9 @@
       <% else %>
         <%= link_to_file(submission.document1_id, "", "document") %>
         <i><%= submission.project.document1_name %> uploaded</i>.
-        Filename: <%=  submission.document1.file_file_name %>
+        Filename: <%= submission.document1.file_file_name %>
       <% end %>
-      <%= link_to_document1_template_info(submission.project) %>
+      <%= link_to_document_template(submission.project, 1).html_safe %> <%= link_to_document_info(project, 1).html_safe %>
     </td>
   </tr>
 <% end %>
@@ -183,9 +183,9 @@
       <% else %>
         <%= link_to_file(submission.document2_id, "", "document") %>
         <i><%= submission.project.document2_name %> uploaded</i>.
-        Filename: <%=  submission.document2.file_file_name %>
+        Filename: <%= submission.document2.file_file_name %>
       <% end %>
-      <%= link_to_document2_template_info(submission.project) %>
+      <%= link_to_document_template(submission.project, 2).html_safe %> <%= link_to_document_info(project, 2).html_safe %>
     </td>
   </tr>
 <% end %>
@@ -211,9 +211,9 @@
       <% else %>
         <%= link_to_file(submission.document3_id, "", "document") %>
         <i><%= submission.project.document3_name %> uploaded</i>.
-        Filename: <%=  submission.document3.file_file_name %>
+        Filename: <%= submission.document3.file_file_name %>
       <% end %>
-      <%= link_to_document3_template_info(submission.project) %>
+      <%= link_to_document_template(submission.project, 3).html_safe %> <%= link_to_document_info(project, 3).html_safe %>
     </td>
   </tr>
 <% end %>
@@ -239,9 +239,9 @@
       <% else %>
         <%= link_to_file(submission.document4_id, "", "document") %>
         <i><%= submission.project.document4_name %> uploaded</i>.
-        Filename: <%=  submission.document4.file_file_name %>
+        Filename: <%= submission.document4.file_file_name %>
       <% end %>
-      <%= link_to_document4_template_info(submission.project) %>
+      <%= link_to_document_template(submission.project, 4).html_safe %> <%= link_to_document_info(project, 4).html_safe %>
     </td>
   </tr>
 <% end %>
