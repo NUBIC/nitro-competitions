@@ -1,20 +1,42 @@
+# Mac
 .DS_Store
+
+# db backups
 db/*.out
+
+# .rc
 .powrc
 .rvmrc
+
+# DB Configuration
 config/database.yml
+
+# directories
 bin/
 tmp/
 log/
+
+# Testing detritus
 assets/files/
 coverage/
+
+# Asset pipeline
 public/assets/
 public/system/
+
+# Local notes
 doc/notes/
+
+# Bundler
 .bundle/
 vendor/bundle/*
 
-# Ignore .env files
+# Compressed
+*.zip
+csvs/
+csvs/*
+
+# .env 
 .powenv
 .env
 .env.test
