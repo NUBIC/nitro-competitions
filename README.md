@@ -116,6 +116,6 @@ Please see the [code contribution guide][7] for more details.
   [3]: http://www.postgresql.org/
   [4]: http://guides.rubyonrails.org/active_record_querying.html
   [5]: https://github.com/NUBIC/aker
-  [6]: https://github.com/NUBIC/nitro-arm/blob/v2.2.9/config/application.rb#L58
+  [6]: https://github.com/NUBIC/nitro-competitions/blob/v2.2.9/config/application.rb#L58
   [7]: https://github.com/NUBIC/nitro-competitions/wiki/Contributing-code
   [8]: https://github.com/NUBIC/nitro-competitions/wiki
