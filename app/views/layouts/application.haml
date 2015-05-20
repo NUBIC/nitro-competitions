@@ -12,8 +12,9 @@
       jQuery.noConflict(); var $j = jQuery;
 
   %body
-    = render 'shared/navigation'
-    #content
-      = yield
-  .push
-    &nbsp;
+    .wrapper
+      = render 'shared/navigation'
+      #content
+        = yield
+    .footer.push.navbar-default
+      = render 'shared/footer'

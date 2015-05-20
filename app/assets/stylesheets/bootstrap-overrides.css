@@ -2,3 +2,28 @@
   display: none;
   float: right;
 }
+
+/*
+Sticky Footer by Ryan Fait
+http://ryanfait.com/
+*/
+
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.wrapper {
+  min-height: 100%;
+  height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+  height: 100%;
+  margin: 0 auto -45px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.footer, .push {
+  height: 45px; /* .push must be the same height as .footer */
+  border-top: 1px solid lightgray;
+}
