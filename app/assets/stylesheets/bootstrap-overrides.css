@@ -3,6 +3,15 @@
   float: right;
 }
 
+input[type=file] {
+  min-height: 3.5em;
+}
+
+.btn[type=submit] {
+  margin-bottom: 40px;
+  margin-left: 10px;
+}
+
 /*
 Sticky Footer by Ryan Fait
 http://ryanfait.com/
@@ -25,5 +34,4 @@ html, body {
 
 .footer, .push {
   height: 45px; /* .push must be the same height as .footer */
-  border-top: 1px solid lightgray;
 }
