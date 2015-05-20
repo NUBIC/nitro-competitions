@@ -154,7 +154,7 @@ class Submission < ActiveRecord::Base
 
   before_validation :clean_params, :set_defaults
 
-  validates_length_of :submission_title, :within => 6..81, :too_long => '--- pick a shorter title', :too_short => '--- pick a longer title'
+  validates_length_of :submission_title, :within => 6..200, :too_long => '--- pick a shorter title', :too_short => '--- pick a longer title'
   validates_numericality_of :direct_project_cost, :greater_than => 1_000_000, :if => proc { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => 'is too low'
   validates_numericality_of :direct_project_cost, :less_than => 1000, :if => proc { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => 'is too high'
 
