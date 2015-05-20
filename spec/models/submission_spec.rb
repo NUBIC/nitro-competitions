@@ -108,8 +108,8 @@ describe Submission, :type => :model do
         expect(submission).not_to be_valid
         expect(submission.errors[:submission_title]).not_to be_blank
       end
-      it 'validates it is less than 81 characters' do
-        title = 'x' * 82
+      it 'validates it is less than 200 characters' do
+        title = 'x' * 201
         submission = FactoryGirl.build(:submission, :submission_title => title)
         expect(submission).not_to be_valid
         expect(submission.errors[:submission_title]).not_to be_blank

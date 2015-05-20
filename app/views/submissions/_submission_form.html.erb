@@ -25,13 +25,13 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, size: 81, maxlength: 81, required: true, minlength: 6,
-                     onkeyup: "jQuery('#submission_title_cnt').html(81 - jQuery('#submission_submission_title').val().length);" %>
+    <%= f.text_field :submission_title, size: 200, maxlength: 200, required: true, minlength: 6,
+                     onkeyup: "jQuery('#submission_title_cnt').html(200 - jQuery('#submission_submission_title').val().length);" %>
     <span class='required_marker'> * </span>
-    <span id="submission_title_cnt">81</span>
+    <span id="submission_title_cnt">200</span>
   </td>
   <td class="notes">
-    Please make the title between 6 and 81 characters, including spaces and punctuation
+    Please make the title between 6 and 200 characters, including spaces and punctuation
   </td>
 </tr>
 <% if project.show_submission_category %>
