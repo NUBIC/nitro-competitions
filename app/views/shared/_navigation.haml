@@ -2,11 +2,12 @@
 - @program ||= current_program unless current_program.blank?
 - @project ||= current_project unless current_project.blank?
 - @project ||= nil
+- @root_url = session[:user_id].blank? ? '/welcome' : '/projects'
 
 %nav.navbar.navbar-default.navbar-fluid-top
   .container-fluid
     .navbar-header
-      %a.navbar-brand{href: '/'}=NucatsAssist.html_app_name
+      %a.navbar-brand{href: "#{@root_url}"}=NucatsAssist.html_app_name
     #navbar
       %ul.nav.navbar-nav
         - unless session[:user_id].blank?
