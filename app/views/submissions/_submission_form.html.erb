@@ -25,7 +25,7 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, size: 200, maxlength: 200, required: true, minlength: 6,
+    <%= f.text_field :submission_title, size: 65, maxlength: 200, required: true, minlength: 6,
                      onkeyup: "jQuery('#submission_title_cnt').html(200 - jQuery('#submission_submission_title').val().length);" %>
     <span class='required_marker'> * </span>
     <span id="submission_title_cnt">200</span>
