@@ -45,9 +45,6 @@ class ApplicationController < ActionController::Base
     data = decrypt_cookie_data(cookies[:nucats_auth])
     vals = data.split(',')
     vals = vals.map(&:to_s).map(&:downcase)
-    Rails.logger.error("cookie_and_session_match: vals = #{vals}")
-    Rails.logger.error("cookie_and_session_match: current_user.username = #{current_user.username}")
-    Rails.logger.error("cookie_and_session_match: current_user.email = #{current_user.email}")
     vals.include?(current_user.username.to_s.downcase) || vals.include?(current_user.email.to_s.downcase)
   end
 

@@ -45,12 +45,6 @@ class SubmissionsController < ApplicationController
                        @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
         format.html
-# TODO: Deprecated PDF support
-#        format.pdf do
-#          render pdf: @submission.submission_title,
-#                 stylesheets: %w(submission pdf),
-#                 layout: 'pdf'
-#        end
         format.xml  { render xml: @submission }
       end
     else
@@ -125,6 +119,7 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       params[:submission].delete(:id)  # id causes an error  - can't mass assign id
       if @submission.update_attributes(params[:submission])
+        handle_key_personnel_param(@submission) unless params[:submission].blank?
         flash[:errors] = nil
         send_submission_email(@submission)
         flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully updated"

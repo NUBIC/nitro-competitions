@@ -1,0 +1,3 @@
+jQuery('#key_personnel').after("<%= escape_javascript( render( partial: 'shared/new_personnel_fields', locals: { key_person: @key_person, submission: @submission, index: (params[:index] || 0) } ) ) %>")
+
+jQuery('#add_key_personnel_link').replaceWith("<%= escape_javascript( render( partial: 'shared/add_personnel_link', locals: { :index => (params[:index].to_i + 1), :submission => @submission } ) ) %>")

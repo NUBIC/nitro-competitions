@@ -345,13 +345,10 @@ class Submission < ActiveRecord::Base
       if self.applicant_biosketch_document_id.blank?
         # create a new copy of the file associated only with the submission
         unless self.applicant.biosketch.file.blank?
-          Rails.logger.info("~~~~ self.applicant.biosketch.file = #{self.applicant.biosketch.file.inspect}")
-          self.applicant_biosketch_document = FileDocument.new(:file => self.applicant.biosketch.file)
+          self.applicant_biosketch_document                   = FileDocument.new(file: self.applicant.biosketch.file)
           self.applicant_biosketch_document.file_content_type = self.applicant.biosketch.file_content_type
-          self.applicant_biosketch_document.file_file_name = self.applicant.biosketch.file_file_name
-          self.applicant_biosketch_document.last_updated_at = self.applicant.biosketch.updated_at
-
-          Rails.logger.info("~~~~ creating self.applicant_biosketch_document: #{self.applicant_biosketch_document.inspect}")
+          self.applicant_biosketch_document.file_file_name    = self.applicant.biosketch.file_file_name
+          self.applicant_biosketch_document.last_updated_at   = self.applicant.biosketch.updated_at
           self.applicant_biosketch_document.save
         end
         begin

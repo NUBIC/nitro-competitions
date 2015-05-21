@@ -1,4 +1,5 @@
 class KeyPersonnelController < ApplicationController
+  layout false
 
   include KeyPersonnelHelper
 
@@ -37,6 +38,11 @@ class KeyPersonnelController < ApplicationController
   def add_new
     @submission = Submission.find(params[:submission_id])
     @key_person = KeyPerson.new
+
+    respond_to do |format|
+      format.js
+    end
+
   end
 
   def destroy

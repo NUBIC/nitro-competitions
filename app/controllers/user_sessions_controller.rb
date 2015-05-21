@@ -15,9 +15,7 @@ class UserSessionsController < ApplicationController
   # omniauth callback method
   def create
     omniauth = env['omniauth.auth']
-    Rails.logger.info("~~~ omniauth = #{omniauth}")
     user = User.find_or_create_from_omniauth(omniauth)
-    Rails.logger.info("~~~ user = #{user}")
     set_session_attributes(user, omniauth)
     check_session
     flash[:notice] = 'You have successfully logged in!'
