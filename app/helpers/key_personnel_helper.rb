@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 
 module KeyPersonnelHelper
+
+  def key_personnel_lookup_observer(submission_id, root_name, index)
+    # observe_field(root_name + '_username',
+    #               frequency: 0.5,
+    #               before: "Element.show('spinner')",
+    #               complete: "Element.hide('spinner')",
+    #               url: lookup_submission_key_personnel_path(submission_id),
+    #               with: "'username=' + encodeURIComponent(value) + '&role=' + encodeURIComponent($('" + root_name.to_s +
+    #                     "_role').getValue()) + '&index='+encodeURIComponent(" + index + ')')
+  end
+
   def add_key_person(user, submission_id = 0, role = '')
     submission_id = 0 if submission_id.blank?
     key = KeyPerson.where('user_id  = :user_id and submission_id = :submission_id', { user_id: user.id, submission_id: submission_id }).first
@@ -11,10 +22,12 @@ module KeyPersonnelHelper
       key.username         = user.username
       key.first_name       = user.first_name
       key.last_name        = user.last_name
+      key.email            = user.email unless user.email.blank?
       key.role             = role
       key.save! unless submission_id.to_i < 1
     else
-      key.role            = role
+      key.email            = user.email unless user.email.blank?
+      key.role             = role
       key.save!
     end
     key
@@ -32,11 +45,11 @@ module KeyPersonnelHelper
           unless key_person['username'].blank?
             # check if we have this user
             key_user = make_user(key_person['username'])
-            if key_user.blank?
-              if ! key_person['username'].blank? && key_person['username'] =~ /^[a-zA-Z0-9\.\-\_][a-zA-Z0-9\.\-\_]+@[^\.]+\..+$/ && ! key_person['first_name'].blank? && ! key_person['last_name'].blank?
+            if key_user.blank? 
+              if ! key_person['username'].blank? && ! key_person['first_name'].blank? && ! key_person['last_name'].blank?
                 key_user = User.new
                 key_user.username           = key_person['username']
-                key_user.email              = key_person['username']
+                key_user.email              = key_person['email']
                 key_user.first_name         = key_person['first_name']
                 key_user.last_name          = key_person['last_name']
                 before_create(key_user)
@@ -47,6 +60,12 @@ module KeyPersonnelHelper
                   puts "Making user with username #{key_user.username}"
                 end
               end
+            else
+              key_user.email              = key_person['email'] unless key_person['email'].blank?
+              key_user.first_name         = key_person['first_name']
+              key_user.last_name          = key_person['last_name']
+              before_update(key_user)
+              key_user.save!
             end
 
             add_key_person(key_user, submission.id, key_person['role']) unless key_user.nil? || key_user.id.blank? || submission.id.blank?
