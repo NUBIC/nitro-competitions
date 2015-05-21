@@ -4,3 +4,16 @@
 	color: #999;
 	padding: 1em;
 }
+
+.highlighted_table_cell {
+  background-color: #BDA0CB;
+}
+
+.subtitle {
+  padding-top: 0.25em;
+  font-size: 0.75em;
+}
+
+#key_personnel .notes {
+  margin: 0.5em 0;
+}

@@ -12,11 +12,11 @@
   <%= f.hidden_field :submission_status %>
   <%= f.hidden_field :id %>
 
-  <table class="lined">
+  <table class='lined'>
     <%= render('documents_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
     <%= render('key_personnel_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant) %>
     <tr>
-      <td colspan="3" align="center" style="background:#ADE387; padding:10px;">
+      <td colspan='3' align='center' class='highlighted_table_cell' style='padding:10px;'>
         <%= f.submit('Submit') %>
       </td>
     </tr>

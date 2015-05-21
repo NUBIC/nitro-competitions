@@ -15,25 +15,25 @@ table.wide {
 }
 
 table.lined {
-  border: 1px solid indigo;
+  border: 1px solid lightgray;
   border-collapse: collapse;
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
 }
 
 table.lined tr th {
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  border-bottom: 1px solid indigo;
-  border-right: 1px solid indigo;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   padding: 2px 4px 3px 5px;
 }
 
 table.lined tr td {
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  border-bottom: 1px solid indigo;
-  border-right: 1px solid indigo;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   padding: 2px 4px 3px 5px;
 }
 
@@ -43,7 +43,7 @@ table.lined tr td.title {
 
 table.lined tr td.notes {
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
   color: #5555aa;
 }
 
@@ -105,7 +105,7 @@ td.list-title-right {
 
 /* tablesorter */
 table.tablesorter {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
   background-color: #CDCDCD;
   border: 0px;
   border-collapse: collapse;
@@ -127,7 +127,7 @@ table.tablesorter thead tr .header {
   cursor: pointer;
 }
 table.tablesorter tbody td {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
   border: 0px;
   font-size: 11pt;
   color: #3D3D3D;

@@ -5,6 +5,7 @@
 <h2>Application Process - Step 1</h2>
 <h3>
   Please enter or review the following Investigator Profile information for this application.
+  <br />
   You will be able to reassign the applicant if necessary
 </h3>
 
@@ -18,9 +19,7 @@
                              :style => "margin-left:10px; margin-bottom:-10px; margin-top:-5px;",
                              :title => "click here to reload this page with a new #{NucatsAssist.institute_id_name}"), 
                              "jQuery('#username_form').submit()") -%>
-      </td>
-      <%# FIXME: Why does this only work for NU personnel? %>
-      <td class="notes">
+        <%# FIXME: Why does this only work for NU personnel? %>
         Username <%= netid_lookup_tag %> for the Principal Investigator
         <em>(currently this change PI feature works only for NU-afflilated personnel.)</em>
       </td>
@@ -34,7 +33,7 @@
     <!-- f and submission are existing variables passed in -->
     <%= render(:partial => 'applicant_proxy_form', :locals => { :f => f, :applicant => @applicant}) %>
     <tr>
-      <td colspan="3" align="center" style="background:#ADE387;padding:10px;">
+      <td colspan='3' align='center' style='padding:10px;' class='highlighted_table_cell'>
         <%= f.submit('Save Draft and Continue') %>
       </td>
     </tr>
