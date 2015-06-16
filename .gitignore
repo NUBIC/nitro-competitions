@@ -19,6 +19,7 @@ log/
 # Testing detritus
 assets/files/
 coverage/
+coverage
 
 # Asset pipeline
 public/assets/
