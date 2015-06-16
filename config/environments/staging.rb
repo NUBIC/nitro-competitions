@@ -19,6 +19,17 @@ NucatsAssist::Application.configure do
     puts 'loading local static aker file'
   end
 
+  config.middleware.use ExceptionNotification::Rack,
+                        email: {
+                          email_prefix: '[Exception] NITRO Competitions ',
+                          sender_address: %{'NITRO Competitions Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
+                          exception_recipients: %w{p-friedman@northwestern.edu}
+                        }
+
+  config.action_mailer.default_url_options = { host: 'https://grants.nubic.northwestern.edu' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: 'smtprelay.northwestern.edu', port: 25, domain: 'northwestern.edu' }
+
   OmniAuthConfigure.configure {
     app :nucats_assist
     strategies :nucats_accounts
