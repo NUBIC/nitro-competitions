@@ -148,4 +148,69 @@ describe Submission, :type => :model do
     end
   end
 
+  context 'scope' do
+
+    describe '.associated' do 
+      it 'returns the submissions associated with a given project and applicant' do 
+        project     = FactoryGirl.create(:project)
+        applicant   = FactoryGirl.create(:user)
+        submission  = FactoryGirl.create(:submission, project: project, applicant: applicant)
+
+        expect(Submission.associated(project.id, applicant.id)).to include(submission)
+
+        other_project = FactoryGirl.create(:project)
+        expect(Submission.associated(other_project.id, applicant.id)).not_to include(submission)
+      end
+    end
+
+    describe '.associated_with_user' do 
+      it 'returns the submissions associated with a given applicant' do 
+        project     = FactoryGirl.create(:project)
+        applicant   = FactoryGirl.create(:user)
+        submission  = FactoryGirl.create(:submission, project: project, applicant: applicant)
+
+        expect(Submission.associated_with_user(applicant.id)).to include(submission)
+      end
+    end
+
+  end 
+
+  context 'statuses' do 
+    it 'knows if it is complete' do 
+      sub = FactoryGirl.create(:submission)
+      expect(sub).to be_complete
+    end
+  end
+
+  context 'cost' do 
+    let (:sub) { FactoryGirl.build(:submission) }
+    describe '.max_project_cost' do 
+      it 'defaults to 50,000' do 
+        expect(sub.max_budget_request).to be_nil
+        expect(sub.max_project_cost).to eq(50_000)
+      end
+
+      it 'returns the max_budget_request' do 
+        [15_000, 25_000, 35_000].each do |cost|
+          sub.max_budget_request = cost
+          expect(sub.max_project_cost).to eq(sub.max_budget_request)
+        end
+      end
+    end
+
+    describe '.min_project_cost' do 
+      it 'defaults to 1,000'  do 
+        expect(sub.min_budget_request).to be_nil
+        expect(sub.min_project_cost).to eq(1000)
+      end
+
+      it 'returns the min_budget_request' do 
+        [500, 2000, 3000].each do |cost|
+          sub.min_budget_request = cost
+          expect(sub.min_project_cost).to eq(sub.min_budget_request)
+        end
+      end
+    end
+  end
+
 end
