@@ -59,4 +59,5 @@ group :test do
   gem 'shoulda'
   gem 'factory_girl'
   gem 'factory_girl_rails'
+  gem 'simplecov', :require => false
 end

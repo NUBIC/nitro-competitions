@@ -123,33 +123,18 @@ class Submission < ActiveRecord::Base
   scope :unassigned_submissions, where(:submission_reviews_count => 0)
   scope :recent, lambda { where('submissions.created_at > ?', 3.weeks.ago) }
 
-  scope :user_scoped, lambda { |*args|
-    if args.first
-      includes([:key_people, :applicant, :project, :submitter, :effort_approver, :department_administrator, :core_manager])
-    elsif args[2].nil?
-      where('applicant_id = :id', { :id => 0 })
-    else
-      where('(applicant_id = :id or created_id = :id) and project_id IN (:projects)', { :projects => args[1], :id => args[2] })
-    end
-  }
-
   scope :associated, lambda { |*args|
-    if args[1].nil?
-      where('applicant_id = :id', { :id => 0 })
-    else
-      includes('submission_reviews')
-      .where('(submissions.applicant_id = :id or submissions.created_id = :id) and submissions.project_id IN (:projects)', { :projects => args[0], :id => args[1] })
-    end
+    includes('submission_reviews')
+    .where('(submissions.applicant_id = :id OR submissions.created_id = :id) AND 
+            submissions.project_id IN (:projects)', 
+      { :projects => args[0], :id => args[1] })
   }
 
   scope :associated_with_user, lambda { |*args|
-    if args.first.nil?
-      where('applicant_id = :id', { :id => 0 })
-    else
-      includes('submission_reviews')
-      .where('submissions.applicant_id = :id or submissions.created_id = :id', { :id => args.first })
-      .order('id asc')
-    end
+    includes('submission_reviews')
+    .where('submissions.applicant_id = :id or submissions.created_id = :id', 
+      { :id => args.first })
+    .order('id asc')
   }
 
   before_validation :clean_params, :set_defaults
@@ -222,6 +207,7 @@ class Submission < ActiveRecord::Base
   def is_complete?
     status == 'Complete'
   end
+  alias :complete? :is_complete?
 
   def key_personnel_names
     key_personnel.map { |k| k.name || k.user.name }
