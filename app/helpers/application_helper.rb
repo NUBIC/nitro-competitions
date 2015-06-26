@@ -92,6 +92,22 @@ module ApplicationHelper
     project
   end
 
+  ##
+  # This method is used when the use_omniauth configuration is set to false.
+  #
+  # Here we check the session for the user who is placed into the @current_user_session variable 
+  # if a User record is found by the username in the session.
+  #
+  # There is a whole lot of checking the database via User.find_by_username(current_user.username) 
+  # and checking of session attributes. This is followed by a number of create user and set session calls.
+  #
+  # The method to set this variable (set_session_attributes) is called at the end of this method 
+  # if the current_user was not put into the session previously.
+  # 
+  # @see ApplicationController#current_user_session
+  # @see ApplicationController#set_current_user_session
+  # @see make_user
+  # @see make_user_from_login
   def check_session
     return unless session_exists?
     begin
@@ -107,6 +123,11 @@ module ApplicationHelper
     if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
       the_user = User.find_by_username(current_user.username)
       if the_user.blank? || the_user.name.blank?
+        # 
+        # The current_user has logged in successfully but there is no user with that unique username in the users table
+        # so here we make a new user with that username
+        # and then call this method again
+        # 
         if make_user(current_user.username)
           flash[:notice] = 'User account was successfully created.'
           logger.error("check_session. current_user: #{current_user.username} was created")

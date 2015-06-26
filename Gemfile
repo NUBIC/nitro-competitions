@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 ##
 # These two lines are NUCATS specific. 
 # Uncomment these lines if you are a part of NUCATS.
+# However, if you do end up using omniauth, you will need to
+# use one of the several omniauth strategies.
+# https://github.com/intridea/omniauth/wiki/List-of-Strategies 
 source 'http://download.bioinformatics.northwestern.edu/gems'
 gem 'omniauth-nucats-accounts'
 

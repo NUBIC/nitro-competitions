@@ -78,7 +78,7 @@
         <%= link_to_file(submission.application_document_id, "Filename: #{submission.application_document.file_file_name}") %>&nbsp;
         File saved on <%= submission.application_document.updated_at.to_s(:justdate) %>
       <% end %> &nbsp;
-      <%= link_to_application_documents(submission.project).html_safe %>
+      <%= link_to_application_template(submission.project).html_safe %> <%= link_to_application_info(submission.project).html_safe %>
     </td>
   </tr>
 <% end %>
