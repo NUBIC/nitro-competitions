@@ -380,6 +380,19 @@
   </tr>
 <% end %>
 
+<% if is_admin? %>
+  <tr>
+    <td>
+      <%= f.label :submission_status %>
+    </td>
+    <td class='notes' colspan='2'>
+      <%= f.select :submission_status, Submission::STATUSES, include_blank: false %>
+    </td>
+  </tr>
+<% else %>
+  <%= f.hidden_field :submission_status %>
+<% end %>
+
 <% if project.show_effort_approver %>
   <script type='text/javascript'>
     <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_core_manager_username', element_to_update_id: 'core_manager_username_match' } %>

@@ -5,7 +5,6 @@
 <%= form_for(:submission,
              url: submission_path(@submission.id),
              html: { multipart: true, method: :put }) do |f| %>
-  <%= f.hidden_field :submission_status %>
 
   <table class='lined'>
     <%= render 'submission_form', f: f, project: @project, submission: @submission, applicant: @applicant %>
