@@ -166,7 +166,7 @@ describe Project, :type => :model do
   it { is_expected.to have_many(:submission_reviews).through(:submissions) }
   it { is_expected.to have_many(:logs) }
   it { is_expected.to belong_to(:program) }
-  it { is_expected.to belong_to(:creater) }
+  it { is_expected.to belong_to(:creator) }
 
   it 'can be instantiated' do
     expect(FactoryGirl.build(:project)).to be_an_instance_of(Project)
@@ -205,7 +205,7 @@ describe Project, :type => :model do
       expect(project).to be_valid
 
       expect(project.program).not_to be_nil
-      expect(project.creater).not_to be_nil
+      expect(project.creator).not_to be_nil
 
       # TODO: add these assertions when we create submissions and reviewers
       # assert project.submissions.length > 0

@@ -13,17 +13,4 @@ NucatsAssist::Application.configure do
 
   config.active_support.deprecation = :notify
   config.send_notification_to_all = true
-
-  config.aker do
-    login_config = File.join(Rails.root, %w(config logins demo.yml))
-    authority Aker::Authorities::Static.from_file(login_config)
-    puts 'loading local static aker file'
-  end
-
-  config.use_omniauth = false
-  OmniAuthConfigure.configure {
-    app :nucats_assist
-    strategies :nucats_accounts
-    central '/etc/nubic/omniauth/demo.yml'
-  }
 end

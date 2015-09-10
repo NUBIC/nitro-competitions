@@ -11,4 +11,5 @@
 //= require jquery.validate
 //= require additional-methods
 //= require bootstrap.min
+//= require login
 //= require_self

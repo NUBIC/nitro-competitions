@@ -13,12 +13,6 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :notify
   config.send_notification_to_all = false
 
-  config.aker do
-    login_config = File.join(Rails.root, %w(config logins development.yml))
-    authority Aker::Authorities::Static.from_file(login_config)
-    puts 'loading local static aker file'
-  end
-
   config.middleware.use ExceptionNotification::Rack,
                         email: {
                           email_prefix: '[Exception] NITRO Competitions ',
@@ -27,12 +21,10 @@ NucatsAssist::Application.configure do
                         }
 
   config.action_mailer.default_url_options = { host: 'https://grants.nubic.northwestern.edu' }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: 'smtprelay.northwestern.edu', port: 25, domain: 'northwestern.edu' }
 
-  OmniAuthConfigure.configure {
-    app :nucats_assist
-    strategies :nucats_accounts
-    central '/etc/nubic/omniauth/stage.yml'
-  }
+  config.app_domain = 'northwestern.edu'
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { host: config.app_domain }
+  config.action_mailer.smtp_settings = { address: 'smtprelay.northwestern.edu', port: 25, domain: 'northwestern.edu' }
 end

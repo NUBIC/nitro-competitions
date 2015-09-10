@@ -17,6 +17,7 @@ class UserSessionsController < ApplicationController
     omniauth = env['omniauth.auth']
     user = User.find_or_create_from_omniauth(omniauth)
     set_session_attributes(user, omniauth)
+    # TODO: check if the call to check_session is necessary
     check_session
     flash[:notice] = 'You have successfully logged in!'
     redirect_to request.env['omniauth.origin'] || projects_path
@@ -26,13 +27,6 @@ class UserSessionsController < ApplicationController
   def failure
     flash[:errors] = params[:message].to_s.titleize
     redirect_to welcome_path
-  end
-
-  # signout - Clear our rack session user_info
-  def destroy
-    clear_session_attributes
-    flash[:errors] = 'You have successfully signed out!'
-    redirect_to "#{ENV['OAUTH_CLIENT_PROVIDER_URL']}/people/sign_out?client_id=#{ENV['OAUTH_CLIENT_APP_ID']}"
   end
 
 end

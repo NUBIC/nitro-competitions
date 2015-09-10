@@ -27,7 +27,7 @@ describe Program, :type => :model do
   it { is_expected.to have_many(:projects) }
   it { is_expected.to have_many(:reviewers) }
   it { is_expected.to have_many(:logs) }
-  it { is_expected.to belong_to(:creater) }
+  it { is_expected.to belong_to(:creator) }
 
   context '#valid?' do
     context '#program_name' do

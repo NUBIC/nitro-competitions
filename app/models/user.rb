@@ -47,33 +47,43 @@
 #
 
 class User < ActiveRecord::Base
+
+  TEMP_EMAIL_PREFIX = 'change@me'
+  TEMP_EMAIL_REGEX = /\Achange@me/
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+
   # Associations
   has_many :reviewers  # really program reviewers since the reviewer model is a user + program
   belongs_to :biosketch, :class_name => 'FileDocument', :foreign_key => 'biosketch_document_id'
   has_many :key_personnel
-  has_many :submission_reviews, :foreign_key => 'reviewer_id'
+  has_many :submissions, :foreign_key => 'applicant_id'
+  has_many :proxy_submissions, :class_name => 'Submission', :foreign_key => 'created_id'
+  has_many :submission_reviews, -> { includes(:submissions) }, :foreign_key => 'reviewer_id'
   has_many :reviewed_submissions, :class_name => 'Submission', :through => :submission_reviews, :source => :submission
   has_many :roles_users
   has_many :roles, :through => :roles_users
   has_many :logs
 
-  has_many :submissions, :foreign_key => 'applicant_id'
-  has_many :proxy_submissions, :class_name => 'Submission', :foreign_key => 'created_id'
 
   # Accessors
-# TODO: Attribute appears to be dead - remove after verification
-#  attr_accessor :validate_for_applicant
   attr_accessor :validate_era_commons_name
   attr_accessor :validate_name
   attr_accessor :validate_email_attr
-  attr_accessible *column_names
-  attr_accessible :biosketch, :uploaded_biosketch, :uploaded_photo
 
   # Scopes
-  default_scope order('lower(users.last_name),lower(users.first_name)')
-  scope :project_applicants, lambda { |*args| joins([:submissions]).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
-  scope :program_reviewers, lambda { |*args| joins(:reviewers).where('reviewers.program_id = :program_id', { :program_id => args.first }) }
-  scope :applicants, joins('join submissions on submissions.applicant_id = users.id')
+  def self.project_applicants(*args) 
+    joins([:submissions]).where('submissions.project_id IN (:project_ids)', { project_ids: args.first })
+  end
+  def self.program_reviewers(*args) 
+    joins(:reviewers).where('reviewers.program_id = :program_id', { program_id: args.first })
+  end
+  def self.applicants 
+    joins('join submissions on submissions.applicant_id = users.id')
+  end
 
   # Callbacks
   after_save :save_documents
@@ -90,8 +100,58 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, :if => :validate_email
   validates_format_of :email,
                       :with => %r{^[a-zA-Z0-9\.\-\_][a-zA-Z0-9\.\-\_]+@[^\.]+\..+$}i,
+                      :multiline => true,
                       :message => 'Email address is not valid. Please correct',
                       :if => Proc.new { |c| !c.email.blank? }
+
+  # FOR OMNIAUTH
+  def self.find_for_oauth(auth, signed_in_resource = nil)
+
+    # Get the identity and user if they exist
+    identity = Identity.find_for_oauth(auth)
+
+    # If a signed_in_resource is provided it always overrides the existing user
+    # to prevent the identity being locked with accidentally created accounts.
+    # Note that this may leave zombie accounts (with no associated identity) which
+    # can be cleaned up at a later date.
+    user = signed_in_resource ? signed_in_resource : identity.user
+
+    # Create the user if needed
+    if user.nil?
+
+      email = auth.info.email
+      user = User.where(:email => email).first if email
+
+      # Create the user if it's a new registration
+      if user.nil?
+        user = User.new(
+          oauth_name: determine_name(auth),
+          #username: auth.info.nickname || auth.uid,
+          email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+          password: Devise.friendly_token[0,20]
+        )
+        user.skip_confirmation!
+        user.save!
+      end
+    end
+
+    # Associate the identity with the user if needed
+    if identity.user != user
+      identity.user = user
+      identity.save!
+    end
+    user
+  end
+
+  def self.determine_name(auth)
+    auth.extra.info.name
+  end
+
+  def email_verified?
+    self.email && self.email !~ TEMP_EMAIL_REGEX
+  end
+
+  ## END OMNIAUTH
 
   def name
     [first_name, last_name].join(' ').gsub(/\'/, "’")

@@ -12,6 +12,12 @@
       jQuery.noConflict(); var $j = jQuery;
 
   %body
+    - unless notice.blank?
+      .notice
+        = notice
+    - unless alert.blank?
+      .alert
+        = alert
     .wrapper
       = render 'shared/navigation'
       #content

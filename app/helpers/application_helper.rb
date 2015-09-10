@@ -5,9 +5,26 @@ module ApplicationHelper
 
   require 'config'
 
+  def page_title(page_title, show_title = true)
+    @show_title = show_title
+    content_for(:page_title) { page_title.to_s }
+  end
+
+  def show_title?
+    @show_title == true
+  end
+
   def blank_safe(word, filler = '-')
     return filler if word.blank?
     word
+  end
+
+  ##
+  # Handle google provider discrepancy
+  # @param [Symbol]
+  # @return [Symbol]
+  def omniauth_provider(provider)
+    provider == :google ? :google_oauth2 : provider
   end
 
   def internetexplorer_user_agent?
@@ -21,7 +38,7 @@ module ApplicationHelper
   end
 
   def application_logout_path
-    Rails.application.config.use_omniauth ? signout_path : logout_path
+    signout_path
   end
 
   ##
@@ -93,8 +110,6 @@ module ApplicationHelper
   end
 
   ##
-  # This method is used when the use_omniauth configuration is set to false.
-  #
   # Here we check the session for the user who is placed into the @current_user_session variable 
   # if a User record is found by the username in the session.
   #
@@ -347,30 +362,6 @@ module ApplicationHelper
   def hidden_div_if(condition, attributes = {}, &block)
     attributes['style'] = 'display: none;' if condition
     content_tag('div', attributes, &block)
-  end
-
-  def omniauth_config
-    @omniauth_config ||= OmniAuthConfigure.configuration.parameters_for(:nucats_assist, :nucats_accounts)
-  end
-
-  def oauth_provider_uri
-    URI(provider_site)
-  end
-
-  def provider_site
-    omniauth_config[:client_options][:site]
-  end
-
-  def client_id
-    omniauth_config[:client_id]
-  end
-
-  def client_secret
-    omniauth_config[:client_secret]
-  end
-
-  def cookie_key
-    omniauth_config[:client_options][:cookie_key]
   end
 
 end

@@ -53,8 +53,7 @@ class SubmissionReview < ActiveRecord::Base
   belongs_to :reviewer, :class_name => 'User', :foreign_key => 'reviewer_id'
   belongs_to :user, :foreign_key => 'reviewer_id'
 
-  default_scope order('submission_id')
-  scope :load_all, joins([:applicant])
+  scope :load_all, lambda { joins([:applicant]) }
   scope :this_project, lambda { |*args| includes([:submission]).where('submissions.project_id = :project_id', { :project_id => args.first }) }
   scope :active, lambda { |*args| includes([:submission]).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
 
@@ -66,9 +65,6 @@ class SubmissionReview < ActiveRecord::Base
   validates_numericality_of :other_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :budget_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :overall_score, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
-
-  attr_accessible *column_names
-  attr_accessible :user, :reviewer, :submission
 
   def composite_score
     return 0 if count_nonzeros?.blank? || count_nonzeros? < 1

@@ -23,9 +23,9 @@ module RolesHelper
 
   def has_role(role, program)
     return false unless is_logged_in?
-    return false if current_user_session.blank?
-    return false if current_user_session.roles_users.blank?
-    current_user_session.roles_users.for_program(program.try(:id)).each do |user_role|
+    return false if current_user.blank?
+    return false if current_user.roles_users.blank?
+    current_user.roles_users.for_program(program.try(:id)).each do |user_role|
       return true if user_role.role.name == role
     end
     false
@@ -33,9 +33,9 @@ module RolesHelper
 
   def has_role_any_program(role)
     return false unless is_logged_in?
-    return false if current_user_session.blank?
-    return false if current_user_session.roles_users.blank?
-    current_user_session.roles_users.each do |user_role|
+    return false if current_user.blank?
+    return false if current_user.roles_users.blank?
+    current_user.roles_users.each do |user_role|
       return true if user_role.role.name == role
     end
     false

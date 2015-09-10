@@ -133,10 +133,7 @@ class AdminsController < ApplicationController
         @current_user_session = User.find_by_username(params[:username])
         session[:username] = @current_user_session.try(:username)
         session[:name] = @current_user_session.try(:name)
-        # manual Aker call
-        user = Aker::User.new(params[:username], :NUCATSassist)
-        session[:aker_user] = user
-        check_session
+
         act_as_admin
 
         redirect_to projects_path

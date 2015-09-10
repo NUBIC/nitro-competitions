@@ -23,15 +23,12 @@ require 'factory_girl'
 
 module TestLogins
   def user_login
-    Aker.authority.valid_credentials?(:user, 'user', 'demo')
   end
 
   def admin_login
-    Aker.authority.valid_credentials?(:user, 'admin', 'demo')
   end
 
   def login(as)
-    controller.request.env['aker.check'] = Aker::Rack::Facade.new(Aker.configuration, as)
   end
 end
 

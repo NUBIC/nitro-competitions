@@ -100,14 +100,6 @@ class Submission < ActiveRecord::Base
   accepts_nested_attributes_for :applicant
   accepts_nested_attributes_for :key_personnel
 
-  attr_accessible *column_names
-  attr_accessible :applicant_biosketch_document, :application_document, :budget_document, :other_support_document
-  attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget, :uploaded_biosketch
-  attr_accessible :document1, :document2, :document3, :document4
-  attr_accessible :supplemental_document, :uploaded_supplemental_document
-  attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
-  attr_accessible :applicant, :submitter, :effort_approver, :core_manager, :department_administrator
-
   attr_accessor :max_budget_request
   attr_accessor :min_budget_request
 
@@ -117,10 +109,10 @@ class Submission < ActiveRecord::Base
   # TODO: determine if the joins is necessary - this causes the record to be 'readonly' and
   #       will throw an ActiveRecord::ReadOnlyRecord error upon save
   # default_scope joins([:applicant]) #.order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
-  scope :assigned_submissions, where('submission_reviews_count >= 2')
+  scope :assigned_submissions, lambda { where('submission_reviews_count >= 2') }
   scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 
-  scope :unassigned_submissions, where(:submission_reviews_count => 0)
+  scope :unassigned_submissions, lambda { where(:submission_reviews_count => 0) }
   scope :recent, lambda { where('submissions.created_at > ?', 3.weeks.ago) }
 
   scope :associated, lambda { |*args|
