@@ -54,8 +54,8 @@ class SubmissionReview < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'reviewer_id'
 
   scope :load_all, lambda { joins([:applicant]) }
-  scope :this_project, lambda { |*args| includes([:submission]).where('submissions.project_id = :project_id', { :project_id => args.first }) }
-  scope :active, lambda { |*args| includes([:submission]).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
+  scope :this_project, lambda { |*args| joins(:submission).where('submissions.project_id = :project_id', { :project_id => args.first }) }
+  scope :active, lambda { |*args| joins(:submission).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
 
   validates_numericality_of :innovation_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :impact_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0

@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   has_many :key_personnel
   has_many :submissions, :foreign_key => 'applicant_id'
   has_many :proxy_submissions, :class_name => 'Submission', :foreign_key => 'created_id'
-  has_many :submission_reviews, -> { includes(:submissions) }, :foreign_key => 'reviewer_id'
+  has_many :submission_reviews, -> { includes(:submission) }, :foreign_key => 'reviewer_id'
   has_many :reviewed_submissions, :class_name => 'Submission', :through => :submission_reviews, :source => :submission
   has_many :roles_users
   has_many :roles, :through => :roles_users
@@ -264,6 +264,7 @@ class User < ActiveRecord::Base
       user.username = extract_username_from_omniauth(omniauth)
       user.first_name = omniauth['info']['first_name'] || ''
       user.last_name  = omniauth['info']['last_name'] || ''
+      user.password = Devise.friendly_token[0,20]
       user.save!
     end
     user

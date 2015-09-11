@@ -24,5 +24,6 @@ FactoryGirl.define do
     biosketch_document_id 1
     created_ip '127.0.0.1'
     created_at Time.now
+    password 'password'
   end
 end

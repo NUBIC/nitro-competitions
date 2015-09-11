@@ -83,7 +83,7 @@ describe SubmissionReview, :type => :model do
     let!(:project) { submission_review.project }
     it 'returns SubmissionReviews for the given projects' do
       projects = Project.all
-      submission_reviews = SubmissionReview.active(projects)
+      submission_reviews = SubmissionReview.active(projects.map{|pr| pr.id})
       submission_reviews.each do |sr|
         expect(sr.submission).not_to be_blank
         expect(sr.submission.project).not_to be_blank

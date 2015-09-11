@@ -22,6 +22,7 @@ gem 'bundler'
 gem 'rails', '~> 4.2'
 
 gem 'activerecord-session_store'
+gem 'actionpack-action_caching'
 
 gem 'pg'
 gem 'haml'
