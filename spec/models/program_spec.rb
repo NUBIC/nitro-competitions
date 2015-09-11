@@ -33,8 +33,8 @@ describe Program, :type => :model do
     context '#program_name' do
       it { is_expected.to validate_presence_of(:program_name) }
       it { is_expected.to validate_uniqueness_of(:program_name) }
-      it { is_expected.to ensure_length_of(:program_name).is_at_least(2) }
-      it { is_expected.to ensure_length_of(:program_name).is_at_most(20) }
+      it { is_expected.to validate_length_of(:program_name).is_at_least(2) }
+      it { is_expected.to validate_length_of(:program_name).is_at_most(20) }
 
       it { is_expected.to allow_value('LETTERS_0123').for(:program_name) }
 
@@ -55,8 +55,8 @@ describe Program, :type => :model do
 
     context '#program_title' do
       it { is_expected.to validate_presence_of(:program_title) }
-      it { is_expected.to ensure_length_of(:program_title).is_at_least(2) }
-      it { is_expected.to ensure_length_of(:program_title).is_at_most(80) }
+      it { is_expected.to validate_length_of(:program_title).is_at_least(2) }
+      it { is_expected.to validate_length_of(:program_title).is_at_most(80) }
     end
 
     it { is_expected.to validate_presence_of(:program_url) }

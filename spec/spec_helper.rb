@@ -8,6 +8,8 @@ ENV["RAILS_ENV"] ||= 'test'
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+# note: require 'devise' after require 'rspec/rails'
+require 'devise'
 
 # For front-end testing with phantomjs and poltergeist
 require 'capybara/rspec'
@@ -29,6 +31,30 @@ module TestLogins
   end
 
   def login(as)
+  end
+end
+
+module ControllerMacros
+  def admin_login
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:admin]
+      sign_in FactoryGirl.create(:user) # Using factory girl as an example
+    end
+  end
+
+  def user_login
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      user = FactoryGirl.create(:user)
+      sign_in user
+    end
+  end
+
+  def login(as)
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      sign_in as
+    end
   end
 end
 
@@ -64,5 +90,6 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include TestLogins
+  config.include Devise::TestHelpers, :type => :controller
+  config.extend ControllerMacros, :type => :controller
 end

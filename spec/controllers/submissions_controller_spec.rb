@@ -3,10 +3,9 @@ require 'spec_helper'
 
 describe SubmissionsController, :type => :controller do
 
+
   context 'with a logged in user' do
-    before do
-      login(user_login)
-    end
+    user_login
 
     describe 'GET index' do
       it 'renders the page' do

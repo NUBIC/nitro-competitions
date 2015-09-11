@@ -5,9 +5,7 @@ require 'spec_helper'
 describe AdminsController, :type => :controller do
 
   context 'with a logged in admin user' do
-    before do
-      login(admin_login)
-    end
+    admin_login
 
     describe 'GET index' do
       let(:project) { FactoryGirl.create(:project) }

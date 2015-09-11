@@ -99,7 +99,7 @@ class ReviewersController < ApplicationController
       respond_to do |format|
         if @submission_review.update_attributes(params[:submission_review])
           flash[:notice] = 'Review was successfully updated.'
-          format.html { redirect_to(project_reviewers_url(current_project)) }
+          format.html { redirect_to(project_reviewers_url(@submission_review.submission.project)) }
           format.xml  { head :ok }
         else
           format.html { render action: 'edit' }

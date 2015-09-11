@@ -10,7 +10,7 @@ class SubmissionsController < ApplicationController
   def index
     # project/:project_id/submissions should be the only way to get here
 
-    projects = Project.find_all_by_id(params[:project_id])
+    projects = Project.where(id: params[:project_id]).all
     @project = projects[0] unless projects.blank?
     @submissions = Submission.associated(projects.map(&:id), current_user_session.id)
     if @submissions.nil?
