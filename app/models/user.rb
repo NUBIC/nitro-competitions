@@ -119,18 +119,24 @@ class User < ActiveRecord::Base
     # Create the user if needed
     if user.nil?
 
-      email = auth.info.email
-      user = User.where(:email => email).first if email
+      name, first_name, last_name, email, username = extract_user_info(auth)
+      if email
+        user = User.where(:email => email).first 
+      else
+        email = "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com"
+      end
 
       # Create the user if it's a new registration
       if user.nil?
+        username = determine_username(auth)
         user = User.new(
-          oauth_name: determine_name(auth),
-          #username: auth.info.nickname || auth.uid,
-          email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+          oauth_name: name,
+          first_name: first_name,
+          last_name: last_name,
+          username: username,
+          email: email,
           password: Devise.friendly_token[0,20]
         )
-        user.skip_confirmation!
         user.save!
       end
     end
@@ -143,8 +149,34 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.determine_name(auth)
-    auth.extra.info.name
+  ##
+  # Get first name, last name, and email information
+  # returned from the provider
+  # twitter and yahoo provide 'name'
+  # google, facebook, and linked in provide 'first_name' and 'last_name'
+  # @param [Hash] auth from omniauth
+  # @return [Array<String>]
+  def self.extract_user_info(auth)
+    name = auth['info']['name']
+    if name && !name.blank?
+      first_name = name.split[0]
+      last_name  = name.split[1]
+    else
+      first_name = auth['info']['first_name']
+      last_name  = auth['info']['last_name']
+    end
+    [name, first_name, last_name, auth['info']['email']]
+  end
+
+  def self.determine_username(auth)
+    username = auth.info.nickname || auth.uid
+    Identity.northwestern_domains.each do |domain|
+      if username.start_with?(domain)
+        suffix = domain + "\\"
+        username = username.sub(suffix, '')
+      end
+    end
+    username
   end
 
   def email_verified?
