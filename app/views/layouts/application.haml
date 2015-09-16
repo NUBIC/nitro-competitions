@@ -14,10 +14,10 @@
   %body
     - unless notice.blank?
       .notice
-        = notice
+        = notice.html_safe
     - unless alert.blank?
       .alert
-        = alert
+        = alert.html_safe
     .wrapper
       = render 'shared/navigation'
       #content

@@ -52,6 +52,7 @@ module KeyPersonnelHelper
                 key_user.email              = key_person['email']
                 key_user.first_name         = key_person['first_name']
                 key_user.last_name          = key_person['last_name']
+                key_user.password           = Devise.friendly_token[0,20]
                 before_create(key_user)
                 key_user.save!
                 begin
