@@ -2,11 +2,6 @@
 NucatsAssist::Application.routes.draw do
   # omniauth and login/logout
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
-  match '/auth/:provider/callback', to: 'user_sessions#create', via: [:get, :post]
-  match '/auth/failure', to: 'user_sessions#failure', via: [:get, :post]
-  match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
-  match 'logout' => 'access#logout', as: :logout, via: [:get, :post]
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # resources
   resources :file_documents, only: :show
@@ -32,13 +27,12 @@ NucatsAssist::Application.routes.draw do
     member do
       get :contact
     end
-    resources :roles, only: [:index, :show] do
-      resources :users, only: [] do
-        resources :rest, only: [] do
-          member do
-            get :remove
-            get :add
-          end
+    resources :roles, only: [:index, :show]
+    resources :users, only: [] do
+      resources :roles, only: [] do
+        member do
+          get :remove
+          get :add
         end
       end
     end
@@ -115,11 +109,16 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :applicants, only: [:edit, :update]
+  resources :applicants, only: [:edit, :update, :show]
 
   # other
   root to: 'public#welcome'
   get 'welcome' => 'public#welcome', as: :welcome
+
+  match '/auth/:provider/callback', to: 'user_sessions#create', via: [:get, :post]
+  match '/auth/failure', to: 'user_sessions#failure', via: [:get, :post]
+  match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   match 'competitions/:program_name/:project_name' => 'projects#show', as: :show_competition, via: [:get]
   match 'competitions/:program_name' => 'projects#index', as: :competitions, via: [:get]

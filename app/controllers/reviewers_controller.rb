@@ -97,7 +97,7 @@ class ReviewersController < ApplicationController
     @submission_review = SubmissionReview.find(params[:id])
     if can_update_submission_review?(@submission_review) || is_admin?(@submission_review.submission.project.program)
       respond_to do |format|
-        if @submission_review.update_attributes(params[:submission_review])
+        if @submission_review.update_attributes(submission_review_params)
           flash[:notice] = 'Review was successfully updated.'
           format.html { redirect_to(project_reviewers_url(@submission_review.submission.project)) }
           format.xml  { head :ok }
@@ -112,11 +112,22 @@ class ReviewersController < ApplicationController
     end
   end
 
+  def submission_review_params
+    params.require(:submission_review).permit(
+      :impact_score,      :impact_text,
+      :team_score,        :team_text,
+      :innovation_score,  :innovation_text,
+      :scope_score,       :scope_text,
+      :environment_score, :environment_text,
+      :overall_score,     :overall_text
+    )
+  end
+
   def update_item
     @submission_review = SubmissionReview.find(params[:id])
     if can_update_submission_review?(@submission_review) || is_admin?(@submission_review.submission.project.program)
       respond_to do |format|
-        if @submission_review.update_attributes(params[:submission_review])
+        if @submission_review.update_attributes(submission_review_params)
           flash[:notice] = 'Review was successfully updated.'
           format.html { redirect_to(project_reviewers_url(current_program)) }
           format.xml  { head :ok }

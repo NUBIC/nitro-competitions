@@ -1,4 +1,4 @@
 - url = (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id))
-%h2 Your Profile
+%h3 Edit Applicant
 = form_for(:applicant, :url => url, :html => { :multipart => true, :method => :put, :id => "applicant_form", class: 'form-horizontal' }) do |f|
   = render('applicant_form', f: f)

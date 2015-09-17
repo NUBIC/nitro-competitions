@@ -8,7 +8,7 @@ class SponsorsController < ApplicationController
   # GET /sponsors
   # GET /sponsors.xml
   def index
-    @sponsors = Program.all(:order=>'lower(program_name)')
+    @sponsors = Program.order('lower(program_name)').to_a
 
     respond_to do |format|
       format.html # index.html.erb
@@ -19,7 +19,7 @@ class SponsorsController < ApplicationController
   # GET /sponsors/1
   # GET /sponsors/1.xml
   def show
-    @sponsors = Program.find_all_by_id(params[:id])
+    @sponsors = Program.where(id: params[:id]).to_a
     @sponsor  = @sponsors[0]
     @projects = @sponsor.projects
     set_current_project(@projects[0]) if @projects.length > 0

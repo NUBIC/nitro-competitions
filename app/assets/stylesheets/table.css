@@ -3,9 +3,8 @@ table {
 }
 
 td, th {
-  margin: 0px;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  margin: 0;
+  padding: 0.25em 0.5em;
   vertical-align: top;
   text-align: left;
 }

@@ -1,7 +1,7 @@
 - if @applicant && !@applicant.try(:errors).blank?
   = render('shared/error_messages', object: @applicant)
 
-%h3 Contact
+%h4 Contact
 .form-group
   = f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -12,8 +12,7 @@
   .col-xs-9
     = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
 
-%br
-%h3 Name
+%h4 Name
 .form-group
   = f.label :title, 'Academic title', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -29,8 +28,7 @@
   .col-xs-9
     = f.text_field :last_name, {required: true, placeholder: 'last name', class: 'form-control'}
 
-%br
-%h3 On-campus mailing address
+%h4 On-campus mailing address
 .form-group
   = f.label :campus, 'Campus', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -41,8 +39,7 @@
   .col-xs-9
     = f.text_area :campus_address, {placeholder: 'address', class: 'form-control', rows: 5}
 
-%br
-%h3 Off-campus mailing address (if you have one)
+%h4 Off-campus mailing address (if you have one)
 .form-group
   = f.label :address, 'Address', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -68,8 +65,7 @@
   .col-xs-9
     = f.text_field :country, {placeholder: 'country', class: 'form-control'}
 
-%br
-%h3 Research and credentials
+%h4 Research and credentials
 .form-group
   .col-xs-3
     %strong eRA Commons registration is required.

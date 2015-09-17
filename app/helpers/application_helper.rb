@@ -45,7 +45,7 @@ module ApplicationHelper
   # Is the current user session username in the admin list
   # @return Boolean
   def current_user_is_admin?
-    %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.try(:username))
+    %w(wakibbe dfu601 super pfr957 psfriedman psfriedman@gmail.com p-friedman@northwestern.edu).include?(current_user.try(:username))
   end
   private :current_user_is_admin?
 
