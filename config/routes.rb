@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 NucatsAssist::Application.routes.draw do
+  # omniauth and login/logout
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
+  match '/auth/:provider/callback', to: 'user_sessions#create', via: [:get, :post]
+  match '/auth/failure', to: 'user_sessions#failure', via: [:get, :post]
+  match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
+  match 'logout' => 'access#logout', as: :logout, via: [:get, :post]
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+
+  # resources
   resources :file_documents, only: :show
   resources :audits, only: :index do
     collection do
@@ -107,23 +115,20 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  # omniauth
-  match '/auth/:provider/callback', to: 'user_sessions#create', via: [:get, :post]
-  match '/auth/failure', to: 'user_sessions#failure', via: [:get, :post]
+  resources :applicants, only: [:edit, :update]
 
-  resources :applicants, except: [:destroy]
+  # other
   root to: 'public#welcome'
   get 'welcome' => 'public#welcome', as: :welcome
-  match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
-  match 'competitions/:program_name/:project_name' => 'projects#show', as: :show_competition, via: [:get, :post]
-  match 'competitions/:program_name' => 'projects#index', as: :competitions, via: [:get, :post]
+
+  match 'competitions/:program_name/:project_name' => 'projects#show', as: :show_competition, via: [:get]
+  match 'competitions/:program_name' => 'projects#index', as: :competitions, via: [:get]
   match 'role/:id/add_user/:user_id' => 'roles#add_user', as: :add_user_role, via: [:get, :post]
   match 'role/:user_role_id/remove_user' => 'roles#remove_user', as: :remove_user_role, via: [:get, :post]
   match 'projects' => 'projects#index', as: :login_target, via: [:get, :post]
   match 'review/:id/update_item' => 'reviews#update_item', as: :update_review_item, via: [:get, :post]
   match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
-  match 'logout' => 'access#logout', as: :logout, via: [:get, :post]
+
   match '/:controller(/:action(/:id))', via: [:get, :post]
 
-  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 end

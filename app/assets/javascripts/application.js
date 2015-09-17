@@ -6,7 +6,6 @@
 //
 //= require jquery.min
 //= require jquery-ui
-//= require jquery_ujs
 //= require jquery.tablesorter.min
 //= require jquery.validate
 //= require additional-methods

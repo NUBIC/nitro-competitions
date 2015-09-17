@@ -49,3 +49,7 @@ html, body {
 #app_title {
   color: #520063;
 }
+
+.form-control {
+  width: 75%;
+}

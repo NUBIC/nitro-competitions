@@ -249,27 +249,27 @@ module ApplicationHelper
   # before_ helpers
   def before_create(model)
     model.created_ip ||= request.remote_ip if request_exists?
-    model.created_id ||= session[:user_id] if session_exists?
+    model.created_id ||= current_user.id if current_user
     before_update(model)
   end
 
   def before_update(model)
     model.updated_ip = request.remote_ip if request_exists?
-    model.updated_id = session[:user_id] if session_exists?
+    model.updated_id = current_user.id if current_user
   end
 
   def logged_in?
-    !session[:user_id].blank?
+    !current_user.blank?
   end
 
   def is_current_user?(id)
-    id.to_i == session[:user_id].to_i
+    id.to_i == current_user.id if current_user
   end
 
   def handle_ldap(applicant)
     begin
       applicant unless applicant.id.blank?
-      applicant_in_db = User.find_by_username(applicant.username)
+      applicant_in_db = User.where(username: applicant.username).first
       return applicant_in_db unless applicant_in_db.blank? || applicant_in_db.id.blank?
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
@@ -297,7 +297,7 @@ module ApplicationHelper
 
   def make_user(username)
     return nil if username.blank? || username.length < 3
-    the_user = User.find_by_username(username)
+    the_user = User.where(username: username).first
     return the_user unless the_user.blank?
     the_user = User.new(username: username)
     the_user = handle_ldap(the_user)
@@ -313,7 +313,7 @@ module ApplicationHelper
 
   def make_user_from_login(current_user)
     # for times when an authenticated user is not found in ldap!
-    the_user = User.find_by_username(current_user.username)
+    the_user = User.where(username: current_user.username).first
     return the_user unless the_user.blank?
     email =  current_user.email
     email = current_user.username + '@unknown.edu' if email.blank?

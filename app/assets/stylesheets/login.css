@@ -110,7 +110,7 @@ div#login_fields .buttons {
   border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
-  border: solid 2px $border-gray;
+  border: solid 2px #ccc;
   padding: 0.25em;
   margin: 0.5em;
 }
@@ -118,7 +118,7 @@ div#login_fields .buttons {
   display: inline-block;
 }
 .domains .domain_option .domain_name:hover {
-  color: $nu-purple;
+  color: #520063;
   text-decoration: underline;
   cursor: pointer;
 }

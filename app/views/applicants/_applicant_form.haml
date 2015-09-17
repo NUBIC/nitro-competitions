@@ -1,5 +1,5 @@
-- if f.object && !f.object.try(:errors).blank?
-  = render('shared/error_messages', object: f.object)
+- if @applicant && !@applicant.try(:errors).blank?
+  = render('shared/error_messages', object: @applicant)
 
 %h3 Contact
 .form-group
@@ -73,6 +73,7 @@
 .form-group
   .col-xs-3
     %strong eRA Commons registration is required.
+    %br
     = link_to 'More information here.', NucatsAssist.era_commons_name_url, target: '_blank'
   .col-xs-9
     = f.text_field :era_commons_name, {required: true, placeholder: 'eRA Commons name', class: 'form-control'}
@@ -94,13 +95,13 @@
     %br
     This should be uploaded in <b>MS Word or PDF format</b>.
   .col-xs-9
-    = f.file_field('uploaded_biosketch', class: 'form-control')
-    - unless applicant.biosketch_document_id.blank?
+    = f.file_field('uploaded_biosketch')
+    - unless @applicant.biosketch_document_id.blank?
       %br
       %br
       %em
-        = link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name}").html_safe
-        = "updated on #{(applicant.biosketch.last_updated_at || applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
+        = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
+        = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
     %br
     %br
     Your default biosketch document will be used as the biosketch document when:
@@ -112,7 +113,7 @@
     You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 
 .form-group
-  = f.submit('Update', {class: 'form-control btn btn-default btn-info'})
+  = f.submit('Update', {class: 'btn btn-default btn-info'})
 
-  %script{type: "text/javascript"}
-    jQuery('#applicant_form').validate();
+%script{type: "text/javascript"}
+  jQuery('#applicant_form').validate();

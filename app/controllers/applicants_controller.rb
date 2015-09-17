@@ -111,7 +111,7 @@ class ApplicantsController < ApplicationController
       @applicant = User.find_by_username(params[:applicant][:username])
     end
 
-    @applicant = User.new(params[:applicant]) if @applicant.blank?
+    @applicant = User.new(applicant_params) if @applicant.blank?
 
     respond_to do |format|
       if @applicant.save
@@ -132,7 +132,7 @@ class ApplicantsController < ApplicationController
     @applicant.validate_era_commons_name = current_project.require_era_commons_name unless current_project.blank?
 
     respond_to do |format|
-      if @applicant.update_attributes(params[:applicant])
+      if @applicant.update_attributes(applicant_params)
         set_user_session(@applicant)
         flash[:notice] = "Profile updated"
         if params[:project_id].blank?
@@ -148,6 +148,26 @@ class ApplicantsController < ApplicationController
         format.xml  { render xml: @applicant.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def applicant_params
+    params.require(:applicant).permit(
+      :email,
+      :business_phone,
+      :title,
+      :first_name,
+      :last_name,
+      :campus,
+      :campus_address,
+      :address,
+      :city,
+      :state,
+      :postal_code,
+      :country,
+      :era_commons_name,
+      :degrees,
+      :primary_department,
+      :uploaded_biosketch)
   end
 
   def destroy
