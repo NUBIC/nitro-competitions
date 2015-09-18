@@ -5,9 +5,7 @@ require 'spec_helper'
 describe ApplicantsController, :type => :controller do
 
   context "with an authenticated user" do
-    before(:each) do
-      login(user_login)
-    end
+    user_login
 
     describe 'GET index' do
       # cf. has_read_all?

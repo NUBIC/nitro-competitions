@@ -1,7 +1,9 @@
-- if f.object && !f.object.try(:errors).blank?
-  = render('shared/error_messages', object: f.object)
+- if @applicant && !@applicant.try(:errors).blank?
+  = render('shared/error_messages', object: @applicant)
 
-%h3 Contact
+= @applicant.username
+
+%h4 Contact
 .form-group
   = f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -12,8 +14,7 @@
   .col-xs-9
     = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
 
-%br
-%h3 Name
+%h4 Name
 .form-group
   = f.label :title, 'Academic title', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -29,8 +30,7 @@
   .col-xs-9
     = f.text_field :last_name, {required: true, placeholder: 'last name', class: 'form-control'}
 
-%br
-%h3 On-campus mailing address
+%h4 On-campus mailing address
 .form-group
   = f.label :campus, 'Campus', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -41,8 +41,7 @@
   .col-xs-9
     = f.text_area :campus_address, {placeholder: 'address', class: 'form-control', rows: 5}
 
-%br
-%h3 Off-campus mailing address (if you have one)
+%h4 Off-campus mailing address (if you have one)
 .form-group
   = f.label :address, 'Address', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -68,11 +67,11 @@
   .col-xs-9
     = f.text_field :country, {placeholder: 'country', class: 'form-control'}
 
-%br
-%h3 Research and credentials
+%h4 Research and credentials
 .form-group
   .col-xs-3
     %strong eRA Commons registration is required.
+    %br
     = link_to 'More information here.', NucatsAssist.era_commons_name_url, target: '_blank'
   .col-xs-9
     = f.text_field :era_commons_name, {required: true, placeholder: 'eRA Commons name', class: 'form-control'}
@@ -94,13 +93,13 @@
     %br
     This should be uploaded in <b>MS Word or PDF format</b>.
   .col-xs-9
-    = f.file_field('uploaded_biosketch', class: 'form-control')
-    - unless applicant.biosketch_document_id.blank?
+    = f.file_field('uploaded_biosketch')
+    - unless @applicant.biosketch_document_id.blank?
       %br
       %br
       %em
-        = link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name}").html_safe
-        = "updated on #{(applicant.biosketch.last_updated_at || applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
+        = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
+        = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
     %br
     %br
     Your default biosketch document will be used as the biosketch document when:
@@ -112,7 +111,7 @@
     You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 
 .form-group
-  = f.submit('Update', {class: 'form-control btn btn-default btn-info'})
+  = f.submit('Update', {class: 'btn btn-default btn-info'})
 
-  %script{type: "text/javascript"}
-    jQuery('#applicant_form').validate();
+%script{type: "text/javascript"}
+  jQuery('#applicant_form').validate();

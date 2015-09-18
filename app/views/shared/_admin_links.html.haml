@@ -1,7 +1,6 @@
 - if is_admin?
-  %br
-  Admin links:
   .admin_links
+    Admin links:
     %ul
       %li=link_to("New competition", new_project_path)
       %li=link_to("All submissions", submissions_project_admins_path(current_project().id))

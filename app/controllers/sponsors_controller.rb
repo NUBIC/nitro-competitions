@@ -8,7 +8,7 @@ class SponsorsController < ApplicationController
   # GET /sponsors
   # GET /sponsors.xml
   def index
-    @sponsors = Program.all(:order=>'lower(program_name)')
+    @sponsors = Program.order('lower(program_name)').to_a
 
     respond_to do |format|
       format.html # index.html.erb
@@ -19,7 +19,7 @@ class SponsorsController < ApplicationController
   # GET /sponsors/1
   # GET /sponsors/1.xml
   def show
-    @sponsors = Program.find_all_by_id(params[:id])
+    @sponsors = Program.where(id: params[:id]).to_a
     @sponsor  = @sponsors[0]
     @projects = @sponsor.projects
     set_current_project(@projects[0]) if @projects.length > 0
@@ -53,13 +53,12 @@ class SponsorsController < ApplicationController
     end
   end
 
-
   # PUT /sponsors/1
   # PUT /sponsors/1.xml
   def update
     @sponsor = Program.find(params[:id])
     respond_to do |format|
-      if is_admin?(@sponsor) and  @sponsor.update_attributes(params[:program])
+      if is_admin?(@sponsor) and  @sponsor.update_attributes(program_params)
         flash[:notice] = 'Sponsor was successfully updated.'
         format.html { redirect_to(sponsor_path(@sponsor)) }
         format.xml  { head :ok }
@@ -70,5 +69,13 @@ class SponsorsController < ApplicationController
     end
   end
 
+  def program_params
+    params.require(:program).permit(
+      :program_name, 
+      :email, 
+      :program_title, 
+      :program_url
+    )
+  end
   
 end

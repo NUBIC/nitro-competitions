@@ -16,5 +16,6 @@
  *= require style
  *= require submission
  *= require table
+ *= require login
  *= require_self
 */

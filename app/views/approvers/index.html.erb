@@ -19,7 +19,7 @@
       <td><%= submission.effort_approver_username %></td>
       <td>
         <span id="approval_<%= submission.id -%>">
-          <%= render('approval', :submission=>submission) %>
+          <%= render('approval', submission: submission) %>
         </span>
       </td>
       <td>

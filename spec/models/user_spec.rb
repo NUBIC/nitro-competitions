@@ -87,26 +87,24 @@ describe User, :type => :model do
     end
     describe 'with validations set to false' do
       before do
-        user.validate_email_attr = false
         user.validate_era_commons_name = false
       end
       it 'attributes are not included in errors' do
         expect(user).not_to be_nil
         expect(user).not_to be_valid
-        [:email, :era_commons_name].each do |att|
+        [:era_commons_name].each do |att|
           expect(user.errors).not_to include(att)
         end
       end
     end
     describe 'with validations set to nil' do
       before do
-        user.validate_email_attr = nil
         user.validate_era_commons_name = nil
       end
       it 'attributes are not included in errors' do
         expect(user).not_to be_nil
         expect(user).not_to be_valid
-        [:email, :era_commons_name].each do |att|
+        [:era_commons_name].each do |att|
           expect(user.errors).not_to include(att)
         end
       end
@@ -286,7 +284,7 @@ describe User, :type => :model do
 
       context 'without an email address' do
         context 'with google oauth provider' do
-          let!(:user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: email) }
+          let!(:user) { FactoryGirl.create(:user, first_name: 'f', last_name: 'l', username: email) }
           it 'finds the User' do
             updated = User.find_or_create_from_omniauth(omniauth)
             expect(updated.id).to eq user.id
@@ -294,7 +292,7 @@ describe User, :type => :model do
         end
 
         context 'with the northwestern oauth provider' do
-          let!(:user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: netid) }
+          let!(:user) { FactoryGirl.create(:user, first_name: 'f', last_name: 'l', username: netid) }
           it 'finds the User and updates User attributes' do
             updated = User.find_or_create_from_omniauth(omniauth)
             expect(updated.id).to eq user.id
@@ -305,8 +303,8 @@ describe User, :type => :model do
         # differing providers resulting in more than one User record
         # having been created @see User.find_or_create_from_omniauth
         context 'with multiple oauth providers' do
-          let!(:nu_user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: netid) }
-          let!(:ext_user) { FactoryGirl.create(:user, email: nil, first_name: 'f', last_name: 'l', username: email) }
+          let!(:nu_user) { FactoryGirl.create(:user, first_name: 'f', last_name: 'l', username: netid) }
+          let!(:ext_user) { FactoryGirl.create(:user, first_name: 'f', last_name: 'l', username: email) }
           it 'prefers the nu over outside if User exists matching both' do
             updated = User.find_or_create_from_omniauth(omniauth)
             expect(updated.id).to eq nu_user.id

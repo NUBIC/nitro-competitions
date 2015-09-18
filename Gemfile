@@ -6,22 +6,29 @@ source 'https://rubygems.org'
 # However, if you do end up using omniauth, you will need to
 # use one of the several omniauth strategies.
 # https://github.com/intridea/omniauth/wiki/List-of-Strategies 
-source 'http://download.bioinformatics.northwestern.edu/gems'
-gem 'omniauth-nucats-accounts'
+# source 'http://download.bioinformatics.northwestern.edu/gems'
+# gem 'omniauth-nucats-accounts'
 
-gem 'omniauth_configure'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-yahoo'
+gem 'omniauth-linkedin'
+gem 'omniauth-facebook'
+gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.2'
 
 gem 'bundler'
-gem 'rails', '3.2.16'
+gem 'rails', '~> 4.2'
+
+gem 'activerecord-session_store'
+gem 'actionpack-action_caching'
+
 gem 'pg'
 gem 'haml'
 gem 'fastercsv'
 
 gem 'net-ldap'
-
-# Authorization
-gem 'aker-rails'
-gem 'aker'
 
 # ActionView::Template::Error (Could not find a JavaScript runtime.
 # See https://github.com/sstephenson/execjs for a list of available runtimes.
@@ -46,9 +53,9 @@ group :development do
 end
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2'
-  gem 'coffee-rails', '~> 3.2'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
 end
 
 gem 'jquery-rails'

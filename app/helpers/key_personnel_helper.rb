@@ -46,12 +46,13 @@ module KeyPersonnelHelper
             # check if we have this user
             key_user = make_user(key_person['username'])
             if key_user.blank? 
-              if ! key_person['username'].blank? && ! key_person['first_name'].blank? && ! key_person['last_name'].blank?
+              if !key_person['username'].blank? && ! key_person['first_name'].blank? && ! key_person['last_name'].blank?
                 key_user = User.new
                 key_user.username           = key_person['username']
                 key_user.email              = key_person['email']
                 key_user.first_name         = key_person['first_name']
                 key_user.last_name          = key_person['last_name']
+                key_user.password           = Devise.friendly_token[0,20]
                 before_create(key_user)
                 key_user.save!
                 begin
@@ -65,7 +66,6 @@ module KeyPersonnelHelper
               key_user.first_name         = key_person['first_name']
               key_user.last_name          = key_person['last_name']
               before_update(key_user)
-              key_user.save!
             end
 
             add_key_person(key_user, submission.id, key_person['role']) unless key_user.nil? || key_user.id.blank? || submission.id.blank?

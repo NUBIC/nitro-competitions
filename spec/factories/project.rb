@@ -19,7 +19,7 @@ FactoryGirl.define do
     max_assigned_reviewers_per_proposal 2
     max_assigned_proposals_per_reviewer 2
     applicant_wording 'Principal Investigator'
-    association :creater, factory: :user
+    association :creator, factory: :user
     created_ip '127.0.0.1'
     created_at Time.now
   end

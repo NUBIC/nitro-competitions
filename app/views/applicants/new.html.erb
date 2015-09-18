@@ -1,5 +1,7 @@
-<span style="float:right; margin-top: 1.5em; padding: 6px; border:1px solid indigo;">
-  You will only need to complete this page once <br />but can edit it at any time
+<span class='instructions'>
+  You will only need to complete this page once 
+  <br />
+  but you can edit it at any time
 </span>
 
 <h2>Application Process - Step 1</h2>
@@ -26,12 +28,12 @@
     </tr>
   <% end %>
 
-  <%= form_for(:applicant,
+  <%= form_for(@applicant,
                :url => project_applicants_path({ :project_id => params[:project_id], :id => @applicant.id }),
                :html => { :class => 'none', :id => "applicant_form", :multipart => true, :method => :post }) do |f| %>
 
     <!-- f and submission are existing variables passed in -->
-    <%= render(:partial => 'applicant_proxy_form', :locals => { :f => f, :applicant => @applicant}) %>
+    <%= render('applicant_proxy_form', f: f, applicant: @applicant) %>
     <tr>
       <td colspan='3' align='center' style='padding:10px;' class='highlighted_table_cell'>
         <%= f.submit('Save Draft and Continue') %>

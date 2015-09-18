@@ -1,11 +1,11 @@
 - pronoun = "your"
-- pronoun = "the" if current_user_session.try(:username) != applicant.username
+- pronoun = "the" if current_user.try(:username) != @applicant.username
 
 - completion = ""
-- completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username
-- ldap_name = [applicant.name, applicant.name_suffix].compact.join(",")
+- completion = " for #{applicant.name}" if current_user.try(:username) != @applicant.username
+- ldap_name = [@applicant.name, @applicant.name_suffix].compact.join(",")
 
-- if f.object && !f.object.try(:errors).blank?
+- if @applicant && !@applicant.try(:errors).blank?
   %tr
     %td{colspan: "2"}
       = render('shared/error_messages', object: f.object)
@@ -23,7 +23,7 @@
   %td.title
     email
   %td
-    = applicant.email
+    = @applicant.email
 
 %tr
   %td.title
@@ -89,10 +89,10 @@
     = f.label :uploaded_biosketch, 'Biosketch Document'
   %td
     = f.file_field('uploaded_biosketch')
-    - unless applicant.biosketch_document_id.blank?
+    - unless @applicant.biosketch_document_id.blank?
       %em
-        = link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name}").html_safe
-        = "updated on #{(applicant.biosketch.last_updated_at || applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
+        = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
+        = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
     %br
     %br
     Biosketch should be in <b>MS Word or PDF format</b>

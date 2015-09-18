@@ -1,5 +1,238 @@
 # Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  hello: 'Hello!'
+  app:
+    name: 'NUCATS Account Verification'
+    nucats_home: 'NUCATS Home page'
+    hello: 'Hello'
+    version: 'Version'
+    versions: 'History'
+    view: 'View'
+    edit: 'Edit'
+    nucats_affiliated_organizations: 'NUCATS Affiliated Organizations'
+    external_authentication_providers: 'External Authentication Providers'
+    or: 'OR'
+    grant_number: 'Please remember to include a reference to NUCATS grant <strong>8UL1TR000150</strong> in journal publications.'
+    created_by: 'Created by'
+    for_nucats: 'for the NUCATS Institute'
+    for_support: 'For support issues, please email'
+    about_mynucats: 'To learn more about NUCATS membership, please visit the'
+    about_mynucats_link_text: 'about myNUCATS page.'
+  home:
+    client_apps: 'Supported Applications'
+    unknown_member:
+      title: 'No Membership Found'
+      description: >
+        <p>Thank you for logging in.</p>
+        <p>Unfortunately we could not locate a membership account associated with your credentials.</p>
+        <p>Most likely you have<ol><li>signed up with another log-in or</li><li>have not yet created a NUCATS membership account</li></ol><p>
+      try_again: 'Try Again'
+      join: 'Join'
+      cancel: 'Cancel'
+  exceptions:
+    internal_server_error: 'Internal Server Error'
+    error_message: "We're sorry, but something went wrong. We've been notified of the problem and are attempting to find out what went wrong."
+  nav:
+    home: 'Home'
+    admin: 'Admin'
+    profile: 'Profile'
+    resources: 'Resources'
+    sign_out: 'Sign Out'
+    dashboard: 'Dashboard'
+    add_account: 'Add Account'
+    about: 'About'
+  person:
+    profile:
+      lattice_grid_bio: 'This is some of the information we have about your profile in LatticeGrid.'
+      ldap: 'This is some of the information we have about you in LDAP.'
+      has_no_nu_netid: 'You do not have a Northwestern NetID associated with your NUCATS account.'
+      add_netid: 'If you have a Northwestern NetID, please add it to your account.'
+  newsletter:
+    nucats: 'Monthly NUCATS Newsletter'
+    education: 'Investigator Education Announcements'
+    support_staff: 'Research Support Staff Training'
+    community_health: 'Center for Community Health Newsletter'
+  admin:
+    unauthorized_request: 'You are not authorized to view the page you requested.'
+  login:
+    nu: 'Northwestern University'
+    nmh: 'Northwestern Memorial Hospital'
+    nmff-net: 'Northwestern Medical Faculty Foundation'
+    ric: 'Rehabilitation Institute of Chicago'
+    lurie_childrens: "Ann & Robert H. Lurie Children's Hospital"
+    northwestern_medicine: 'Northwestern'
+    not_northwestern: "I don't have a Northwestern log-in"
+    domain_instructions: 'Click on icon above to select domain'
+    domain: 'Domain: '
+    username: 'Username: '
+    password: 'Password: '
+    remember_me: 'Remember Me'
+    sign_in: 'Sign In'
+    create_account: 'Create Account'
+    add_provider: 'Add Authentication Provider'
+    credentials_exist: 'A record already exists with the provided credentials.'
+    invalid_credentials: 'Invalid credentials.'
+    authentication_success_via: "Thank you for authenticating via %{provider}"
+    authentication_failure: 'Sorry, but we have run into an issue authenticating your account. Please try again.'
+    facebook: 'Log in with your Facebook account'
+    google: 'Log in with your Google account'
+    yahoo: 'Log in with your Yahoo account'
+    twitter: 'Log in with your Twitter account'
+    linkedin: 'Log in with your Linked In account'
+    instructions: >
+      No one likes to remember extra passwords, so you can log into your NUCATS account using a username and password that you already have. Currently
+      you can use your NU NetID, NMFF or NMH account. If you don't have one of those, we also support Facebook, Twitter, Yahoo, LinkedIn, and Google.
+    external_authentication_instructions: >
+      You can sign in using your existing account. Select the site below that you would like to use.<br/>
+      If you don't have an account at any of these sites, please
+      <a href='http://nucats.northwestern.edu/request-a-nucats-consultation.html' target='_blank'>contact us</a>.
+    signed_out: 'You have successfully signed out.'
+    authenticate_for_client: >
+      <h2><span id='client_name'>%{client_name}</span> is requesting authorization.</h2>
+      <div id='authentication_instructions'>
+      <p>Authorize <strong>%{client_name}</strong> to use your account?</p>
+      <p>This application will be able to:</p>
+      <ul><li>Access your membership status</li><li>Obtain your username from the chosen authentication mechanism</li></ul>
+      <p>Members of the Northwestern Medicine community can log into <strong>%{client_name}</strong> with their Northwestern credentials.</p>
+      <p>Users from other institutions can login using an associated internet account.</p>
+      </div>
+  registration:
+    join_step: 'Join NUCATS'
+    verify: 'Verify'
+    verify_account: 'Verify Account'
+    profile_step: 'Profile'
+    profile_information: >
+      Your profile information will help NUCATS provide you with better
+      service. The only part of your profile that is required upfront is your
+      contact information and your role(s) in translational research. Over time
+      we may prompt you to add additional information to your profile.
+    next: 'Next'
+    please_add_nu_netid: 'Please associate your NetID with your NUCATS membership.'
+    profile_update_success_netid: 'Your profile was successfully updated. Do you have a Northwestern NetID?'
+    profile_update_success_next: 'Your profile was successfully updated. What can we help you with next?'
+    profile_update_success: 'Your profile was successfully updated.'
+    sign_up_success: 'Thank you for signing up! Please complete your profile.'
+  member_action_options:
+    congratulations: 'Congratulations, and welcome to NUCATS!'
+    desire: 'I would like to:'
+    connect: 'Connect with a NUCATS Navigator'
+    connect_description: 'Navigators are experienced in multiple areas of clinical research and can help you find what you need.'
+    update: 'Update my profile'
+    update_description: 'By providing more information, we are able to better serve your needs.'
+    request_resources: 'Request NUCATS resources'
+    request_resources_description: 'Submit a request for resources that can help you with your research.'
+    authentication_providers: 'Add other accounts'
+    add_netid: 'Add Northwestern NetID to your membership account'
+    existing_authentication_providers: 'Your existing accounts'
+    authentication_providers_description: 'Please add all accounts you could use to login to the NUCATS membership application.'
+    supported_authentication_providers: 'Currently we support NU, NMH, NMFF, Facebook, Twitter, Yahoo, LinkedIn, and Google.'
+    i_need: 'Learn more about NUCATS'
+    i_need_description: 'Click on the link above to learn more about NUCATS services that support your specific research needs.'
+    nucats_systems: 'NUCATS Applications'
+    nucats_systems_description: 'Click on the link above to view applications and systems created and maintained NUCATS.'
+    return_to_description: 'Click on the link above to return to the application from which you came.'
+  table:
+    person:
+      index: 'People'
+      name: 'Name'
+      email: 'Email'
+      state: 'State'
+      actions: 'Actions'
+      memberships: 'Memberships'
+  form:
+    mailing_list:
+      title: 'Get The News'
+      sign_up: 'Sign up to receive news from NUCATS and to be added to our mailing list.'
+      title_complete: 'Mailing List Sign Up Complete'
+      thank_you: 'Thanks for your submission to join our mailing list.'
+      first_name: 'First Name:'
+      last_name: 'Last Name:'
+      email: 'Email:'
+      submit: 'Submit'
+      all_fields_required: 'Please complete all fields.'
+      email_already_exists: 'Email address already taken.'
+    versions:
+      page_title: 'History'
+      view_record: 'View Record'
+      index: 'List all records'
+      none_found: 'No version records were found.'
+      changes_list: 'Below are the known changes for the record.'
+      who: 'Who:'
+      what: 'What:'
+      when: 'When:'
+      from: 'changed from'
+      to: 'to'
+    person:
+      index: 'People'
+      edit: 'Edit Person'
+      new: 'New Person'
+      show: 'View Person Details'
+      edit_profile: 'Edit Your Profile'
+      name: 'Name:'
+      first_name: 'First'
+      middle_name: 'Middle'
+      last_name: 'Last'
+      suffix: 'Suffix'
+      suffix_placeholder: 'Jr. / III / etc.'
+      degree: 'Degree(s)'
+      degree_label: 'Degrees:'
+      degree_placeholder: 'MD, PhD, etc.'
+      email: 'Email:'
+      admin: 'Is Admin?'
+      roles: 'Roles'
+      memberships: 'Memberships:'
+      check_all_that_apply: 'Check all that apply'
+      roles_label: 'Roles:'
+      submit: 'Submit'
+      save_profile: 'Save Profile'
+      success: 'Person was successfully updated.'
+      incomplete_profile: 'Your profile is incomplete. Help us out by filling in some missing data.'
+      unknown_member: 'This membership account is unknown.'
+      verify_netid: 'Northwestern NetID'
+      associate_netid_reason: >
+        In order to better serve you, we would like for you to associate your Northwestern NetID with your NUCATS membership account.
+        <p>
+        Do you have a Northwestern NetID?
+      yes_i_have_a_netid: 'Yes, I have a NetID'
+      no_i_do_not_have_a_netid: 'No, I do not have a NetID'
+      forgot_my_netid: 'Yes, I have a NetID, but I cannot recall it right now'
+      request_a_netid: 'I would like to request a NetID'
+    client:
+      new: 'New Client'
+      edit: 'Edit Client'
+      name: 'Client Name'
+      return_url: 'Client Return URL'
+      about_url: 'Client About URL'
+      update: 'Update Client'
+      create: 'Create Client'
+  nucats_systems:
+    title: 'NUCATS Systems and Applications'
+    i2b2: >
+      i2b2 (Informatics for Integrating Biology & the Bedside) is a web-based tool that allows researchers, students and staff to develop and
+      run simple queries against a subset of data in the Enterprise Data Warehouse. This gives users the ability to quickly determine the feasibility of conducting a study.
+    edw: >
+      The Northwestern Medicine Enterprise Data Warehouse (NMEDW) is a Northwestern University Clinical and Translational Sciences
+      Institute (NUCATS) initiative funded jointly by the Northwestern University Feinberg School of Medicine (FSM), Northwestern
+      Medical Faculty Foundation (NMFF), and Northwestern Memorial Hospital (NMH). Its mission is to create a single, comprehensive,
+      and integrated repository of all medical data sources on the campus to facilitate operational, patient care, and research
+      reporting. The EDW has been developed completely in-house, with no consulting fees.
+    enotis: >
+      eNOTIS is a web-based study enrollment log that helps to improve safety and security for study participant enrollment. This
+      system is available now. Any biomedical clinical research study that has been approved by the NU IRB is listed in eNOTIS.
+    registar: >
+      Registar is a web-based research registry system used to collect information about potential research study participants and contact them over email.
+    nucats_assist: >
+      NUCATS Assist is a web application for managing seed and pilot project solicitations, applications and reviews. It has been used to
+      run the NUCATS pilot awards, the Foundation Dixon awards, and two cycles of the Northwestern Core Facilities Equipment Grants.
+    cecd: >
+      NUCATS offers a host of programs for investigators and staff interested in clinical and translational research. Through our educational programs,
+      the NUCATS Institute provides a range of services from funding clinical and translational research for pre and post doctoral fellows, to
+      faculty scholars and mini-sabbaticals to opportunities for career development and networking.
+    nucats_home: >
+      Visit the Northwestern University Clinical and Translational Sciences Institute (NUCATS) home page for more information about
+      the programs and services we provide.
+    redcap: >
+      REDCap (Research Electronic Data Capture) is a secure, web-based application for building and managing online data capture for research studies. Northwestern University is a member of the REDCap consortium.
+      Our implementation has a goal to empower users to design and manage their own data collection forms with minimal IT support. Part of what is done includes a needs assessment.

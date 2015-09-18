@@ -41,3 +41,15 @@ html, body {
 .footer, .push {
   height: 45px; /* .push must be the same height as .footer */
 }
+
+.navbar-brand {
+  font-size: 1.5em;
+}
+
+#app_title {
+  color: #520063;
+}
+
+.form-control {
+  width: 75%;
+}

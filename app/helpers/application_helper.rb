@@ -5,9 +5,26 @@ module ApplicationHelper
 
   require 'config'
 
+  def page_title(page_title, show_title = true)
+    @show_title = show_title
+    content_for(:page_title) { page_title.to_s }
+  end
+
+  def show_title?
+    @show_title == true
+  end
+
   def blank_safe(word, filler = '-')
     return filler if word.blank?
     word
+  end
+
+  ##
+  # Handle google provider discrepancy
+  # @param [Symbol]
+  # @return [Symbol]
+  def omniauth_provider(provider)
+    provider == :google ? :google_oauth2 : provider
   end
 
   def internetexplorer_user_agent?
@@ -16,19 +33,19 @@ module ApplicationHelper
 
   ##
   # Set session attribute act_as_admin
-  def act_as_admin
-    session[:act_as_admin] = current_user_is_admin?
+  def act_as_admin(user = current_user)
+    session[:act_as_admin] = current_user_is_admin?(user)
   end
 
   def application_logout_path
-    Rails.application.config.use_omniauth ? signout_path : logout_path
+    signout_path
   end
 
   ##
   # Is the current user session username in the admin list
   # @return Boolean
-  def current_user_is_admin?
-    %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.try(:username))
+  def current_user_is_admin?(user)
+    %w(wakibbe dfu601 super pfr957 psfriedman psfriedman@gmail.com p-friedman@northwestern.edu).include?(user.try(:username))
   end
   private :current_user_is_admin?
 
@@ -93,8 +110,6 @@ module ApplicationHelper
   end
 
   ##
-  # This method is used when the use_omniauth configuration is set to false.
-  #
   # Here we check the session for the user who is placed into the @current_user_session variable 
   # if a User record is found by the username in the session.
   #
@@ -175,6 +190,7 @@ module ApplicationHelper
     session[:user_id]    = the_user.id.to_s
     session[:user_info]  = omniauth if omniauth
     @current_user_session = the_user
+    act_as_admin if session[:act_as_admin].blank?
     log_request('login')
   end
 
@@ -234,27 +250,27 @@ module ApplicationHelper
   # before_ helpers
   def before_create(model)
     model.created_ip ||= request.remote_ip if request_exists?
-    model.created_id ||= session[:user_id] if session_exists?
+    model.created_id ||= current_user.id if current_user
     before_update(model)
   end
 
   def before_update(model)
     model.updated_ip = request.remote_ip if request_exists?
-    model.updated_id = session[:user_id] if session_exists?
+    model.updated_id = current_user.id if current_user
   end
 
   def logged_in?
-    !session[:user_id].blank?
+    !current_user.blank?
   end
 
   def is_current_user?(id)
-    id.to_i == session[:user_id].to_i
+    id.to_i == current_user.id if current_user
   end
 
   def handle_ldap(applicant)
     begin
       applicant unless applicant.id.blank?
-      applicant_in_db = User.find_by_username(applicant.username)
+      applicant_in_db = User.where(username: applicant.username).first
       return applicant_in_db unless applicant_in_db.blank? || applicant_in_db.id.blank?
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
@@ -282,7 +298,7 @@ module ApplicationHelper
 
   def make_user(username)
     return nil if username.blank? || username.length < 3
-    the_user = User.find_by_username(username)
+    the_user = User.where(username: username).first
     return the_user unless the_user.blank?
     the_user = User.new(username: username)
     the_user = handle_ldap(the_user)
@@ -298,7 +314,7 @@ module ApplicationHelper
 
   def make_user_from_login(current_user)
     # for times when an authenticated user is not found in ldap!
-    the_user = User.find_by_username(current_user.username)
+    the_user = User.where(username: current_user.username).first
     return the_user unless the_user.blank?
     email =  current_user.email
     email = current_user.username + '@unknown.edu' if email.blank?
@@ -347,30 +363,6 @@ module ApplicationHelper
   def hidden_div_if(condition, attributes = {}, &block)
     attributes['style'] = 'display: none;' if condition
     content_tag('div', attributes, &block)
-  end
-
-  def omniauth_config
-    @omniauth_config ||= OmniAuthConfigure.configuration.parameters_for(:nucats_assist, :nucats_accounts)
-  end
-
-  def oauth_provider_uri
-    URI(provider_site)
-  end
-
-  def provider_site
-    omniauth_config[:client_options][:site]
-  end
-
-  def client_id
-    omniauth_config[:client_id]
-  end
-
-  def client_secret
-    omniauth_config[:client_secret]
-  end
-
-  def cookie_key
-    omniauth_config[:client_options][:cookie_key]
   end
 
 end

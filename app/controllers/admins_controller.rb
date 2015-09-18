@@ -13,12 +13,12 @@ class AdminsController < ApplicationController
                                .all
 
       @applicants      = @submissions.map { |s| s.applicant }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
-      @key_personnel   = (@submissions.map { |s| s.key_personnel.map { |k| k } }.flatten).compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @core_managers   = @submissions.map { |t| t.core_manager }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @submitters      = @submissions.map { |s| s.submitter }.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @approvers       = @submissions.map { |e| e.effort_approver }.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @business_admins = @submissions.map { |e| e.department_administrator }.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @reviewers       = @submissions.map { |e| e.reviewers.map { |r| r } }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
+      @key_personnel   = (@submissions.map { |s| s.key_personnel.map { |k| k } }.flatten).compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @core_managers   = @submissions.map { |t| t.core_manager }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @submitters      = @submissions.map { |s| s.submitter }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @approvers       = @submissions.map { |e| e.effort_approver }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @business_admins = @submissions.map { |e| e.department_administrator }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @reviewers       = @submissions.map { |e| e.reviewers.map { |r| r } }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @users }
@@ -39,22 +39,6 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { render :view_applicants }
         format.xml  { render :xml => @applicants }
-# TODO: Deprecated pdf support - should be removed
-#        format.pdf do
-#          @pdf = 1
-#          render :pdf => "Applicant listing for #{Date.today.year}",
-#                 :template => 'admins/view_applicants.html',
-#                 :stylesheets => ['pdf'],
-#                 :layout => 'pdf'
-#        end
-# TODO: Deprecated xls export - should be removed
-#        format.xls do
-#          @pdf = 1
-#           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
-#                     :filename => "Applicant listing for #{Date.today.year}.xls",
-#                     :type => 'application/vnd.ms-excel',
-#                     :disposition => 'attachment')
-#        end
       end
     else
       redirect_to projects_path
@@ -74,22 +58,6 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { render :view_applicants }
         format.xml  { render :xml => @applicants }
-# TODO: Deprecated pdf support - should be removed
-#        format.pdf do
-#          @pdf = 1
-#          render :pdf => "Applicant listing for #{Date.today.year}",
-#                 :template => 'admins/view_applicants.html',
-#                 :stylesheets => ['pdf'],
-#                 :layout => 'pdf'
-#        end
-# TODO: Deprecated xls export - should be removed
-#        format.xls do
-#          @pdf = 1
-#           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
-#                     :filename => "Applicant listing for #{Date.today.year}.xls",
-#                     :type => 'application/vnd.ms-excel',
-#                     :disposition => 'attachment')
-#        end
       end
     else
       redirect_to projects_path
@@ -127,17 +95,14 @@ class AdminsController < ApplicationController
   def act_as_user
     @sponsor = @project.program
     if is_super_admin?
-      if defined? params[:username].blank?
+      if params[:username].blank?
         @users = User.all
       else
-        @current_user_session = User.find_by_username(params[:username])
+        @current_user_session = User.where(username: params[:username]).first
         session[:username] = @current_user_session.try(:username)
         session[:name] = @current_user_session.try(:name)
-        # manual Aker call
-        user = Aker::User.new(params[:username], :NUCATSassist)
-        session[:aker_user] = user
-        check_session
-        act_as_admin
+
+        act_as_admin(@current_user_session)
 
         redirect_to projects_path
       end

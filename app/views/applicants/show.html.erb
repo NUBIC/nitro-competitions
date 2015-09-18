@@ -46,13 +46,13 @@
 <p>
   <b>Biosketch</b> (click to download):
 	<% unless @applicant.biosketch_document_id.blank? %>
-		<i><%= link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}") %></i> &nbsp; File saved on <%=  (@applicant.biosketch.last_updated_at||@applicant.biosketch.updated_at).to_s(:justdate) %>
+    <% biosketch_date = (@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_s(:justdate) %>
+		<i><%= link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}") %></i> &nbsp; File saved on <%= biosketch_date %>
 	<% end %>
 </p>
 
 
 <p>
 
-<%= link_to 'Edit', edit_applicant_path(@applicant) %> |
-<%= link_to 'Submit Application', new_submission_path(:applicant_id=>@applicant.id) %>
+<%= link_to 'Edit', edit_applicant_path(@applicant) %>
 </p>
