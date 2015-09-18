@@ -33,8 +33,8 @@ module ApplicationHelper
 
   ##
   # Set session attribute act_as_admin
-  def act_as_admin
-    session[:act_as_admin] = current_user_is_admin?
+  def act_as_admin(user = current_user)
+    session[:act_as_admin] = current_user_is_admin?(user)
   end
 
   def application_logout_path
@@ -44,8 +44,8 @@ module ApplicationHelper
   ##
   # Is the current user session username in the admin list
   # @return Boolean
-  def current_user_is_admin?
-    %w(wakibbe dfu601 super pfr957 psfriedman psfriedman@gmail.com p-friedman@northwestern.edu).include?(current_user.try(:username))
+  def current_user_is_admin?(user)
+    %w(wakibbe dfu601 super pfr957 psfriedman psfriedman@gmail.com p-friedman@northwestern.edu).include?(user.try(:username))
   end
   private :current_user_is_admin?
 
@@ -190,6 +190,7 @@ module ApplicationHelper
     session[:user_id]    = the_user.id.to_s
     session[:user_info]  = omniauth if omniauth
     @current_user_session = the_user
+    act_as_admin if session[:act_as_admin].blank?
     log_request('login')
   end
 

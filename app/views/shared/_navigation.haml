@@ -54,7 +54,6 @@
                   %li=link_to "Define Reviewers", reviewers_project_admins_path(@project.id)
                   %li=link_to "Approvals", project_approvers_path(@project.id)
                   %li=link_to "Review Summary by reviewer", complete_listing_project_reviewers_path(@project.id)
-
                 - unless @program.blank? || @program.id.blank?
                   %li
                     = link_to "Manage Roles", sponsor_roles_path(:sponsor_id=>@program.id)

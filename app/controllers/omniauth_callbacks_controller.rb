@@ -51,6 +51,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if @user.persisted?
         sign_in_and_redirect @user, event: :authentication
 
+        set_session_attributes(@user, auth)
+        check_session
+
         remember_me(user) if params['remember_me'].to_i == 1
         flash[:notice] = I18n.t('login.authentication_success_via', provider: provider_name(auth['provider']))
       else

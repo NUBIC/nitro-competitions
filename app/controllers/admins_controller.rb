@@ -95,14 +95,14 @@ class AdminsController < ApplicationController
   def act_as_user
     @sponsor = @project.program
     if is_super_admin?
-      if defined? params[:username].blank?
+      if params[:username].blank?
         @users = User.all
       else
-        @current_user_session = User.find_by_username(params[:username])
+        @current_user_session = User.where(username: params[:username]).first
         session[:username] = @current_user_session.try(:username)
         session[:name] = @current_user_session.try(:name)
 
-        act_as_admin
+        act_as_admin(@current_user_session)
 
         redirect_to projects_path
       end
