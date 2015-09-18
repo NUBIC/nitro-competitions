@@ -3,6 +3,18 @@ require 'spec_helper'
 
 describe ProjectsController, :type => :controller do
 
+  
+  context 'for a non-admin user' do
+    login(FactoryGirl.create(:user, username: 'uname'))
+
+    describe 'GET new' do
+      it 'redirects to projects_path' do
+        get :new
+        expect(response).to redirect_to(projects_path)
+      end
+    end
+  end
+
   context 'with a logged in user' do
     user_login
 
@@ -14,28 +26,6 @@ describe ProjectsController, :type => :controller do
       it 'assigns variables' do
         get :index
         expect(assigns[:projects]).not_to be_nil
-      end
-    end
-
-    describe 'GET new' do
-      context 'for a non-admin user' do
-        it 'redirects to projects_path' do
-          get :new
-          expect(response).to redirect_to(projects_path)
-        end
-      end
-    end
-
-    describe 'POST create' do
-      context 'for a non-admin user' do
-        it 'assigns variables' do
-          post :create, project: {}
-          expect(assigns[:project]).not_to be_nil
-        end
-        it 'redirects to projects_path' do
-          post :create, project: {}
-          expect(response).to redirect_to(projects_path)
-        end
       end
     end
 
@@ -69,6 +59,17 @@ describe ProjectsController, :type => :controller do
           expect(response).to render_template('projects/show')
         end
       end
+    end
+
+    describe 'POST create' do
+      params = { project_title: 'the title of the project', project_name: 'project_name_xxx', 
+                 initiation_date: Date.today, submission_open_date: Date.today, submission_close_date: Date.today,
+                 review_start_date: Date.today, review_end_date: Date.today, project_period_start_date: Date.today, project_period_end_date: Date.today }
+      it 'assigns variables' do
+        post :create, project: params
+        expect(assigns[:project]).not_to be_nil
+      end
+      it 'redirects to project_path'
     end
 
     describe 'DELETE destroy' do

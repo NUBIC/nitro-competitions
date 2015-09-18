@@ -23,17 +23,6 @@ Capybara.javascript_driver = :poltergeist
 require 'shoulda'
 require 'factory_girl'
 
-module TestLogins
-  def user_login
-  end
-
-  def admin_login
-  end
-
-  def login(as)
-  end
-end
-
 module ControllerMacros
   def admin_login
     before(:each) do

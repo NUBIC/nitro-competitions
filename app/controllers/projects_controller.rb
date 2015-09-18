@@ -88,7 +88,6 @@ class ProjectsController < ApplicationController
   def new
     project = current_project
 
-    # TODO: replace with project.dup ?
     @project = duplicate_project(project)
     respond_to do |format|
       if is_admin?

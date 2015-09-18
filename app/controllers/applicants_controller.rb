@@ -9,7 +9,7 @@ class ApplicantsController < ApplicationController
   def index
     @sponsor = @project.program
     if has_read_all?(@sponsor)
-      @applicants = User.project_applicants(current_project.id)
+      @applicants = User.project_applicants(current_project.id).uniq
 
       respond_to do |format|
         format.html # index.html.erb
@@ -57,8 +57,6 @@ class ApplicantsController < ApplicationController
   ##
   # i.e "Is a myNUCATS member?"
   def is_member?(applicant)
-    # TODO: check if applicant is a NUCATS member
-    #       using more than simply the nu domain information
     nucats_members = query_nucats_membership(netid: applicant.username)
     nucats_members = query_nucats_membership(email: applicant.email) if nucats_members.blank? && !applicant.email.blank?
     return %w(enrolled netid_verified).include? nucats_members.first['state'] if nucats_members.count == 1

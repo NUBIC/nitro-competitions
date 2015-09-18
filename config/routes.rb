@@ -43,11 +43,11 @@ NucatsAssist::Application.routes.draw do
       get :all_reviews
       get :membership_required
     end
-    resources :applicants do
+    resources :submissions, only: [:index]
+    resources :applicants, except: [:destroy] do
       resources :submissions, only: [:new, :create]
     end
 
-    resources :submissions, only: :index
     resources :approvers, only: [:index, :update]
     resources :reviewers, only: [:index, :edit, :update, :destroy] do
       collection do
@@ -86,7 +86,7 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :submissions, except: :index do
+  resources :submissions, except: [:new] do
     collection do
       get :all
     end
@@ -124,7 +124,7 @@ NucatsAssist::Application.routes.draw do
   match 'competitions/:program_name' => 'projects#index', as: :competitions, via: [:get]
   match 'role/:id/add_user/:user_id' => 'roles#add_user', as: :add_user_role, via: [:get, :post]
   match 'role/:user_role_id/remove_user' => 'roles#remove_user', as: :remove_user_role, via: [:get, :post]
-  match 'projects' => 'projects#index', as: :login_target, via: [:get, :post]
+
   match 'review/:id/update_item' => 'reviews#update_item', as: :update_review_item, via: [:get, :post]
   match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
 
