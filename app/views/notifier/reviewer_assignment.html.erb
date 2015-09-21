@@ -1,0 +1,16 @@
+<p>
+  Dear <i><%= @reviewer.name %></i>,
+</p>
+<p>
+  You have been assigned as a reviewer for the <%= NucatsAssist.html_app_name %> submission entitled <i><%= @submission.submission_title %></i>.
+  Thank you in advance for reviewing the assigned submission.  
+</p>
+<p>
+  If you cannot or choose not to review this submission, you can opt out of the review process by selecting the <%= NucatsAssist.opt_out_review_button_name %> button on the 
+  <%= link_to(h(@project.project_title), project_reviewers_url(@project)) %> page.  A link to the review form is on this page as well.
+</p>
+<p>
+  Thank you, 
+  <br />
+  <%= @program.admins.map{ |admin| admin.name.to_s}.to_sentence %>
+</p>

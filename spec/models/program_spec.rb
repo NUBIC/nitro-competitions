@@ -23,11 +23,31 @@ require 'spec_helper'
 
 describe Program, :type => :model do
   it { is_expected.to have_many(:roles_users) }
-  it { is_expected.to have_many(:admins).through(:roles_users) }
   it { is_expected.to have_many(:projects) }
   it { is_expected.to have_many(:reviewers) }
   it { is_expected.to have_many(:logs) }
   it { is_expected.to belong_to(:creator) }
+
+  it 'can be instantiated' do
+    expect(FactoryGirl.build(:program)).to be_an_instance_of(Program)
+  end
+
+  it 'can be saved successfully' do
+    expect(FactoryGirl.create(:program)).to be_persisted
+  end
+
+  context ".admins" do
+    it 'returns the administrators associated with the program' do
+      # no admins returns blank
+      program = FactoryGirl.create(:program)
+      expect(program.admins).to be_blank
+      # create a RoleUser with Admin role
+      role    = FactoryGirl.create(:role, name: 'Admin')
+      admin   = FactoryGirl.create(:user)
+      FactoryGirl.create(:roles_user, program: program, role: role, user: admin)
+      expect(program.admins).to eq([admin])
+    end
+  end
 
   context '#valid?' do
     context '#program_name' do
