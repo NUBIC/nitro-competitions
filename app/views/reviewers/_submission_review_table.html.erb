@@ -51,7 +51,7 @@
 <tbody>
 <% last_review = nil %>
 <% submission_reviews.each do |review| %>
-<% unless is_admin? or last_review == nil %>
+<% unless is_admin? || last_review == nil %>
   <% if last_review.submission.applicant_id == review.submission.applicant_id %>
   <% unless review.reviewer_id == current_user_session.id %>
     <% next unless current_project.show_composite_scores_to_reviewers %>
@@ -60,26 +60,40 @@
   <% end %>
 <% end %>
 
+<% is_reviewer = review.reviewer_id == current_user_session.id %> 
 <% last_review = review %>
+<% submission  = review.submission %>
+<% project     = review.submission.project %>
+<% program     = review.submission.project.program %>
 
 <% style="" %>
 <% style="style='background-color:thistle;'" if review.has_zero? %>
   <tr <%= style %>>
-    <td><%=h review.submission.applicant.sort_name %></td>
-    <td><%=h review.submission.submission_title %></td>
+    <td><%=h submission.applicant.sort_name %></td>
+    <td><%=h submission.submission_title %></td>
   <% if include_competition -%>
-    <td><%=h review.submission.project.program.program_title %></td>
-    <td><%=h review.submission.project.project_title %></td>
+    <td><%=h program.program_title %></td>
+    <td><%=h project.project_title %></td>
   <% end -%>
   <% if include_files -%>
     <td>
-      <%= link_to('Reviews', submission_reviews_path(review.submission.id)) if review.submission.submission_reviews.collect{|r| r.has_zero? ? 0 : 1 }.sum > 0 %>
+      <%= link_to('Reviews', submission_reviews_path(submission.id)) if submission.submission_reviews.collect{|r| r.has_zero? ? 0 : 1 }.sum > 0 %>
     </td>
   <% end -%>
-    <td><%=h review.reviewer.sort_name if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id  %></td>
-    <td><%= link_to 'Review Form',  edit_project_reviewer_path(:project_id=>review.submission.project_id,:id=>review.id) if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id %> &nbsp; &nbsp;</td>
-    <td <%= style %>><%= review.composite_score if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id or current_project.show_composite_scores_to_reviewers %></td>
-    <td <%= style %>><%= review.overall_score if is_admin?(review.submission.project.program) or review.reviewer_id == current_user_session.id or current_project.show_composite_scores_to_reviewers %></td>
+    <td>
+      <%=h review.reviewer.sort_name if is_admin?(program) || is_reviewer %>
+    </td>
+    <td>
+      <%= link_to 'Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id) if is_admin?(program) || is_reviewer %>
+      &nbsp; &nbsp;
+      <%= button_to(NucatsAssist.opt_out_review_button_name, unassign_submission_project_admins_path(project, submission_review_id: review.id, opt_out: true)) if is_reviewer && review.unscored? %>
+    </td>
+    <td <%= style %>>
+      <%= review.composite_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>
+    </td>
+    <td <%= style %>>
+      <%= review.overall_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>
+    </td>
   <% if include_files -%>
     <td <%= style %>>
       <%= review.count_nonzeros? != review.submission.project.count_review_criteria? ? 'No' : 'Yes' %>

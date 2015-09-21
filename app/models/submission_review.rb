@@ -67,7 +67,7 @@ class SubmissionReview < ActiveRecord::Base
   validates_numericality_of :overall_score, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
 
   def composite_score
-    return 0 if count_nonzeros?.blank? || count_nonzeros? < 1
+    return 0 if unscored?
     (((z(innovation_score) + z(impact_score) + z(scope_score) + z(team_score) + z(environment_score) + z(budget_score) + z(other_score)).to_f / count_nonzeros?) * 10).round / 10.0
   end
 
@@ -79,8 +79,13 @@ class SubmissionReview < ActiveRecord::Base
     z?(innovation_score) || z?(impact_score) || z?(scope_score) || z?(team_score) || z?(environment_score)
   end
 
-  def count_nonzeros?
+  def count_nonzeros
     nz?(innovation_score) + nz?(impact_score) + nz?(scope_score) + nz?(team_score) + nz?(environment_score) + nz?(budget_score) + nz?(other_score)
+  end
+  alias :count_nonzeros? :count_nonzeros
+
+  def unscored?
+    count_nonzeros.blank? || count_nonzeros < 1
   end
 
   def z?(val)

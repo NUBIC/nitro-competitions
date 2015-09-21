@@ -18,6 +18,14 @@ module NucatsAssist
       "FROM NITROCompetitions"
     end
 
+    def assigned_reviews_title
+      'Your assigned proposals to review for this competition'
+    end
+
+    def opt_out_review_button_name
+      'Opt Out'
+    end
+
     def ctsa_name
       'NUCATS'
     end

@@ -123,7 +123,6 @@ class AdminsController < ApplicationController
   def submission_search
     @search = SubmissionSearch.new(submission_search_params)
     @submissions = @search.results
-    Rails.logger.info("~~~ There are #{@submissions.count} submissions for #{submission_search_params.inspect}")
     respond_to do |format|
       format.html
       format.js
@@ -225,7 +224,11 @@ class AdminsController < ApplicationController
       @reviewer = User.find(params[:id])
       @submission = Submission.find(params[:submission_id])
       @review = @submission.submission_reviews.find_by_reviewer_id(params[:id])
-      @submission.submission_reviews << SubmissionReview.new(:submission_id => params[:submission], :reviewer_id => @reviewer.id) if @review.blank?
+      if @review.blank?
+        @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
+        @submission.submission_reviews << @review
+        Notifier.reviewer_assignment(@review, @submission).deliver
+      end
     end
 
     redirect_to project_reviewers_path(@project)
@@ -233,17 +236,16 @@ class AdminsController < ApplicationController
 
   def unassign_submission
     @sponsor = @project.program
-    if is_admin?(@sponsor)
-      @review = SubmissionReview.find(params[:submission_review_id])
-      unless @review.blank?
-        @reviewer = @review.user
-        @submission = @review.submission
-        # SubmissionReview.delete(params[:submission_review_id])
-        @submission.submission_reviews.destroy(@review)
-      end
+    @review = SubmissionReview.find(params[:submission_review_id])
+    @reviewer = @review.user
+    @submission = @review.submission
+    if is_admin?(@sponsor) || current_user_session == @reviewer
+      @submission.submission_reviews.destroy(@review) unless @review.blank?
+      Notifier.reviewer_opt_out(@reviewer, @submission).deliver if params[:opt_out]
     end
 
-    redirect_to project_reviewers_path(@project)
+    redirect_url = is_admin?(@sponsor) ? project_reviewers_path(@project) : project_reviewers_url(@project)
+    redirect_to redirect_url
   end
 
   private

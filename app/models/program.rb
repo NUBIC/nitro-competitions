@@ -22,7 +22,10 @@
 class Program < ActiveRecord::Base
   # Associations
   has_many :roles_users
-  has_many :admins, -> { includes(:roles).where("(roles.name = 'Admin' and roles.id = roles_users.role_id) ") }, :source => :user, :through => :roles_users
+
+  def admins
+    roles_users.admins.map(&:user)
+  end
 
   has_many :projects
   has_many :reviewers

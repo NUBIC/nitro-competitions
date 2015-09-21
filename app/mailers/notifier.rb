@@ -64,4 +64,36 @@ class Notifier < ActionMailer::Base
     "<ul style='color:red;'><li>" + submission.status_reason.join('</li><li>') + '</li></ul>'
   end
 
+  def reviewer_assignment(submission_review, submission)
+    @submission_review = submission_review
+    @reviewer          = submission_review.reviewer
+    @submission        = submission
+    @project           = @submission.project
+    @program           = @project.program
+    @sent_on           = Time.now
+    @content_type      = 'text/html'
+
+    from = Rails.application.config.from_address
+    to   = @reviewer.email
+    cc   = @program.admins.map(&:email)
+    bcc  = ADMIN_EMAIL_LIST
+
+    mail(from: from, to: to, cc: cc, bcc: bcc, subject: "#{NucatsAssist.plain_app_name} Reviewer Assignment")
+  end
+
+  def reviewer_opt_out(reviewer, submission)
+    @reviewer          = reviewer
+    @submission        = submission
+    @project           = @submission.project
+    @program           = @project.program
+    @sent_on           = Time.now
+    @content_type      = 'text/html'
+
+    from = Rails.application.config.from_address
+    to   = @program.admins.map(&:email)
+    bcc  = ADMIN_EMAIL_LIST
+
+    mail(from: from, to: to, bcc: bcc, subject: "#{NucatsAssist.plain_app_name} Reviewer Opt Out")
+  end
+
 end
