@@ -161,29 +161,29 @@ class AdminsController < ApplicationController
     if is_admin?(@sponsor)
       flash[:notice] = ''
       reviewers_to_add = params[:admin][:reviewer_list].split(/\s*,\s*|\s+/)
-      reviewers_to_add.each do | netid |
-        netid = netid.strip
-        if make_user(netid)
-          the_user = User.find_by_username(netid)
+      reviewers_to_add.each do | username |
+        username = username.strip
+        if make_user(username)
+          the_user = User.where(username: username).first
           if the_user.nil? || the_user.id.nil?
-            flash[:notice] += "make_user returned true, however could not find netid #{netid}; "
+            flash[:notice] += "make_user returned true, however could not find username #{username}; "
           else
-            reviewer = Reviewer.where('(program_id = :program_id and user_id = :user_id)', { :program_id => @sponsor.id, :user_id => the_user.id }).first
+            reviewer = Reviewer.where('(program_id = :program_id and user_id = :user_id)', { program_id: @sponsor.id, user_id: the_user.id }).first
             if reviewer.nil? || reviewer.id.nil?
-              flash[:notice] += "Added #{netid} (#{the_user.name}) as reviewer; "
-              reviewer = Reviewer.new(:program_id => @sponsor.id, :user_id => the_user.id)
+              flash[:notice] += "Added #{username} (#{the_user.name}) as reviewer; "
+              reviewer = Reviewer.new(program_id: @sponsor.id, user_id: the_user.id)
               before_create(reviewer)
               reviewer.save
             else
-              flash[:notice] += "Reviewer #{netid} (#{the_user.name}) was already assigned; "
+              flash[:notice] += "Reviewer #{username} (#{the_user.name}) was already assigned; "
             end
           end
         else
-          flash[:notice] += "Could not find netid #{netid}; "
+          flash[:notice] += "Could not find username #{username}; "
         end
       end
       prep_reviewer_data
-      render :action => 'reviewers'
+      render action: 'reviewers'
     else
       redirect_to projects_path
     end
