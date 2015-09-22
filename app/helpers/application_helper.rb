@@ -136,8 +136,8 @@ module ApplicationHelper
     clear_session_attributes if current_user.blank? || current_user.username.blank?
 
     if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
-      the_user = User.find_by_username(current_user.username)
-      if the_user.blank? || the_user.name.blank?
+      user = User.find_by_username(current_user.username)
+      if user.blank? || user.name.blank?
         # 
         # The current_user has logged in successfully but there is no user with that unique username in the users table
         # so here we make a new user with that username
@@ -152,17 +152,17 @@ module ApplicationHelper
           flash[:notice] = 'Unable to create user account from LDAP registry.'
           make_user_from_login(current_user)
         end
-        the_user = User.find_by_username(current_user.username)
+        user = User.find_by_username(current_user.username)
       end
-      if !the_user.blank? || !the_user.id.blank?
-        set_session_attributes(the_user)
+      if !user.blank? || !user.id.blank?
+        set_session_attributes(user)
       else
         clear_session_attributes
       end
     else
       if session[:username].blank? || session[:user_id].blank? || session[:name].blank? || session[:username] != current_user_session.try(:username)
-        the_user = User.find_by_username(current_user.try(:username))
-        set_session_attributes(the_user) unless the_user.blank?
+        user = User.find_by_username(current_user.try(:username))
+        set_session_attributes(user) unless user.blank?
       end
     end
     if session[:program_id].blank?
@@ -181,15 +181,15 @@ module ApplicationHelper
     defined?(request) && ! request.nil?
   end
 
-  def set_session_attributes(the_user, omniauth = nil)
+  def set_session_attributes(user, omniauth = nil)
     return unless session_exists?
-    session[:username]   = the_user.username.to_s
-    session[:name]       = the_user.name.to_s
-    session[:user_era_commons_name] = the_user.era_commons_name.to_s
-    session[:user_email] = the_user.email.to_s
-    session[:user_id]    = the_user.id.to_s
+    session[:username]   = user.username.to_s
+    session[:name]       = user.name.to_s
+    session[:user_era_commons_name] = user.era_commons_name.to_s
+    session[:user_email] = user.email.to_s
+    session[:user_id]    = user.id.to_s
     session[:user_info]  = omniauth if omniauth
-    @current_user_session = the_user
+    @current_user_session = user
     act_as_admin if session[:act_as_admin].blank?
     log_request('login')
   end
@@ -269,16 +269,19 @@ module ApplicationHelper
 
   def handle_ldap(applicant)
     begin
+      # return applicant if already persisted in database
       applicant unless applicant.id.blank?
-      applicant_in_db = User.where(username: applicant.username).first
+      # or if we can locate applicant in the database
+      applicant_in_db = find_user_in_db(applicant.username, applicant.email)
       return applicant_in_db unless applicant_in_db.blank? || applicant_in_db.id.blank?
+      # get data for user from LDAP 
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
         logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
       elsif pi_data.blank?
         logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
       else
-        ldap_rec = CleanPIfromLDAP(pi_data)
+        ldap_rec  = CleanPIfromLDAP(pi_data)
         applicant = BuildPIobject(ldap_rec) if applicant.id.blank?
         applicant = MergePIrecords(applicant, ldap_rec)
         if applicant.new_record?
@@ -296,14 +299,22 @@ module ApplicationHelper
     applicant
   end
 
-  def make_user(username)
+  def find_user_in_db(username, email)
+    user = User.where(username: username).first
+    user = User.where(email: email).first if user.blank? && !email.blank?
+    user    
+  end
+
+  def make_user(username, email = nil)
     return nil if username.blank? || username.length < 3
-    the_user = User.where(username: username).first
-    return the_user unless the_user.blank?
-    the_user = User.new(username: username)
-    the_user = handle_ldap(the_user)
-    the_user = add_user(the_user)
-    return the_user unless the_user.blank? || the_user.id.blank?
+    user = find_user_in_db(username, email)
+    return user unless user.blank?
+
+    user = User.new(username: username)
+    user.email = email unless email.blank?
+    user = handle_ldap(user)
+    user = add_user(user)
+    return user unless user.blank? || user.id.blank?
     begin
       logger.info "Unable to find username #{username}"
     rescue
@@ -314,37 +325,37 @@ module ApplicationHelper
 
   def make_user_from_login(current_user)
     # for times when an authenticated user is not found in ldap!
-    the_user = User.where(username: current_user.username).first
-    return the_user unless the_user.blank?
-    email =  current_user.email
+    user = User.where(username: current_user.username).first
+    return user unless user.blank?
+    email = current_user.email
     email = current_user.username + '@unknown.edu' if email.blank?
     create_user(current_user, email)
   end
 
   def create_user(user, email)
-    the_user = User.new(username: user.username,
-                        first_name: user.first_name,
-                        last_name: user.last_name,
-                        email: email)
-    the_user.save!
+    user = User.new(username: user.username,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: email)
+    user.save!
   end
 
-  def add_user(the_user)
-    return the_user unless the_user.new_record?
-    before_create(the_user)
-    if !the_user.last_name.blank? && the_user.save
+  def add_user(user)
+    return user unless user.new_record?
+    before_create(user)
+    if !user.last_name.blank? && user.save
       begin
-        logger.info "user account #{the_user.username} #{the_user.name} successfully created"
+        logger.info "user account #{user.username} #{user.name} successfully created"
       rescue
-        puts "user account #{the_user.username} #{the_user.name} successfully created"
+        puts "user account #{user.username} #{user.name} successfully created"
       end
-      if the_user.created_id.blank?
-        the_user.created_id = the_user.id
-        the_user.updated_id = the_user.id
-        the_user.save
+      if user.created_id.blank?
+        user.created_id = user.id
+        user.updated_id = user.id
+        user.save
       end
     end
-    the_user
+    user
   end
 
   def truncate_words(phrase, count = 20)

@@ -14,7 +14,7 @@ module KeyPersonnelHelper
 
   def add_key_person(user, submission_id = 0, role = '')
     submission_id = 0 if submission_id.blank?
-    key = KeyPerson.where('user_id  = :user_id and submission_id = :submission_id', { user_id: user.id, submission_id: submission_id }).first
+    key = KeyPerson.where('user_id = :user_id and submission_id = :submission_id', { user_id: user.id, submission_id: submission_id }).first
     if key.blank? || key.id.blank?
       key = KeyPerson.new
       key.user_id          = user.id
@@ -44,15 +44,15 @@ module KeyPersonnelHelper
         params[:key_personnel].each_value do |key_person|
           unless key_person['username'].blank?
             # check if we have this user
-            key_user = make_user(key_person['username'])
+            key_user = make_user(key_person['username'], key_person['email'])
             if key_user.blank? 
-              if !key_person['username'].blank? && ! key_person['first_name'].blank? && ! key_person['last_name'].blank?
+              if !key_person['username'].blank? && !key_person['first_name'].blank? && !key_person['last_name'].blank?
                 key_user = User.new
-                key_user.username           = key_person['username']
-                key_user.email              = key_person['email']
-                key_user.first_name         = key_person['first_name']
-                key_user.last_name          = key_person['last_name']
-                key_user.password           = Devise.friendly_token[0,20]
+                key_user.username       = key_person['username']
+                key_user.email          = key_person['email']
+                key_user.first_name     = key_person['first_name']
+                key_user.last_name      = key_person['last_name']
+                key_user.password       = Devise.friendly_token[0,20]
                 before_create(key_user)
                 key_user.save!
                 begin
@@ -62,16 +62,16 @@ module KeyPersonnelHelper
                 end
               end
             else
-              key_user.email              = key_person['email'] unless key_person['email'].blank?
-              key_user.first_name         = key_person['first_name']
-              key_user.last_name          = key_person['last_name']
+              key_user.email            = key_person['email'] unless key_person['email'].blank?
+              key_user.first_name       = key_person['first_name']
+              key_user.last_name        = key_person['last_name']
               before_update(key_user)
             end
 
             add_key_person(key_user, submission.id, key_person['role']) unless key_user.nil? || key_user.id.blank? || submission.id.blank?
 
             unless key_user.nil? || key_user.id.blank? || key_person['uploaded_biosketch'].blank?
-              key_user.uploaded_biosketch = key_person['uploaded_biosketch']
+              key_user.uploaded_biosketch  = key_person['uploaded_biosketch']
               key_user.validate_email_attr = false
               key_user.save!
             end
