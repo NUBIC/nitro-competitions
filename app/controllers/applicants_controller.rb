@@ -216,7 +216,8 @@ class ApplicantsController < ApplicationController
 
   def set_project
     if params[:project_id].blank?
-      @project = Project.find(current_project.id)
+      id = current_project.blank? ? Project.last.id : current_project.id
+      @project = Project.find(id)
     else
       @project = Project.find(params[:project_id])
       set_current_project(@project)
