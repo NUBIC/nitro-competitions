@@ -1,0 +1,18 @@
+- if @motd
+  #motd
+    = @motd.html_safe
+- if @client
+  #client_authentication.login_form_header
+    =t('login.authenticate_for_client', client_name: @client.name).html_safe
+- if session['terms_accepted'].nil?
+  .login_form_header
+    %h2
+      = t('devise.login_message')
+- else
+  .login_form_header
+    %h2
+      = t('registration.verify_account')
+    .login_instructions
+      = t('login.instructions')
+.login_form
+  = render "devise/shared/login", :button_text => t('login.sign_in')

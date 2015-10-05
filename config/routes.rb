@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 NucatsAssist::Application.routes.draw do
+  # omniauth and login/logout
+  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
+
+  # resources
   resources :file_documents, only: :show
   resources :audits, only: :index do
     collection do
@@ -23,13 +27,12 @@ NucatsAssist::Application.routes.draw do
     member do
       get :contact
     end
-    resources :roles, only: [:index, :show] do
-      resources :users, only: [] do
-        resources :rest, only: [] do
-          member do
-            get :remove
-            get :add
-          end
+    resources :roles, only: [:index, :show]
+    resources :users, only: [] do
+      resources :roles, only: [] do
+        member do
+          get :remove
+          get :add
         end
       end
     end
@@ -40,11 +43,11 @@ NucatsAssist::Application.routes.draw do
       get :all_reviews
       get :membership_required
     end
-    resources :applicants do
+    resources :submissions, only: [:index]
+    resources :applicants, except: [:destroy] do
       resources :submissions, only: [:new, :create]
     end
 
-    resources :submissions, only: :index
     resources :approvers, only: [:index, :update]
     resources :reviewers, only: [:index, :edit, :update, :destroy] do
       collection do
@@ -83,7 +86,7 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :submissions, except: :index do
+  resources :submissions, except: [:new] do
     collection do
       get :all
     end
@@ -106,24 +109,25 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  # omniauth
-  match '/auth/:provider/callback', to: 'user_sessions#create'
-  match '/auth/failure', to: 'user_sessions#failure'
+  resources :applicants, only: [:edit, :update, :show]
 
-  # Custom logout
-  match '/signout', to: 'user_sessions#destroy'
-
-  resources :applicants, except: [:destroy]
+  # other
   root to: 'public#welcome'
-  match 'welcome' => 'public#welcome', :as => :welcome
-  match 'auth' => 'public#auth', :as => :auth
-  match 'competitions/:program_name/:project_name' => 'projects#show', :as => :show_competition
-  match 'competitions/:program_name' => 'projects#index', :as => :competitions
-  match 'role/:id/add_user/:user_id' => 'roles#add_user', :as => :add_user_role
-  match 'role/:user_role_id/remove_user' => 'roles#remove_user', :as => :remove_user_role
-  match 'projects' => 'projects#index', :as => :login_target
-  match 'review/:id/update_item' => 'reviews#update_item', :as => :update_review_item
-  match 'username_lookup' => 'applicants#username_lookup'
-  match 'logout' => 'access#logout', :as => :logout
-  match '/:controller(/:action(/:id))'
+  get 'welcome' => 'public#welcome', as: :welcome
+
+  match '/auth/:provider/callback', to: 'user_sessions#create', via: [:get, :post]
+  match '/auth/failure', to: 'user_sessions#failure', via: [:get, :post]
+  match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+
+  match 'competitions/:program_name/:project_name' => 'projects#show', as: :show_competition, via: [:get]
+  match 'competitions/:program_name' => 'projects#index', as: :competitions, via: [:get]
+  match 'role/:id/add_user/:user_id' => 'roles#add_user', as: :add_user_role, via: [:get, :post]
+  match 'role/:user_role_id/remove_user' => 'roles#remove_user', as: :remove_user_role, via: [:get, :post]
+
+  match 'review/:id/update_item' => 'reviews#update_item', as: :update_review_item, via: [:get, :post]
+  match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
+
+  match '/:controller(/:action(/:id))', via: [:get, :post]
+
 end

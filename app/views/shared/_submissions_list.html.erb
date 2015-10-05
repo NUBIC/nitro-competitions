@@ -39,6 +39,11 @@
           <div class='submission_status' title="<%= submission.status_reason.join(' ')%>">
             Status: <%= submission.status %>
           </div>
+          <% if is_admin? %>
+            <div class='submission_status' title='Disposition'>
+              Disposition: <%= submission.submission_status %>
+            </div>
+          <% end %>
           <div class='submission_files'>
             <% link_to_submission_files(submission, submission.project, false).each do |lnk| %>
               <%= lnk.html_safe %>

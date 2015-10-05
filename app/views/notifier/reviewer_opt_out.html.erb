@@ -1,0 +1,13 @@
+<p>
+  Dear <i><%= @program.program_name %> Administators</i>,
+</p>
+<p>
+  <%= @reviewer.name %> has requested to opt out of reviewing the submission entitled <i><%= @submission.submission_title %></i>.
+</p>
+<p>
+  You will most likely need to reassign the submission on the <%= link_to("Define reviewers", reviewers_project_admins_url(@project)) %> page.
+</p>
+<p>
+  Sincerely, <br/>
+  <%= NucatsAssist.html_app_name %>
+</p>

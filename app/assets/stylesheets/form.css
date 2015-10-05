@@ -27,6 +27,27 @@ input[disabled] {
   color: gray;
 }
 
+/* style all input elements with a required attribute */
+:required {
+  border: 2px solid crimson;
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a focus state
+ */
+:required:focus {
+  border: 1px solid red;
+  outline: none;
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a hover state
+ */
+:required:hover {
+  opacity: 1;
+}
 select {
   vertical-align: middle;
 }
@@ -49,4 +70,8 @@ form {
   font-size: 18px;
   font-weight: bold;
   padding-right: 2px;
+}
+
+.applicant_form {
+  width: 85%;
 }

@@ -3,7 +3,7 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '3.0.0'
+  VERSION = '3.1.0'
 
   class << self
     def plain_app_name
@@ -16,6 +16,14 @@ module NucatsAssist
 
     def email_subject
       "FROM NITROCompetitions"
+    end
+
+    def assigned_reviews_title
+      'Your assigned proposals to review for this competition'
+    end
+
+    def opt_out_review_button_name
+      'Opt Out'
     end
 
     def ctsa_name
@@ -71,11 +79,11 @@ module NucatsAssist
     end
 
     def cru_contact_email
-      'b-ferry@northwestern.edu'
+      app_support_email_address
     end
 
     def cru_contact_email_text
-      'b-ferry@northwestern.edu'
+      app_support_email_address
     end
 
     def cru_url

@@ -5,15 +5,15 @@
 <br />
 
 <% unless @sponsors.blank? %>
-  <div id='show_pubmed'>
+  <div id='show_admin_emails'>
     Click here to show Administrator emails
   </div>
-  <div id='pubmed_ids' style='display: none;'>
+  <div id='admin_emails' style='display: none;'>
     <%= @sponsors.map{ |sponsor| sponsor.roles_users.admins.map{ |admin| admin.user.email } }.flatten.to_sentence %>
   </div>
   <script type="text/javascript" language="JavaScript">
-    jQuery('#show_pubmed').click(function(event) {
-      jQuery('#pubmed_ids').toggle();
+    jQuery('#show_admin_emails').click(function(event) {
+      jQuery('#admin_emails').toggle();
       event.preventDefault(); // Prevent link from following its href
     });
   </script>

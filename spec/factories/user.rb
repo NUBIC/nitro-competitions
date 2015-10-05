@@ -3,8 +3,8 @@ FactoryGirl.define do
   factory :user do
     sequence(:username) { |n| "username#{n}_#{Time.now.to_i}" }
     sequence(:email) { |n| "email#{n}_#{Time.now.to_i}@dev.null" }
-    first_name 'MyString'
-    last_name 'MyString'
+    first_name 'FName'
+    last_name 'LName'
     middle_name 'MyString'
     era_commons_name 'MyString'
     degrees 'MyString'
@@ -24,5 +24,6 @@ FactoryGirl.define do
     biosketch_document_id 1
     created_ip '127.0.0.1'
     created_at Time.now
+    password 'password'
   end
 end

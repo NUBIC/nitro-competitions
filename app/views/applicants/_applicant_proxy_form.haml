@@ -1,13 +1,13 @@
 - pronoun = "your"
-- pronoun = "the" if current_user_session.try(:username) != applicant.username
+- pronoun = "the" if current_user.try(:username) != @applicant.username
 
 - completion = ""
-- completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username
-- ldap_name = [applicant.name, applicant.name_suffix].compact.join(",")
+- completion = " for #{applicant.name}" if current_user.try(:username) != @applicant.username
+- ldap_name = [@applicant.name, @applicant.name_suffix].compact.join(",")
 
-- if f.object && !f.object.try(:errors).blank?
+- if @applicant && !@applicant.try(:errors).blank?
   %tr
-    %td{:colspan=>"2"}
+    %td{colspan: "2"}
       = render('shared/error_messages', object: f.object)
 %tr
   %td.title
@@ -23,7 +23,7 @@
   %td.title
     email
   %td
-    = applicant.email
+    = @applicant.email
 
 %tr
   %td.title
@@ -86,13 +86,13 @@
 
 %tr
   %td
-    = f.label :uploaded_biosketch, "Biosketch Document"
+    = f.label :uploaded_biosketch, 'Biosketch Document'
   %td
-    = f.file_field("uploaded_biosketch")
-    - unless applicant.biosketch_document_id.blank?
+    = f.file_field('uploaded_biosketch')
+    - unless @applicant.biosketch_document_id.blank?
       %em
-        = link_to_file(applicant.biosketch_document_id, "#{applicant.biosketch.file_file_name}").html_safe
-        = "updated on #{(applicant.biosketch.last_updated_at || applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
+        = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
+        = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
     %br
     %br
     Biosketch should be in <b>MS Word or PDF format</b>
@@ -106,18 +106,18 @@
     You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 
 %tr
-  %td.title{:colspan=>"2", :style=>"background:#ADE387;"}
+  %td.title{colspan: '2', class: 'highlighted_table_cell'}
     Off-campus business address, if you have one
 
 %tr
   %td.title
     = f.label :address
   %td
-    = f.text_area :address, {rows: 4, cols: 40, wrap: "virtual"}
+    = f.text_area :address, {rows: 4, cols: 40, wrap: 'virtual'}
 
 %tr
   %td.title
-    = f.label :city, "City, State"
+    = f.label :city, 'City, State'
   %td
     = f.text_field :city, size: 20
     &nbsp;
@@ -131,5 +131,5 @@
   %td
     = f.text_field :country
 
-%script{:type=>"text/javascript"}
+%script{type: 'text/javascript'}
   jQuery('#applicant_form').validate();

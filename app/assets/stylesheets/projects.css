@@ -105,7 +105,13 @@ div#project_membership_required p {
   color: gray;
 }
 
-.assigned_submission_list,
+.assigned_submission_list {
+  min-height: 2em;
+  padding-top: 0.5em;  
+}
+
 .unassigned_submission_list {
   min-height: 2em;
+  border: 1px solid black;
+  padding: 1em 2em;
 }

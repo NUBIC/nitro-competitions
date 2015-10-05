@@ -36,3 +36,12 @@
   background: lightyellow;
   padding-bottom: 1em;
 }
+
+#show_admin_emails {
+  color: #337ab7;
+  cursor: pointer;
+}
+
+#show_admin_emails:hover {
+  text-decoration: underline;
+}

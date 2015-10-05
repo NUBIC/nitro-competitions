@@ -23,12 +23,16 @@ class RolesUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :role
   has_many :rights, :through => :role
-  attr_accessible *column_names
-  attr_accessible :program, :user, :role
-
-  scope :for_role, lambda { |*args| where('role_id = :id', { :id => args.first || 0 }) }
-  scope :for_program, lambda { |*args| where('program_id = :id', { :id => args.first || 0 }) }
-  scope :admins, joins(:role).where("roles.name = 'Admin'")
+  
+  def self.for_role(*args) 
+    where('role_id = :id', { :id => args.first || 0 })
+  end
+  def self.for_program(*args) 
+    where('program_id = :id', { :id => args.first || 0 })
+  end
+  def self.admins 
+    joins(:role).where("roles.name = 'Admin'")
+  end
 
   validates_uniqueness_of :user_id, :scope => [:program_id, :role_id]
   validates_presence_of :user_id

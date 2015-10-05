@@ -8,8 +8,6 @@ class ApplicationController < ActionController::Base
   include RolesHelper
   include ApplicationHelper
 
-  include Aker::Rails::SecuredController unless Rails.application.config.use_omniauth
-
   # make these accessible in a view
   helper_method :current_user_session
 
@@ -21,76 +19,12 @@ class ApplicationController < ActionController::Base
                                       :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data,
                                       :reviewer_data, :review_data, :login_data]
 
-  before_filter :authenticate_user, except: [:login, :welcome] unless Rails.env == 'test'
-  before_filter :check_cookie unless Rails.env == 'test'
-  def check_cookie
-    unless cookie_valid?
-      clear_session_attributes
-      redirect_to root_path
-    end
-  end
-
-  require 'net/http'
-  def cookie_valid?
-    return true unless Rails.application.config.use_omniauth
-    Rails.logger.error('cookie_valid?: nucats_auth cookie is not present') unless cookies[:nucats_auth].present?
-    cookies[:nucats_auth].present? && cookie_and_session_match
-  end
-
-  def cookie_and_session_match
-    if current_user.blank?
-      Rails.logger.error('cookie_and_session_match: current_user is blank')
-      return false
-    end
-    data = decrypt_cookie_data(cookies[:nucats_auth])
-    vals = data.split(',')
-    vals = vals.map(&:to_s).map(&:downcase)
-    Rails.logger.error("cookie_and_session_match: vals = #{vals}")
-    Rails.logger.error("cookie_and_session_match: current_user.username = #{current_user.username}")
-    Rails.logger.error("cookie_and_session_match: current_user.email = #{current_user.email}")
-    vals.include?(current_user.username.to_s.downcase) || vals.include?(current_user.email.to_s.downcase)
-  end
-
-  def decrypt_cookie_data(encrypted_data)
-    begin
-      crypt = ActiveSupport::MessageEncryptor.new(cookie_key)
-      crypt.decrypt_and_verify(encrypted_data)
-    rescue
-      encrypted_data
-    end
-  end
+  before_filter :authenticate_user!, except: [:welcome] unless Rails.env == 'test'
 
   ##
-  # With the addition of omniauth as a authentication mechanism, determine
-  # the authentication method to use (aker or omniauth) based on the
-  # `use_omniauth` configuration setting
-  #
-  # TODO: replace this with the preferred authentication mechanism once the
-  #       stakeholders choose which method to use
+  # For authorization using omniauth. Here we check if the current_user exists, 
+  # if not we will redirect the user to the appropriate URL
   def authenticate_user
-    Rails.application.config.use_omniauth ? login_required : check_session
-  end
-
-  ##
-  # If using omniauth, check the session for user_info
-  # otherwise return the Aker user
-  #
-  # TODO: replace this with the preferred authentication mechanism once the
-  #       stakeholders choose which method to use
-  # @return [User]
-  def current_user
-    if Rails.application.config.use_omniauth
-      return nil unless session[:user_info]
-      @current_user ||= User.find_user_from_omniauth(session[:user_info])
-    else
-      @current_user ||= User.where(username: request.env['aker.check'].user.username).first
-    end
-  end
-
-  ##
-  # For authorization using omniauth 
-  # @see authenticate_user
-  def login_required
     not_authorized unless current_user
   end
 
@@ -101,10 +35,24 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  ##
+  # Here we assume that the first OmniAuth provider in the list of available_providers
+  # is the one that we should use. 
+  # TODO: create a way to choose provider 
+  # @see available_providers
   def auth_redirect
-    redirect_to "/auth/nucatsaccounts?origin=#{request_origin}"
+    redirect_to "/auth/#{available_providers.first}?origin=#{request_origin}"
   end
   private :auth_redirect
+
+  ##
+  # OmniAuth::Strategies by default loads the :Developer and :OAuth strategies
+  # This method returns all but these defaults.
+  # @return [Array]
+  def available_providers
+    OmniAuth::Strategies.constants.reject { |item| item =~ /Developer|OAuth2|Oauth/i }
+  end
+  private :available_providers
 
   def request_origin
     "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
@@ -160,5 +108,17 @@ class ApplicationController < ActionController::Base
     end
   end
   private :set_current_user_session
+
+  # before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
+  def ensure_signup_complete
+    # Ensure we don't go into an infinite loop
+    return if action_name == 'finish_signup'
+
+    # Redirect to the 'finish_signup' page if the user
+    # email hasn't been verified yet
+    if current_user && !current_user.email_verified?
+      redirect_to finish_signup_path(current_user)
+    end
+  end
 
 end

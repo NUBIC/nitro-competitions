@@ -12,8 +12,15 @@
       jQuery.noConflict(); var $j = jQuery;
 
   %body
-    = render 'shared/navigation'
-    #content
-      = yield
-  .push
-    &nbsp;
+    - unless notice.blank?
+      .notice
+        = notice.html_safe
+    - unless alert.blank?
+      .alert
+        = alert.html_safe
+    .wrapper
+      = render 'shared/navigation'
+      #content
+        = yield
+    .footer.push
+      = render 'shared/footer'

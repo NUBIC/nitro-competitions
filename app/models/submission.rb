@@ -100,14 +100,6 @@ class Submission < ActiveRecord::Base
   accepts_nested_attributes_for :applicant
   accepts_nested_attributes_for :key_personnel
 
-  attr_accessible *column_names
-  attr_accessible :applicant_biosketch_document, :application_document, :budget_document, :other_support_document
-  attr_accessible :uploaded_application, :uploaded_other_support, :uploaded_budget, :uploaded_biosketch
-  attr_accessible :document1, :document2, :document3, :document4
-  attr_accessible :supplemental_document, :uploaded_supplemental_document
-  attr_accessible :uploaded_document1, :uploaded_document2, :uploaded_document3, :uploaded_document4
-  attr_accessible :applicant, :submitter, :effort_approver, :core_manager, :department_administrator
-
   attr_accessor :max_budget_request
   attr_accessor :min_budget_request
 
@@ -117,39 +109,24 @@ class Submission < ActiveRecord::Base
   # TODO: determine if the joins is necessary - this causes the record to be 'readonly' and
   #       will throw an ActiveRecord::ReadOnlyRecord error upon save
   # default_scope joins([:applicant]) #.order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
-  scope :assigned_submissions, where('submission_reviews_count >= 2')
+  scope :assigned_submissions, lambda { where('submission_reviews_count >= 2') }
   scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 
-  scope :unassigned_submissions, where(:submission_reviews_count => 0)
+  scope :unassigned_submissions, lambda { where(:submission_reviews_count => 0) }
   scope :recent, lambda { where('submissions.created_at > ?', 3.weeks.ago) }
 
-  scope :user_scoped, lambda { |*args|
-    if args.first
-      includes([:key_people, :applicant, :project, :submitter, :effort_approver, :department_administrator, :core_manager])
-    elsif args[2].nil?
-      where('applicant_id = :id', { :id => 0 })
-    else
-      where('(applicant_id = :id or created_id = :id) and project_id IN (:projects)', { :projects => args[1], :id => args[2] })
-    end
-  }
-
   scope :associated, lambda { |*args|
-    if args[1].nil?
-      where('applicant_id = :id', { :id => 0 })
-    else
-      includes('submission_reviews')
-      .where('(submissions.applicant_id = :id or submissions.created_id = :id) and submissions.project_id IN (:projects)', { :projects => args[0], :id => args[1] })
-    end
+    includes('submission_reviews')
+    .where('(submissions.applicant_id = :id OR submissions.created_id = :id) AND 
+            submissions.project_id IN (:projects)', 
+      { :projects => args[0], :id => args[1] })
   }
 
   scope :associated_with_user, lambda { |*args|
-    if args.first.nil?
-      where('applicant_id = :id', { :id => 0 })
-    else
-      includes('submission_reviews')
-      .where('submissions.applicant_id = :id or submissions.created_id = :id', { :id => args.first })
-      .order('id asc')
-    end
+    includes('submission_reviews')
+    .where('submissions.applicant_id = :id or submissions.created_id = :id', 
+      { :id => args.first })
+    .order('id asc')
   }
 
   before_validation :clean_params, :set_defaults
@@ -222,6 +199,7 @@ class Submission < ActiveRecord::Base
   def is_complete?
     status == 'Complete'
   end
+  alias :complete? :is_complete?
 
   def key_personnel_names
     key_personnel.map { |k| k.name || k.user.name }
@@ -345,13 +323,10 @@ class Submission < ActiveRecord::Base
       if self.applicant_biosketch_document_id.blank?
         # create a new copy of the file associated only with the submission
         unless self.applicant.biosketch.file.blank?
-          Rails.logger.info("~~~~ self.applicant.biosketch.file = #{self.applicant.biosketch.file.inspect}")
-          self.applicant_biosketch_document = FileDocument.new(:file => self.applicant.biosketch.file)
+          self.applicant_biosketch_document                   = FileDocument.new(file: self.applicant.biosketch.file)
           self.applicant_biosketch_document.file_content_type = self.applicant.biosketch.file_content_type
-          self.applicant_biosketch_document.file_file_name = self.applicant.biosketch.file_file_name
-          self.applicant_biosketch_document.last_updated_at = self.applicant.biosketch.updated_at
-
-          Rails.logger.info("~~~~ creating self.applicant_biosketch_document: #{self.applicant_biosketch_document.inspect}")
+          self.applicant_biosketch_document.file_file_name    = self.applicant.biosketch.file_file_name
+          self.applicant_biosketch_document.last_updated_at   = self.applicant.biosketch.updated_at
           self.applicant_biosketch_document.save
         end
         begin

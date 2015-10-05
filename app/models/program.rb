@@ -22,18 +22,15 @@
 class Program < ActiveRecord::Base
   # Associations
   has_many :roles_users
-  has_many :admins, :source => :user, :through => :roles_users,
-    :include => [:roles],
-    :conditions => ["(roles.name = 'Admin' and roles.id = roles_users.role_id) "]
+
+  def admins
+    roles_users.admins.map(&:user)
+  end
 
   has_many :projects
   has_many :reviewers
   has_many :logs
-  belongs_to :creater, :class_name => "User", :foreign_key => "created_id"
-
-  # Accessors
-  attr_accessible *column_names
-  attr_accessible :creater
+  belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
 
   # Callbacks
   before_validation :normalize_name

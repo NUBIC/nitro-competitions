@@ -20,9 +20,6 @@
 class FileDocument < ActiveRecord::Base
   # Associations
   has_attached_file :file, :path => ":rails_root/public/system/:attachment/:id/:basename.:extension"
-  # Accessors
-  attr_accessible :file, :uploaded_file
-  attr_accessible *column_names
 
   # Callbacks
   before_validation(:on => :create) do |file|

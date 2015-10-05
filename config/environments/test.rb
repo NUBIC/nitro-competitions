@@ -1,9 +1,11 @@
 NucatsAssist::Application.configure do
   config.cache_classes = true
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
   config.assets.allow_debugging = true
   config.whiny_nils = true
+
+  config.eager_load = false
 
   config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
@@ -15,15 +17,4 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :stderr
 
   I18n.enforce_available_locales = false
-  config.aker do
-    login_config = File.join(Rails.root, %w(config logins development.yml))
-    authority Aker::Authorities::Static.from_file(login_config)
-  end
-
-  config.use_omniauth = false
-  OmniAuthConfigure.configure {
-    app :nucats_assist
-    strategies :nucats_accounts
-    central '/etc/nubic/omniauth/local.yml'
-  }
 end

@@ -13,12 +13,12 @@ class AdminsController < ApplicationController
                                .all
 
       @applicants      = @submissions.map { |s| s.applicant }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
-      @key_personnel   = (@submissions.map { |s| s.key_personnel.map { |k| k } }.flatten).compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @core_managers   = @submissions.map { |t| t.core_manager }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @submitters      = @submissions.map { |s| s.submitter }.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @approvers       = @submissions.map { |e| e.effort_approver }.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @business_admins = @submissions.map { |e| e.department_administrator }.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
-      @reviewers       = @submissions.map { |e| e.reviewers.map { |r| r } }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase' <=> b.sort_name.downcase' }
+      @key_personnel   = (@submissions.map { |s| s.key_personnel.map { |k| k } }.flatten).compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @core_managers   = @submissions.map { |t| t.core_manager }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @submitters      = @submissions.map { |s| s.submitter }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @approvers       = @submissions.map { |e| e.effort_approver }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @business_admins = @submissions.map { |e| e.department_administrator }.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
+      @reviewers       = @submissions.map { |e| e.reviewers.map { |r| r } }.flatten.compact.uniq.sort { |a, b| a.sort_name.downcase <=> b.sort_name.downcase }
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @users }
@@ -39,22 +39,6 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { render :view_applicants }
         format.xml  { render :xml => @applicants }
-# TODO: Deprecated pdf support - should be removed
-#        format.pdf do
-#          @pdf = 1
-#          render :pdf => "Applicant listing for #{Date.today.year}",
-#                 :template => 'admins/view_applicants.html',
-#                 :stylesheets => ['pdf'],
-#                 :layout => 'pdf'
-#        end
-# TODO: Deprecated xls export - should be removed
-#        format.xls do
-#          @pdf = 1
-#           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
-#                     :filename => "Applicant listing for #{Date.today.year}.xls",
-#                     :type => 'application/vnd.ms-excel',
-#                     :disposition => 'attachment')
-#        end
       end
     else
       redirect_to projects_path
@@ -74,22 +58,6 @@ class AdminsController < ApplicationController
       respond_to do |format|
         format.html { render :view_applicants }
         format.xml  { render :xml => @applicants }
-# TODO: Deprecated pdf support - should be removed
-#        format.pdf do
-#          @pdf = 1
-#          render :pdf => "Applicant listing for #{Date.today.year}",
-#                 :template => 'admins/view_applicants.html',
-#                 :stylesheets => ['pdf'],
-#                 :layout => 'pdf'
-#        end
-# TODO: Deprecated xls export - should be removed
-#        format.xls do
-#          @pdf = 1
-#           send_data(render(:template => 'admins/view_applicants.html', :layout => 'excel'),
-#                     :filename => "Applicant listing for #{Date.today.year}.xls",
-#                     :type => 'application/vnd.ms-excel',
-#                     :disposition => 'attachment')
-#        end
       end
     else
       redirect_to projects_path
@@ -127,17 +95,14 @@ class AdminsController < ApplicationController
   def act_as_user
     @sponsor = @project.program
     if is_super_admin?
-      if defined? params[:username].blank?
+      if params[:username].blank?
         @users = User.all
       else
-        @current_user_session = User.find_by_username(params[:username])
+        @current_user_session = User.where(username: params[:username]).first
         session[:username] = @current_user_session.try(:username)
         session[:name] = @current_user_session.try(:name)
-        # manual Aker call
-        user = Aker::User.new(params[:username], :NUCATSassist)
-        session[:aker_user] = user
-        check_session
-        act_as_admin
+
+        act_as_admin(@current_user_session)
 
         redirect_to projects_path
       end
@@ -158,7 +123,6 @@ class AdminsController < ApplicationController
   def submission_search
     @search = SubmissionSearch.new(submission_search_params)
     @submissions = @search.results
-    Rails.logger.info("~~~ There are #{@submissions.count} submissions for #{submission_search_params.inspect}")
     respond_to do |format|
       format.html
       format.js
@@ -197,29 +161,29 @@ class AdminsController < ApplicationController
     if is_admin?(@sponsor)
       flash[:notice] = ''
       reviewers_to_add = params[:admin][:reviewer_list].split(/\s*,\s*|\s+/)
-      reviewers_to_add.each do | netid |
-        netid = netid.strip
-        if make_user(netid)
-          the_user = User.find_by_username(netid)
+      reviewers_to_add.each do | username |
+        username = username.strip
+        if make_user(username)
+          the_user = User.where(username: username).first
           if the_user.nil? || the_user.id.nil?
-            flash[:notice] += "make_user returned true, however could not find netid #{netid}; "
+            flash[:notice] += "make_user returned true, however could not find username #{username}; "
           else
-            reviewer = Reviewer.where('(program_id = :program_id and user_id = :user_id)', { :program_id => @sponsor.id, :user_id => the_user.id }).first
+            reviewer = Reviewer.where('(program_id = :program_id and user_id = :user_id)', { program_id: @sponsor.id, user_id: the_user.id }).first
             if reviewer.nil? || reviewer.id.nil?
-              flash[:notice] += "Added #{netid} (#{the_user.name}) as reviewer; "
-              reviewer = Reviewer.new(:program_id => @sponsor.id, :user_id => the_user.id)
+              flash[:notice] += "Added #{username} (#{the_user.name}) as reviewer; "
+              reviewer = Reviewer.new(program_id: @sponsor.id, user_id: the_user.id)
               before_create(reviewer)
               reviewer.save
             else
-              flash[:notice] += "Reviewer #{netid} (#{the_user.name}) was already assigned; "
+              flash[:notice] += "Reviewer #{username} (#{the_user.name}) was already assigned; "
             end
           end
         else
-          flash[:notice] += "Could not find netid #{netid}; "
+          flash[:notice] += "Could not find username #{username}; "
         end
       end
       prep_reviewer_data
-      render :action => 'reviewers'
+      render action: 'reviewers'
     else
       redirect_to projects_path
     end
@@ -260,7 +224,11 @@ class AdminsController < ApplicationController
       @reviewer = User.find(params[:id])
       @submission = Submission.find(params[:submission_id])
       @review = @submission.submission_reviews.find_by_reviewer_id(params[:id])
-      @submission.submission_reviews << SubmissionReview.new(:submission_id => params[:submission], :reviewer_id => @reviewer.id) if @review.blank?
+      if @review.blank?
+        @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
+        @submission.submission_reviews << @review
+        Notifier.reviewer_assignment(@review, @submission).deliver
+      end
     end
 
     redirect_to project_reviewers_path(@project)
@@ -268,17 +236,16 @@ class AdminsController < ApplicationController
 
   def unassign_submission
     @sponsor = @project.program
-    if is_admin?(@sponsor)
-      @review = SubmissionReview.find(params[:submission_review_id])
-      unless @review.blank?
-        @reviewer = @review.user
-        @submission = @review.submission
-        # SubmissionReview.delete(params[:submission_review_id])
-        @submission.submission_reviews.destroy(@review)
-      end
+    @review = SubmissionReview.find(params[:submission_review_id])
+    @reviewer = @review.user
+    @submission = @review.submission
+    if is_admin?(@sponsor) || current_user_session == @reviewer
+      @submission.submission_reviews.destroy(@review) unless @review.blank?
+      Notifier.reviewer_opt_out(@reviewer, @submission).deliver if params[:opt_out]
     end
 
-    redirect_to project_reviewers_path(@project)
+    redirect_url = is_admin?(@sponsor) ? project_reviewers_path(@project) : project_reviewers_url(@project)
+    redirect_to redirect_url
   end
 
   private

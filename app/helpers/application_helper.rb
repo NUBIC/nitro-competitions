@@ -5,9 +5,26 @@ module ApplicationHelper
 
   require 'config'
 
+  def page_title(page_title, show_title = true)
+    @show_title = show_title
+    content_for(:page_title) { page_title.to_s }
+  end
+
+  def show_title?
+    @show_title == true
+  end
+
   def blank_safe(word, filler = '-')
     return filler if word.blank?
     word
+  end
+
+  ##
+  # Handle google provider discrepancy
+  # @param [Symbol]
+  # @return [Symbol]
+  def omniauth_provider(provider)
+    provider == :google ? :google_oauth2 : provider
   end
 
   def internetexplorer_user_agent?
@@ -16,19 +33,19 @@ module ApplicationHelper
 
   ##
   # Set session attribute act_as_admin
-  def act_as_admin
-    session[:act_as_admin] = current_user_is_admin?
+  def act_as_admin(user = current_user)
+    session[:act_as_admin] = current_user_is_admin?(user)
   end
 
   def application_logout_path
-    Rails.application.config.use_omniauth ? signout_path : logout_path
+    signout_path
   end
 
   ##
   # Is the current user session username in the admin list
   # @return Boolean
-  def current_user_is_admin?
-    %w(wakibbe dfu601 super jml237 cmc622 pfr957).include?(current_user_session.try(:username))
+  def current_user_is_admin?(user)
+    %w(wakibbe dfu601 super pfr957 psfriedman psfriedman@gmail.com p-friedman@northwestern.edu).include?(user.try(:username))
   end
   private :current_user_is_admin?
 
@@ -92,6 +109,20 @@ module ApplicationHelper
     project
   end
 
+  ##
+  # Here we check the session for the user who is placed into the @current_user_session variable 
+  # if a User record is found by the username in the session.
+  #
+  # There is a whole lot of checking the database via User.find_by_username(current_user.username) 
+  # and checking of session attributes. This is followed by a number of create user and set session calls.
+  #
+  # The method to set this variable (set_session_attributes) is called at the end of this method 
+  # if the current_user was not put into the session previously.
+  # 
+  # @see ApplicationController#current_user_session
+  # @see ApplicationController#set_current_user_session
+  # @see make_user
+  # @see make_user_from_login
   def check_session
     return unless session_exists?
     begin
@@ -105,8 +136,13 @@ module ApplicationHelper
     clear_session_attributes if current_user.blank? || current_user.username.blank?
 
     if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
-      the_user = User.find_by_username(current_user.username)
-      if the_user.blank? || the_user.name.blank?
+      user = User.find_by_username(current_user.username)
+      if user.blank? || user.name.blank?
+        # 
+        # The current_user has logged in successfully but there is no user with that unique username in the users table
+        # so here we make a new user with that username
+        # and then call this method again
+        # 
         if make_user(current_user.username)
           flash[:notice] = 'User account was successfully created.'
           logger.error("check_session. current_user: #{current_user.username} was created")
@@ -116,17 +152,17 @@ module ApplicationHelper
           flash[:notice] = 'Unable to create user account from LDAP registry.'
           make_user_from_login(current_user)
         end
-        the_user = User.find_by_username(current_user.username)
+        user = User.find_by_username(current_user.username)
       end
-      if !the_user.blank? || !the_user.id.blank?
-        set_session_attributes(the_user)
+      if !user.blank? || !user.id.blank?
+        set_session_attributes(user)
       else
         clear_session_attributes
       end
     else
       if session[:username].blank? || session[:user_id].blank? || session[:name].blank? || session[:username] != current_user_session.try(:username)
-        the_user = User.find_by_username(current_user.try(:username))
-        set_session_attributes(the_user) unless the_user.blank?
+        user = User.find_by_username(current_user.try(:username))
+        set_session_attributes(user) unless user.blank?
       end
     end
     if session[:program_id].blank?
@@ -145,15 +181,16 @@ module ApplicationHelper
     defined?(request) && ! request.nil?
   end
 
-  def set_session_attributes(the_user, omniauth = nil)
+  def set_session_attributes(user, omniauth = nil)
     return unless session_exists?
-    session[:username]   = the_user.username.to_s
-    session[:name]       = the_user.name.to_s
-    session[:user_era_commons_name] = the_user.era_commons_name.to_s
-    session[:user_email] = the_user.email.to_s
-    session[:user_id]    = the_user.id.to_s
+    session[:username]   = user.username.to_s
+    session[:name]       = user.name.to_s
+    session[:user_era_commons_name] = user.era_commons_name.to_s
+    session[:user_email] = user.email.to_s
+    session[:user_id]    = user.id.to_s
     session[:user_info]  = omniauth if omniauth
-    @current_user_session = the_user
+    @current_user_session = user
+    act_as_admin if session[:act_as_admin].blank?
     log_request('login')
   end
 
@@ -213,35 +250,38 @@ module ApplicationHelper
   # before_ helpers
   def before_create(model)
     model.created_ip ||= request.remote_ip if request_exists?
-    model.created_id ||= session[:user_id] if session_exists?
+    model.created_id ||= current_user.id if current_user
     before_update(model)
   end
 
   def before_update(model)
     model.updated_ip = request.remote_ip if request_exists?
-    model.updated_id = session[:user_id] if session_exists?
+    model.updated_id = current_user.id if current_user
   end
 
   def logged_in?
-    !session[:user_id].blank?
+    !current_user.blank?
   end
 
   def is_current_user?(id)
-    id.to_i == session[:user_id].to_i
+    id.to_i == current_user.id if current_user
   end
 
   def handle_ldap(applicant)
     begin
+      # return applicant if already persisted in database
       applicant unless applicant.id.blank?
-      applicant_in_db = User.find_by_username(applicant.username)
+      # or if we can locate applicant in the database
+      applicant_in_db = find_user_in_db(applicant.username, applicant.email)
       return applicant_in_db unless applicant_in_db.blank? || applicant_in_db.id.blank?
+      # get data for user from LDAP 
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
         logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
       elsif pi_data.blank?
         logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
       else
-        ldap_rec = CleanPIfromLDAP(pi_data)
+        ldap_rec  = CleanPIfromLDAP(pi_data)
         applicant = BuildPIobject(ldap_rec) if applicant.id.blank?
         applicant = MergePIrecords(applicant, ldap_rec)
         if applicant.new_record?
@@ -259,14 +299,22 @@ module ApplicationHelper
     applicant
   end
 
-  def make_user(username)
+  def find_user_in_db(username, email)
+    user = User.where(username: username).first
+    user = User.where(email: email).first if user.blank? && !email.blank?
+    user    
+  end
+
+  def make_user(username, email = nil)
     return nil if username.blank? || username.length < 3
-    the_user = User.find_by_username(username)
-    return the_user unless the_user.blank?
-    the_user = User.new(username: username)
-    the_user = handle_ldap(the_user)
-    the_user = add_user(the_user)
-    return the_user unless the_user.blank? || the_user.id.blank?
+    user = find_user_in_db(username, email)
+    return user unless user.blank?
+
+    user = User.new(username: username)
+    user.email = email unless email.blank?
+    user = handle_ldap(user)
+    user = add_user(user)
+    return user unless user.blank? || user.id.blank?
     begin
       logger.info "Unable to find username #{username}"
     rescue
@@ -277,37 +325,37 @@ module ApplicationHelper
 
   def make_user_from_login(current_user)
     # for times when an authenticated user is not found in ldap!
-    the_user = User.find_by_username(current_user.username)
-    return the_user unless the_user.blank?
-    email =  current_user.email
+    user = User.where(username: current_user.username).first
+    return user unless user.blank?
+    email = current_user.email
     email = current_user.username + '@unknown.edu' if email.blank?
     create_user(current_user, email)
   end
 
   def create_user(user, email)
-    the_user = User.new(username: user.username,
-                        first_name: user.first_name,
-                        last_name: user.last_name,
-                        email: email)
-    the_user.save!
+    user = User.new(username: user.username,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: email)
+    user.save!
   end
 
-  def add_user(the_user)
-    return the_user unless the_user.new_record?
-    before_create(the_user)
-    if !the_user.last_name.blank? && the_user.save
+  def add_user(user)
+    return user unless user.new_record?
+    before_create(user)
+    if !user.last_name.blank? && user.save
       begin
-        logger.info "user account #{the_user.username} #{the_user.name} successfully created"
+        logger.info "user account #{user.username} #{user.name} successfully created"
       rescue
-        puts "user account #{the_user.username} #{the_user.name} successfully created"
+        puts "user account #{user.username} #{user.name} successfully created"
       end
-      if the_user.created_id.blank?
-        the_user.created_id = the_user.id
-        the_user.updated_id = the_user.id
-        the_user.save
+      if user.created_id.blank?
+        user.created_id = user.id
+        user.updated_id = user.id
+        user.save
       end
     end
-    the_user
+    user
   end
 
   def truncate_words(phrase, count = 20)
@@ -326,30 +374,6 @@ module ApplicationHelper
   def hidden_div_if(condition, attributes = {}, &block)
     attributes['style'] = 'display: none;' if condition
     content_tag('div', attributes, &block)
-  end
-
-  def omniauth_config
-    @omniauth_config ||= OmniAuthConfigure.configuration.parameters_for(:nucats_assist, :nucats_accounts)
-  end
-
-  def oauth_provider_uri
-    URI(provider_site)
-  end
-
-  def provider_site
-    omniauth_config[:client_options][:site]
-  end
-
-  def client_id
-    omniauth_config[:client_id]
-  end
-
-  def client_secret
-    omniauth_config[:client_secret]
-  end
-
-  def cookie_key
-    omniauth_config[:client_options][:cookie_key]
   end
 
 end

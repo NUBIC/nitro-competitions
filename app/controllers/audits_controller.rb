@@ -44,7 +44,7 @@ class AuditsController < ApplicationController
     applicants = applications.map{ |s| s.applicant }.flatten.uniq
     key_personnel = applications.collect{|s| s.key_personnel.collect{ |k| k } }.flatten.compact.uniq
     reviewers = @program.reviewers
-    reviews = applications.map{ |a| a.submission_reviews..where('overall_score > 0').all }.flatten
+    reviews = applications.map{ |a| a.submission_reviews.where('overall_score > 0').all }.flatten
     submitters = applications.map{ |s| s.submitter }.compact.uniq
     users = applicants + key_personnel + reviewers + submitters
     data = generate_csv_from_array([logins, users, applications, applicants, key_personnel, reviewers, reviews])

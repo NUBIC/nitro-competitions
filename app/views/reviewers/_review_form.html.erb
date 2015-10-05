@@ -21,8 +21,6 @@
             Strengths and weaknesses
           </span>
           <%= f.text_area "#{section}_text".to_sym, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <%= review_item_observer("#{section}_score", "#{submission_review.id}") %>
-          <%= review_item_observer("#{section}_text", "#{submission_review.id}") %>
         </li>
       <% end %>
     <% end %> 
@@ -47,9 +45,6 @@
         <%= project.overall_impact_direction.html_safe %>
       </span>
       <%= f.text_area :overall_text, {:rows => 12, :cols => 80, :wrap=>"virtual"} %>
-      <%= review_item_observer("overall_score", "#{submission_review.id}") %>
-      <%= review_item_observer("overall_text", "#{submission_review.id}") %>
     </p>
-
   </ol>
 </div>

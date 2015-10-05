@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 set :application, 'nucats_assist'
-set :repo_url, 'https://github.com/NUBIC/nitro-arm.git'
+set :repo_url, 'https://github.com/NUBIC/nitro-competitions.git'
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 

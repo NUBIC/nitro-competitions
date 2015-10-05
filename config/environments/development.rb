@@ -10,25 +10,15 @@ NucatsAssist::Application.configure do
   config.assets.compress = false
   config.assets.debug = true
 
+  config.app_domain = 'example.com'
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { host: config.app_domain }
   config.action_mailer.smtp_settings = {
       address: 'localhost',
       port: 1025
   }
   config.send_notification_to_all = false
-
-  config.aker do
-    login_config = File.join(Rails.root, %w(config logins development.yml))
-    authority Aker::Authorities::Static.from_file(login_config)
-    puts 'loading local static aker file'
-    central '/etc/nubic/aker-local.yml'
-  end
-
-  OmniAuthConfigure.configure {
-    app :nucats_assist
-    strategies :nucats_accounts
-    central '/etc/nubic/omniauth/local.yml'
-  }
 end
 
 Paperclip.options[:command_path] = '/opt/local/bin/'

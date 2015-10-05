@@ -2,31 +2,23 @@
 require 'config'
 
 def send_finalize_email(submission, user)
-  if NucatsAssist.admin_netids.include?(user.username)
-    begin
-      message = create_message(submission)
-      logger.error("~~~ about to deliver message #{message.inspect}")
-      message.deliver
-      submission.save!
-      msg = "Thank you email for #{submission.submission_title} was successfully sent"
-      begin
-        logger.error msg
-      rescue
-        puts msg
-      end
-      return true
-    rescue Exception => err
-      msg = "Error occured. Unable to send thank you email. Error: #{err.message}"
-      begin
-        logger.error msg
-      rescue
-        puts msg
-      end
-    end
-  else
-    msg = 'Skipped thank you email'
+  begin
+    message = create_message(submission)
+    logger.error("~~~ about to deliver message #{message.inspect}")
+    message.deliver
+    submission.save!
+    msg = "Thank you email for #{submission.submission_title} was successfully sent"
     begin
       logger.error msg
+    rescue
+      puts msg
+    end
+    return true
+  rescue Exception => err
+    msg = "Error occured. Unable to send thank you email. Error: #{err.message}"
+    begin
+      logger.error msg
+      ExceptionNotifier.notify_exception(err)
     rescue
       puts msg
     end

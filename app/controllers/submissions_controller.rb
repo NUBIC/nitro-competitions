@@ -10,7 +10,7 @@ class SubmissionsController < ApplicationController
   def index
     # project/:project_id/submissions should be the only way to get here
 
-    projects = Project.find_all_by_id(params[:project_id])
+    projects = Project.where(id: params[:project_id]).all
     @project = projects[0] unless projects.blank?
     @submissions = Submission.associated(projects.map(&:id), current_user_session.id)
     if @submissions.nil?
@@ -45,12 +45,6 @@ class SubmissionsController < ApplicationController
                        @submission_reviews.map(&:reviewer_id).include?(current_user_session.id))
       respond_to do |format|
         format.html
-# TODO: Deprecated PDF support
-#        format.pdf do
-#          render pdf: @submission.submission_title,
-#                 stylesheets: %w(submission pdf),
-#                 layout: 'pdf'
-#        end
         format.xml  { render xml: @submission }
       end
     else
@@ -84,7 +78,7 @@ class SubmissionsController < ApplicationController
   def create
     @applicant = User.find(params[:applicant_id])
     @project = Project.find(params[:project_id])
-    @submission = Submission.new(params[:submission])
+    @submission = Submission.new(submission_params)
     if @applicant.blank? || @project.blank? || @submission.blank?
       redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
       redirect_to redirect_url
@@ -111,6 +105,62 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def submission_params
+    params.require(:submission).permit(
+      :submission_status, 
+      :submission_title, 
+      :core_manager_username, 
+      :abstract, 
+      :is_human_subjects_research,
+      :is_irb_approved,
+      :irb_study_num,
+      :is_iacuc_approved,
+      :iacuc_study_num,
+      :use_nucats_cru,
+      :nucats_cru_contact_name,
+      :use_stem_cells,
+      :use_embryonic_stem_cells,
+      :use_vertebrate_animals,
+      :direct_project_cost,
+      :cost_sharing_amount,
+      :cost_sharing_organization,
+      :received_previous_support,
+      :previous_support_description,
+      :is_new,
+      :not_new_explanation,
+      :use_nmh,
+      :use_nmff,
+      :use_ric,
+      :use_va,
+      :use_cmh,
+      :other_funding_sources,
+      :is_conflict,
+      :conflict_explanation,
+      :department_administrator_username,
+      :committee_review_approval,
+      :effort_approver_username,
+      :project_id,
+      :uploaded_biosketch,
+      :uploaded_application,
+      :uploaded_budget,
+      :uploaded_other_support,
+      :uploaded_document1,
+      :uploaded_document2,
+      :uploaded_document3,
+      :uploaded_document4,
+      :uploaded_supplemental_document,
+      :submission_status,
+      key_personnel: [
+        :username,
+        :first_name,
+        :last_name,
+        :email,
+        :role,
+        :uploaded_biosketch
+      ]
+    )
+  end
+
   def update
     @submission = Submission.find(params[:id])
     @project = @submission.project
@@ -123,8 +173,9 @@ class SubmissionsController < ApplicationController
     end
 
     respond_to do |format|
-      params[:submission].delete(:id)  # id causes an error  - can't mass assign id
-      if @submission.update_attributes(params[:submission])
+      # params[:submission].delete(:id)  # id causes an error  - can't mass assign id
+      if @submission.update_attributes(submission_params)
+        handle_key_personnel_param(@submission) unless params[:submission].blank?
         flash[:errors] = nil
         send_submission_email(@submission)
         flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully updated"

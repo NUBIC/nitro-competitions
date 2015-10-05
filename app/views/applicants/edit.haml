@@ -1,3 +1,4 @@
-%h2 Your Profile
-= form_for(:applicant, :url => (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id)), :html => { :multipart => true, :method => :put, class: 'form-horizontal' }) do |f|
-  = render(:partial => 'applicant_form', :locals=>{:f=>f, :applicant=>@applicant})
+- url = (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id))
+%h3 Edit Applicant
+= form_for(:applicant, :url => url, :html => { :multipart => true, :method => :put, :id => "applicant_form", class: 'form-horizontal' }) do |f|
+  = render('applicant_form', f: f)

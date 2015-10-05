@@ -1,1 +1,5 @@
-<%= link_to_approval(submission).html_safe %> &nbsp; &nbsp;
+<% if submission.effort_approver_username == current_user.username %>
+  <%= link_to_approval(submission).html_safe %> &nbsp; &nbsp;
+<% else %>
+  n/a
+<% end %>

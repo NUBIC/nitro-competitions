@@ -160,15 +160,11 @@
 
 class Project < ActiveRecord::Base
   belongs_to :program
-  belongs_to :creater, :class_name => "User", :foreign_key => "created_id"
+  belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
   has_many :submission_reviews, :through => :submissions
   has_many :logs
-  default_scope :order => 'submission_open_date DESC'
   before_validation :clean_params
-
-  attr_accessible *column_names
-  attr_accessible :creater, :program
 
   validates_length_of :project_title, :within => 10..100, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
   validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
@@ -181,17 +177,36 @@ class Project < ActiveRecord::Base
   validates_presence_of :project_period_start_date, :message => "you must have a project start date!"
   validates_presence_of :project_period_end_date, :message => "you must have a project end date!"
 
-  scope :current, lambda { |*date| where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now }) }
-  scope :recent, lambda { |*date| where('project_period_start_date >= :date and initiation_date <= :date', { :date => date.first || 3.months.ago }) }
-  scope :ongoing_projects, lambda { |*date| where('project_period_end_date >= :date and project_period_start_date <= :date', { :date => date.first || 1.day.ago }) }
-  scope :active, lambda { |*date| where('project_period_start_date > :date or review_end_date > :review_end_date', { :date => date.first || 3.months.ago, :review_end_date => 60.days.ago }) }
-  scope :early, lambda { where('projects.initiation_date >= :early', { :early => 30.days.from_now }) }
-  scope :preinitiation, lambda { where(':now between projects.initiation_date - 30 and projects.submission_open_date', { :now => 1.hour.ago }) }
-  scope :open, lambda { where(':now between projects.submission_open_date and projects.submission_close_date', { :now => 1.hour.ago }) }
-  scope :in_review, lambda { where(':now between projects.submission_close_date and projects.review_end_date', { :now => 1.hour.ago }) }
-  scope :recently_awarded, lambda { where('projects.review_end_date between :then and :now', { :now => 1.hour.ago, :then => 80.days.ago }) }
-
-  scope :late, lambda { where('projects.review_end_date <= :then', { :then => 80.days.ago }) }
+  def self.current(*date) 
+    where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now })
+  end
+  def self.recent(*date) 
+    where('project_period_start_date >= :date and initiation_date <= :date', { :date => date.first || 3.months.ago })
+  end
+  def self.ongoing_projects(*date) 
+    where('project_period_end_date >= :date and project_period_start_date <= :date', { :date => date.first || 1.day.ago })
+  end
+  def self.active(*date) 
+    where('project_period_start_date > :date or review_end_date > :review_end_date', { :date => date.first || 3.months.ago, :review_end_date => 60.days.ago })
+  end
+  def self.early
+    where('projects.initiation_date >= :early', { :early => 30.days.from_now })
+  end
+  def self.preinitiation
+    where(':now between projects.initiation_date - 30 and projects.submission_open_date', { :now => 1.hour.ago })
+  end
+  def self.open
+    where(':now between projects.submission_open_date and projects.submission_close_date', { :now => 1.hour.ago })
+  end
+  def self.in_review
+    where(':now between projects.submission_close_date and projects.review_end_date', { :now => 1.hour.ago })
+  end
+  def self.recently_awarded
+    where('projects.review_end_date between :then and :now', { :now => 1.hour.ago, :then => 80.days.ago })
+  end
+  def self.late
+    where('projects.review_end_date <= :then', { :then => 80.days.ago })
+  end
 
   def current_status
     way_before_today = Date.today - 300

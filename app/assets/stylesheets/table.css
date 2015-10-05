@@ -3,9 +3,8 @@ table {
 }
 
 td, th {
-  margin: 0px;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  margin: 0;
+  padding: 0.25em 0.5em;
   vertical-align: top;
   text-align: left;
 }
@@ -15,25 +14,25 @@ table.wide {
 }
 
 table.lined {
-  border: 1px solid indigo;
+  border: 1px solid lightgray;
   border-collapse: collapse;
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
 }
 
 table.lined tr th {
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  border-bottom: 1px solid indigo;
-  border-right: 1px solid indigo;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   padding: 2px 4px 3px 5px;
 }
 
 table.lined tr td {
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  border-bottom: 1px solid indigo;
-  border-right: 1px solid indigo;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   padding: 2px 4px 3px 5px;
 }
 
@@ -43,7 +42,7 @@ table.lined tr td.title {
 
 table.lined tr td.notes {
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
   color: #5555aa;
 }
 
@@ -101,4 +100,51 @@ td.list-title-center {
 td.list-title-right {
   padding-right: 1em;
   text-align: right;
+}
+
+/* tablesorter */
+table.tablesorter {
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
+  background-color: #CDCDCD;
+  border: 0px;
+  border-collapse: collapse;
+  margin:10px 0pt 15px;
+  font-size: 12pt;
+  width: 100%;
+  text-align: left;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+  background-color: #e6EEEE;
+  border: 0px;
+  font-size: 12pt;
+  padding: 4px;
+}
+table.tablesorter thead tr .header {
+  background-image: url(../images/updown.gif);
+  background-repeat: no-repeat;
+  background-position: center right;
+  cursor: pointer;
+}
+table.tablesorter tbody td {
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; 
+  border: 0px;
+  font-size: 11pt;
+  color: #3D3D3D;
+  /* padding: 4px; */
+  padding-left: 4px;
+    line-height: 20px;
+  background-color: #FFF;
+  vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+  background-color:#F0F2F5;
+}
+table.tablesorter thead tr .headerSortUp {
+  background-image: url(../images/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+  background-image: url(../images/desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+  background-color: #B4CBCB;
 }

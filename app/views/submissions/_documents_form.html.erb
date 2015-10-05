@@ -1,16 +1,20 @@
 <!-- need this for ajax calls to build the personnel associations -->
-<% pronoun = "your" %>
-<% pronoun = "the" if current_user_session.try(:username) != applicant.username %>
-<% completion = "" %>
+<% pronoun = 'your' %>
+<% pronoun = 'the' if current_user_session.try(:username) != applicant.username %>
+<% completion = '' %>
 <% completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.username %>
 
 <tr>
-  <td colspan="3" style="background:#ADE387;">
-    <div class="h3">
-      Manage documents for this submission (you can add or update your documents using this form)
+  <td colspan='3' class='highlighted_table_cell'>
+    <div class='h3'>
+      Manage documents for this submission 
+      <div class='subtitle'>
+        (you can add or update your documents using this form)
+      </div>
       <% if submission.status == 'Complete' %>
-        <br/>
-        Your documents are currently COMPLETE
+        <div class='subtitle'>
+          Your documents are currently COMPLETE
+        </div>
       <% end %>
     </div>
   </td>
@@ -19,9 +23,9 @@
 <% if project.show_manage_biosketches %>
   <tr>
     <td>
-      <%= f.label :uploaded_biosketch, "PI Biosketch Document" %>
+      <%= f.label :uploaded_biosketch, 'PI Biosketch Document' %>
     </td>
-    <td class="notes" colspan="2">
+    <td class='notes' colspan='2'>
       <% biosketch_missing = submission.applicant_biosketch_document_id.blank? %>
       <% if biosketch_missing %>
         <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
@@ -33,7 +37,9 @@
         <%= image_tag("warning_16.png", :width=>"16px", :height=>"16px",
                       :style=>"margin-top:-5px;margin-bottom:-2px;margin-right:5px;",
                       :title=>"No biosketch is available. Please upload a Biosketch") %>
-        Please upload <%= pronoun %> NIH Biosketch<%= completion %> <%= link_to_nih_biosketch_info.html_safe %>
+        Please upload <%= pronoun %> NIH Biosketch<%= completion %> 
+        <br />
+        <%= link_to_nih_biosketch_info.html_safe %>
       <% else %>
         <i>
           <%= link_to_file(submission.applicant_biosketch_document_id, "#{submission.applicant_biosketch_document.file_file_name}") %>
@@ -72,7 +78,7 @@
         <%= link_to_file(submission.application_document_id, "Filename: #{submission.application_document.file_file_name}") %>&nbsp;
         File saved on <%= submission.application_document.updated_at.to_s(:justdate) %>
       <% end %> &nbsp;
-      <%= link_to_application_documents(submission.project).html_safe %>
+      <%= link_to_application_template(submission.project).html_safe %> <%= link_to_application_info(submission.project).html_safe %>
     </td>
   </tr>
 <% end %>

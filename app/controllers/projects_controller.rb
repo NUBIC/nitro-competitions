@@ -79,8 +79,6 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-# TODO: Deprecated pdf support - should be removed
-#      format.pdf { render pdf: "Reviews for #{@project.project_name}", layout: 'pdf' }
       format.xml { render xml: @project }
     end
   end
@@ -90,7 +88,6 @@ class ProjectsController < ApplicationController
   def new
     project = current_project
 
-    # TODO: replace with project.dup ?
     @project = duplicate_project(project)
     respond_to do |format|
       if is_admin?
@@ -119,17 +116,18 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.xml
   def create
-    @project = Project.new(params[:project])
+    @project = Project.new(project_params)
     before_create(@project)
     respond_to do |format|
-      if is_admin? && @project.save
+      if is_admin? && @project.valid?
+        @project.save!
         set_current_project(@project)
         flash[:notice] = "Project record for #{@project.project_title} was successfully created"
         format.html { redirect_to(project_path(@project)) }
         format.xml { render xml: @project }
       else
         flash[:errors] = "Project record for #{@project.project_title} could not be created; admin: #{is_admin? ? 'Yes' : 'No'}; #{@project.errors.full_messages.join('; ')}"
-        format.html { redirect_to(projects_path) }
+        format.html { render action: 'new' }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -139,7 +137,7 @@ class ProjectsController < ApplicationController
   # PUT /projects/1.xml
   def update
     respond_to do |format|
-      if is_admin?(@project.program) && @project.update_attributes(params[:project])
+      if is_admin?(@project.program) && @project.update_attributes(project_params)
         flash[:notice] = "Project record for #{@project.project_title} was successfully updated"
         format.html { redirect_to(project_path(@project)) }
         format.xml  { head :ok }
@@ -152,10 +150,151 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def project_params
+    params.require(:project).permit(
+      :program_id,
+      :project_name,
+      :project_title,
+      :project_url,
+      :project_url_label,
+      :initiation_date,
+      :submission_open_date,
+      :submission_close_date,
+      :submission_modification_date,
+      :review_start_date,
+      :review_end_date,
+      :project_period_start_date,
+      :project_period_end_date,
+      :membership_required,
+      :closed_status_wording,
+      :require_era_commons_name,
+      :show_effort_approver,
+      :effort_approver_title,
+      :show_department_administrator,
+      :department_administrator_title,
+      :applicant_wording,
+      :applicant_abbreviation_wording,
+      :title_wording,
+      :show_other_funding_sources,
+      :other_funding_sources_wording,
+      :show_submission_category,
+      :category_wording,
+      :submission_category_description,
+      :show_application_doc,
+      :application_doc_name,
+      :application_doc_description,
+      :application_template_url,
+      :application_template_url_label,
+      :application_info_url,
+      :application_info_url_label,
+      :show_budget_form,
+      :budget_template_url,
+      :budget_template_url_label,
+      :budget_info_url,
+      :budget_info_url_label,
+      :show_project_cost,
+      :direct_project_cost_wording,
+      :min_budget_request,
+      :max_budget_request,
+      :show_is_new,
+      :is_new_wording,
+      :show_manage_biosketches,
+      :show_manage_coinvestigators,
+      :show_manage_other_support,
+      :manage_other_support_text,
+      :show_document1,
+      :document1_name,
+      :document1_description,
+      :document1_template_url,
+      :document1_info_url,
+      :show_document2,
+      :document2_name,
+      :document2_description,
+      :document2_template_url,
+      :document2_info_url,
+      :show_document3,
+      :document3_name,
+      :document3_description,
+      :document3_template_url,
+      :document3_info_url,
+      :show_document4,
+      :document4_name,
+      :document4_description,
+      :document4_template_url,
+      :document4_info_url,
+      :supplemental_document_name,
+      :supplemental_document_description,
+      :show_core_manager,
+      :show_cost_sharing_amount,
+      :show_cost_sharing_organization,
+      :show_received_previous_support,
+      :show_previous_support_description,
+      :show_committee_review_approval,
+      :show_abstract_field,
+      :abstract_text,
+      :show_human_subjects_research,
+      :human_subjects_research_text,
+      :show_irb_approved,
+      :show_irb_study_num,
+      :show_use_stem_cells,
+      :show_use_embryonic_stem_cells,
+      :show_use_vertebrate_animals,
+      :show_iacuc_approved,
+      :show_iacuc_study_num,
+      :show_not_new_explanation,
+      :show_is_conflict,
+      :show_conflict_explanation,
+      :show_use_nucats_cru,
+      :show_nucats_cru_contact_name,
+      :show_use_nmh,
+      :show_use_nmff,
+      :show_use_va,
+      :show_use_ric,
+      :show_use_cmh,
+      :max_assigned_reviewers_per_proposal,
+      :max_assigned_proposals_per_reviewer,
+      :show_composite_scores_to_applicants,
+      :show_composite_scores_to_reviewers,
+      :show_review_summaries_to_applicants,
+      :show_review_summaries_to_reviewers,
+      :show_review_guidance,
+      :custom_review_guidance,
+      :comment_review_only,
+      :review_guidance_url,
+      :overall_impact_title,
+      :overall_impact_description,
+      :overall_impact_direction,
+      :show_impact_score,
+      :impact_title,
+      :impact_wording,
+      :show_team_score,
+      :team_title,
+      :team_wording,
+      :show_innovation_score,
+      :innovation_title,
+      :innovation_wording,
+      :show_scope_score,
+      :scope_title,
+      :scope_wording,
+      :show_environment_score,
+      :environment_title,
+      :environment_wording,
+      :show_budget_score,
+      :budget_title,
+      :budget_wording,
+      :show_other_score,
+      :other_title,
+      :other_wording,
+      :show_completion_score,
+      :completion_title,
+      :completion_wording)
+  end
+
   # DELETE /projects/1
   # DELETE /projects/1.xml
   def destroy
-    if is_admin?(@project.program)
+    program = @project.program
+    if is_admin?(program)
       flash[:notice] = "Project record for #{@project.project_title} was successfully deleted"
       @project.destroy
     else
@@ -163,6 +302,9 @@ class ProjectsController < ApplicationController
       flash[:errors] = "Project record for #{@project.project_title} could not be deleted; admin: #{admin};"
     end
     respond_to do |format|
+      project = program.projects.first
+      project = Project.first if project.blank?
+      set_current_project(project)
       format.html { redirect_to(projects_url) }
       format.xml  { head :ok }
     end

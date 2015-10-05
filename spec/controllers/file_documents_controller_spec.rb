@@ -4,9 +4,7 @@ require 'spec_helper'
 
 describe FileDocumentsController, :type => :controller do
   context 'with a logged in user' do
-    before do
-      login(user_login)
-    end
+    user_login
     describe 'GET show' do
       context 'with a valid file_document record' do
         let(:file_document) { FactoryGirl.create(:file_document) }

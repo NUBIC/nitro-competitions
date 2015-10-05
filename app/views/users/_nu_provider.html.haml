@@ -1,0 +1,7 @@
+- cls = domain == 'nu' ? 'domain_option selected_domain' : 'domain_option'
+
+%a{ href: '#', class: cls, id: domain, title: t("login.#{domain}")}
+  .image_button
+    = image_tag("#{domain}.png", width: '64', height: '64')
+  .domain_name
+    = domain.upcase

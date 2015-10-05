@@ -22,8 +22,6 @@ class KeyPerson < ActiveRecord::Base
 
   # Accessors
   accepts_nested_attributes_for :submission, :allow_destroy => true, :reject_if => :all_blank
-  attr_accessible *column_names
-  attr_accessible :user, :submission
 
   # Validations
   validates :role,

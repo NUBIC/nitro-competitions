@@ -18,7 +18,7 @@
 
 <%= render('reviewers/submission_review_table',
            :submission_reviews => @assigned_submission_reviews,
-           :title => 'Your assigned proposals to review for this competition',
+           :title => NucatsAssist.assigned_reviews_title,
            :table_id => 'assigned_submission_reviews',
            :include_files => false,
            :speed_display => false) %>

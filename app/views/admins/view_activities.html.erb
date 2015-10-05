@@ -25,17 +25,17 @@
     <td><%=h log_entry.project.project_name unless log_entry.project.blank? %></td>
     <td><%=h log_entry.activity %></td>
     <td><%=h log_entry.params %></td>
-    <td><%=h log_entry.user.username %></td>
-    <td><%= log_entry.user.sort_name %></td>
-    <td><%= mail_to(log_entry.user.email, "email",
+    <td><%=h log_entry.user.try(:username) %></td>
+    <td><%= log_entry.user.try(:sort_name) %></td>
+    <td><%= mail_to(log_entry.user.try(:email), "email",
                     :subject => NucatsAssist.email_subject,
                     :encode => "javascript",
-                    :title => "Send email to this applicant") unless log_entry.user.email.blank? %> </td>
-    <td><%=h log_entry.user.business_phone %></td>
-    <td><%=h log_entry.user.campus %></td>
+                    :title => "Send email to this applicant") unless log_entry.user.try(:email).blank? %> </td>
+    <td><%=h log_entry.user.try(:business_phone) %></td>
+    <td><%=h log_entry.user.try(:campus) %></td>
     <td><%= log_entry.created_at.to_s(:justdate) %></td>
     <td><%= log_entry.created_ip %></td>
-    <td><%= log_entry.user.created_at.to_s(:justdate) %></td>
+    <td><%= log_entry.user.try(:created_at).blank? ? '' : log_entry.user.try(:created_at).to_s(:justdate) %></td>
     <td><%= link_to("Edit", edit_applicant_path(log_entry.user_id)) %></td>
   </tr>
 <% end %>

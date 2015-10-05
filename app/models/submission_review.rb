@@ -53,10 +53,9 @@ class SubmissionReview < ActiveRecord::Base
   belongs_to :reviewer, :class_name => 'User', :foreign_key => 'reviewer_id'
   belongs_to :user, :foreign_key => 'reviewer_id'
 
-  default_scope order('submission_id')
-  scope :load_all, joins([:applicant])
-  scope :this_project, lambda { |*args| includes([:submission]).where('submissions.project_id = :project_id', { :project_id => args.first }) }
-  scope :active, lambda { |*args| includes([:submission]).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
+  scope :load_all, lambda { joins([:applicant]) }
+  scope :this_project, lambda { |*args| joins(:submission).where('submissions.project_id = :project_id', { :project_id => args.first }) }
+  scope :active, lambda { |*args| joins(:submission).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
 
   validates_numericality_of :innovation_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :impact_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
@@ -67,11 +66,8 @@ class SubmissionReview < ActiveRecord::Base
   validates_numericality_of :budget_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :overall_score, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
 
-  attr_accessible *column_names
-  attr_accessible :user, :reviewer, :submission
-
   def composite_score
-    return 0 if count_nonzeros?.blank? || count_nonzeros? < 1
+    return 0 if unscored?
     (((z(innovation_score) + z(impact_score) + z(scope_score) + z(team_score) + z(environment_score) + z(budget_score) + z(other_score)).to_f / count_nonzeros?) * 10).round / 10.0
   end
 
@@ -83,8 +79,13 @@ class SubmissionReview < ActiveRecord::Base
     z?(innovation_score) || z?(impact_score) || z?(scope_score) || z?(team_score) || z?(environment_score)
   end
 
-  def count_nonzeros?
+  def count_nonzeros
     nz?(innovation_score) + nz?(impact_score) + nz?(scope_score) + nz?(team_score) + nz?(environment_score) + nz?(budget_score) + nz?(other_score)
+  end
+  alias :count_nonzeros? :count_nonzeros
+
+  def unscored?
+    count_nonzeros.blank? || count_nonzeros < 1
   end
 
   def z?(val)
