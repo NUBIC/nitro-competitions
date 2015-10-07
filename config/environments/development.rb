@@ -19,6 +19,8 @@ NucatsAssist::Application.configure do
       port: 1025
   }
   config.send_notification_to_all = false
+
+  config.log_level = :debug
 end
 
 Paperclip.options[:command_path] = '/opt/local/bin/'
