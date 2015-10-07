@@ -73,4 +73,4 @@
               %li=link_to "Edit your profile", edit_applicant_path(current_user.id)
               %li=link_to("Logout", destroy_user_session_path, :method => :delete)
         - else
-          %li=link_to 'Login', projects_path, :class => 'menu_link'
+          %li=link_to 'Login', '/users/login', :class => 'menu_link'

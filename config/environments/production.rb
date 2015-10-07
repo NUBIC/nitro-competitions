@@ -30,4 +30,6 @@ NucatsAssist::Application.configure do
   config.action_mailer.default_url_options = { host: config.app_domain }
   config.action_mailer.smtp_settings = { address: 'smtprelay.northwestern.edu', port: 25, domain: 'northwestern.edu' }
 
+  config.log_level = :info
+
 end

@@ -128,6 +128,8 @@ NucatsAssist::Application.routes.draw do
   match 'review/:id/update_item' => 'reviews#update_item', as: :update_review_item, via: [:get, :post]
   match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
 
+  match '/users/login', to: 'users#login', via: [:get]
+
   match '/:controller(/:action(/:id))', via: [:get, :post]
 
 end

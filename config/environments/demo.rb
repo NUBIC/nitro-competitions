@@ -15,4 +15,6 @@ NucatsAssist::Application.configure do
 
   config.active_support.deprecation = :notify
   config.send_notification_to_all = true
+
+  config.log_level = :debug
 end

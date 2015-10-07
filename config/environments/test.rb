@@ -17,4 +17,6 @@ NucatsAssist::Application.configure do
   config.active_support.deprecation = :stderr
 
   I18n.enforce_available_locales = false
+
+  config.log_level = :debug
 end
