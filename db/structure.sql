@@ -909,7 +909,8 @@ CREATE TABLE users (
     last_sign_in_at timestamp without time zone,
     current_sign_in_ip inet,
     last_sign_in_ip inet,
-    oauth_name character varying
+    oauth_name character varying,
+    remember_token character varying
 );
 
 
@@ -1347,4 +1348,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150909165240');
 INSERT INTO schema_migrations (version) VALUES ('20150909165256');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917161842');
+
+INSERT INTO schema_migrations (version) VALUES ('20151007174528');
 
