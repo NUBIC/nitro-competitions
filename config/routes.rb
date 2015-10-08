@@ -115,8 +115,6 @@ NucatsAssist::Application.routes.draw do
   root to: 'public#welcome'
   get 'welcome' => 'public#welcome', as: :welcome
 
-  match '/auth/:provider/callback', to: 'user_sessions#create', via: [:get, :post]
-  match '/auth/failure', to: 'user_sessions#failure', via: [:get, :post]
   match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 

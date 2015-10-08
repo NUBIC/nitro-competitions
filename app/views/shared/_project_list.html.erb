@@ -6,8 +6,10 @@
         <div class='apply'>
           <% if project.current_status =~ /open for/i %>
             <div class='apply_link'>
+              <% url = new_project_applicant_path(project.id) %>
+              <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
               <%= link_to('Apply',
-                  new_project_applicant_path(project.id),
+                  application_url,
                   title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
             </div>
           <% else %>

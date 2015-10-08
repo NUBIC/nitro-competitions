@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def login
-    url = root_url
+    url = params[:url].blank? ? root_url : params[:url]
     if current_user && !current_user.email_verified?
       url = edit_applicant_path(current_user)
     end
