@@ -21,7 +21,7 @@ class Identity < ActiveRecord::Base
   def self.external_providers
     [ :facebook,
       :google,
-      :yahoo,
+      # :yahoo,
       :twitter,
       :linkedin
     ]

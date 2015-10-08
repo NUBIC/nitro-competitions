@@ -42,6 +42,8 @@ gem 'paperclip'
 gem 'dotenv-rails'
 gem 'faraday'
 
+gem 'lograge'
+
 # Search support gem
 # https://github.com/nathanl/searchlight
 gem 'searchlight'

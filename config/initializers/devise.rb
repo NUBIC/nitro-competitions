@@ -251,7 +251,7 @@ Devise.setup do |config|
 
   # https://developers.facebook.com/docs/facebook-login/
   # https://developers.facebook.com/apps
-  config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
+  config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET'], scope: 'email,public_profile', info_fields: 'email,name'
 
   config.omniauth :northwestern_medicine
 

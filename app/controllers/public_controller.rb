@@ -25,7 +25,7 @@ class PublicController < ActionController::Base
   end
 
   def auth
-    redirect_to "#{provider_site}?client_id=#{client_id}&client_secret=#{client_secret}"
+    redirect_to '/users/login'
   end
 
   def disallowed

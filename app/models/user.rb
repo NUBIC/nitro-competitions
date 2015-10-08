@@ -104,86 +104,6 @@ class User < ActiveRecord::Base
                       :message => 'Email address is not valid. Please correct',
                       :if => Proc.new { |c| !c.email.blank? }
 
-  # FOR OMNIAUTH
-  def self.find_for_oauth(auth, signed_in_resource = nil)
-
-    # Get the identity and user if they exist
-    identity = Identity.find_for_oauth(auth)
-
-    # If a signed_in_resource is provided it always overrides the existing user
-    # to prevent the identity being locked with accidentally created accounts.
-    # Note that this may leave zombie accounts (with no associated identity) which
-    # can be cleaned up at a later date.
-    user = signed_in_resource ? signed_in_resource : identity.user
-
-    # Create the user if needed
-    if user.nil?
-
-      name, first_name, last_name, email, username = extract_user_info(auth)
-      if email
-        user = User.where(:email => email).first 
-      else
-        email = "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com"
-      end
-
-      # Create the user if it's a new registration
-      if user.nil?
-        username = determine_username(auth)
-        user = User.new(
-          oauth_name: name,
-          first_name: first_name,
-          last_name: last_name,
-          username: username,
-          email: email,
-          password: Devise.friendly_token[0,20]
-        )
-        user.save!
-      end
-    end
-
-    # Associate the identity with the user if needed
-    if identity.user != user
-      identity.user = user
-      identity.save!
-    end
-    user
-  end
-
-  ##
-  # Get first name, last name, and email information
-  # returned from the provider
-  # twitter and yahoo provide 'name'
-  # google, facebook, and linked in provide 'first_name' and 'last_name'
-  # @param [Hash] auth from omniauth
-  # @return [Array<String>]
-  def self.extract_user_info(auth)
-    name = auth['info']['name']
-    if name && !name.blank?
-      first_name = name.split[0]
-      last_name  = name.split[1]
-    else
-      first_name = auth['info']['first_name']
-      last_name  = auth['info']['last_name']
-    end
-    [name, first_name, last_name, auth['info']['email']]
-  end
-
-  def self.determine_username(auth)
-    username = auth.info.nickname || auth.uid
-    Identity.northwestern_domains.each do |domain|
-      if username.start_with?(domain)
-        suffix = domain + "\\"
-        username = username.sub(suffix, '')
-      end
-    end
-    username
-  end
-
-  def email_verified?
-    self.email && self.email !~ TEMP_EMAIL_REGEX
-  end
-
-  ## END OMNIAUTH
 
   def name
     [first_name, last_name].join(' ').gsub(/\'/, "’")
@@ -241,104 +161,95 @@ class User < ActiveRecord::Base
     self.biosketch.save if !self.biosketch.nil? && self.biosketch.changed?
   end
 
-  ##
-  # This method will attempt to find an existing User record
-  # with information obtained in the omniauth hash.
-  #
-  # First it will look for an existing User matching some data in the omniauth hash
-  # @see find_user_from_omniauth
-  #
-  # @param [OmniAuth::AuthHash]
-  # @return User
-  def self.find_or_create_from_omniauth(omniauth)
-    user = find_user_from_omniauth(omniauth)
-    user = create_user_from_omniauth(omniauth) if user.blank?
+  ## 
+  # Find or create user
+  # @param auth [OmniAuth::AuthHash]
+  # @param signed_in_resource [Boolean]
+  # @reutrn User
+  def self.find_for_oauth(auth, signed_in_resource = nil)
+
+    # Get the identity and user if they exist
+    identity = Identity.find_for_oauth(auth)
+
+    # If a signed_in_resource is provided it always overrides the existing user
+    # to prevent the identity being locked with accidentally created accounts.
+    # Note that this may leave zombie accounts (with no associated identity) which
+    # can be cleaned up at a later date.
+    user = signed_in_resource ? signed_in_resource : identity.user
+
+    # Create the user if needed
+    user = create_user!(auth) if user.nil?
+
+    # Associate the identity with the user if needed
+    if identity.user != user
+      identity.user = user
+      identity.save!
+    end
     user
   end
 
-  def self.create_user_from_omniauth(omniauth)
-    # New user registration
-    user = User.new(email: omniauth['info']['email'])
-    if user
-      user.validate_name = false
-      user.username = extract_username_from_omniauth(omniauth)
-      user.first_name = omniauth['info']['first_name'] || ''
-      user.last_name  = omniauth['info']['last_name'] || ''
-      user.password = Devise.friendly_token[0,20]
+  ##
+  # @param auth [OmniAuth::AuthHash]
+  # @return User
+  def self.create_user!(auth)
+    user = nil
+
+    # Get the following from auth
+    name, first_name, last_name, email = extract_user_info(auth)
+    username = determine_username(auth)
+    if !username.blank?
+      user = User.where(username: username).first 
+      user.email = email if user.email.blank?
+    end
+    if user.nil? && !email.blank?
+      user = User.where(email: email).first
+    end
+
+    # Create the user if it's a new registration
+    if user.nil?
+      user = User.new(
+        oauth_name: name,
+        first_name: first_name,
+        last_name: last_name,
+        username: username,
+        email: email.blank? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : email,
+        password: Devise.friendly_token[0,20]
+      )
       user.save!
     end
     user
   end
-  private_class_method :create_user_from_omniauth
-
-  def self.extract_username_from_omniauth(omniauth)
-    result = omniauth['info']['email']
-    unless omniauth['extra']['raw_info']['person_identities'].blank?
-      omniauth['extra']['raw_info']['person_identities'].each do |identity|
-        if identity['provider_username'].blank?
-          # TODO: what if the email is blank?
-          # * omniauth.auth : {"provider"=>"nucatsaccounts", "uid"=>nil, "info"=>{"name"=>"fname lname", "email"=>nil, "first_name"=>"fname", "last_name"=>"lname"}, "credentials"=>{"token"=>"2932d009b8ddf9ccc012c94bf26f74b1", "refresh_token"=>"b64936c6cddb2c5c43d91d3768745cb9", "expires_at"=>1404856796, "expires"=>true}, "extra"=>{"raw_info"=>{"first_name"=>"fname", "middle_name"=>nil, "last_name"=>"lname", "suffix"=>nil, "degrees"=>nil, "email"=>nil, "uuid"=>"7277e6bf-7f66-47b2-983d-9dc2eb36927d", "person_identities"=>[{"provider"=>"twitter", "uid"=>"405189205", "email"=>nil, "provider_username"=>nil, "username"=>nil, "nickname"=>"twittername", "domain"=>nil}]}}}
-          result = identity['email']
-        else
-          result = identity['provider_username']
-          break if identity['domain'] == 'nu'
-        end
-      end
-    end
-    result
-  end
-  private_class_method :extract_username_from_omniauth
 
   ##
-  # Find a User record matching data in the given omniauth hash.
-  #
-  # First check against email as that is easiest.
-  #
-  # If no User exists with that email then loop over the
-  # identity records from the omniauth hash and look for the matching
-  # User record first by username then by email.
-  #
-  # We intimately know what the omniauth['extra']['person_identities']
-  # hash contains and how new Users are created from this data.
-  #
-  # @param [OmniAuth::AuthHash]
-  # @return User or nil
-  def self.find_user_from_omniauth(omniauth)
-    email = omniauth['info']['email']
-    user = User.where(email: email).first unless email.blank?
-    if user.blank? && !omniauth['extra']['raw_info']['person_identities'].blank?
-      user = find_user_from_authentication_provider(omniauth['extra']['raw_info']['person_identities'])
+  # Get first name, last name, and email information
+  # returned from the provider
+  # twitter and yahoo provide 'name'
+  # google, facebook, and linked in provide 'first_name' and 'last_name'
+  # @param [Hash] auth from omniauth
+  # @return [Array<String>]
+  def self.extract_user_info(auth)
+    name = auth['info']['name']
+    if name && !name.blank?
+      first_name = name.split[0]
+      last_name  = name.split[1]
+    else
+      first_name = auth['info']['first_name']
+      last_name  = auth['info']['last_name']
     end
-    user
+    [name, first_name, last_name, auth['info']['email']]
   end
 
-  ##
-  # Use the record in the hash where the domain is nu to match
-  # the User username (i.e. nu netid) before searching via other means
-  def self.find_user_from_authentication_provider(identities)
-    identity = identities.find { |pi| pi['domain'] == 'nu' }
-    user = find_user_using_identity(identity) if identity
-    if user.blank?
-      identities.each do |i|
-        user = find_user_using_identity(i)
-        break unless user.blank?
-      end
+  def self.determine_username(auth)
+    username = auth.info.nickname || auth.uid
+    Identity.northwestern_domains.each do |domain|
+      suffix = domain + "\\"
+      username = username.sub(suffix, '') if username.start_with?(suffix)
     end
-    user
+    username
   end
-  private_class_method :find_user_from_authentication_provider
 
-  ##
-  # Loop through all identities in omniauth hash to locate a user by
-  # email or username
-  def self.find_user_using_identity(identity)
-    username = identity['provider_username']
-    user = User.where(username: username).first unless username.blank?
-    if user.blank?
-      email = identity['email']
-      user = User.where(username: email).first unless email.blank?
-    end
-    user
+  def email_verified?
+    self.email && self.email !~ TEMP_EMAIL_REGEX
   end
-  private_class_method :find_user_using_identity
+
 end

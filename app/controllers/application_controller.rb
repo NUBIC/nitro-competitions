@@ -21,44 +21,6 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_user!, except: [:welcome] unless Rails.env == 'test'
 
-  ##
-  # For authorization using omniauth. Here we check if the current_user exists, 
-  # if not we will redirect the user to the appropriate URL
-  def authenticate_user
-    not_authorized unless current_user
-  end
-
-  def not_authorized
-    respond_to do |format|
-      format.html { auth_redirect }
-      format.json { head :unauthorized }
-    end
-  end
-
-  ##
-  # Here we assume that the first OmniAuth provider in the list of available_providers
-  # is the one that we should use. 
-  # TODO: create a way to choose provider 
-  # @see available_providers
-  def auth_redirect
-    redirect_to "/auth/#{available_providers.first}?origin=#{request_origin}"
-  end
-  private :auth_redirect
-
-  ##
-  # OmniAuth::Strategies by default loads the :Developer and :OAuth strategies
-  # This method returns all but these defaults.
-  # @return [Array]
-  def available_providers
-    OmniAuth::Strategies.constants.reject { |item| item =~ /Developer|OAuth2|Oauth/i }
-  end
-  private :available_providers
-
-  def request_origin
-    "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
-  end
-  private :request_origin
-
   def get_client_ip
     request.remote_ip
   end

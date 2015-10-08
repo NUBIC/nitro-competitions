@@ -1,6 +1,10 @@
 - if @applicant && !@applicant.try(:errors).blank?
   = render('shared/error_messages', object: @applicant)
 
+- if !current_user.email_verified?
+  .notice
+    Please update your email address
+    
 .hide
   = @applicant.username
 
