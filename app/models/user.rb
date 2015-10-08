@@ -199,7 +199,10 @@ class User < ActiveRecord::Base
     username = determine_username(auth)
     if !username.blank?
       user = User.where(username: username).first 
-      user.email = email if user.email.blank?
+      if user && user.email.blank? && !email.blank?
+        user.email = email 
+        user.save!
+      end
     end
     if user.nil? && !email.blank?
       user = User.where(email: email).first
