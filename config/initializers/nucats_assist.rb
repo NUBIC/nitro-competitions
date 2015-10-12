@@ -14,8 +14,12 @@ module NucatsAssist
       '<b>NITRO</b>Competitions'.html_safe
     end
 
+    def email_app_name
+      'NITROCompetitions'
+    end
+
     def email_subject
-      "FROM NITROCompetitions"
+      "FROM #{email_app_name}"
     end
 
     def assigned_reviews_title
