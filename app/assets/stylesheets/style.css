@@ -18,3 +18,7 @@
 #key_personnel .notes {
   margin: 0.5em 0;
 }
+
+dd {
+  padding-bottom: 1em;
+}
