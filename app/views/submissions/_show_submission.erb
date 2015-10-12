@@ -73,10 +73,8 @@
       <dd><%=h blank_safe submission.effort_approver.try(:name) %></dd>
     <% end %>
 
-    <div>
-      <dt>Submitted by</dt>
-      <dd><%= blank_safe submission.submitter.name %></dd>
-    </div>
+    <dt>Submitted by</dt>
+    <dd><%= blank_safe submission.submitter.name %></dd>
 
     <% if project.show_human_subjects_research %>
       <dt>Human Subjects Research</dt>
@@ -140,8 +138,8 @@
     <% end %> 
 
     <% if project.show_cost_sharing_organization %>
-        <dt>Cost Sharing Organization(s)</dt>
-        <dd><%= blank_safe submission.cost_sharing_organization %></dd>
+      <dt>Cost Sharing Organization(s)</dt>
+      <dd><%= blank_safe submission.cost_sharing_organization %></dd>
     <% end %>
 
     <% if project.show_received_previous_support %>
