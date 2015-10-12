@@ -20,6 +20,26 @@ module ApplicationHelper
   end
 
   ##
+  # Fixing issue with the Rails helper method on
+  # staging and production servers
+  def reviewer_assignment_url(project)
+    url = project_reviewers_url(project)
+    if Rails.application.config.use_nu
+      path = "projects/#{project.id}/reviewers"
+      case Rails.env
+      when 'development'
+        host = 'http://nucats-assist.dev.example.com/'
+      when 'staging'
+        host = 'https://nucats-assist-staging.nubic.northwestern.edu/'
+      when 'production'
+        host = 'https://grants.nubic.northwestern.edu/'
+      end
+      url = "#{host}#{path}"
+    end
+    url
+  end
+
+  ##
   # Handle google provider discrepancy
   # @param [Symbol]
   # @return [Symbol]
