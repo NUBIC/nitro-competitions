@@ -5,9 +5,10 @@
     = csrf_meta_tag
     %title=controller.action_name
     = javascript_include_tag 'application'
-    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'application', media: 'screen, projection'
+    = stylesheet_link_tag 'application-print', media: 'print'
 
-    %link{rel: 'shortcut icon', href: image_path("favicon.ico")}
+    %link{rel: 'shortcut icon', href: image_path('favicon.ico')}
     %script{type: 'text/javascript'}
       jQuery.noConflict(); var $j = jQuery;
 

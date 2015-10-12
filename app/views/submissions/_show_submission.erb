@@ -2,245 +2,187 @@
   <% project = submission.project %>
   <% applicant = submission.applicant %>
 
-  <div>
-    <p class='h2'>
-      <%= project.program.program_title %>
-      <br />
-      <%= project.project_title %>
-    </p>
-  </div>
+  <h3>
+    <%= project.program.program_title %>
+    <br />
+    <%= project.project_title %>
+  </h3>
 
-  <div>
-    <p><%= project.title_wording %></p>
-    <%=h blank_safe submission.submission_title %>
-  </div>
+  <dl>
+    <dt><%= project.title_wording %></dt>
+    <dd><%=h blank_safe submission.submission_title %></dd>
 
-  <% if project.show_abstract_field %>
+    <% if project.show_abstract_field %>
+      <dt>Abstract</dt>
+      <dd><%=h blank_safe submission.abstract %></dd>
+    <% end %>
+
+    <% if project.show_submission_category %>
+      <dt><%= project.category_wording.html_safe %></st>
+      <dd><%=h blank_safe submission.submission_category %></dd>
+    <% end %>
+
+    <dt><%= project.applicant_wording.html_safe %></dt>
+    <dd><%=h blank_safe applicant.name %></dd>
+
+    <dt>Degrees</dt>
+    <dd><%=h blank_safe applicant.degrees %></dd>
+
+    <dt>Rank</dt>
+    <dd><%=h blank_safe applicant.title %></dd>
+
+    <dt>Address</dt>
+    <dd>
+      <%=h blank_safe applicant.campus %><br/>
+      <%=h blank_safe applicant.campus_address %>
+    </dd>
+
+    <% if !applicant.address.blank? || 
+          !applicant.city.blank? || 
+          !applicant.state.blank? || 
+          !applicant.postal_code.blank? %>
+      <dt>Alternate Address</dt>
+      <dd>
+        <%=h blank_safe applicant.address %><br/>
+        <%=h blank_safe applicant.city %>, <%=h blank_safe applicant.state %>
+        <%=h blank_safe applicant.postal_code %>
+      </dd>
+    <% end %>
+
+    <dt>Department</dt>
+    <dd><%=h blank_safe applicant.primary_department %></dd>
+
+    <dt>Telephone</dt>
+    <dd><%=h blank_safe applicant.business_phone %></dd>
+
+    <dt>Email</dt>
+    <dd><%=h blank_safe applicant.email %></dd>
+
+    <% if project.show_core_manager %>
+      <dt>Core Manager</dt>
+      <dd><%= blank_safe submission.core_manager.name %></dd>
+    <% end %>
+
+    <% if project.show_department_administrator %>
+      <dt><%= project.department_administrator_title %></dt>
+      <dd><%=h blank_safe submission.department_administrator.try(:name) %></dd>
+    <% end %>
+
+    <% if project.show_effort_approver %>
+      <dt><%= project.effort_approver_title %></dt>
+      <dd><%=h blank_safe submission.effort_approver.try(:name) %></dd>
+    <% end %>
+
     <div>
-      <p>Abstract</p>
-      <%=h blank_safe submission.abstract %>
+      <dt>Submitted by</dt>
+      <dd><%= blank_safe submission.submitter.name %></dd>
     </div>
-  <% end %>
 
-  <% if project.show_submission_category %>
-    <div>
-      <p><%= project.category_wording.html_safe %></p>
-      <%=h blank_safe submission.submission_category %>
-    </div>
-  <% end %>
+    <% if project.show_human_subjects_research %>
+      <dt>Human Subjects Research</dt>
+      <dd><%= long_format_boolean submission.is_human_subjects_research %></dd>
+    <% end %>
 
-  <div>
-    <p><%= project.applicant_wording.html_safe %></p>
-    <%=h blank_safe applicant.name %>
-  </div>
+    <% if project.show_irb_approved %>
+      <dt>IRB Approved</dt>
+      <dd><%= long_format_boolean submission.is_irb_approved %></dd>
+    <% end %>
 
-  <div>
-    <p>Degrees</p>
-    <%=h blank_safe applicant.degrees %>
-  </div>
+    <% if project.show_irb_study_num %>
+      <dt>IRB Study</dt>
+      <dd><%= blank_safe submission.irb_study_num %></dd>
+    <% end %>
 
-  <div>
-    <p>Rank</p>
-    <%=h blank_safe applicant.title %>
-  </div>
+    <% if project.show_use_nucats_cru %>
+      <dt>Uses NUCATS CRU?</dt>
+      <dd><%= long_format_boolean submission.use_nucats_cru %></dd>
+    <% end %> 
 
-  <div>
-    <p>Address</p>
-    <%=h blank_safe applicant.campus %><br/>
-    <%=h blank_safe applicant.campus_address %><br/>
-  </div>
+    <% if project.show_use_nucats_cru %>
+      <dt>NUCATS CRU contact</dt>
+      <dd><%= submission.nucats_cru_contact_name %></dd>
+    <% end %>
 
-  <% if !applicant.address.blank? || 
-        !applicant.city.blank? || 
-        !applicant.state.blank? || 
-        !applicant.postal_code.blank? %>
-    <div>
-      <p>Alternate Address</p>
-      <%=h blank_safe applicant.address %><br/>
-      <%=h blank_safe applicant.city %>, <%=h blank_safe applicant.state %>
-      <%=h blank_safe applicant.postal_code %>
-    </div>
-  <% end %>
+    <% if project.show_use_stem_cells %>
+      <dt>Does the research use stem cells?</dt>
+      <dd><%= long_format_boolean submission.use_stem_cells %></dd>
+    <% end %> 
 
-  <div>
-    <p>Department</p>
-    <%=h blank_safe applicant.primary_department %>
-  </div>
+    <% if project.show_use_embryonic_stem_cells %>
+      <dt>Does the research use embryonic stem cells? </dt>
+      <dd><%= long_format_boolean submission.use_embryonic_stem_cells %></dd>
+    <% end %>
 
-  <div>
-    <p>Telephone</p>
-    <%=h blank_safe applicant.business_phone %>
-  </div>
+    <% if project.show_use_vertebrate_animals %>
+      <dt>Vertebrate Animals</dt>
+      <dd><%= long_format_boolean submission.use_vertebrate_animals %></dd>
+    <% end %>
 
-  <div>
-    <p>Email</p>
-    <%=h blank_safe applicant.email %>
-  </div>
+    <% if project.show_iacuc_approved %>
+      <dt>Has IACUC Approval? (not required)</dt>
+      <dd>
+        <%= long_format_boolean submission.is_iacuc_approved %> <br />
+        IACUC#: <%=h blank_safe submission.iacuc_study_num %>
+      </dd>
+    <% end %>
 
-  <% if project.show_core_manager %>
-    <div>
-      <p>Core Manager</p>
-      <%= blank_safe submission.core_manager.name %> 
-    </div>
-  <% end %>
+    <dt>Proposed Period of Support</dt>
+    <dd><%= project.project_period_start_date.to_s(:justdate) %> to <%= project.project_period_end_date.to_s(:justdate) %></dd>
 
-  <% if project.show_department_administrator %>
-    <div>
-      <p><%= project.department_administrator_title %></p>
-      <%=h blank_safe submission.department_administrator.try(:name) %>
-    </div>
-  <% end %>
+    <% if project.show_project_cost %>
+      <dt><%= project.direct_project_cost_wording %></dt>
+      <dd><%= number_to_currency submission.direct_project_cost.to_s %></dd>
+    <% end %>
 
-  <% if project.show_effort_approver %>
-    <div>
-      <p><%= project.effort_approver_title %></p>
-      <%=h blank_safe submission.effort_approver.try(:name) %>
-    </div>
-  <% end %>
+    <% if project.show_cost_sharing_amount %>
+      <dt>Cost Sharing Amount</dt>
+      <dd><%= number_to_currency submission.cost_sharing_amount.to_s %></dd>
+    <% end %> 
 
-  <div>
-    <p>Submitted by</p>
-    <%= blank_safe submission.submitter.name %> 
-  </div>
+    <% if project.show_cost_sharing_organization %>
+        <dt>Cost Sharing Organization(s)</dt>
+        <dd><%= blank_safe submission.cost_sharing_organization %></dd>
+    <% end %>
 
-  <% if project.show_human_subjects_research %>
-    <div>
-      <p>Human Subjects Research</p>
-      <%= long_format_boolean submission.is_human_subjects_research %>
-    </div>
-  <% end %>
+    <% if project.show_received_previous_support %>
+      <dt>Received previous support from this competition?</dt>
+      <dd><%= long_format_boolean submission.received_previous_support %></dd>
+    <% end %>
 
-  <% if project.show_irb_approved %>
-    <div>
-      <p>IRB Approved</p>
-      <%= long_format_boolean submission.is_irb_approved %>
-    </div>
-  <% end %>
+    <% if project.show_previous_support_description %>
+      <dt>Detailed description of previous support</dt>
+      <dd><%= blank_safe submission.previous_support_description %></dd>
+    <% end %>
 
-  <% if project.show_irb_study_num %>
-    <div>
-      <p>IRB Study</p>
-      <%= blank_safe submission.irb_study_num %>
-    </div>
-  <% end %>
+    <% if project.show_is_new  %>
+      <dt><%= project.is_new_wording %></dt>
+      <dd><%= long_format_boolean submission.is_new %></dd>
+    <% end %>
 
-  <% if project.show_use_nucats_cru %>
-    <div>
-      <p>Uses NUCATS CRU?</p>
-      <%=long_format_boolean submission.use_nucats_cru %> 
-    </div>
-  <% end %> 
+    <% if project.show_not_new_explanation %> 
+      <dt>Not new explanation</dt>
+      <dd><%=h blank_safe submission.not_new_explanation %></dd>
+    <% end %>
 
-  <% if project.show_use_nucats_cru %>
-    <div>
-      <p>NUCATS CRU contact</p>
-      <%= submission.nucats_cru_contact_name %>
-    </div>
-  <% end %>
+    <% if project.show_use_nmh || project.show_use_nmff || project.show_use_va || project.show_use_ric || project.show_use_cmh %> 
+      <dt>Will this project require facilities, resources or patients at any of the following: </dt>
+      <dd>
+        NMH: <%= long_format_boolean submission.use_nmh %> <br />
+        NMFF: <%= long_format_boolean submission.use_nmff %> <br />
+        VA: <%= long_format_boolean submission.use_va %> <br />
+        RIC: <%= long_format_boolean submission.use_ric %> <br />
+        CMH: <%= long_format_boolean submission.use_cmh %> <br />
+      </dd>
+    <% end %>
 
-  <% if project.show_use_stem_cells %>
-    <div>
-      <p>Does the research use stem cells?</p>
-      <%= long_format_boolean submission.use_stem_cells %>
-    </div>
-  <% end %> 
+    <% if project.show_other_funding_sources %>
+      <dt>Are there alternative sources of funding. If so, please explain.</dt>
+      <dd><%=h submission.other_funding_sources %></dd>
+    <% end %>
 
-  <% if project.show_use_embryonic_stem_cells %>
-    <div>
-      <p>Does the research use embryonic stem cells? </p>
-      <%= long_format_boolean submission.use_embryonic_stem_cells %>
-    </div>
-  <% end %>
-
-  <% if project.show_use_vertebrate_animals %>
-    <div>
-      <p>Vertebrate Animals</p>
-      <%= long_format_boolean submission.use_vertebrate_animals %>
-    </div>
-  <% end %>
-
-  <% if project.show_iacuc_approved %>
-    <div>
-      <p>Has IACUC Approval? (not required)</p>
-      <%= long_format_boolean submission.is_iacuc_approved %> IACUC#: <%=h blank_safe submission.iacuc_study_num %>
-    </div>
-  <% end %>
-
-  <div>
-    <p>Proposed Period of Support</p>
-    <%= project.project_period_start_date.to_s(:justdate) %> to <%= project.project_period_end_date.to_s(:justdate) %>
-  </div>
-
-  <% if project.show_project_cost %>
-    <div>
-      <p><%= project.direct_project_cost_wording %></p>
-      <%= number_to_currency submission.direct_project_cost.to_s %>
-    </div>
-  <% end %>
-
-  <% if project.show_cost_sharing_amount %>
-    <div>
-      <p>Cost Sharing Amount</p>
-      <%= number_to_currency submission.cost_sharing_amount.to_s %>
-    </div>
-  <% end %> 
-
-  <% if project.show_cost_sharing_organization %>
-    <div>
-      <p>Cost Sharing Organization(s)</p>
-      <pre><%= blank_safe submission.cost_sharing_organization %></pre>
-    </div>
-  <% end %>
-
-  <% if project.show_received_previous_support %>
-    <div>
-      <p>Received previous support from this competition?</p>
-      <%= long_format_boolean submission.received_previous_support %>
-    </div>
-  <% end %>
-
-  <% if project.show_previous_support_description %>
-    <div>
-      <p>Detailed description of previous support</p>
-      <%= blank_safe submission.previous_support_description %>
-    </div>
-  <% end %>
-
-  <% if project.show_is_new  %>
-    <div>
-      <p><%= project.is_new_wording %></p>
-      <%= long_format_boolean submission.is_new %>
-    </div>
-  <% end %>
-
-  <% if project.show_not_new_explanation %> 
-    <div>
-      <p>Not new explanation</p>
-      <%=h blank_safe submission.not_new_explanation %> 
-    </div>
-  <% end %>
-
-  <% if project.show_use_nmh || project.show_use_nmff || project.show_use_va || project.show_use_ric || project.show_use_cmh %> 
-    <p>Will this project require facilities, resources or patients at any of the following: </p>
-    NMH: <%= long_format_boolean submission.use_nmh %> 
-    NMFF: <%= long_format_boolean submission.use_nmff %> 
-    VA: <%= long_format_boolean submission.use_va %> 
-    RIC: <%= long_format_boolean submission.use_ric %> 
-    CMH: <%= long_format_boolean submission.use_cmh %> 
-  <% end %>
-
-  <% if project.show_other_funding_sources %>
-    <div>
-      <p>Are there alternative sources of funding. If so, please explain.</p>
-      <%=h submission.other_funding_sources %>
-    </div>
-  <% end %>
-
-  <% if project.show_committee_review_approval %>
-    <div>
-      <p>Received the approval of review committee?</p>
-      <%= long_format_boolean submission.committee_review_approval %> 
-    </div>
-  <% end %>
-
+    <% if project.show_committee_review_approval %>
+      <dt>Received the approval of review committee?</dt>
+      <dd><%= long_format_boolean submission.committee_review_approval %></dd>
+    <% end %>
+  </dl>
 </div>
