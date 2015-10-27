@@ -307,15 +307,16 @@ class Submission < ActiveRecord::Base
   end
 
   def save_documents
-    do_save(self.budget_document, 'budget document')
-    do_save(self.other_support_document, 'other support document')
-    do_save(self.document1)
-    do_save(self.document2)
-    do_save(self.document3)
-    do_save(self.document4)
-    do_save(self.application_document, 'application document')
+    do_save(self.budget_document, :budget_document)
+    do_save(self.other_support_document, :other_support_document)
+    do_save(self.document1, :document1)
+    do_save(self.document2, :document2)
+    do_save(self.document3, :document3)
+    do_save(self.document4, :document4)
+    do_save(self.application_document, :application_document)
     set_applicant_biosketch
-    do_save(self.applicant_biosketch_document, 'pi biosketch document')
+    do_save(self.applicant_biosketch_document, :applicant_biosketch_document)
+    do_save(self.supplemental_document, :supplemental_document)
   end
 
   def set_applicant_biosketch
@@ -339,10 +340,14 @@ class Submission < ActiveRecord::Base
     end
   end
 
-  def do_save(model, name = 'document')
+  def do_save(model, name)
     if !model.nil? && model.changed?
-      model.save if model.errors.blank?
-      self.errors.add "unable to save #{name}: " + model.errors.full_messages.join('; ') unless model.errors.blank?
+      if model.errors.blank?
+        model.save 
+      else
+        msg = "unable to save #{name.to_s.titleize}: #{model.errors.full_messages.join('; ')}" 
+        self.errors.add(name.to_sym, msg)
+      end
     end
   end
 end
