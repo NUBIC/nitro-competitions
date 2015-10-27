@@ -60,7 +60,7 @@
 
     <% if project.show_core_manager %>
       <dt>Core Manager</dt>
-      <dd><%= blank_safe submission.core_manager.name %></dd>
+      <dd><%= blank_safe submission.core_manager.try(:name) %></dd>
     <% end %>
 
     <% if project.show_department_administrator %>

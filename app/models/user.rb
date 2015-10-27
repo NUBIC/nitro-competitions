@@ -199,6 +199,7 @@ class User < ActiveRecord::Base
     username = determine_username(auth)
     if !username.blank?
       user = User.where(username: username).first 
+      Rails.logger.error("~~~ create_user! - found user with username [#{username}]") if user
       if user && user.email.blank? && !email.blank?
         user.email = email 
         user.save!
@@ -206,6 +207,7 @@ class User < ActiveRecord::Base
     end
     if user.nil? && !email.blank?
       user = User.where(email: email).first
+      Rails.logger.error("~~~ create_user! - found user with email [#{email}]") if user
     end
 
     # Create the user if it's a new registration
@@ -218,6 +220,7 @@ class User < ActiveRecord::Base
         email: email.blank? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : email,
         password: Devise.friendly_token[0,20]
       )
+      Rails.logger.error("~~~ create_user! - creating user with email [#{email}] and username [#{username}]")
       user.save!
     end
     user
@@ -248,6 +251,7 @@ class User < ActiveRecord::Base
       suffix = domain + "\\"
       username = username.sub(suffix, '') if username.start_with?(suffix)
     end
+    Rails.logger.error("~~~ determine_username - auth [#{auth}]; username [#{username}]")
     username
   end
 
