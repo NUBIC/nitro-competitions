@@ -58,7 +58,7 @@ class SponsorsController < ApplicationController
   def update
     @sponsor = Program.find(params[:id])
     respond_to do |format|
-      if is_admin?(@sponsor) and  @sponsor.update_attributes(program_params)
+      if is_admin?(@sponsor) and @sponsor.update_attributes(program_params)
         flash[:notice] = 'Sponsor was successfully updated.'
         format.html { redirect_to(sponsor_path(@sponsor)) }
         format.xml  { head :ok }
@@ -74,7 +74,8 @@ class SponsorsController < ApplicationController
       :program_name, 
       :email, 
       :program_title, 
-      :program_url
+      :program_url,
+      :allow_reviewer_notification
     )
   end
   
