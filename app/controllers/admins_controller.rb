@@ -227,7 +227,7 @@ class AdminsController < ApplicationController
       if @review.blank?
         @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
         @submission.submission_reviews << @review
-        Notifier.reviewer_assignment(@review, @submission).deliver
+        Notifier.reviewer_assignment(@review, @submission).deliver if @sponsor.allow_reviewer_notification
       end
     end
 

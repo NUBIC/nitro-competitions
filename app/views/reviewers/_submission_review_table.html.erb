@@ -85,8 +85,10 @@
     </td>
     <td>
       <%= link_to 'Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id) if is_admin?(program) || is_reviewer %>
-      &nbsp; &nbsp;
-      <%= button_to(NucatsAssist.opt_out_review_button_name, unassign_submission_project_admins_path(project, submission_review_id: review.id, opt_out: true)) if is_reviewer && review.unscored? %>
+      <% if program.allow_reviewer_notification %>
+        &nbsp; &nbsp;
+        <%= button_to(NucatsAssist.opt_out_review_button_name, unassign_submission_project_admins_path(project, submission_review_id: review.id, opt_out: true)) if is_reviewer && review.unscored? %>
+      <% end %>
     </td>
     <td <%= style %>>
       <%= review.composite_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>

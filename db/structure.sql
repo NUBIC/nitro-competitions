@@ -292,7 +292,8 @@ CREATE TABLE programs (
     deleted_ip character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    email character varying(255)
+    email character varying(255),
+    allow_reviewer_notification boolean DEFAULT true
 );
 
 
@@ -1350,4 +1351,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150909165256');
 INSERT INTO schema_migrations (version) VALUES ('20150917161842');
 
 INSERT INTO schema_migrations (version) VALUES ('20151007174528');
+
+INSERT INTO schema_migrations (version) VALUES ('20151028195411');
 
