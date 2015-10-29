@@ -305,6 +305,7 @@ module ApplicationHelper
         applicant = BuildPIobject(ldap_rec) if applicant.id.blank?
         applicant = MergePIrecords(applicant, ldap_rec)
         if applicant.new_record?
+          applicant.password = Devise.friendly_token[0,20] if applicant.password.blank?
           before_create(applicant)
           applicant.save!
         end
