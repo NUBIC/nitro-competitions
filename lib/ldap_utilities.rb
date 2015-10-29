@@ -20,7 +20,7 @@ end
 def search_ldap(filter_name, filter_value)
   ldap_connection = Net::LDAP.new(host: ldap_host)
   filter          = Net::LDAP::Filter.eq(filter_name, filter_value)
-  ldap_connection.search(base: ldap_treebase, filter: cn_filter)  
+  ldap_connection.search(base: ldap_treebase, filter: filter)  
 end
 
 def CleanLDAPvalue(val)
