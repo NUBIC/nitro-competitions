@@ -199,9 +199,7 @@ class SubmissionsController < ApplicationController
       submission.applicant_id  =  applicant.id
     end
     respond_to do |format|
-      if !is_admin? &&
-         !((is_current_user?(submission.created_id) || is_current_user?(submission.applicant_id)) &&
-         submission.project.submission_open_date < Date.today && submission.project.submission_close_date >= Date.today)
+      if !is_admin? && !(current_user_can_edit_submission?(submission) && submission.is_open?)
         flash[:errors] = 'You cannot reassign this proposal.'
         format.html { redirect_to project_path(submission.project_id) }
       elsif params[:applicant_id].blank?
@@ -222,7 +220,7 @@ class SubmissionsController < ApplicationController
   def destroy
     submission = Submission.find(params[:id])
     project = Project.find(submission.project_id)
-    if is_admin? || (current_user_created_submission?(submission) && is_live_submission?(submission.project))
+    if is_admin? || (current_user_can_edit_submission?(submission) && submission.is_open?)
       flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
       submission.destroy
     else
@@ -233,14 +231,6 @@ class SubmissionsController < ApplicationController
       format.html { redirect_to(project_path(project.id)) }
       format.xml  { head :ok }
     end
-  end
-
-  def current_user_created_submission?(submission)
-    is_current_user?(submission.created_id) || is_current_user?(submission.applicant_id)
-  end
-
-  def is_live_submission?(project)
-    project.submission_open_date < Date.today && project.submission_close_date >= Date.today
   end
 
   def edit_documents

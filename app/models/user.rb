@@ -51,6 +51,8 @@ class User < ActiveRecord::Base
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
 
+  UNKNOWN = 'Unknown'
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -215,34 +217,41 @@ class User < ActiveRecord::Base
       user = User.new(
         oauth_name: name,
         first_name: first_name,
-        last_name: last_name,
-        username: username,
-        email: email.blank? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : email,
-        password: Devise.friendly_token[0,20]
+        last_name:  last_name,
+        username:   username,
+        email:      email.blank? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : email,
+        password:   Devise.friendly_token[0,20]
       )
-      Rails.logger.error("~~~ create_user! - creating user with email [#{email}] and username [#{username}]")
+      values = "oauth_name [#{name}], first_name [#{first_name}], last_name [#{last_name}], email [#{email}], and username [#{username}]"
+      Rails.logger.error("~~~ create_user! - creating user with values: #{values}")
       user.save!
     end
     user
   end
 
   ##
-  # Get first name, last name, and email information
-  # returned from the provider
+  # Get first name, last name, and email information returned from the provider
   # twitter and yahoo provide 'name'
   # google, facebook, and linked in provide 'first_name' and 'last_name'
   # @param [Hash] auth from omniauth
   # @return [Array<String>]
   def self.extract_user_info(auth)
-    name = auth['info']['name']
-    if name && !name.blank?
-      first_name = name.split[0]
-      last_name  = name.split[1]
-    else
+    name  = auth['info']['name']
+    email = auth['info']['email']
+
+    if name.blank?
+      name = UNKNOWN
       first_name = auth['info']['first_name']
       last_name  = auth['info']['last_name']
+    else
+      first_name = name.split[0]
+      last_name  = name.split[1]
     end
-    [name, first_name, last_name, auth['info']['email']]
+
+    first_name = first_name.blank? ? UNKNOWN : first_name
+    last_name  = last_name.blank?  ? UNKNOWN : last_name
+
+    [name, first_name, last_name, email]
   end
 
   def self.determine_username(auth)
@@ -256,7 +265,15 @@ class User < ActiveRecord::Base
   end
 
   def email_verified?
-    self.email && self.email !~ TEMP_EMAIL_REGEX
+    email && email !~ TEMP_EMAIL_REGEX
+  end
+
+  def unknown_name?
+    first_name == UNKNOWN || last_name == UNKNOWN
+  end
+
+  def incomplete_record?
+    !email_verified? || unknown_name?
   end
 
 end

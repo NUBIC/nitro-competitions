@@ -1,33 +1,33 @@
-<% if not controller.action_name.include?("documents") and (is_admin? or (submission.project.submission_open_date < Date.today and submission.project.submission_close_date >=  Date.today)) %>
+<% if !controller.action_name.include?("documents") && (is_admin? || submission.is_open?) %>
 <tr>
   <td colspan="4" style="padding-left:10px;">
-  <%= link_to( image_tag("application_cascade.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px;")+' Manage documents/key personnel for this submission', edit_documents_submission_path(submission.id), :title=>"Click here to manage documents for this submission including PI biosketch and application documents and key personnel if appropriate") %>
+  <%= link_to( image_tag("application_cascade.png", width: "16px", height: "16px", style: "margin-top:-5px;margin-bottom:-2px;")+' Manage documents/key personnel for this submission', edit_documents_submission_path(submission.id), title: "Click here to manage documents for this submission including PI biosketch and application documents and key personnel if appropriate") %>
   </td>
 </tr>
 <% end %>
-<% if (submission.project.submission_open_date < Date.today and (submission.project.submission_close_date >=  Date.today || (submission.project.submission_modification_date.blank? ? false : submission.project.submission_modification_date >=  Date.today) )) or is_admin? %>
+<% if is_admin? || (submission.is_open? || submission.is_modifiable?) %>
 <tr>
-  <td colspan="4" style="padding-left:10px;"><%= link_to( image_tag("application_form.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px; margin-bottom:-2px;")+' Edit title page for this submission', edit_submission_path(submission.id), :title=>"Click here to edit the title page data for the submission '#{submission.submission_title}'")  %>
+  <td colspan="4" style="padding-left:10px;"><%= link_to( image_tag("application_form.png", width: "16px", height: "16px", style: "margin-top:-5px; margin-bottom:-2px;")+' Edit title page for this submission', edit_submission_path(submission.id), title: "Click here to edit the title page data for the submission '#{submission.submission_title}'")  %>
   </td>
 </tr>
 <% end %>
 <tr>
-  <td colspan="4" style="padding-left:10px;"><%= link_to image_tag("page_white_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px;margin-top:-5px")+' View title page for this submission', submission_path(submission.id), :title=>"Click here to view the title page for the submission '#{submission.submission_title}'" %>
+  <td colspan="4" style="padding-left:10px;"><%= link_to image_tag("page_white_link.png", width: "16px", height: "16px", style: "margin-bottom:-2px;margin-top:-5px")+' View title page for this submission', submission_path(submission.id), title: "Click here to view the title page for the submission '#{submission.submission_title}'" %>
   </td>
 </tr>
-<% if submission.submission_reviews.length > 0 and ! submission.project.review_end_date.blank? and submission.project.review_end_date < Date.today %>
+<% if submission.submission_reviews.length > 0 && submission.reviewable? %>
 <tr>
-  <td colspan="4" style="padding-left:10px;"><%= link_to( image_tag("page_white_link.png", :width=>"16px", :height=>"16px", :style=>"margin-bottom:-2px; margin-top:-5px;")+' View reviews for this submission', submission_reviews_path(submission.id), :title=>"Click here to view the summary of review comments for the submission '#{submission.submission_title}'" ) %>
+  <td colspan="4" style="padding-left:10px;"><%= link_to( image_tag("page_white_link.png", width: "16px", height: "16px", style: "margin-bottom:-2px; margin-top:-5px;")+' View reviews for this submission', submission_reviews_path(submission.id), title: "Click here to view the summary of review comments for the submission '#{submission.submission_title}'" ) %>
   </td>
 </tr>
 <% end %>
-<% if is_admin? or ((is_current_user?(submission.created_id) or is_current_user?(submission.applicant_id)) and  submission.project.submission_open_date < Date.today and submission.project.submission_close_date >=  Date.today) %>
+<% if is_admin? || (current_user_can_edit_submission?(submission) && submission.is_open?) %>
   <tr>
     <td colspan="4" style="padding-left:10px;">
-    <%= link_to( image_tag("page_white_put.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px")+' Reassign submission to another investigator', reassign_applicant_submission_path(submission.id), :title=>"Reassign this submission to another investigator")  %></td>
+    <%= link_to( image_tag("page_white_put.png", width: "16px", height: "16px", style: "margin-top:-5px;margin-bottom:-2px")+' Reassign submission to another investigator', reassign_applicant_submission_path(submission.id), title: "Reassign this submission to another investigator")  %></td>
   </tr>
   <tr>
     <td colspan="4" style="padding-left:10px;">
-    <%= link_to( image_tag("trash_blue.png", :width=>"16px", :height=>"16px", :style=>"margin-top:-5px;margin-bottom:-2px")+' Delete this submission', submission_path(submission.id), :confirm => 'Are you sure you want to delete your submission? It will be irrevocably removed along with all associated files.', :method => :delete, :title=>"Click here to irrevocably delete the submission '#{submission.submission_title}'")  %></td>
+    <%= link_to( image_tag("trash_blue.png", width: "16px", height: "16px", style: "margin-top:-5px;margin-bottom:-2px")+' Delete this submission', submission_path(submission.id), confirm: 'Are you sure you want to delete your submission? It will be irrevocably removed along with all associated files.', method: :delete, title: "Click here to irrevocably delete the submission '#{submission.submission_title}'")  %></td>
   </tr>
 <% end %>

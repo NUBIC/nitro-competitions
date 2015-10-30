@@ -201,6 +201,22 @@ class Submission < ActiveRecord::Base
   end
   alias :complete? :is_complete?
 
+  def is_open?
+    project.is_open?
+  end
+  alias :is_open_submission? :is_open?
+  alias :open? :is_open?
+
+  def is_modifiable?
+    project.is_modifiable?
+  end
+  alias :modifiable? :is_modifiable?
+
+  def is_reviewable?
+    project.is_reviewable?
+  end
+  alias :reviewable? :is_reviewable?
+
   def key_personnel_names
     key_personnel.map { |k| k.name || k.user.name }
   end
