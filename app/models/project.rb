@@ -229,6 +229,21 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def is_open?
+    submission_open_date < Date.today && submission_close_date >= Date.today
+  end
+  alias :open? :is_open?
+
+  def is_modifiable?
+    submission_modification_date.blank? ? false : submission_modification_date >= Date.today
+  end
+  alias :modifiable? :is_modifiable?
+
+  def is_reviewable?
+    review_end_date.blank? ? false : review_end_date < Date.today
+  end
+  alias :reviewable? :is_reviewable?
+
   ##
   # Status shown when today is less than
   # the @initiation_date

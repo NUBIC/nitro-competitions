@@ -287,6 +287,10 @@ module ApplicationHelper
     id.to_i == current_user.id if current_user
   end
 
+  def current_user_can_edit_submission?(submission)
+    is_current_user?(submission.created_id) || is_current_user?(submission.applicant_id)
+  end
+
   def handle_ldap(applicant)
     begin
       # return applicant if already persisted in database

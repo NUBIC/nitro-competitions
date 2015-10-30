@@ -48,18 +48,19 @@ div.alert {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   margin: 0;
   font-weight: bold;
-  font-size: 1.25em;
   padding: 0.75em 0 0.5em 1em;
 }
 
 div.notice {
   color: green;
   border: 1px solid green;
+  font-size: 1.25em;
 }
 
 div.alert {
   color: maroon;
   border: 1px solid maroon;  
+  font-size: 1.25em;
 }
 
 span.warning,
@@ -71,6 +72,7 @@ span.required {
 label.error {
   color: maroon;
   border: 1px solid maroon;
+  font-size: 1em;
 }
 
 .instructions {

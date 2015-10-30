@@ -1,8 +1,6 @@
 <!-- need this for ajax calls to build the personnel associations -->
-<% if submission.project.show_manage_coinvestigators and
-  ( is_admin? or
-    ((submission.project.submission_open_date < Date.today and (submission.project.submission_close_date >= Date.today ||
-     (submission.project.submission_modification_date.blank? ? false : submission.project.submission_modification_date >= Date.today) ))))%>
+<% is_editable = (submission.is_open? || submission.is_modifiable?) %> 
+<% if submission.project.show_manage_coinvestigators && (is_admin? || is_editable) %>
   <tr>
     <td colspan='3' class='highlighted_table_cell'>
       <div class='h3'>Enter/update/delete key personnel</div>
@@ -16,10 +14,10 @@
       <div id='key_personnel'>
         <!-- % = render 'shared/personnel_fields', submission: submission, submission_form: f %-->
         <% submission.key_personnel.each_with_index do |key_person, index| %>
-          <%= render 'shared/new_personnel_fields', :key_person => key_person, :submission=> submission, :index => index %>
+          <%= render 'shared/new_personnel_fields', key_person: key_person, submission: submission, index: index %>
         <% end %>
       </div>
-      <%= render 'shared/add_personnel_link', :index => submission.key_personnel.size, :submission => submission %>
+      <%= render 'shared/add_personnel_link', index: submission.key_personnel.size, submission: submission %>
     </td>
   </tr>
 <% end %>

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def login
     url = params[:url].blank? ? root_url : params[:url]
-    if current_user && !current_user.email_verified?
+    if current_user && current_user.incomplete_record?
       url = edit_applicant_path(current_user)
     end
     redirect_to url

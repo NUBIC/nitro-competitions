@@ -1,6 +1,6 @@
 <% if is_logged_in? %>
   <div class='project_actions'>
-    <% if (project.submission_open_date < Date.today && project.submission_close_date >= Date.today) ||
+    <% if (project.is_open?) ||
           is_admin?(project.program) %>
       <%= link_to(image_tag("add.png",
                             :width=>"16px", :height=>"16px",

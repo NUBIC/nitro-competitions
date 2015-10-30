@@ -1,24 +1,24 @@
 <%= fields_for "key_personnel[#{index}]", key_person do |f| %>
   <p>
     <%= f.hidden_field :id %>
-    <%= f.text_field(:username, :size => 14) %> Enter a NetID <%= netid_lookup_tag %> for NU people or email address for non NU personnel
+    <%= f.text_field(:username, size: 14, required: true) %> Enter a NetID <%= netid_lookup_tag %> for NU people or email address for non NU personnel
     <!-- %# = key_personnel_lookup_observer(submission.id, "key_personnel_#{index}", "#{index}").html_safe % -->
     <span id="key_personnel_#{index}_username_id"></span>
     <br />
-    <%= f.text_field( :first_name, :size => 14) %> First Name <br />
-    <%= f.text_field( :last_name, :size => 14) %> Last Name  <br/>
-    <%= f.text_field( :email, :size => 30) %> Email <br/>
-    <%= f.select(:role, ["co-Investigator", "Postdoctoral Fellow", "Statistician", "Informaticist", "Clinical Trialist", "Other"], { :include_blank => true }) %> Please select a role
+    <%= f.text_field(:first_name, size: 14, required: true) %> First Name <br />
+    <%= f.text_field(:last_name, size: 14, required: true) %> Last Name  <br/>
+    <%= f.text_field(:email, size: 30, required: true) %> Email <br/>
+    <%= f.select(:role, ["co-Investigator", "Postdoctoral Fellow", "Statistician", "Informaticist", "Clinical Trialist", "Other"], { include_blank: true }, required: true) %> Please select a role
     <br />
     <% if submission.project.show_manage_biosketches %>
       <% if key_person.user.blank? || key_person.user.biosketch_document_id.blank? %>
         <%= image_tag("warning_16.png",
-                      :width => "16px",
-                      :height => "16px",
-                      :style => "margin-top:-5px; margin-bottom:-2px; margin-right:5px;",
-                      :title => "No biosketch is available. Please upload a Biosketch") %>
+                      width: "16px",
+                      height: "16px",
+                      style: "margin-top:-5px; margin-bottom:-2px; margin-right:5px;",
+                      title: "No biosketch is available. Please upload a Biosketch") %>
       <% end %>
-      <%= f.file_field(:uploaded_biosketch)%>
+      <%= f.file_field(:uploaded_biosketch, required: true) %>
       <% unless key_person.user.blank? || key_person.user.biosketch_document_id.blank? %>
         <%= link_to_file(key_person.user.biosketch_document_id, "") %>
         <i>
@@ -34,9 +34,9 @@
     <% end %>
     <br/>
     <%= link_to('Remove this key individual', submission_key_person_path(submission.id, (key_person.id || 0), index: index),
-                { :class => 'key_personnel_remove_link',
-                  :title => "Click to remove this individual from your list of key personnel. It does not delete their profile.",
-                  :remote => true,
-                  :method => :delete }) %>
+                { class: 'key_personnel_remove_link',
+                  title: "Click to remove this individual from your list of key personnel. It does not delete their profile.",
+                  remote: true,
+                  method: :delete }) %>
   </p>
 <% end %>
