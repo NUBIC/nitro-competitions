@@ -126,7 +126,7 @@ class ProjectsController < ApplicationController
         format.html { redirect_to(project_path(@project)) }
         format.xml { render xml: @project }
       else
-        flash[:errors] = "Project record for #{@project.project_title} could not be created; admin: #{is_admin? ? 'Yes' : 'No'}; #{@project.errors.full_messages.join('; ')}"
+        flash[:alert] = "Project record for #{@project.project_title} could not be created; admin: #{is_admin? ? 'Yes' : 'No'}; #{@project.errors.full_messages.join('; ')}"
         format.html { render action: 'new' }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
       end
@@ -143,7 +143,7 @@ class ProjectsController < ApplicationController
         format.xml  { head :ok }
       else
         admin = is_admin? ? 'Yes' : 'No'
-        flash[:errors] = "Project record for #{@project.project_title} could not be updated; admin: #{admin}; errors: #{@project.errors.full_messages.join('; ')}"
+        flash[:alert] = "Project record for #{@project.project_title} could not be updated; admin: #{admin}; errors: #{@project.errors.full_messages.join('; ')}"
         format.html { render action: :show }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
       end
@@ -299,7 +299,7 @@ class ProjectsController < ApplicationController
       @project.destroy
     else
       admin = is_admin? ? 'Yes' : 'No'
-      flash[:errors] = "Project record for #{@project.project_title} could not be deleted; admin: #{admin};"
+      flash[:alert] = "Project record for #{@project.project_title} could not be deleted; admin: #{admin};"
     end
     respond_to do |format|
       project = program.projects.first
