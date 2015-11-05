@@ -92,12 +92,12 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if @submission.save
           handle_key_personnel_param(@submission) unless params[:submission].blank?
-          flash[:errors] = nil
+          flash[:alert] = nil
           flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully created"
           format.html { render action: 'edit_documents' }
           format.xml  { render xml: @submission, status: :created, location: @submission }
         else
-          flash[:errors] = "Submission #{@submission.submission_title} could not be created. #{@submission.errors.full_messages.join('; ')}"
+          flash[:alert] = "Submission #{@submission.submission_title} could not be created. #{@submission.errors.full_messages.join('; ')}"
           format.html { render action: 'new' }
           format.xml  { render xml: @submission.errors, status: :unprocessable_entity }
         end
@@ -176,11 +176,11 @@ class SubmissionsController < ApplicationController
       # params[:submission].delete(:id)  # id causes an error  - can't mass assign id
       if @submission.update_attributes(submission_params)
         handle_key_personnel_param(@submission) unless params[:submission].blank?
-        flash[:errors] = nil
+        flash[:alert] = nil
         send_submission_email(@submission)
         flash[:notice] = "Submission <i>'#{@submission.submission_title}'</i> was successfully updated"
         flash[:notice] = "#{flash[:notice]} and is COMPLETE!!" if @submission.is_complete?
-        flash[:errors] = "Submission was saved but: #{@submission.errors.full_messages.join('; ')}" unless @submission.errors.blank?
+        flash[:alert] = "Submission was saved but: #{@submission.errors.full_messages.join('; ')}" unless @submission.errors.blank?
         format.html { redirect_to project_path(@project.id) }
         format.xml  { head :ok }
       else
@@ -200,7 +200,7 @@ class SubmissionsController < ApplicationController
     end
     respond_to do |format|
       if !is_admin? && !(current_user_can_edit_submission?(submission) && submission.is_open?)
-        flash[:errors] = 'You cannot reassign this proposal.'
+        flash[:alert] = 'You cannot reassign this proposal.'
         format.html { redirect_to project_path(submission.project_id) }
       elsif params[:applicant_id].blank?
         @users = User.all
@@ -210,7 +210,7 @@ class SubmissionsController < ApplicationController
         format.html { redirect_to project_submissions_path(submission.project_id) }
         format.xml  { head :ok }
       else
-        flash[:errors] = "Submission  <i>#{submission.submission_title}</i> could not be reassigned;  #{submission.errors.full_messages.join('; ')}"
+        flash[:alert] = "Submission  <i>#{submission.submission_title}</i> could not be reassigned;  #{submission.errors.full_messages.join('; ')}"
         format.html { render action: 'edit' }
         format.xml  { render xml: submission.errors, status: :unprocessable_entity }
       end
@@ -224,7 +224,7 @@ class SubmissionsController < ApplicationController
       flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
       submission.destroy
     else
-      flash[:errors] = "Submission  <i>#{submission.submission_title}</i> could not be deleted"
+      flash[:alert] = "Submission  <i>#{submission.submission_title}</i> could not be deleted"
     end
 
     respond_to do |format|

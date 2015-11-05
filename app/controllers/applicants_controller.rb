@@ -141,7 +141,7 @@ class ApplicantsController < ApplicationController
         format.html { redirect_to(edit_applicant_path(@applicant)) }
         format.xml  { head :ok }
       else
-        flash[:errors] = "Profile update failed. Please see error messages."
+        flash[:alert] = "Profile update failed. Please see error messages."
         format.html { render action: 'edit' }
         format.xml  { render xml: @applicant.errors, status: :unprocessable_entity }
       end

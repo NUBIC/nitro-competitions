@@ -72,10 +72,10 @@ class ReviewersController < ApplicationController
     @submission_review = SubmissionReview.find(params[:id])
     @project = @submission_review.project
     if @submission_review.submission.project.review_end_date < Date.today && is_admin?(current_program)
-      flash[:errors] = cannot_save_changes_error_message
+      flash[:alert] = cannot_save_changes_error_message
       render :edit
     elsif @submission_review.submission.project.review_end_date < Date.today
-      flash[:errors] = cannot_save_changes_error_message
+      flash[:alert] = cannot_save_changes_error_message
       redirect_to project_reviewers_url(current_project)
     elsif is_admin?(current_program) || @submission_review.reviewer_id == current_user_session.id
       respond_to do |format|
