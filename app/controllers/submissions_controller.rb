@@ -9,7 +9,6 @@ class SubmissionsController < ApplicationController
 
   def index
     # project/:project_id/submissions should be the only way to get here
-
     projects = Project.where(id: params[:project_id]).all
     @project = projects[0] unless projects.blank?
     @submissions = Submission.associated(projects.map(&:id), current_user_session.id)
@@ -57,9 +56,16 @@ class SubmissionsController < ApplicationController
     user_id = params[:applicant_id] || current_user_session.id
     @applicant = User.find(user_id) unless user_id.blank?
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    if @applicant.blank? || @project.blank?
-      redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
+    redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
+    if @applicant.blank?
+      flash[:alert] = 'Applicant cannot be blank'
       redirect_to redirect_url
+    elsif @project.blank?
+      flash[:alert] = 'Competition cannot be blank'
+      redirect_to redirect_url
+    elsif !@project.is_open? && @project.strict_deadline
+      flash[:alert] = "Competition closed on #{@project.submission_close_date}."
+      redirect_to projects_path
     else
       @submission = Submission.new(applicant_id: @applicant.id, project_id: @project.id)
       respond_to do |format|
@@ -79,9 +85,19 @@ class SubmissionsController < ApplicationController
     @applicant = User.find(params[:applicant_id])
     @project = Project.find(params[:project_id])
     @submission = Submission.new(submission_params)
-    if @applicant.blank? || @project.blank? || @submission.blank?
-      redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
+    redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
+    if @applicant.blank? 
+      flash[:alert] = 'Applicant cannot be blank'
       redirect_to redirect_url
+    elsif @project.blank?
+      flash[:alert] = 'Competition cannot be blank'
+      redirect_to redirect_url
+    elsif @submission.blank?
+      flash[:alert] = 'Submission cannot be blank'
+      redirect_to redirect_url
+    elsif !@project.is_open? && @project.strict_deadline
+      flash[:alert] = "Competition closed on #{@project.submission_close_date}"
+      redirect_to projects_path
     else
       @submission.max_budget_request = @project.max_budget_request || 50_000
       @submission.min_budget_request = @project.min_budget_request || 1000

@@ -79,7 +79,7 @@ module NucatsAssist
     end
 
     def admin_netids
-      %w{pfr957}
+      %w{pfr957 wakibbe dfu601}
     end
 
     def cru_contact_email

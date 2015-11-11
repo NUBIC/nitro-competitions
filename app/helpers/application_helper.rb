@@ -65,7 +65,15 @@ module ApplicationHelper
   # Is the current user session username in the admin list
   # @return Boolean
   def current_user_is_admin?(user)
-    %w(wakibbe dfu601 super pfr957 psfriedman psfriedman@gmail.com p-friedman@northwestern.edu).include?(user.try(:username))
+    begin
+      f = File.open(File.join("#{Rails.root}", 'config', 'logins', 'admins.txt'))
+      admin_usernames = f.readlines.map(&:strip)
+      f.close
+    rescue
+      # no file found - use defaults
+      admin_usernames = NucatsAssist.admin_netids
+    end
+    admin_usernames.include?(user.try(:username))
   end
   private :current_user_is_admin?
 
