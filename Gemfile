@@ -16,7 +16,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-yahoo'
 gem 'omniauth-linkedin'
 gem 'omniauth-facebook'
-gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.3'
+gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.4'
 
 gem 'bundler'
 gem 'rails', '~> 4.2'

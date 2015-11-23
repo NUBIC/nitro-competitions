@@ -7,8 +7,13 @@ module ReviewsHelper
 
     reviews.each_with_index do |review, i|
       unless review[key_name].blank?
-        html = '<div class="hanging-indent">' +
-               ' <span class="reviewer">Reviewer ' + (i + 1).to_s + ':</span> ' +
+
+        reviewer_info = ' <span class="reviewer">Reviewer ' + (i + 1).to_s + ':</span> '
+        if is_admin? 
+          reviewer_info = ' <span class="reviewer" title="' + review.reviewer.name + '">Reviewer ' + (i + 1).to_s + ':</span> '
+        end
+
+        html = '<div class="hanging-indent">' + reviewer_info + 
                review[key_name].to_s +
                ' </div>'
         s << html
