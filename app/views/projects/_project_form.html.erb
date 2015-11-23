@@ -91,6 +91,19 @@
           </div>
         </td>
       </tr>
+
+      <tr>
+        <td class="title">
+          <%= f.label :strict_deadline, 'Strict deadline?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :strict_deadline %>
+            Should this competition block submission if the form was not completed by the submission close date (even in the case that the submitter started form entry before the deadline)?
+          </div>
+        </td>
+      </tr>
+
       <tr>
         <td class="title">
           <%= f.label :submission_modification_date  %>

@@ -476,7 +476,8 @@ CREATE TABLE projects (
     closed_status_wording character varying(255) DEFAULT 'Awarded'::character varying,
     show_review_guidance boolean DEFAULT true,
     comment_review_only boolean DEFAULT false,
-    custom_review_guidance text
+    custom_review_guidance text,
+    strict_deadline boolean DEFAULT false
 );
 
 
@@ -1353,4 +1354,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150917161842');
 INSERT INTO schema_migrations (version) VALUES ('20151007174528');
 
 INSERT INTO schema_migrations (version) VALUES ('20151028195411');
+
+INSERT INTO schema_migrations (version) VALUES ('20151109163355');
 

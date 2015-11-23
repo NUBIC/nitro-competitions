@@ -3,7 +3,7 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '3.1.5'
+  VERSION = '3.1.6'
 
   class << self
     def plain_app_name
@@ -79,7 +79,7 @@ module NucatsAssist
     end
 
     def admin_netids
-      %w{pfr957}
+      %w{pfr957 wakibbe dfu601}
     end
 
     def cru_contact_email

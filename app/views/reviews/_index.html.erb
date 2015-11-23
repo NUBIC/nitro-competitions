@@ -47,6 +47,7 @@
       is_admin? or
       (submission.project.show_review_summaries_to_reviewers and reviewer_ids.include?(current_user_session.id) ) %>
   <h1>Application reviews </h1>
+
   <div id="scores">
     <ol>
       <% if submission.project.show_impact_score %>
