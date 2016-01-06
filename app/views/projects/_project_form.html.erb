@@ -307,6 +307,30 @@
           </div>
         </td>
       </tr>
+
+      <tr>
+        <td class="title">
+          <%= f.label :show_abstract_field %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_abstract_field %>
+            Check to include an <b>abstract</b> submission form item
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :abstract_text, "Abstract wording" %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :abstract_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <div class='attribute_description'>
+            Text to include with the <b>abstract</b> submission form item
+          </div>
+        </td>
+      </tr>
+
       <tr>
         <td class="title">
           <%= f.label :show_other_funding_sources %>
@@ -951,28 +975,6 @@
       <tr>
         <td id="title8" colspan="3">
           <strong>CTI and NMF items</strong>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :show_abstract_field %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_abstract_field %>
-            Check to include an <b>abstract</b> submission form item
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :abstract_text, "Abstract wording" %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :abstract_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
-            Text to include with the <b>abstract</b> submission form item
-          </div>
         </td>
       </tr>
       <tr>

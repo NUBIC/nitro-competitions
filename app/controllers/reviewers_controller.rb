@@ -119,6 +119,8 @@ class ReviewersController < ApplicationController
       :innovation_score,  :innovation_text,
       :scope_score,       :scope_text,
       :environment_score, :environment_text,
+      :budget_score,      :budget_text,
+      :other_score,       :other_text,
       :overall_score,     :overall_text
     )
   end
