@@ -25,5 +25,6 @@ FactoryGirl.define do
     created_ip '127.0.0.1'
     created_at Time.now
     password 'password'
+    should_receive_submission_notifications true
   end
 end

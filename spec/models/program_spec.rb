@@ -49,6 +49,22 @@ describe Program, :type => :model do
     end
   end
 
+  context ".submission_notifiable_admins" do
+    it 'returns the administrators associated with the program who should receive submission notifications' do
+      # no admins returns blank
+      program = FactoryGirl.create(:program)
+      expect(program.submission_notifiable_admins).to be_blank
+      # create a RoleUser with Admin role
+      role    = FactoryGirl.create(:role, name: 'Admin')
+      admin1  = FactoryGirl.create(:user, should_receive_submission_notifications: true)
+      admin2  = FactoryGirl.create(:user, should_receive_submission_notifications: false)
+      FactoryGirl.create(:roles_user, program: program, role: role, user: admin1)
+      FactoryGirl.create(:roles_user, program: program, role: role, user: admin2)
+      expect(program.admins).to eq([admin1, admin2])
+      expect(program.submission_notifiable_admins).to eq([admin1])
+    end
+  end
+
   context '#valid?' do
     context '#program_name' do
       it { is_expected.to validate_presence_of(:program_name) }

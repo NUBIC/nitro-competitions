@@ -39,6 +39,22 @@ class SponsorsController < ApplicationController
     end
   end
 
+  def opt_out_submission_notification
+    process_email_preference(false)
+  end
+
+  def opt_in_submission_notification
+    process_email_preference(true)
+  end
+
+  def process_email_preference(val)
+    @contact = User.find(params[:id])
+    @contact.update_attribute(:should_receive_submission_notifications, val)
+    flash[:notice] = 'Email preference was successfully updated.'
+    redirect_to contact_sponsor_path(@contact)
+  end
+  private :process_email_preference
+
   # GET /sponsors/1/edit
   def edit
     @sponsor = Program.find(params[:id])

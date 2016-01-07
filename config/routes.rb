@@ -26,6 +26,8 @@ NucatsAssist::Application.routes.draw do
   resources :sponsors, only: [:index, :show, :edit, :update] do
     member do
       get :contact
+      post :opt_out_submission_notification
+      post :opt_in_submission_notification
     end
     resources :roles, only: [:index, :show]
     resources :users, only: [] do

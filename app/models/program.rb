@@ -27,6 +27,10 @@ class Program < ActiveRecord::Base
     roles_users.admins.map(&:user)
   end
 
+  def submission_notifiable_admins
+    admins.select { |a| a.should_receive_submission_notifications }
+  end
+
   has_many :projects
   has_many :reviewers
   has_many :logs
