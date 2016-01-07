@@ -1,37 +1,51 @@
-<h2>Contact Info for  <%=h [@contact.name, @contact.name_suffix, @contact.degrees].compact.join(", ") %></h2>
+<div id='sponsor_contact'>
+  <h2>
+    Contact Info for <%=h [@contact.name, @contact.name_suffix, @contact.degrees].reject(&:blank?).join(", ") %>
+  </h2>
 
-<p>
-  <b>Email:</b>
-  <% if @contact.email.blank? %>
-    No email on record.
-  <% else %>
-    <%= mail_to(@contact.email, @contact.email,
-				        :subject => NucatsAssist.email_subject, 
-				        :title => "Send email to #{@contact.name}") %>
-  <% end %> 
-</p>
+  <div>
+    <b>Email:</b>
+    <% if @contact.email.blank? %>
+      No email on record.
+    <% else %>
+      <%= mail_to(@contact.email, @contact.email,
+                  :subject => NucatsAssist.email_subject, 
+                  :title => "Send email to #{@contact.name}") %>
+    <% end %> 
+  </div>
 
-<p>
-  <b>Work phone:</b>
-  <%=h @contact.business_phone %>
-</p>
+  <div>
+    <b>Work phone:</b>
+    <%=h @contact.business_phone %>
+  </div>
 
-<p>
-  <b>Title:</b>
-  <%=h @contact.title %>
-</p>
+  <div>
+    <b>Title:</b>
+    <%=h @contact.title %>
+  </div>
 
-<p>
-  <b>Primary department:</b>
-  <%=h @contact.primary_department %>
-</p>
+  <div>
+    <b>Primary department:</b>
+    <%=h @contact.primary_department %>
+  </div>
 
-<p>
-  <b>Campus:</b>
-  <%=h @contact.campus %>
-</p>
+  <div>
+    <b>Campus:</b>
+    <%=h @contact.campus %>
+  </div>
 
-<p>
-  <b>Campus Address:</b>
-  <%=h @contact.campus_address %>
-</p>
+  <div>
+    <b>Campus Address:</b>
+    <%=h @contact.campus_address %>
+  </div>
+
+  <div>
+    <b>Receives Submission Notifications:</b>
+    <%=h @contact.should_receive_submission_notifications.to_s.titleize %>
+
+    <% action = @contact.should_receive_submission_notifications ? 
+                'opt_out_submission_notification' : 'opt_in_submission_notification' %>
+
+    <%= button_to 'Switch Preference', { action: action, id: @contact.id }, form_class: 'email_preference' %>
+  </div>
+</div>

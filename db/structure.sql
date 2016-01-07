@@ -275,6 +275,91 @@ ALTER SEQUENCE logs_id_seq OWNED BY logs.id;
 
 
 --
+-- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE people (
+    id integer NOT NULL,
+    first_name character varying,
+    middle_name character varying,
+    last_name character varying,
+    degrees character varying,
+    suffix character varying,
+    details hstore,
+    authentication_token character varying,
+    state character varying,
+    email character varying,
+    deleted_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    remember_token character varying,
+    uuid character varying,
+    admin boolean DEFAULT false,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    properties hstore
+);
+
+
+--
+-- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE people_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE people_id_seq OWNED BY people.id;
+
+
+--
+-- Name: person_identities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE person_identities (
+    id integer NOT NULL,
+    person_id integer,
+    identifier character varying,
+    source_id integer,
+    provider character varying,
+    uid character varying,
+    email character varying,
+    nickname character varying,
+    username character varying,
+    domain character varying,
+    deleted_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: person_identities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE person_identities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: person_identities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE person_identities_id_seq OWNED BY person_identities.id;
+
+
+--
 -- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -912,7 +997,8 @@ CREATE TABLE users (
     current_sign_in_ip inet,
     last_sign_in_ip inet,
     oauth_name character varying,
-    remember_token character varying
+    remember_token character varying,
+    should_receive_submission_notifications boolean DEFAULT true
 );
 
 
@@ -1010,6 +1096,20 @@ ALTER TABLE ONLY key_personnel ALTER COLUMN id SET DEFAULT nextval('key_personne
 --
 
 ALTER TABLE ONLY logs ALTER COLUMN id SET DEFAULT nextval('logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY people ALTER COLUMN id SET DEFAULT nextval('people_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY person_identities ALTER COLUMN id SET DEFAULT nextval('person_identities_id_seq'::regclass);
 
 
 --
@@ -1138,6 +1238,22 @@ ALTER TABLE ONLY logs
 
 
 --
+-- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY people
+    ADD CONSTRAINT people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person_identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY person_identities
+    ADD CONSTRAINT person_identities_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1233,6 +1349,13 @@ CREATE INDEX index_identities_on_user_id ON identities USING btree (user_id);
 
 
 --
+-- Name: index_people_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_people_on_authentication_token ON people USING btree (authentication_token);
+
+
+--
 -- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1244,6 +1367,13 @@ CREATE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
 --
 
 CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
@@ -1287,6 +1417,14 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 ALTER TABLE ONLY identities
     ADD CONSTRAINT fk_rails_5373344100 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: person_id_to_person_identities_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY person_identities
+    ADD CONSTRAINT person_id_to_person_identities_fk FOREIGN KEY (person_id) REFERENCES people(id);
 
 
 --
@@ -1349,11 +1487,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150909165240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150909165256');
 
-INSERT INTO schema_migrations (version) VALUES ('20150917161842');
-
 INSERT INTO schema_migrations (version) VALUES ('20151007174528');
 
 INSERT INTO schema_migrations (version) VALUES ('20151028195411');
 
 INSERT INTO schema_migrations (version) VALUES ('20151109163355');
+
+INSERT INTO schema_migrations (version) VALUES ('20160106220053');
 

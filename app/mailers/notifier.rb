@@ -51,7 +51,7 @@ class Notifier < ActionMailer::Base
   def determine_cc_recipients(submission)
     if Rails.application.config.send_notification_to_all
       result = submission.key_personnel_emails || []
-      result += submission.project.program.admins.map(&:email)
+      result += submission.project.program.submission_notifiable_admins.map(&:email)
     else
       result = [Rails.application.config.testing_to_address]
     end

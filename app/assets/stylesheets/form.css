@@ -60,6 +60,16 @@ form {
   display: inline;
 }
 
+#sponsor_contact div {
+  margin-bottom: 1em;
+}
+
+.email_preference input {
+  display: inline-block;
+  margin-left: 0.5em;
+  font-size: 0.9em;
+}
+
 .form_text {
   color: #222266;
 }
