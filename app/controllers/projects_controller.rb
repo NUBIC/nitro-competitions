@@ -119,7 +119,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     before_create(@project)
     respond_to do |format|
-      if is_admin? && @project.valid?
+      if is_admin?(@project.program) && @project.valid?
         @project.save!
         set_current_project(@project)
         flash[:notice] = "Project record for #{@project.project_title} was successfully created"
