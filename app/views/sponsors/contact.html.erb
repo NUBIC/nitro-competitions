@@ -39,13 +39,15 @@
     <%=h @contact.campus_address %>
   </div>
 
-  <div>
-    <b>Receives Submission Notifications:</b>
-    <%=h @contact.should_receive_submission_notifications.to_s.titleize %>
+  <% if is_admin? %>
+    <div>
+      <b>Receives Submission Notifications:</b>
+      <%=h @contact.should_receive_submission_notifications.to_s.titleize %>
 
-    <% action = @contact.should_receive_submission_notifications ? 
-                'opt_out_submission_notification' : 'opt_in_submission_notification' %>
+      <% action = @contact.should_receive_submission_notifications ? 
+                  'opt_out_submission_notification' : 'opt_in_submission_notification' %>
 
-    <%= button_to 'Switch Preference', { action: action, id: @contact.id }, form_class: 'email_preference' %>
-  </div>
+      <%= button_to 'Switch Preference', { action: action, id: @contact.id }, form_class: 'email_preference' %>
+    </div>
+  <% end %>
 </div>
