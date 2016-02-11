@@ -89,6 +89,7 @@ class ProjectsController < ApplicationController
     project = current_project
 
     @project = duplicate_project(project)
+    @program = @project.program
     respond_to do |format|
       if is_admin?
         format.html # new.html.erb
@@ -116,6 +117,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.xml
   def create
+    @program = Program.find(params[:program_id])
     @project = Project.new(project_params)
     before_create(@project)
     respond_to do |format|
@@ -127,7 +129,7 @@ class ProjectsController < ApplicationController
         format.xml { render xml: @project }
       else
         flash[:alert] = "Project record for #{@project.project_title} could not be created; admin: #{is_admin? ? 'Yes' : 'No'}; #{@project.errors.full_messages.join('; ')}"
-        format.html { render action: 'new' }
+        format.html { render action: 'new', program_id: @program.id }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
       end
     end
