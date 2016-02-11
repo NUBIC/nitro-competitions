@@ -54,6 +54,7 @@
               </div>
             <% end %>
           </div>
+          <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
           <% if project.membership_required? %>
             <div class='project_information membership_required'>
               NUCATS Membership is required to apply for this competition
@@ -75,7 +76,6 @@
             <% end %>
           <% end %>
         </div>
-        <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
       </div>
     <% end %>
   <% end %>

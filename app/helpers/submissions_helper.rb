@@ -126,7 +126,7 @@ module SubmissionsHelper
     # image_name = determine_image_name(file_type)
     # link_text+' '+image_tag(image_name, :width=>"16px", :height=>"16px" )
     # currently does not work with Rails 3
-    link_to(link_text, path, title: 'Download ' + mouse_over, target: '_blank')
+    link_to(link_text, path, title: 'View ' + mouse_over, target: '_blank')
   end
 
   def determine_image_name(file_type)
