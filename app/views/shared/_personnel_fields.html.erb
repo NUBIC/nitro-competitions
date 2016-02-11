@@ -8,7 +8,7 @@
     <%= f.text_field(:first_name, size: 14, required: true) %> First Name <br />
     <%= f.text_field(:last_name, size: 14, required: true) %> Last Name  <br/>
     <%= f.text_field(:email, size: 30, required: true) %> Email <br/>
-    <%= f.select(:role, ["co-Investigator", "Postdoctoral Fellow", "Statistician", "Informaticist", "Clinical Trialist", "Other"], { include_blank: true }, required: true) %> Please select a role
+    <%= f.select(:role, ["Co-Investigator", "Co-PI", "Postdoctoral Fellow", "Statistician", "Informaticist", "Clinical Trialist", "Other"], { include_blank: true }, required: true) %> Please select a role
     <br />
     <% if submission.project.show_manage_biosketches %>
       <% if key_person.user.blank? || key_person.user.biosketch_document_id.blank? %>

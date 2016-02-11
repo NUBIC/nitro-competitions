@@ -10,7 +10,7 @@
     <table>
       <tr>
         <td class="title">
-          <%= f.hidden_field :program_id %><%= f.label "Competition Name" %>
+          <%= f.hidden_field :program_id %><%= hidden_field_tag 'program_id', @program.id if @program %><%= f.label "Competition Name" %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :project_name, :size => 20, required: true %>

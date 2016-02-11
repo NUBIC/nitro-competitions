@@ -28,13 +28,20 @@ div.information {
 }
 
 .project_details {
-  width: 55%;
+  width: 75%;
   float: left;
 }
 
+/*
 .project_actions {
   width: 27%;
   float: left;
+}
+*/
+
+.project_doc {
+  display: inline-block;
+  padding-right: 0.5em;
 }
 
 .project_details .competition .project_title,
