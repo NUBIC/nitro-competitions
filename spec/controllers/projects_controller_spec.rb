@@ -62,11 +62,13 @@ describe ProjectsController, :type => :controller do
     end
 
     describe 'POST create' do
-      params = { project_title: 'the title of the project', project_name: 'project_name_xxx', 
-                 initiation_date: Date.today, submission_open_date: Date.today, submission_close_date: Date.today,
-                 review_start_date: Date.today, review_end_date: Date.today, project_period_start_date: Date.today, project_period_end_date: Date.today }
       it 'assigns variables' do
-        post :create, project: params
+        program = FactoryGirl.create(:program)
+        params = { project_title: 'the title of the project', project_name: 'project_name_xxx', 
+                   initiation_date: Date.today, submission_open_date: Date.today, submission_close_date: Date.today,
+                   review_start_date: Date.today, review_end_date: Date.today, project_period_start_date: Date.today, project_period_end_date: Date.today }
+
+        post :create, program_id: program.id, project: params
         expect(assigns[:project]).not_to be_nil
       end
       it 'redirects to project_path'
