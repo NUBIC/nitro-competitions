@@ -1,5 +1,6 @@
+<h3><%= @project.project_name %></h3>
 <h2>Application Process - Step 2</h2>
-<h3>Create the Title Page for this proposal</h3>
+<h4>Create the Title Page for this proposal</h4>
 <p>Please fill in each of the following items and submit.</p>
 
 <%= form_for(:submission,
@@ -11,7 +12,7 @@
     <%= render 'submission_form', :f => f, :project => @project, :submission => @submission, :applicant => @applicant %>
     <tr>
       <td colspan='3' align='center' class='highlighted_table_cell'>
-        <%= f.submit( @submission.id.blank? ? 'Save Draft and Continue' : 'Save Update' ) %>
+        <%= f.submit( @submission.id.blank? ? 'Continue' : 'Save Update' ) %>
       </td>
     </tr>
   </table>
