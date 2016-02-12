@@ -84,7 +84,9 @@
       <%=h review.reviewer.sort_name if is_admin?(program) || is_reviewer %>
     </td>
     <td>
-      <%= link_to 'Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id) if is_admin?(program) || is_reviewer %>
+      <% if is_admin?(program) || is_reviewer %>
+        <%= link_to(image_tag('application_form.png', width: '16px', height: '16px') + ' Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id)) %>
+      <% end %>
       <% if program.allow_reviewer_notification %>
         &nbsp; &nbsp;
         <%= button_to(NucatsAssist.opt_out_review_button_name, unassign_submission_project_admins_path(project, submission_review_id: review.id, opt_out: true)) if is_reviewer && review.unscored? %>

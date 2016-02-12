@@ -105,11 +105,6 @@ module SubmissionsHelper
     link_to_document_template(project, 4) + link_to_document_info(project, 4) + '.'
   end
 
-# TODO: Deprecated PDF support
-#  def link_to_submission_pdf(submission)
-#    link_to_download('Submission pdf ', submission_path(submission.id, format: :pdf), 'pdf', "'#{submission.submission_title}' submission form as pdf")
-#  end
-
   def link_to_document(link_prefix, path, title = nil)
     title ||= link_prefix
     link_to_download(link_prefix, path, 'document', title)
@@ -122,17 +117,15 @@ module SubmissionsHelper
 
   def link_to_download(link_text, path, file_type = 'document', mouse_over = nil)
     mouse_over ||= link_text
-    # TODO: reinsert image
-    # image_name = determine_image_name(file_type)
-    # link_text+' '+image_tag(image_name, :width=>"16px", :height=>"16px" )
-    # currently does not work with Rails 3
-    link_to(link_text, path, title: 'View ' + mouse_over, target: '_blank')
+    image_name = determine_image_name(file_type)
+    # link_to(image_tag('add.png', width: '16px', height: '16px') + ' New competition', new_project_path)
+    link_to(image_tag(image_name, width: "16px", height: "16px" ) + ' ' + link_text, path, title: 'View ' + mouse_over, target: '_blank')
   end
 
   def determine_image_name(file_type)
     case file_type
     when :document, 'document', 'txt'
-      'page_white_put.png'
+      'hyperlink_blue.png'
     when :spreadsheet, 'spreadsheet'
       'page_excel.png'
     when :pdf, 'pdf'
