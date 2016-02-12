@@ -1,10 +1,11 @@
+<h3><%= @project.project_name %></h3>
 <% submission = submission || @submission %>
 <% unless @title.blank? %>
   <h2><%= @title %></h2>
 <% end %>
-<h3>
+<h4>
   <%= "Manage Documents for <i>'#{@submission.submission_title}'</i> by applicant <i>#{@submission.applicant.name}</i>".html_safe %>
-</h3>
+</h4>
 
 <%= form_for(:submission,
       :url => submission_path(@submission.id),
