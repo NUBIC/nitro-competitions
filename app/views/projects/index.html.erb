@@ -2,10 +2,3 @@
            programs: @programs,
            show_project_link: true,
            show_action_links: true %>
-
-<% if is_admin? %>
-  <div class='links'>
-    <%= link_to image_tag("add.png", :width=>"16px", :height=>"16px") + ' New competition', new_project_path,
-        :class => 'add_link' %>
-  </div>
-<% end %>

@@ -8,7 +8,7 @@
 <% end %>
 <% if (submission.is_open? || submission.is_modifiable?) || is_admin? %>
   <div class='submission_action'>
-    <%= link_to(image_tag("application_form.png", width: "16px", height: "16px", style: "margin-top:-5px; margin-bottom:-2px;") +
+    <%= link_to(image_tag("page_white_edit.png", width: "16px", height: "16px", style: "margin-top:-5px; margin-bottom:-2px;") +
                           ' Edit title page for this submission',
                 edit_submission_path(submission.id),
                 title: "Click here to edit the title page data for the submission '#{submission.submission_title}'")  %>

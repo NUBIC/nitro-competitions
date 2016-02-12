@@ -20,7 +20,7 @@ module FileDocumentsHelper
       file_format = 'txt' if file_format == file_name
       file_type = 'pdf' if file_format.to_s == 'pdf'
     else
-      file_type = 'speed'
+      file_type = 'document'
       file_format = 'txt'
     end
     mouse_over = link_text if mouse_over.nil?
