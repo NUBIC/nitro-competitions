@@ -219,7 +219,7 @@ class SubmissionsController < ApplicationController
         flash[:alert] = 'You cannot reassign this proposal.'
         format.html { redirect_to project_path(submission.project_id) }
       elsif params[:applicant_id].blank?
-        @users = User.all
+        @users = User.all.order('last_name')
         format.html { render  }
       elsif submission.applicant_id  > 0 && submission.save
         flash[:notice] = "Submission was successfully reassigned to #{applicant.name}."
