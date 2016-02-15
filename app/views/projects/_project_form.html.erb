@@ -1262,7 +1262,18 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_summaries_to_reviewers %>
-            Check to allow reviewers to see other reviewers write-ups
+            Check to allow reviewers to see other reviewers' write-ups
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :show_review_scores_to_reviewers %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_review_scores_to_reviewers %>
+            Check to allow reviewers to see other reviewers' scores
           </div>
         </td>
       </tr>

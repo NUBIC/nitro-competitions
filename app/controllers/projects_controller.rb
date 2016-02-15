@@ -259,6 +259,7 @@ class ProjectsController < ApplicationController
       :show_composite_scores_to_reviewers,
       :show_review_summaries_to_applicants,
       :show_review_summaries_to_reviewers,
+      :show_review_scores_to_reviewers,
       :show_review_guidance,
       :custom_review_guidance,
       :comment_review_only,
