@@ -262,9 +262,15 @@ class SubmissionsController < ApplicationController
   end
 
   def send_submission_email(submission)
-    logger.error('sending email')
-    @logged = nil
-    log_request('sending finalize email')
-    send_finalize_email(submission, current_user_session)
+    if should_send_submission_email(submission)
+      logger.error('sending email')
+      @logged = nil
+      log_request('sending finalize email')
+      send_finalize_email(submission, current_user_session)
+    end
+  end
+
+  def should_send_submission_email(submission)
+    is_admin? ? (submission.applicant == current_user) : true
   end
 end
