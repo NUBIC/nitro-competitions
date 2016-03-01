@@ -79,7 +79,7 @@ module NucatsAssist
 
     config.use_nu = true
 
-    config.from_address = 'competitions@northwestern.edu'
+    config.from_address = 'nitro-noreply@northwestern.edu'
     config.testing_to_address = 'competitions@northwestern.edu'
 
     config.middleware.use ExceptionNotification::Rack,
