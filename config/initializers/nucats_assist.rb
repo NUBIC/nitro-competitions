@@ -3,7 +3,7 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '3.1.9'
+  VERSION = '3.1.10'
 
   class << self
     def plain_app_name
@@ -63,7 +63,7 @@ module NucatsAssist
     end
 
     def from_email_address
-      'competitions@northwestern.edu'
+      'nitro-noreply@northwestern.edu'
     end
 
     def app_support_email_address

@@ -11,7 +11,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "competitions@northwestern.edu"
+  config.mailer_sender = "nitro-noreply@northwestern.edu"
 
   config.secret_key = 'c6e96d915784633d57b6902d554a7b35d5578f715c9b85a14c370c31525f3395ec9f30bbe13a2b0bc228e07db1a82dd41c433cddea77cd34b4b0cca2b0080fb3'
 

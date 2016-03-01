@@ -78,12 +78,14 @@ class SubmissionsController < ApplicationController
   def edit
     @submission = Submission.find(params[:id])
     @project    = @submission.project
+    set_current_project(@project)
     @applicant  = @submission.applicant
   end
 
   def create
     @applicant = User.find(params[:applicant_id])
     @project = Project.find(params[:project_id])
+    set_current_project(@project)
     @submission = Submission.new(submission_params)
     redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
     if @applicant.blank? 
@@ -180,6 +182,7 @@ class SubmissionsController < ApplicationController
   def update
     @submission = Submission.find(params[:id])
     @project = @submission.project
+    set_current_project(@project)
     @submission.max_budget_request = @project.max_budget_request || 50_000
     @submission.min_budget_request = @project.min_budget_request || 1000
 
@@ -262,9 +265,15 @@ class SubmissionsController < ApplicationController
   end
 
   def send_submission_email(submission)
-    logger.error('sending email')
-    @logged = nil
-    log_request('sending finalize email')
-    send_finalize_email(submission, current_user_session)
+    if should_send_submission_email(submission)
+      logger.error('sending email')
+      @logged = nil
+      log_request('sending finalize email')
+      send_finalize_email(submission, current_user_session)
+    end
+  end
+
+  def should_send_submission_email(submission)
+    is_admin? ? (submission.applicant == current_user) : true
   end
 end
