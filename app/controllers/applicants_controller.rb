@@ -57,9 +57,9 @@ class ApplicantsController < ApplicationController
   ##
   # i.e "Is a myNUCATS member?"
   def is_member?(applicant)
-    nucats_members = query_nucats_membership(netid: applicant.username)
-    nucats_members = query_nucats_membership(email: applicant.email) if nucats_members.blank? && !applicant.email.blank?
-    return %w(enrolled netid_verified).include? nucats_members.first['state'] if nucats_members.count == 1
+    nucats_members = query_nucats_membership(name: applicant.username)
+    nucats_members = query_nucats_membership(name: applicant.email) if nucats_members.blank? && !applicant.email.blank?
+    return nucats_members.first['active'] == 'True' if nucats_members.count == 1
     false
   end
 
@@ -74,7 +74,7 @@ class ApplicantsController < ApplicationController
   def query_nucats_membership(*criteria)
     connection = get_connection
     response = connection.get do |req|
-      req.url '/api/v1/people.json', criteria.first
+      req.url ENV['MEMBERSHIP_API_PATH'], criteria.first
     end
     response.success? ? JSON.parse(response.body) : []
   end
