@@ -89,7 +89,7 @@
     = f.label :uploaded_biosketch, 'Biosketch Document'
   %td
     = f.file_field('uploaded_biosketch')
-    - unless @applicant.biosketch_document_id.blank?
+    - if !@applicant.biosketch_document_id.blank? && !@applicant.biosketch.blank?
       %em
         = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
         = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
