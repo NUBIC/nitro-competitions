@@ -550,6 +550,30 @@
           </div>
         </td>
       </tr>
+
+      <tr>
+        <td class="title">
+          <%= f.label :show_total_amount_requested %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_total_amount_requested %>
+            Check to include "total amount requested" in the submission form
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :total_amount_requested_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :total_amount_requested_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Total Amount Requested' for most competitions
+          </div>
+        </td>
+      </tr>
+
       <tr>
         <td class="title">
           <%= f.label :min_budget_request %>
@@ -590,6 +614,29 @@
           <%= f.text_field :is_new_wording, :size=>80 %>
           <div class='attribute_description'>
             'Is this completely new work?' for most competitions
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="title">
+          <%= f.label :show_type_of_equipment %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_type_of_equipment %>
+            Check to include the <b>type of equipment</b> submission form item
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          <%= f.label :type_of_equipment_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :type_of_equipment_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Type of Equipment' for most competitions
           </div>
         </td>
       </tr>

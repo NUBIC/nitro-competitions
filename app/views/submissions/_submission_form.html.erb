@@ -225,6 +225,29 @@
     </td>
   </tr>
 <% end %>
+
+<% if project.show_total_amount_requested %>
+  <tr>
+    <td>
+      <%= f.label :total_amount_requested, project.total_amount_requested_wording %>
+    </td>
+    <td>
+      <%= f.text_field :total_amount_requested,
+                       required: true,
+                       min: project.min_budget_request, max: project.max_budget_request %>
+    </td>
+    <td class='notes'>
+      <% unless project.total_amount_requested_wording.blank? %>
+        Please enter the <%= project.total_amount_requested_wording %> requested for the proposed period of support.
+        <br/>
+      <% end %>
+      <% unless project.min_budget_request.blank? && project.max_budget_request.blank? %>
+        Amount should be between <%= number_to_currency(project.min_budget_request) %> and <%= number_to_currency(project.max_budget_request) %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+
 <% if project.show_cost_sharing_amount %>
   <tr>
     <td>
@@ -288,6 +311,16 @@
           <%= f.text_area :not_new_explanation, rows: 4, wrap: 'virtual' %>
         </span>
       <% end %>
+    </td>
+  </tr>
+<% end %>
+<% if project.show_type_of_equipment %>
+  <tr>
+    <td>
+      <%= f.label :type_of_equipment, project.type_of_equipment_wording %>
+    </td>
+    <td class='notes' colspan='2'>
+      <%= f.select :type_of_equipment, Submission::EQUIPMENT_TYPES, include_blank: false %>
     </td>
   </tr>
 <% end %>
@@ -389,8 +422,17 @@
       <%= f.select :submission_status, Submission::STATUSES, include_blank: false %>
     </td>
   </tr>
+  <tr>
+    <td>
+      <%= f.label :amount_awarded %>
+    </td>
+    <td class='notes' colspan='2'>
+      <%= f.text_field :amount_awarded %>
+    </td>
+  </tr>
 <% else %>
   <%= f.hidden_field :submission_status %>
+  <%= f.hidden_field :amount_awarded %>
 <% end %>
 
 <% if project.show_effort_approver %>
