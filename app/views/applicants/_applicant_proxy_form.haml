@@ -29,11 +29,12 @@
   %td.title
     = f.label :era_commons_name, "eRA Commons"
   %td
-    = f.text_field :era_commons_name, required: true
+    = f.text_field :era_commons_name, required: @project.require_era_commons_name
     %br
     %br
     = "This is #{pronoun} NIH eRA Commons name#{completion}."
-    %strong eRA Commons registration is required.
+    - if @project.require_era_commons_name
+      %strong eRA Commons registration is required.
     %br
     More information at
     = link_to NucatsAssist.era_commons_name_url, NucatsAssist.era_commons_name_url, target: "_blank"

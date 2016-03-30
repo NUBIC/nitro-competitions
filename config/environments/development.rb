@@ -10,6 +10,8 @@ NucatsAssist::Application.configure do
   config.assets.compress = false
   config.assets.debug = true
 
+  config.eager_load = false
+
   config.app_domain = 'example.com'
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true

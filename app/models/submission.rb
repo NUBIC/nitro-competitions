@@ -143,8 +143,10 @@ class Submission < ActiveRecord::Base
   AWARDED   = 'Awarded'
   COMPLETED = 'Completed'
   STATUSES  = [PENDING, REVIEWED, DENIED, AWARDED, COMPLETED]
+  EQUIPMENT_TYPES = ['New', 'ReLODE']
 
   validates :submission_status, inclusion: { in: STATUSES }
+  validates :type_of_equipment, inclusion: { in: EQUIPMENT_TYPES }
 
   def overall_scores
     return 0 if submission_reviews.length == 0
