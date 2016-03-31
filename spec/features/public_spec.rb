@@ -3,6 +3,22 @@ require 'spec_helper'
 
 describe 'Public Section', :type => :feature do
 
+  context 'for a person who has logged in' do
+    describe 'visiting the welcome page' do
+      before do
+        login
+        visit welcome_path
+      end
+
+      it 'shows the home page' do
+        # print page.html
+        expect(page).to have_content(NucatsAssist::plain_app_name)
+        expect(page).to have_content('Current and Recent Competitions')
+        expect(page).to have_content('FName LName') # cf. spec/factories/user.rb
+      end
+    end
+  end
+
   context 'for a person who has not logged in' do
     describe 'visiting the welcome page' do
       before do
@@ -27,21 +43,5 @@ describe 'Public Section', :type => :feature do
       end
     end
   end
-
-  context 'for a person who has logged in' do
-    describe 'visiting the welcome page' do
-      before do
-        login
-        visit welcome_path
-      end
-
-      it 'shows the home page' do
-        expect(page).to have_content(NucatsAssist::plain_app_name)
-        expect(page).to have_content('Current and Recent Competitions')
-        expect(page).to have_content('FName LName') # cf. spec/factories/user.rb
-      end
-    end
-  end
-
 
 end
