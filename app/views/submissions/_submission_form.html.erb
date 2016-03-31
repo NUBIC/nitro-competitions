@@ -320,7 +320,7 @@
       <%= f.label :type_of_equipment, project.type_of_equipment_wording %>
     </td>
     <td class='notes' colspan='2'>
-      <%= f.select :type_of_equipment, Submission::EQUIPMENT_TYPES, include_blank: false %>
+      <%= f.select :type_of_equipment, Submission::EQUIPMENT_TYPES, {include_blank: true}, {required: 'true'} %>
     </td>
   </tr>
 <% end %>

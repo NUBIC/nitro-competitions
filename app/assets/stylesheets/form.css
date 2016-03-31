@@ -28,6 +28,7 @@ input[disabled] {
 }
 
 /* style all input elements with a required attribute */
+.required,
 :required {
   border: 2px solid crimson;
 }

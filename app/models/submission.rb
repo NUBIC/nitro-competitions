@@ -146,7 +146,7 @@ class Submission < ActiveRecord::Base
   EQUIPMENT_TYPES = ['New', 'ReLODE']
 
   validates :submission_status, inclusion: { in: STATUSES }
-  validates :type_of_equipment, inclusion: { in: EQUIPMENT_TYPES }
+  validates :type_of_equipment, inclusion: { in: EQUIPMENT_TYPES }, allow_blank: true
 
   def overall_scores
     return 0 if submission_reviews.length == 0
