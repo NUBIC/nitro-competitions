@@ -1,2 +1,11 @@
+- if !current_project.nil? && !current_project.program.email.blank?
+  .help 
+    For assistance with current competition
+    %b
+      %i
+        = current_project.project_title
+    email
+    %a{href: "mailto:#{current_project.program.email}?subject=[NITRO Competitions] Assistance with #{current_project.project_title}"}
+      = current_project.program.email
 .version
   = "v. #{NucatsAssist::VERSION}"
