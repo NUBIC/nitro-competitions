@@ -1,8 +1,14 @@
+.footer .help {
+  float: left;
+  color: #999;
+  width: 75%;
+  padding: 1em;
+}
 
 .version {
-	float: right;
-	color: #999;
-	padding: 1em;
+  float: right;
+  color: #999;
+  padding: 1em;
 }
 
 .highlighted_table_cell {
