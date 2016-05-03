@@ -3,7 +3,7 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '3.2.0'
+  VERSION = '3.2.1'
 
   class << self
     def plain_app_name
@@ -51,7 +51,7 @@ module NucatsAssist
     end
 
     def era_commons_name_url
-      'http://www.research.northwestern.edu/osr/commons.html'
+      'https://osr.northwestern.edu/resources/era-commons'
     end
 
     def ldap_url
