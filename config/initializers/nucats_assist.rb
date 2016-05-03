@@ -51,7 +51,7 @@ module NucatsAssist
     end
 
     def era_commons_name_url
-      'http://www.research.northwestern.edu/osr/commons.html'
+      'https://osr.northwestern.edu/resources/era-commons'
     end
 
     def ldap_url
