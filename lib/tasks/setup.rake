@@ -97,7 +97,8 @@ namespace :setup do
       user = User.create username: arr[0],
                          first_name: arr[1],
                          last_name: arr[2],
-                         email: arr[3]
+                         email: arr[3],
+                         password: Devise.friendly_token[0,20]
       puts "=> created user #{user.name}"
     end
     user
