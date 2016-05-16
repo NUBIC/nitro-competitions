@@ -1,5 +1,7 @@
 div#content {
-  padding: 0 1em;
+  /* to offset the sticky footer we add padding to the bottom of content */
+  float: left;
+  padding: 0 1em 45px 1em;
   width: 98%;
 }
 
