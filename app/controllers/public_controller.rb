@@ -18,7 +18,7 @@ class PublicController < ApplicationController
     if current_user
       redirect_to '/projects'
     else
-      @projects = (Project.preinitiation + Project.open + Project.in_review + Project.recently_awarded).flatten.uniq
+      @projects = Project.open.flatten.uniq
       @programs = {}
       @projects.each do |pr|
         @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
