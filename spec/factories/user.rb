@@ -26,5 +26,6 @@ FactoryGirl.define do
     created_at Time.now
     password 'password'
     should_receive_submission_notifications true
+    system_admin false
   end
 end
