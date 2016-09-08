@@ -23,7 +23,7 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :sponsors, only: [:index, :show, :edit, :update] do
+  resources :sponsors, except: [:delete] do
     member do
       get :contact
       post :opt_out_submission_notification

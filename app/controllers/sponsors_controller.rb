@@ -4,7 +4,29 @@ class SponsorsController < ApplicationController
   helper :sponsors 
   include SponsorsHelper
   include ApplicationHelper
-  
+
+  # GET /sponsors/1/new
+  def new
+    redirect_to root_path, alert: 'Access Denied' unless current_user.system_admin?
+    @sponsor = Program.new
+  end
+
+  # POST /sponsors/1
+  def create
+    redirect_to root_path, alert: 'Access Denied' unless current_user.system_admin?
+    @sponsor = Program.new(program_params)
+    respond_to do |format|
+      if @sponsor.save
+        flash[:notice] = 'Sponsor was successfully created.'
+        format.html { redirect_to(sponsor_path(@sponsor)) } # redirect to set sponsor admins 
+        format.xml  { head :ok }
+      else
+        format.html { render :action => :new }
+        format.xml  { render :xml => @sponsor.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   # GET /sponsors
   # GET /sponsors.xml
   def index
