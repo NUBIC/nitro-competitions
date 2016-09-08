@@ -3,35 +3,8 @@
 =form_for(@sponsor, url: sponsor_path(@sponsor)) do |f|
   =render('shared/error_messages', object: f.object) if f.object && !f.object.try(:errors).blank?
 
-  %table
-    %tr
-      %td.title=f.label 'Name'
-      %td.notes
-        =f.text_field :program_name, size: 40
-        %br
-        <i>Used in competition URL. Ex: grants.nubic.northwestern.edu/competitions/<strong>sponsor_name</strong>/competition_name</i>
-    %tr
-      %td.title=f.label 'Contact email'
-      %td.notes
-        =f.text_field :email, size: 40
-        %br
-        <i>Where can applicants contact you for help with your competitions?</i>
-    %tr
-      %td.title=f.label 'Allow Reviewer Notification'
-      %td.notes
-        =f.check_box :allow_reviewer_notification
-    %tr
-      %td.title=f.label 'Title'
-      %td.notes
-        =f.text_field :program_title, size: 80
-    %tr
-      %td.title=f.label 'Website'
-      %td.notes
-        =f.text_field :program_url, size: 80
+  = render('/sponsors/form_fields', f: f)
 
-  %p
-    = f.submit 'Update'
-
-= render('shared/admin_links')
+= render('shared/admin_links', program: @sponsor)
 
 %p

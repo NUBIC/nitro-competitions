@@ -86,10 +86,19 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   # GET /projects/new.xml
   def new
-    project = current_project
+    if params[:sponsor_id] 
+      @program = Program.find(params[:program_id])
+      if current_project.program == @program 
+        @project = duplicate_project(project)  
+      else
+        @project = Project.new(program: @program)
+      end
+    else
+      project = current_project
+      @project = duplicate_project(project)
+      @program = @project.program
+    end
 
-    @project = duplicate_project(project)
-    @program = @project.program
     respond_to do |format|
       if is_admin?
         format.html # new.html.erb

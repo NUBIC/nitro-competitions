@@ -9,7 +9,7 @@
                show_action_links: true %>
   </div>
 <% else %>
-  <h2>No valid competitions have been sponsored by <%= @sponsor.program_title %></h2>
+  <h3>No valid competitions have been sponsored by <%= @sponsor.program_title %></h3>
 <% end %>
 
-<%= render 'shared/admin_links' %>
+<%= render 'shared/admin_links', program: @sponsor %>
