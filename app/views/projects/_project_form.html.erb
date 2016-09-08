@@ -10,7 +10,9 @@
     <table>
       <tr>
         <td class="title">
-          <%= f.hidden_field :program_id %><%= hidden_field_tag 'program_id', @program.id if @program %><%= f.label "Competition Name" %>
+          <%= f.hidden_field :program_id %>
+          <%= hidden_field_tag 'program_id', @program.id if @program %>
+          <%= f.label "Competition Name" %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :project_name, :size => 20, required: true %>
@@ -61,7 +63,7 @@
           <%= f.label :initiation_date %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :initiation_date, :size=>15 %>
+          <%= f.text_field :initiation_date, :size=>15, required: true, class: 'datepicker' %>
           <div class='attribute_description'>
             Date this competition will first appear on this site
           </div>
@@ -72,7 +74,7 @@
           <%= f.label :submission_open_date  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_open_date, :size=>15, required: true %>
+          <%= f.text_field :submission_open_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Date when applicants can first start to apply for the competition
@@ -84,7 +86,7 @@
           <%= f.label :submission_close_date  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_close_date, :size=>15, required: true %>
+          <%= f.text_field :submission_close_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Last date (at midnight that day) when the applicants can submit their submission
@@ -109,7 +111,7 @@
           <%= f.label :submission_modification_date  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_modification_date, :size=>15 %>
+          <%= f.text_field :submission_modification_date, :size=>15, class: 'datepicker' %>
           <div class='attribute_description'>
             Last date (at midnight that day) when the applicants can modify their submission.
             <br />
@@ -123,7 +125,7 @@
           <span class='required_marker'> * </span>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :review_start_date, :size=>15, required: true %>
+          <%= f.text_field :review_start_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Start of the Review process.
@@ -138,7 +140,7 @@
           <span class='required_marker'> * </span>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :review_end_date, :size=>15, required: true %>
+          <%= f.text_field :review_end_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             End of the Review process.
@@ -152,7 +154,7 @@
           <%= f.label :project_period_start_date %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_period_start_date, :size=>15 %>
+          <%= f.text_field :project_period_start_date, :size=>15, required: true, class: 'datepicker' %>
           <div class='attribute_description'>
             When the project funding starts. Informational only.
           </div>
@@ -163,7 +165,7 @@
           <%= f.label :project_period_end_date %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_period_end_date, :size=>15 %>
+          <%= f.text_field :project_period_end_date, :size=>15, required: true, class: 'datepicker' %>
           <div class='attribute_description'>
             When the project funding ends. Informational only.
           </div>

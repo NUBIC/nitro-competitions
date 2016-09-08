@@ -13,5 +13,8 @@
 <%= link_to 'List of all competitions', projects_path %>
 
 <script>
+  jQuery( function() {
+    jQuery( ".datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
+  });
   jQuery('.edit_project').validate();
 </script>
