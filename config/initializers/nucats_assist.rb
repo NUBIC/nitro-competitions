@@ -79,7 +79,7 @@ module NucatsAssist
     end
 
     def admin_netids
-      %w{pfr957 wakibbe dfu601}
+      User.where(system_admin: true).map{ |u| u.username }
     end
 
     def cru_contact_email

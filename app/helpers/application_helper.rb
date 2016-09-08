@@ -54,28 +54,12 @@ module ApplicationHelper
   ##
   # Set session attribute act_as_admin
   def act_as_admin(user = current_user)
-    session[:act_as_admin] = current_user_is_admin?(user)
+    session[:act_as_admin] = user.system_admin?
   end
 
   def application_logout_path
     signout_path
   end
-
-  ##
-  # Is the current user session username in the admin list
-  # @return Boolean
-  def current_user_is_admin?(user)
-    begin
-      f = File.open(File.join("#{Rails.root}", 'config', 'logins', 'admins.txt'))
-      admin_usernames = f.readlines.map(&:strip)
-      f.close
-    rescue
-      # no file found - use defaults
-      admin_usernames = NucatsAssist.admin_netids
-    end
-    admin_usernames.include?(user.try(:username))
-  end
-  private :current_user_is_admin?
 
   # program and project session-oriented helpers
 
