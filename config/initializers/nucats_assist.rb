@@ -55,7 +55,7 @@ module NucatsAssist
     end
 
     def ldap_url
-      'http://directory.northwestern.edu/'
+      'http://directory.northwestern.edu/?verbose=1'
     end
 
     def ldap_link_title

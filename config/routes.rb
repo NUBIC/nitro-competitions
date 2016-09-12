@@ -79,6 +79,8 @@ NucatsAssist::Application.routes.draw do
         post :unassign_submission
         get :act_as_user
         post :act_as_user
+        get :user_lookup
+        post :user_lookup
       end
       member do
         get :remove_reviewer

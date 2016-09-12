@@ -1,0 +1,39 @@
+%h3
+  User Lookup
+.search-form
+  = form_tag ('/admins/user_lookup') do 
+    .search-param
+      = text_field_tag :first_name, params[:first_name], placeholder: 'First name'
+    .search-param
+      = text_field_tag :last_name, params[:last_name], placeholder: 'Last name'
+    .search-param
+      = text_field_tag :email, params[:email], placeholder: 'Email'
+    .search-button
+      = submit_tag 'Search Database'
+      = link_to 'or Search Northwestern Directory', NucatsAssist.ldap_url, target: '_blank'
+
+.search-results
+  - if @results
+    - if @results.blank?
+      .no-results
+        No results matched your search criteria.
+    - else
+      - @results.each do |result|
+        %dl.search-result
+          %dt.result-data
+            Name: 
+          %dd.result-data
+            = blank_safe(result.name)
+          %dt.result-data
+            Username: 
+          %dd.result-data
+            = blank_safe(result.username)
+          %dt.result-data
+            Email: 
+          %dd.result-data
+            - if result.email.blank?
+              = blank_safe(result.email)
+            - else
+              = mail_to result.email 
+  - else
+    Please enter search criteria.

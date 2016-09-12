@@ -163,6 +163,14 @@ class User < ActiveRecord::Base
     self.biosketch.save if !self.biosketch.nil? && self.biosketch.changed?
   end
 
+  def self.search(params)
+    q = ' 1 = 1 '
+    q << " AND first_name ilike '#{params[:first_name]}%'" unless params[:first_name].blank?
+    q << " AND last_name ilike '#{params[:last_name]}%'" unless params[:last_name].blank?
+    q << " AND email ilike '#{params[:email]}%'" unless params[:email].blank?
+    User.where(q).to_a
+  end
+
   ## 
   # Find or create user
   # @param auth [OmniAuth::AuthHash]

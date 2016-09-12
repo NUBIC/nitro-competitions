@@ -3,6 +3,10 @@ require 'spec_helper'
 
 describe 'Public Section', :type => :feature do
 
+  before do 
+    FactoryGirl.create(:project) if Project.count < 1
+  end
+
   context 'for a person who has logged in' do
     describe 'visiting the welcome page' do
       before do
