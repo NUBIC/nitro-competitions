@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, except: [:index, :new, :create]
 
   def login
     url = params[:url].blank? ? root_url : params[:url]
@@ -7,6 +7,36 @@ class UsersController < ApplicationController
       url = edit_applicant_path(current_user)
     end
     redirect_to url
+  end
+
+  def new
+    @sponsor = @project.program if @project
+    if is_admin?(@sponsor) || current_user.system_admin?
+      @user = User.new
+    else
+      redirect_to root_path, alert: 'Access Denied'    
+    end
+  end
+
+
+  def create
+    @sponsor = @project.program if @project
+    if is_admin?(@sponsor) || current_user.system_admin?
+      @user = User.new(user_params)
+      @user.password = Devise.friendly_token[0,20] # unused but required by devise
+      respond_to do |format|
+        if @user.save
+          flash[:notice] = 'User was successfully created.'
+          format.html { redirect_to(root_path) } 
+          format.xml  { head :ok }
+        else
+          format.html { render :action => :new }
+          format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        end
+      end
+    else
+      redirect_to root_path, alert: 'Access Denied'    
+    end
   end
 
   # GET /users/:id.:format
@@ -64,8 +94,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      accessible = [ :name, :email ] # extend with your own params
-      accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
-      params.require(:user).permit(accessible)
+      params.require(:user).permit(:username, :first_name, :last_name, :email)
     end
 end

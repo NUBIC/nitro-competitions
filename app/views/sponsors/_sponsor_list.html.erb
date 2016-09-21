@@ -13,7 +13,7 @@
     <% sponsors.each do |sponsor| %>
       <tr>
         <td>
-          <%= sponsor.program_name %>
+          <%= link_to(sponsor.program_name, sponsor_path(sponsor)) %>
         </td>
         <td>
           <%= sponsor.program_title %>

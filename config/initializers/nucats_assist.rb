@@ -55,7 +55,7 @@ module NucatsAssist
     end
 
     def ldap_url
-      'http://directory.northwestern.edu/'
+      'http://directory.northwestern.edu/?verbose=1'
     end
 
     def ldap_link_title
@@ -79,7 +79,7 @@ module NucatsAssist
     end
 
     def admin_netids
-      %w{pfr957 wakibbe dfu601}
+      User.where(system_admin: true).map{ |u| u.username }
     end
 
     def cru_contact_email

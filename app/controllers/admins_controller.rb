@@ -156,6 +156,11 @@ class AdminsController < ApplicationController
     end
   end
 
+  def user_lookup
+    @results = nil
+    @results = User.search(params) if request.post?
+  end
+
   def add_reviewers
     @sponsor = @project.program
     if is_admin?(@sponsor)

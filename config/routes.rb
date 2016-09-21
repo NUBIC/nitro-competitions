@@ -23,7 +23,7 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  resources :sponsors, only: [:index, :show, :edit, :update] do
+  resources :sponsors, except: [:delete] do
     member do
       get :contact
       post :opt_out_submission_notification
@@ -79,6 +79,8 @@ NucatsAssist::Application.routes.draw do
         post :unassign_submission
         get :act_as_user
         post :act_as_user
+        get :user_lookup
+        post :user_lookup
       end
       member do
         get :remove_reviewer
@@ -129,6 +131,7 @@ NucatsAssist::Application.routes.draw do
   match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
 
   match '/users/login', to: 'users#login', via: [:get]
+  match '/users/create_user', to: 'users#create', via: [:post]
 
   match '/:controller(/:action(/:id))', via: [:get, :post]
 

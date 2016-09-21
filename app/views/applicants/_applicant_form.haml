@@ -35,6 +35,12 @@
   .col-xs-9
     = f.text_field :last_name, {required: true, placeholder: 'last name', class: 'form-control'}
 
+- if current_user.system_admin?
+  .form-group
+    = f.label :system_admin, 'System Admin', {class: 'col-xs-3 control-label'}
+    .col-xs-9
+      = f.check_box :system_admin
+
 %h4 On-campus mailing address
 .form-group
   = f.label :campus, 'Campus', {class: 'col-xs-3 control-label'}

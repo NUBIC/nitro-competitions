@@ -1,4 +1,34 @@
-<%= render 'sponsor_list', :sponsors => @sponsors %>
+<table id="sponsorTable" class="tablesorter">
+  <thead>
+    <tr>
+      <th width="100px">Name</th>
+      <th>Title</th>
+      <th>URL</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <%= link_to(@sponsor.program_name, sponsor_path(@sponsor)) %>
+      </td>
+      <td>
+        <%= @sponsor.program_title %>
+      </td>
+      <td>
+        <%= link_to(@sponsor.program_url, @sponsor.program_url) %>
+      </td>
+      <% if is_admin?(@sponsor) %>
+        <td><%= link_to "Edit", edit_sponsor_path(@sponsor) %></td>
+      <% end %>
+    </tr>
+  </tbody>
+</table>
+
+
+<% if current_user.system_admin? | current_user.is_admin? %>
+  <%= link_to('Add Sponsor Roles', sponsor_roles_path(@sponsor)) %>
+<% end %>
 
 <% if @projects.length > 0 %>
   <h2>Listing of all competitions sponsored by <%= @sponsor.program_title %></h2>
@@ -9,7 +39,7 @@
                show_action_links: true %>
   </div>
 <% else %>
-  <h2>No valid competitions have been sponsored by <%= @sponsor.program_title %></h2>
+  <h3>No valid competitions have been sponsored by <%= @sponsor.program_title %></h3>
 <% end %>
 
-<%= render 'shared/admin_links' %>
+<%= render 'shared/admin_links', program: @sponsor %>
