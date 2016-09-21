@@ -26,7 +26,7 @@
             .row.unassigned_submission{id: "submission_#{item.id}"}
               = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}"
 
-%h2 Add Reviewers #{netid_lookup_tag}
+%h2 Add Reviewers #{username_lookup_tag}
 %p Enter a comma or space-separated list of usernames for the reviewers.
 = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
   = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?

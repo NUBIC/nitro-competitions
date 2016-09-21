@@ -15,8 +15,7 @@ module ApplicationHelper
   end
 
   def blank_safe(word, filler = '-')
-    return filler if word.blank?
-    word
+    word.blank? ? filler : word
   end
 
   ##
@@ -384,6 +383,13 @@ module ApplicationHelper
   def netid_lookup_tag
     link_to(image_tag('search.gif', style: 'margin-bottom:-5px;'),
             NucatsAssist.ldap_url,
+            target: '_blank',
+            title: NucatsAssist.ldap_link_title)
+  end
+
+  def username_lookup_tag
+    link_to(image_tag('search.gif', style: 'margin-bottom:-5px;'),
+            '/admins/user_lookup',
             target: '_blank',
             title: NucatsAssist.ldap_link_title)
   end

@@ -86,3 +86,21 @@ form {
 .applicant_form {
   width: 85%;
 }
+
+.search-form {
+  margin: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.search-results {
+  margin: 1rem;
+}
+
+.search-result {
+
+}
+
+dd.result-data {
+  padding-bottom: 0.25em;
+}
