@@ -25,7 +25,7 @@ class RolesController < ApplicationController
     if is_admin?(@sponsor)
       @role = Role.find(params[:id])
       @roles_users = @sponsor.roles_users.for_role(@role).all
-      @all_users = User.all
+      @all_users = User.order(:last_name).to_a
       respond_to do |format|
         format.html # show.html.erb
         format.xml  { render :xml => @role }

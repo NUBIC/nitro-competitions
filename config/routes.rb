@@ -131,6 +131,7 @@ NucatsAssist::Application.routes.draw do
   match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
 
   match '/users/login', to: 'users#login', via: [:get]
+  match '/users/create_user', to: 'users#create', via: [:post]
 
   match '/:controller(/:action(/:id))', via: [:get, :post]
 

@@ -2,13 +2,13 @@
 
 <table>
   <tr>
-  <th>Name</th>
+  <th>Role Name</th>
   </tr>
 
 <% @roles.each do |role| %>
   <tr>
   <td><%= role.name %></td>
-    <td><%= link_to 'Show', sponsor_role_url(:sponsor_id=>@sponsor.id, :id=>role.id) %></td>
+    <td><%= link_to 'User List', sponsor_role_url(:sponsor_id=>@sponsor.id, :id=>role.id) %></td>
   </tr>
 <% end %>
 </table>

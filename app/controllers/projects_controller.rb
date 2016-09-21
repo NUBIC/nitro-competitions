@@ -86,7 +86,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   # GET /projects/new.xml
   def new
-    if params[:sponsor_id] 
+    if params[:program_id] 
       @program = Program.find(params[:program_id])
       if current_project.program == @program 
         @project = duplicate_project(project)  
