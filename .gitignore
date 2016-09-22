@@ -4,6 +4,8 @@
 # db backups
 db/*.out
 
+*.log
+
 # .rc
 .powrc
 .rvmrc

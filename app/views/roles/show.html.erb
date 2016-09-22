@@ -11,7 +11,7 @@
   <tr>
   <td><%= link_to role_user.user.sort_name, applicant_path(role_user.user_id) %></td>
   <td><%= role_user.user.roles_users.for_program(current_program).collect{|ur| ur.role.name}.join(", ") %></td>
-  <td><%= link_to 'Remove Role', remove_sponsor_user_role_url(:sponsor_id=>@sponsor.id, :role_id=>@role.id, :user_id=>role_user.user.id, :id=>role_user.id) %></td>
+  <td><%= link_to 'Remove', remove_sponsor_user_role_url(:sponsor_id=>@sponsor.id, :role_id=>@role.id, :user_id=>role_user.user.id, :id=>role_user.id) %></td>
   </tr>
 <% end %>
 </table>
@@ -21,14 +21,16 @@
 <table class="compact">
   <tr>
   <th>Users</th>
-  <th>&nbsp;</th>
+  <th>Add Role  '<%= @role.name %>'</th>
   </tr>
 <% @all_users.each do |user| %>
   <tr>
   <td><%= link_to user.sort_name, applicant_path(user.id) %></td>
-  <td><%= link_to 'Add Role', add_sponsor_user_role_url(:sponsor_id=>@sponsor.id, :role_id=>@role.id, :user_id=>user.id) %></td>
+  <td><%= link_to 'Add', add_sponsor_user_role_url(:sponsor_id=>@sponsor.id, :role_id=>@role.id, :user_id=>user.id) %></td>
    </tr>
 <% end %>
 </table>
 
-<%= link_to 'All roles', sponsor_roles_path %>
+<p>
+  <%= link_to 'Back to All Roles', sponsor_roles_path %>
+</p

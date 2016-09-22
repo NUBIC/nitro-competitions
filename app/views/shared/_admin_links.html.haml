@@ -1,8 +1,11 @@
+- program = program || nil
 - if is_admin?
   .admin_links
     Admin links:
     %ul
-      %li= link_to(image_tag('add.png', width: '16px', height: '16px') + ' New competition', new_project_path)
+      %li
+        - path = program.blank? ? new_project_path : new_project_path(program_id: program.id)
+        = link_to(image_tag('add.png', width: '16px', height: '16px') + ' New competition', path)
       %li= link_to('All submissions', submissions_project_admins_path(current_project.id))
       %li= link_to('All reviews', all_reviews_project_path(current_project.id))
       - if @sponsor

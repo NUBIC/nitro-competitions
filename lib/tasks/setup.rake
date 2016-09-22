@@ -29,6 +29,15 @@ namespace :setup do
     end
   end
 
+  desc 'Define system administrators'
+  task :system_admins => :environment do
+    %w(wakibbe pfr957 dfu601 fhw108 mjb0760).each do |netid|
+      u = User.where(username: netid).first 
+      u.update_attribute(:system_admin, true) if u && !u.system_admin?
+    end
+  end
+
+
   ##
   # Update this information for your sponsor and competition then run
   # $ rake sponsor:create

@@ -156,6 +156,15 @@ describe User, :type => :model do
     end
   end
 
+  describe '#system_admin?' do 
+    it 'returns true for a system adminstrator' do 
+      expect(FactoryGirl.create(:user, system_admin: true)).to be_system_admin
+    end
+    it 'returns false for a general user' do 
+      expect(FactoryGirl.create(:user)).to_not be_system_admin
+    end
+  end
+
   context 'as applicant' do
     let(:submission) { FactoryGirl.create(:submission) }
     let(:user) { submission.applicant }
