@@ -110,6 +110,7 @@ module ApplicationHelper
         project = Project.find(session[:project_id])
       end
     end
+    # Default project on login!!! Sometimes causes issue.
     project = Project.active[0] if project.blank?
     if project.blank?
       project = Project.new

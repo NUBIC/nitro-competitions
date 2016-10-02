@@ -6,4 +6,4 @@ role :app, %w{rails-staging2.nubic.northwestern.edu}
 role :web, %w{rails-staging2.nubic.northwestern.edu}
 role :db,  %w{rails-staging2.nubic.northwestern.edu}
 
-server 'rails-staging2.nubic.northwestern.edu', user: 'pfr957', roles: %w{web app}, primary: true
+server 'rails-staging2.nubic.northwestern.edu', user: 'mjb0760', roles: %w{web app}, primary: true

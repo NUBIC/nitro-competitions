@@ -33,14 +33,14 @@ describe NmedwAuthentication do
 
   describe '.get_user_details' do
     it 'returns a Hash' do 
-      stub_request(:get, 'https://edwapps.nmff.org/campusdirectory/campuslookup.asmx/LookUp?input=nu\pfr957').
+      stub_request(:get, 'https://edwapps.nmff.org/campusdirectory/campuslookup.asmx/LookUp?input=nu\mjb0760').
         with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-        to_return(status: 200, body: '<ArrayOfResults><Results><lastName>Friedman</lastName><firstName>Paul</firstName><fullNameUser>NU (Paul Friedman)</fullNameUser><account>NU\pfr957</account><mail>p-friedman@northwestern.edu</mail><source>NU</source></Results></ArrayOfResults>', headers: {})
+        to_return(status: 200, body: '<ArrayOfResults><Results><lastName>Baumann</lastName><firstName>Matthew</firstName><fullNameUser>NU (Matthew Baumann)</fullNameUser><account>NU\mjb0760</account><mail>matthew.baumann@northwestern.edu</mail><source>NU</source></Results></ArrayOfResults>', headers: {})
 
-      hsh = NmedwAuthentication.get_user_details('nu\pfr957')
-      hsh['firstName'].should eql('Paul')
-      hsh['lastName'].should eql('Friedman')
-      hsh['mail'].should eql('p-friedman@northwestern.edu')
+      hsh = NmedwAuthentication.get_user_details('nu\mjb0760')
+      hsh['firstName'].should eql('Matthew')
+      hsh['lastName'].should eql('Baumann')
+      hsh['mail'].should eql('matthew.baumann@northwestern.edu')
     end
 
     it 'handles more than one record returned' do
