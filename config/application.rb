@@ -86,7 +86,7 @@ module NucatsAssist
                           email: {
                             email_prefix: "[#{Rails.env}] NITROCompetitions ",
                             sender_address: "competitions@northwestern.edu",
-                            exception_recipients: %w{p-friedman@northwestern.edu}
+                            exception_recipients: %w{matthew.baumann@northwestern.edu}
                           }
   end
 end

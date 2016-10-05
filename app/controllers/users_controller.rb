@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, except: [:index, :new, :create]
+  before_action :set_user, except: [:index, :new, :create, :login]
 
   def login
     url = params[:url].blank? ? root_url : params[:url]

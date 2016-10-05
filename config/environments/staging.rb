@@ -18,8 +18,8 @@ NucatsAssist::Application.configure do
   config.middleware.use ExceptionNotification::Rack,
                         email: {
                           email_prefix: '[Exception] NITRO Competitions ',
-                          sender_address: %{'NITRO Competitions Exception Notifier [STAGING]' <p-friedman@northwestern.edu>},
-                          exception_recipients: %w{p-friedman@northwestern.edu}
+                          sender_address: %{'NITRO Competitions Exception Notifier [STAGING]' <matthew.baumann@northwestern.edu>},
+                          exception_recipients: %w{matthew.baumann@northwestern.edu}
                         }
 
   config.action_mailer.default_url_options = { host: 'https://grants.nubic.northwestern.edu' }

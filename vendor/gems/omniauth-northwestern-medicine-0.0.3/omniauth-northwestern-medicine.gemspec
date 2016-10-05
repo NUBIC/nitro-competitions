@@ -6,8 +6,8 @@ require 'omniauth-northwestern-medicine/version'
 Gem::Specification.new do |spec|
   spec.name          = 'omniauth-northwestern-medicine'
   spec.version       = OmniAuth::NorthwesternMedicine::VERSION
-  spec.authors       = ['Luke Rasmussen', 'Paul Friedman']
-  spec.email         = ['luke.rasmussen@northwestern.edu', 'p-friedman@northwestern.edu']
+  spec.authors       = ['Luke Rasmussen', 'Matthew Baumann']
+  spec.email         = ['luke.rasmussen@northwestern.edu', 'matthew.baumann@northwestern.edu']
   spec.description   = %q{OmniAuth strategy for Northwestern Medicine}
   spec.summary       = %q{OmniAuth strategy for Northwestern Medicine}
   spec.homepage      = ''
