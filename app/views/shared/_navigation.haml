@@ -2,7 +2,7 @@
 - @program ||= current_program unless current_program.blank?
 - @project ||= current_project unless current_project.blank?
 - @project ||= nil
-- @root_url = session[:user_id].blank? ? '/welcome' : '/projects'
+- @root_url = session[:user_id].blank? ? '/welcome' : '/public/home'
 
 %nav.navbar.navbar-default.navbar-fluid-top
   .container-fluid

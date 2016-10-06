@@ -16,7 +16,7 @@ class PublicController < ApplicationController
 
   def welcome
     if current_user
-      redirect_to '/projects'
+      redirect_to '/public/home'
     else
       @projects = Project.open.flatten.uniq
       @programs = {}
@@ -24,6 +24,10 @@ class PublicController < ApplicationController
         @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
       end
     end
+  end
+
+  def home
+    
   end
 
   def auth
