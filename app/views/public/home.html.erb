@@ -1,4 +1,4 @@
-home.html.erb
+TODO: add text and beautify display
 
 <% if current_user.blank? %>
   <%= link_to 'Please log in', '/public/home' %>
@@ -6,7 +6,7 @@ home.html.erb
   <ul>
 
     <li>
-      <%= link_to 'New Submission', '/projects' %>
+      <%= link_to 'View all competitions', '/projects' %>
     </li>
 
     <% if @submissions.count > 0 %>
@@ -16,7 +16,9 @@ home.html.erb
     <% end %>
 
     <% if @submission_reviews.count > 0 %>
-      <li><%= "Your #{pluralize(@submission_reviews.count, 'Review')}" %></li>
+      <li>
+        <%= link_to "Your #{pluralize(@submission_reviews.count, 'Review')}", '/reviewers/all_with_files' %>
+      </li>
     <% end %>
 
   </ul>

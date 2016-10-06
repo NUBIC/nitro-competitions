@@ -12,7 +12,6 @@ class ReviewersController < ApplicationController
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     respond_to do |format|
       format.html { render action: 'index' } # index.html.erb
-      format.xml  { render xml: @reviewers }
     end
   end
 
@@ -21,10 +20,25 @@ class ReviewersController < ApplicationController
     index
   end
 
+  def all
+    @include_sponsor_and_competition = true
+    @submission_reviews = current_user_session.submission_reviews.order('updated_at DESC')
+    respond_to do |format|
+      format.html { render action: 'all' } # all.html.erb
+    end
+  end
+
+  def all_with_files
+    @include_files = true
+    all
+  end
+
   def complete_listing
     set_session_project(params[:project_id]) unless params[:project_id].blank?
     @assigned_submission_reviews = current_user_session.submission_reviews.this_project(current_project.id)
     @submission_reviews = current_project.submission_reviews.all if can_read?(@assigned_submission_reviews)
+    # TODO: why is this next line here - @submission_reviews should be only for admins I thought
+    # @see complete_listing_with_files
     @submission_reviews = current_project.submission_reviews.all
     respond_to do |format|
       format.html { render action: 'index' } # index.html.erb
@@ -69,6 +83,7 @@ class ReviewersController < ApplicationController
 
   # GET /reviewers/1/edit
   def edit
+    # FIXME: put these in a submission_reviews controller!! 
     @submission_review = SubmissionReview.find(params[:id])
     @project = @submission_review.project
     if @submission_review.submission.project.review_end_date < Date.today && is_admin?(current_program)
@@ -94,7 +109,9 @@ class ReviewersController < ApplicationController
   # PUT /reviewers/1
   # PUT /reviewers/1.xml
   def update
+    # FIXME: put these in a submission_reviews controller!! 
     @submission_review = SubmissionReview.find(params[:id])
+    @project = @submission_review.project
     if can_update_submission_review?(@submission_review) || is_admin?(@submission_review.submission.project.program)
       respond_to do |format|
         if @submission_review.update_attributes(submission_review_params)

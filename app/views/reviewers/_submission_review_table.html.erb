@@ -6,18 +6,22 @@
 <% include_competition ||= false %>
 
 <% if submission_reviews.blank? %>
-
+  
 <% else %>
   <p style="margin-top: 1em; float:right;">
   <% unless controller.action_name =~ /with_files/ %>
     <% if controller.action_name =~ /index/ %>
       <%= link_to("List with files", index_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
+    <% elsif controller.action_name =~ /all/ %>
+      <%= link_to("List with files", '/reviewers/all_with_files') %>
     <% else %>
       <%= link_to("List with files", complete_listing_with_files_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
     <% end %>
   <% else %>
     <% if controller.action_name =~ /index/ %>
       <%= link_to("List without files", project_reviewers_url(submission_reviews[0].submission.project_id)) %>
+    <% elsif controller.action_name =~ /all/ %>
+      <%= link_to("List without files", '/reviewers/all') %>
     <% else %>
       <%= link_to("List without files", complete_listing_project_reviewers_url(submission_reviews[0].submission.project_id)) %>
   <% end %>

@@ -90,6 +90,13 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
+  resources :reviewers, only: [:edit, :update, :destroy] do
+    collection do
+      get :all
+      get :all_with_files
+    end
+  end
+
   resources :submissions, except: [:new] do
     collection do
       get :all
