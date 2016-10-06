@@ -27,7 +27,9 @@ class PublicController < ApplicationController
   end
 
   def home
-    
+    # TODO: look for better way to get all unique submissions for current user
+    @submissions        = (current_user.submissions + current_user.proxy_submissions).uniq
+    @submission_reviews = current_user.submission_reviews
   end
 
   def auth

@@ -1,1 +1,23 @@
 home.html.erb
+
+<% if current_user.blank? %>
+  <%= link_to 'Please log in', '/public/home' %>
+<% else %>
+  <ul>
+
+    <li>
+      <%= link_to 'New Submission', '/projects' %>
+    </li>
+
+    <% if @submissions.count > 0 %>
+      <li>
+        <%= link_to "Update Your #{pluralize(@submissions.count, 'Submission')}", '/submissions/all' %>
+      </li>
+    <% end %>
+
+    <% if @submission_reviews.count > 0 %>
+      <li><%= "Your #{pluralize(@submission_reviews.count, 'Review')}" %></li>
+    <% end %>
+
+  </ul>
+<% end %>
