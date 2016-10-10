@@ -1,0 +1,24 @@
+.home_welcome {
+  font-size: 1.75em;
+}
+
+.home_section {
+  border-bottom: 1px solid lightgray;
+  padding: 1em;
+  margin: 1em 0;
+  width: 98%;
+  float: left;
+}
+
+.home_link {
+  float: left;
+  width: 25%;
+}
+
+.home_instruction {
+  color: gray;
+  font-style: italic;
+  float: left;
+  width: 75%;
+}
+
