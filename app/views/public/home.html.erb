@@ -8,7 +8,7 @@
 
   <div class='home_section'>
     <div class='home_link'>
-      <%= link_to 'View all competitions', '/projects', class: 'big_button projects_list_button' %> 
+      <%= link_to 'Competitions', '/projects', class: 'big_button projects_list_button' %> 
     </div>
     <div class='home_instruction'>
       All current and recent competitions ordered by sponsors.
@@ -18,7 +18,7 @@
   <% if @submissions.count > 0 %>
     <div class='home_section'>
       <div class='home_link'>
-        <%= link_to "Update Your #{pluralize(@submissions.count, 'Submission')}", '/submissions/all', class: 'big_button update_submissions_button' %>
+        <%= link_to "Submissions", '/submissions/all', class: 'big_button update_submissions_button' %>
       </div>
       <div class='home_instruction'>
         All your submissions and/or submissions with which you are associated.
@@ -31,7 +31,7 @@
   <% if @submission_reviews.count > 0 %>
     <div class='home_section'>
       <div class='home_link'>
-        <%= link_to "Your #{pluralize(@submission_reviews.count, 'Review')}", '/reviewers/all_with_files', class: 'big_button submission_reviews_button' %>
+        <%= link_to "Reviews", '/reviewers/all_with_files', class: 'big_button submission_reviews_button' %>
       </div>
       <div class='home_instruction'>
         All reviews to which you are assigned.
