@@ -16,7 +16,7 @@ describe 'Applying for a competitions', type: :feature do
 
       before do 
         login
-        visit welcome_path
+        visit '/projects'
       end
 
       it 'should allow the applicant to apply' do 
@@ -34,8 +34,19 @@ describe 'Applying for a competitions', type: :feature do
         fill_in 'submission_direct_project_cost', with: '5555' # todo: test that amount is within range
         fill_in 'submission_abstract', with: 'Abstractions' # todo: test required fields
         fill_in 'submission_submission_title', with: 'The Title' # todo: test title character length
-        click_button 'Continue'
-        expect(current_path).to eq("/projects/#{project.id}/applicants/#{user.id}/submissions")
+
+        ###
+        # using node.trigger('click') due to poltergeist error:
+        # "Firing a click at co-ordinates [48.5, 724] failed. 
+        #  Poltergeist detected another element with CSS selector 'html body div.pushit' at this position. 
+        #  It may be overlapping the element you are trying to interact with. 
+        #  If you don't care about overlapping elements, try using node.trigger('click')."
+        ###
+        # previous:
+        # click_button 'Continue'
+        # expect(current_path).to eq("/projects/#{project.id}/applicants/#{user.id}/submissions")
+        # current:
+        find('#continue').trigger('click')
 
         expect(page).to have_content 'Application Process - Step 3 (last step!)'
         attach_file 'submission_uploaded_application', "#{Rails.root}/spec/support/test_upload_document.txt"

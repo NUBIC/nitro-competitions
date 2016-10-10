@@ -8,10 +8,10 @@ describe 'Public Section', :type => :feature do
   end
 
   context 'for a person who has logged in' do
-    describe 'visiting the welcome page' do
+    describe 'visiting the projects page' do
       before do
         login
-        visit welcome_path
+        visit '/projects'
       end
 
       it 'shows the home page' do

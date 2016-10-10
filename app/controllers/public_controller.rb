@@ -16,7 +16,7 @@ class PublicController < ApplicationController
 
   def welcome
     if current_user
-      redirect_to '/projects'
+      redirect_to '/public/home'
     else
       @projects = Project.open.flatten.uniq
       @programs = {}
@@ -24,6 +24,12 @@ class PublicController < ApplicationController
         @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
       end
     end
+  end
+
+  def home
+    # TODO: look for better way to get all unique submissions for current user
+    @submissions        = (current_user.submissions + current_user.proxy_submissions).uniq
+    @submission_reviews = current_user.submission_reviews
   end
 
   def auth
