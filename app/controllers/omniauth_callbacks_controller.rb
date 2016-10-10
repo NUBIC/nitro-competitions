@@ -40,8 +40,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def process_login
     auth = request.env['omniauth.auth']
-    Rails.logger.error("~~~ [process_login] auth: #{auth.inspect}")
-
+    log_request("[process_login] auth: #{auth.inspect}")
     # Here we check to see if we did get back an OmniAuth::AuthHash 
     # or something that responds to :[] 
     # Sometimes we are getting back true:TrueClass - still don't know the cause of that

@@ -73,3 +73,62 @@ div.admin_links {
   float: left;
   width: 100%;
 }
+
+.big_button,
+.big_button:hover {
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  width: auto;
+  height: auto;
+  color: white !important;
+  font-size: 1.25em;
+  padding: 0.5em 1em;
+  margin-top: 0.25em;
+  margin-right: 1em;
+  line-height: auto;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  
+}
+
+.big_button {
+  background-color: green;
+}
+
+.big_button:hover {
+  background-color: limegreen;
+}
+
+
+.apply_link a,
+.apply_link a:hover {
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  width: auto;
+  height: auto;
+  color: white !important;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  margin-top: 0.25em;
+  line-height: auto;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.apply_link a {
+  background-color: green;
+}
+.apply_link a:hover {
+  background-color: limegreen;
+}
+
+.key_personnel_remove_link {
+  width: 41em;
+  display: inline-block;
+  text-align: right;
+  color: maroon !important;
+}

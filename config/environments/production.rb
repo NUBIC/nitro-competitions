@@ -32,4 +32,6 @@ NucatsAssist::Application.configure do
 
   config.log_level = :info
 
+  OpenSSL::SSL::SSLContext::DEFAULT_PARAMS[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
+  
 end

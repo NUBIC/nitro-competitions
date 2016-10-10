@@ -78,37 +78,6 @@ div#project_membership_required p {
   margin: 0.25em 0 0.25em 0;
 }
 
-.apply_link a,
-.apply_link a:hover {
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  width: auto;
-  height: auto;
-  color: white !important;
-  font-size: 1em;
-  padding: 0.5em 1em;
-  margin-top: 0.25em;
-  line-height: auto;
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-}
-
-.apply_link a {
-  background-color: green;
-}
-.apply_link a:hover {
-  background-color: limegreen;
-}
-
-.key_personnel_remove_link {
-  width: 41em;
-  display: inline-block;
-  text-align: right;
-  color: maroon !important;
-}
-
 .attribute_description {
   font-size: 0.8em;
   color: gray;

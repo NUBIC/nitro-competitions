@@ -90,6 +90,13 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
+  resources :reviewers, only: [:edit, :update, :destroy] do
+    collection do
+      get :all
+      get :all_with_files
+    end
+  end
+
   resources :submissions, except: [:new] do
     collection do
       get :all
@@ -118,6 +125,7 @@ NucatsAssist::Application.routes.draw do
   # other
   root to: 'public#welcome'
   get 'welcome' => 'public#welcome', as: :welcome
+  get 'home' => 'public#home', as: :home
 
   match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup

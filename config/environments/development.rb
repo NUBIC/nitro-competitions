@@ -23,6 +23,9 @@ NucatsAssist::Application.configure do
   config.send_notification_to_all = false
 
   config.log_level = :debug
+
+  OpenSSL::SSL::SSLContext::DEFAULT_PARAMS[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
+
 end
 
 Paperclip.options[:command_path] = '/opt/local/bin/'

@@ -26,7 +26,7 @@
 </table>
 
 
-<% if current_user.system_admin? | current_user.is_admin? %>
+<% if current_user.system_admin? || is_admin?(@sponsor) %>
   <%= link_to('Add Sponsor Roles', sponsor_roles_path(@sponsor)) %>
 <% end %>
 

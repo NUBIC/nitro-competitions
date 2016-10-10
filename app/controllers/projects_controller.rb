@@ -88,8 +88,8 @@ class ProjectsController < ApplicationController
   def new
     if params[:program_id] 
       @program = Program.find(params[:program_id])
-      if current_project.program == @program 
-        @project = duplicate_project(project)  
+      if current_project && current_project.program == @program 
+        @project = duplicate_project(current_project)
       else
         @project = Project.new(program: @program)
       end
