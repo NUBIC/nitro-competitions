@@ -2,16 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -27,6 +23,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -34,7 +58,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: access_grants; Type: TABLE; Schema: public; Owner: -
+-- Name: access_grants; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE access_grants (
@@ -71,7 +95,7 @@ ALTER SEQUENCE access_grants_id_seq OWNED BY access_grants.id;
 
 
 --
--- Name: clients; Type: TABLE; Schema: public; Owner: -
+-- Name: clients; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE clients (
@@ -104,7 +128,7 @@ ALTER SEQUENCE clients_id_seq OWNED BY clients.id;
 
 
 --
--- Name: file_documents; Type: TABLE; Schema: public; Owner: -
+-- Name: file_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE file_documents (
@@ -143,7 +167,7 @@ ALTER SEQUENCE file_documents_id_seq OWNED BY file_documents.id;
 
 
 --
--- Name: identities; Type: TABLE; Schema: public; Owner: -
+-- Name: identities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE identities (
@@ -176,7 +200,7 @@ ALTER SEQUENCE identities_id_seq OWNED BY identities.id;
 
 
 --
--- Name: key_personnel; Type: TABLE; Schema: public; Owner: -
+-- Name: key_personnel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE key_personnel (
@@ -213,7 +237,7 @@ ALTER SEQUENCE key_personnel_id_seq OWNED BY key_personnel.id;
 
 
 --
--- Name: logs; Type: TABLE; Schema: public; Owner: -
+-- Name: logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE logs (
@@ -251,6 +275,32 @@ ALTER SEQUENCE logs_id_seq OWNED BY logs.id;
 
 
 --
+-- Name: people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE people (
+    id integer NOT NULL,
+    first_name character varying,
+    middle_name character varying,
+    last_name character varying,
+    degrees character varying,
+    suffix character varying,
+    details hstore,
+    authentication_token character varying,
+    state character varying,
+    email character varying,
+    deleted_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    remember_token character varying,
+    uuid character varying,
+    admin boolean DEFAULT false,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    properties hstore
+);
+
+
+--
 -- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -263,7 +313,14 @@ CREATE SEQUENCE people_id_seq
 
 
 --
--- Name: person_identities; Type: TABLE; Schema: public; Owner: -
+-- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE people_id_seq OWNED BY people.id;
+
+
+--
+-- Name: person_identities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE person_identities (
@@ -303,7 +360,7 @@ ALTER SEQUENCE person_identities_id_seq OWNED BY person_identities.id;
 
 
 --
--- Name: programs; Type: TABLE; Schema: public; Owner: -
+-- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE programs (
@@ -345,7 +402,7 @@ ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
 
 
 --
--- Name: projects; Type: TABLE; Schema: public; Owner: -
+-- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE projects (
@@ -534,7 +591,7 @@ ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
 
 
 --
--- Name: reviewers; Type: TABLE; Schema: public; Owner: -
+-- Name: reviewers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reviewers (
@@ -573,7 +630,7 @@ ALTER SEQUENCE reviewers_id_seq OWNED BY reviewers.id;
 
 
 --
--- Name: rights; Type: TABLE; Schema: public; Owner: -
+-- Name: rights; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE rights (
@@ -606,7 +663,7 @@ ALTER SEQUENCE rights_id_seq OWNED BY rights.id;
 
 
 --
--- Name: rights_roles; Type: TABLE; Schema: public; Owner: -
+-- Name: rights_roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE rights_roles (
@@ -618,7 +675,7 @@ CREATE TABLE rights_roles (
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: -
+-- Name: roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE roles (
@@ -649,7 +706,7 @@ ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
 
 
 --
--- Name: roles_users; Type: TABLE; Schema: public; Owner: -
+-- Name: roles_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE roles_users (
@@ -689,7 +746,7 @@ ALTER SEQUENCE roles_users_id_seq OWNED BY roles_users.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -698,7 +755,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: -
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE sessions (
@@ -730,7 +787,7 @@ ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
 
 
 --
--- Name: submission_reviews; Type: TABLE; Schema: public; Owner: -
+-- Name: submission_reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE submission_reviews (
@@ -798,7 +855,7 @@ ALTER SEQUENCE submission_reviews_id_seq OWNED BY submission_reviews.id;
 
 
 --
--- Name: submissions; Type: TABLE; Schema: public; Owner: -
+-- Name: submissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE submissions (
@@ -891,7 +948,7 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -974,7 +1031,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: versions; Type: TABLE; Schema: public; Owner: -
+-- Name: versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE versions (
@@ -1048,6 +1105,13 @@ ALTER TABLE ONLY key_personnel ALTER COLUMN id SET DEFAULT nextval('key_personne
 --
 
 ALTER TABLE ONLY logs ALTER COLUMN id SET DEFAULT nextval('logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY people ALTER COLUMN id SET DEFAULT nextval('people_id_seq'::regclass);
 
 
 --
@@ -1135,7 +1199,7 @@ ALTER TABLE ONLY versions ALTER COLUMN id SET DEFAULT nextval('versions_id_seq':
 
 
 --
--- Name: access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY access_grants
@@ -1143,7 +1207,7 @@ ALTER TABLE ONLY access_grants
 
 
 --
--- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY clients
@@ -1151,7 +1215,7 @@ ALTER TABLE ONLY clients
 
 
 --
--- Name: file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY file_documents
@@ -1159,7 +1223,7 @@ ALTER TABLE ONLY file_documents
 
 
 --
--- Name: identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY identities
@@ -1167,7 +1231,7 @@ ALTER TABLE ONLY identities
 
 
 --
--- Name: key_personnel_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: key_personnel_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY key_personnel
@@ -1175,7 +1239,7 @@ ALTER TABLE ONLY key_personnel
 
 
 --
--- Name: logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY logs
@@ -1183,7 +1247,15 @@ ALTER TABLE ONLY logs
 
 
 --
--- Name: person_identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY people
+    ADD CONSTRAINT people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person_identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY person_identities
@@ -1191,7 +1263,7 @@ ALTER TABLE ONLY person_identities
 
 
 --
--- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY programs
@@ -1199,7 +1271,7 @@ ALTER TABLE ONLY programs
 
 
 --
--- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY projects
@@ -1207,7 +1279,7 @@ ALTER TABLE ONLY projects
 
 
 --
--- Name: reviewers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: reviewers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reviewers
@@ -1215,7 +1287,7 @@ ALTER TABLE ONLY reviewers
 
 
 --
--- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY rights
@@ -1223,7 +1295,7 @@ ALTER TABLE ONLY rights
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY roles
@@ -1231,7 +1303,7 @@ ALTER TABLE ONLY roles
 
 
 --
--- Name: roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY roles_users
@@ -1239,7 +1311,7 @@ ALTER TABLE ONLY roles_users
 
 
 --
--- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY sessions
@@ -1247,7 +1319,7 @@ ALTER TABLE ONLY sessions
 
 
 --
--- Name: submission_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: submission_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY submission_reviews
@@ -1255,7 +1327,7 @@ ALTER TABLE ONLY submission_reviews
 
 
 --
--- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY submissions
@@ -1263,7 +1335,7 @@ ALTER TABLE ONLY submissions
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -1271,7 +1343,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY versions
@@ -1279,63 +1351,70 @@ ALTER TABLE ONLY versions
 
 
 --
--- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_identities_on_user_id ON identities USING btree (user_id);
 
 
 --
--- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_people_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_people_on_authentication_token ON people USING btree (authentication_token);
+
+
+--
+-- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
 
 
 --
--- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_era_commons_name ON users USING btree (era_commons_name);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
--- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_username ON users USING btree (username);
 
 
 --
--- Name: index_versions_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_versions_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_versions_on_item_type_and_item_id ON versions USING btree (item_type, item_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -1350,10 +1429,18 @@ ALTER TABLE ONLY identities
 
 
 --
+-- Name: person_id_to_person_identities_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY person_identities
+    ADD CONSTRAINT person_id_to_person_identities_fk FOREIGN KEY (person_id) REFERENCES people(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20090929015447');
 
