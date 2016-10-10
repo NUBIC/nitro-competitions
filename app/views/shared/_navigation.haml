@@ -28,6 +28,25 @@
                 - if((Submission.approved_submissions(current_user.username).length > 0) || is_admin?(@program))
                   %li
                     = link_to "Approvals", project_approvers_path(@project.id)
+          - if current_user.submission_reviews.length > 0
+            %li.dropdown
+              %a.dropdown-toggle{data: {toggle: 'dropdown', role: 'button', href: "#"}}
+                = 'Reviewer'
+                %span.caret
+              %ul.dropdown-menu{role: 'menu'}
+                - unless @project.blank? || @project.id.blank?
+                  - if current_user.submission_reviews.length > 0
+                    %li
+                      = link_to "Assigned Reviews", project_reviewers_path(@project.id)
+                    %li
+                      = link_to "Assigned Reviews with files", index_with_files_project_reviewers_path(@project.id)
+                    %li
+                      = link_to "Assigned Reviews and all proposals", complete_listing_project_reviewers_path(@project.id)
+                    %li
+                      = link_to "Assigned Reviews and all proposals with files", complete_listing_with_files_project_reviewers_path(@project.id)
+                  - unless current_user.submission_reviews.blank?
+                    %li
+                      = link_to "All your reviews", all_reviews_project_reviewers_path(@project.id)
 
           - if is_admin?(@program)
             %li.dropdown
