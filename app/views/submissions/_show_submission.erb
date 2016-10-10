@@ -74,7 +74,7 @@
     <% end %>
 
     <dt>Submitted by</dt>
-    <dd><%= blank_safe submission.submitter.name %></dd>
+    <dd><%= blank_safe(submission.submitter.try(:name)) %></dd>
 
     <% if project.show_human_subjects_research %>
       <dt>Human Subjects Research</dt>

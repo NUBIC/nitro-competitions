@@ -74,10 +74,20 @@
 <% style="style='background-color:thistle;'" if review.has_zero? %>
   <tr <%= style %>>
     <td><%=h submission.applicant.sort_name %></td>
-    <td><%=h submission.submission_title %></td>
+    <td>
+      <%= link_to(h(submission.submission_title), submission_path(submission), target: '_blank') %>
+    </td>
   <% if include_competition -%>
-    <td><%=h program.program_title %></td>
-    <td><%=h project.project_title %></td>
+    <td>
+      <%= link_to(h(program.program_title), sponsor_path(program), target: '_blank') %>
+    </td>
+    <td>
+      <%= link_to(h(project.project_title),
+                  show_competition_url(project.program.program_name, project.project_name),
+                  { title: "Click here to view the competition #{project.project_title}",
+                    target: '_blank' } ) %>
+
+    </td>
   <% end -%>
   <% if include_files -%>
     <td>
