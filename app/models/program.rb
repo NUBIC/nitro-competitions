@@ -41,6 +41,9 @@ class Program < ActiveRecord::Base
   before_validation :normalize_name
 
   # Validations
+  validates :email,
+            presence: true
+
   validates :program_url,
             presence: true
 
