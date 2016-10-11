@@ -17,8 +17,6 @@ jQuery ->
   jQuery('#username_nu.domain_options .domain_option').click ->
     jQuery('#username_nu.domain_options a.domain_option.selected_domain').each () ->
       jQuery(this).removeClass('selected_domain')
-    jQuery('#username_nu.domain_options a.domain_option.selected_domain').each () ->
-      jQuery(this).removeClass('selected_domain')
     jQuery(this).addClass('selected_domain')
     jQuery("#domain_view").text(jQuery(this).attr('title'))
     jQuery("#domain").val(jQuery(this).attr('id'))
