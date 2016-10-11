@@ -66,6 +66,9 @@
 #  created_at                        :datetime         not null
 #  updated_at                        :datetime         not null
 #  supplemental_document_id          :integer
+#  total_amount_requested            :float
+#  amount_awarded                    :float
+#  type_of_equipment                 :string
 #
 
 class Submission < ActiveRecord::Base
