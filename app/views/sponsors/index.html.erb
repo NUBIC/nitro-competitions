@@ -2,33 +2,9 @@
 
 <%= render('sponsor_list', :sponsors => @sponsors) %>
 
-<br />
-
-<% unless @sponsors.blank? %>
-  <div id='show_admin_emails'>
-    Click here to show Administrator emails
-  </div>
-  <div id='admin_emails' style='display: none;'>
-    <%= @sponsors.map{ |sponsor| sponsor.roles_users.admins.map{ |admin| admin.user.email } }.flatten.to_sentence %>
-  </div>
-  <script type="text/javascript" language="JavaScript">
-    jQuery('#show_admin_emails').click(function(event) {
-      jQuery('#admin_emails').toggle();
-      event.preventDefault(); // Prevent link from following its href
-    });
-  </script>
-<% end %>
-
-<% if current_user.system_admin? %>
-  <div class='admin_links'>
-    <p>Admin links:</p>
-    <ul>
-      <li>
-        <%= link_to('New sponsor', new_sponsor_path) %>
-      </li>
-    </ul>
-  </div>
-<% end %>
+<div class='links'>
+  <%= render 'shared/admin_links' %>
+</div>
 
 <%= javascript_tag do %>
   jQuery(document).ready(function() {

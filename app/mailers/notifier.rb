@@ -8,16 +8,16 @@ class Notifier < ActionMailer::Base
   ADMIN_EMAIL_LIST = NucatsAssist.admin_email_addresses
 
   def finalize_message(from, subject, submission, the_submission_url, the_project_url)
-    set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
+    set_mail_attributes(from, subject, submission, the_submission_url, the_project_url)
     mail(from: from, to: @recipients, cc: @cc, bcc: @bcc, subject: subject)
   end
 
   def ord_message(from, subject, submission, the_submission_url, the_project_url)
-    set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
+    set_mail_attributes(from, subject, submission, the_submission_url, the_project_url)
     mail(from: from, to: @recipients, cc: @cc, bcc: @bcc, subject: subject)
   end
 
-  def set_mail_attibutes(from, subject, submission, the_submission_url, the_project_url)
+  def set_mail_attributes(from, subject, submission, the_submission_url, the_project_url)
     @from         = from
     headers       'Reply-to' => "#{from}"
     @recipients   = determine_recipients(submission)
@@ -75,8 +75,13 @@ class Notifier < ActionMailer::Base
 
     from = Rails.application.config.from_address
     to   = @reviewer.email
-    cc   = @program.admins.map(&:email)
-    bcc  = ADMIN_EMAIL_LIST
+    cc = sponsor_admin_email_list(@program)
+    # sanity check to ensure email is sent to someone
+    if cc.blank?
+      cc = ADMIN_EMAIL_LIST
+    else
+      bcc  = ADMIN_EMAIL_LIST
+    end
 
     mail(from: from, to: to, cc: cc, bcc: bcc, subject: "#{NucatsAssist.plain_app_name} Reviewer Assignment")
   end
@@ -90,10 +95,21 @@ class Notifier < ActionMailer::Base
     @content_type      = 'text/html'
 
     from = Rails.application.config.from_address
-    to   = @program.admins.map(&:email)
-    bcc  = ADMIN_EMAIL_LIST
+    to   = sponsor_admin_email_list
+    # sanity check to ensure email is sent to someone
+    if to.blank?
+      to = ADMIN_EMAIL_LIST
+    else
+      bcc  = ADMIN_EMAIL_LIST
+    end
 
     mail(from: from, to: to, bcc: bcc, subject: "#{NucatsAssist.plain_app_name} Reviewer Opt Out")
+  end
+
+  def sponsor_admin_email_list(program)
+    result = program.submission_notifiable_admins.map(&:email)
+    result = program.email if result.blank?
+    result
   end
 
 end

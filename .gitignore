@@ -15,8 +15,11 @@ config/database.yml
 
 # directories
 bin/
-tmp/
 log/
+tmp/cache/
+tmp/pids/
+tmp/sessions/
+tmp/sockets/
 
 # Testing detritus
 assets/files/

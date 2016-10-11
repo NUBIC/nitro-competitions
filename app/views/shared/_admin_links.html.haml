@@ -3,6 +3,8 @@
   .admin_links
     Admin links:
     %ul
+      - if current_user.system_admin?
+        %li=link_to(image_tag('add.png', width: '16px', height: '16px') + ' New sponsor', new_sponsor_path)
       %li
         - path = program.blank? ? new_project_path : new_project_path(program_id: program.id)
         = link_to(image_tag('add.png', width: '16px', height: '16px') + ' New competition', path)
@@ -10,4 +12,3 @@
       %li= link_to('All reviews', all_reviews_project_path(current_project.id))
       - if @sponsor
         %li=link_to('All competitions', sponsor_path(@sponsor.id))
-
