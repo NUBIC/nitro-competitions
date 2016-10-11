@@ -19,16 +19,9 @@
   </script>
 <% end %>
 
-<% if current_user.system_admin? %>
-  <div class='admin_links'>
-    <p>Admin links:</p>
-    <ul>
-      <li>
-        <%= link_to('New sponsor', new_sponsor_path) %>
-      </li>
-    </ul>
-  </div>
-<% end %>
+<div class='links'>
+  <%= render 'shared/admin_links' %>
+</div>
 
 <%= javascript_tag do %>
   jQuery(document).ready(function() {
