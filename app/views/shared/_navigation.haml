@@ -39,18 +39,16 @@
               %ul.dropdown-menu{role: 'menu'}
                 - unless @project.blank? || @project.id.blank?
                   %li.dropdown
-                    / %a.dropdown-toggle{data: {toggle: 'dropdown', role: 'button', href: "#"}}
-                    %span.dropdown-toggle 
+                    %span.competition-menu-title
                       = "Current Competition: #{@project.project_title}"
-                    %ul
-                      %li=link_to "Define Reviewers", reviewers_project_admins_path(@project.id)
-                      %li=link_to "All Submissions", submissions_project_admins_path(@project.id)
-                      %li=link_to "All Reviews", all_reviews_project_path(@project.id)
-                      %li=link_to "All Reviewed Submissions", reviews_project_admins_path(@project.id)
-                      %li=link_to "All Assigned Reviews", complete_listing_project_reviewers_path(@project.id)
+                    %li=link_to "Define Reviewers", reviewers_project_admins_path(@project.id)
+                    %li=link_to "All Submissions", submissions_project_admins_path(@project.id)
+                    %li=link_to "All Reviews", all_reviews_project_path(@project.id)
+                    %li=link_to "All Reviewed Submissions", reviews_project_admins_path(@project.id)
+                    %li=link_to "All Assigned Reviews", complete_listing_project_reviewers_path(@project.id)
                 - if is_super_admin? && !@project.blank? && !@project.id.blank?
-                  %li
-                    = link_to "Act as user", act_as_user_project_admins_path(@project.id)
+                  %li.dropdown
+                    = link_to "Act as user", act_as_user_project_admins_path(@project.id), class: 'system-admin-menu-item'
 
           - if @submission_reviews && @submission_reviews.length > 0
             %li.dropdown

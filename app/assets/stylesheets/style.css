@@ -24,3 +24,19 @@
 #key_personnel .notes {
   margin: 0.5em 0;
 }
+
+.competition-menu-title {
+  min-width: 25em;
+  white-space: nowrap;
+  padding: 3px;
+}
+
+ul.dropdown-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a.system-admin-menu-item {
+  padding: 3px !important;
+}
