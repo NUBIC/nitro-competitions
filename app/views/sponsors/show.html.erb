@@ -26,8 +26,9 @@
 </table>
 
 
-<% if current_user.system_admin? || is_admin?(@sponsor) %>
-  <%= link_to('Add Sponsor Roles', sponsor_roles_path(@sponsor)) %>
+<% if current_user.system_admin? || is_admin?(@sponsor) %>  
+  <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Sponsor Admins', sponsor_roles_path(@sponsor)) %>
+
 <% end %>
 
 <% if @projects.length > 0 %>

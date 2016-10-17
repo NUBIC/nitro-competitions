@@ -5,7 +5,9 @@
 <% if @submissions.empty? %>
 
   <h3>
-    You do not have any submissions. Please visit the competitions list for opportunities.
+    You do not have any submissions. Please visit the 
+    <%= link_to 'Competitions', '/projects' %>
+    list for opportunities.
   </h3>
 
 <% else %>

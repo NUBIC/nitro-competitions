@@ -63,3 +63,8 @@ html, body {
 .dropdown-menu {
   list-style: none;
 }
+
+ul {
+  list-style: none;
+  padding-left: 1em;
+}
