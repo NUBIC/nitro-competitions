@@ -75,7 +75,7 @@ module NucatsAssist
     end
 
     def admin_email_addresses
-      %w{matthew.baumann@northwestern.edu}
+      %w{competitions@northwestern.edu}
     end
 
     def admin_netids
