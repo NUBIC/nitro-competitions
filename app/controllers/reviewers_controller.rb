@@ -188,7 +188,8 @@ class ReviewersController < ApplicationController
   # DELETE /reviewers/1
   # DELETE /reviewers/1.xml
   def destroy
-    if is_admin?
+    program = @submission_review.project.program
+    if is_admin?(program)
       @reviewer = Reviewer.find(params[:id])
       @reviewer.destroy if is_admin?
     else

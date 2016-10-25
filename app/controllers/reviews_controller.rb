@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
 
   def update_item
     @submission_review = SubmissionReview.find(params[:id])
-    if can_update_submission_review?(@submission_review) || is_admin?
+    if can_update_submission_review?(@submission_review) || is_admin?(@submission_review.project.program)
       if @submission_review.update_attributes(params[:submission_review])
         respond_to do |format|
           format.html { redirect_to submission_reviews_path(@submission_review.submission_id) }

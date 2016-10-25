@@ -11,6 +11,7 @@
 
 module RolesHelper
   include ApplicationHelper
+  
   def is_admin?(program = current_program)
     return false unless session_exists?
     return true if current_user && current_user.system_admin?
