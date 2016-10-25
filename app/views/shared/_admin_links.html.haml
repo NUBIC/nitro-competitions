@@ -9,7 +9,7 @@
         - path = program.blank? ? new_project_path : new_project_path(program_id: program.id)
         = link_to(image_tag('add.png', width: '16px', height: '16px') + ' New competition', path)
       - if @sponsor
-        %li=link_to('All competitions', sponsor_path(@sponsor.id))
+        %li=link_to('All competitions', competitions_path(@sponsor.id))
       %li
         - unless current_project.blank? || current_project.id.blank?
           / %span.competition-menu-title
@@ -17,4 +17,3 @@
           %ul.admin_menu
             %li= link_to('All submissions', submissions_project_admins_path(current_project.id))
             %li= link_to('All reviews', all_reviews_project_path(current_project.id))
-
