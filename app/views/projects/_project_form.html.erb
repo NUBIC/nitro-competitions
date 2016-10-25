@@ -8,6 +8,21 @@
   </ul>
   <div id='core_tab'>
     <table>
+
+      <tr>
+        <td class="title">
+          <%= f.label :visible, 'Visible' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :visible %>
+            When checked the competition will be visible by the entire public.<br>
+            When unchecked the competition will only be visible by administrators associated with the sponsor.
+          </div>
+        </td>
+      </tr>
+
+
       <tr>
         <td class="title">
           <%= f.hidden_field :program_id %>

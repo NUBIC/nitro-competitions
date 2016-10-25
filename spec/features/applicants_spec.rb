@@ -9,7 +9,7 @@ describe 'Applying for a competitions', type: :feature do
     before do 
       FactoryGirl.create(:project, project_title: 'Voucher Program', 
                          submission_close_date: 1.week.from_now, submission_open_date: 1.day.ago,
-                         initiation_date: 1.day.ago)
+                         initiation_date: 1.day.ago, visible: true)
     end
 
     context 'with a logged in applicant' do 
