@@ -74,34 +74,6 @@ div.admin_links {
   width: 100%;
 }
 
-.big_button,
-.big_button:hover {
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  width: 9em;
-  height: auto;
-  color: white !important;
-  font-size: 1.25em;
-  padding: 0.5em 1em;
-  margin-top: 0.25em;
-  margin-right: 1em;
-  line-height: auto;
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  
-}
-
-.big_button {
-  background-color: green;
-}
-
-.big_button:hover {
-  background-color: limegreen;
-}
-
-
 .apply_link a,
 .apply_link a:hover {
   border-radius: 0.5em;
@@ -132,3 +104,57 @@ div.admin_links {
   text-align: right;
   color: maroon !important;
 }
+
+
+a.home_button,
+a.home_button :hover {
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  width: auto;
+  height: auto;
+  color: white !important;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  margin-top: 0.25em;
+  line-height: auto;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.home_button {
+  background-color: green;
+}
+a.home_button :hover {
+  background-color: limegreen;
+}
+
+
+/*
+.big_button,
+.big_button:hover {
+  border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  width: 8em;
+  height: auto;
+  color: white !important;
+  font-size: 1.25em;
+  padding: 0.5em 1em;
+  margin-top: 0.25em;
+  margin-right: 1em;
+  line-height: auto;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  
+}
+
+.big_button {
+  background-color: green;
+}
+
+.big_button:hover {
+  background-color: limegreen;
+}*/

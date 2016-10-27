@@ -8,7 +8,7 @@
 
   <div class='home_section'>
     <div class='home_link'>
-      <%= link_to 'Competitions', '/projects', class: 'big_button projects_list_button' %> 
+      <%= link_to 'Competitions', '/projects', class: 'home_button projects_list_button' %> 
     </div>
     <div class='home_instruction'>
       All current and recent competitions, grouped by sponsor.
@@ -18,7 +18,7 @@
   <% if @submissions.count > 0 %>
     <div class='home_section'>
       <div class='home_link'>
-        <%= link_to "Submissions", '/submissions/all', class: 'big_button update_submissions_button' %>
+        <%= link_to "Submissions", '/submissions/all', class: 'home_button update_submissions_button' %>
       </div>
       <div class='home_instruction'>
         All submissions where either you applied for the competition or you submitted on behalf of someone. If the competition is still active, you can update your existing submission.
@@ -29,7 +29,7 @@
   <% if @submission_reviews.count > 0 %>
     <div class='home_section'>
       <div class='home_link'>
-        <%= link_to "Reviews", '/reviewers/all_with_files', class: 'big_button submission_reviews_button' %>
+        <%= link_to "Reviews", '/reviewers/all_with_files', class: 'home_button submission_reviews_button' %>
       </div>
       <div class='home_instruction'>
         All the reviews you are assigned to. Access the review form, download all the documents you need to review, or <%= NucatsAssist.opt_out_review_button_name %> of reviewing. If you don't see the opt-out button, contact the sponsor.
