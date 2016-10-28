@@ -59,3 +59,12 @@ html, body {
 .form-control {
   width: 75%;
 }
+
+.dropdown-menu {
+  list-style: none;
+}
+
+ul {
+  list-style: none;
+  padding-left: 1em;
+}

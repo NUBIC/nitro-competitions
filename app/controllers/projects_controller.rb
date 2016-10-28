@@ -265,7 +265,7 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
-      if is_admin?
+      if is_admin?(@program)
         format.html # new.html.erb
         format.xml { render xml: @project }
       else
@@ -277,8 +277,15 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
+    if params[:program_id] 
+      @program = Program.find(params[:program_id])
+    else
+      project = current_project
+      @program = @project.program
+    end
+
     respond_to do |format|
-      if is_admin?
+      if is_admin?(@program)
         format.html # new.html.erb
         format.xml { render xml: @project }
       else
@@ -302,7 +309,7 @@ class ProjectsController < ApplicationController
         format.html { redirect_to(project_path(@project)) }
         format.xml { render xml: @project }
       else
-        flash[:alert] = "Project record for #{@project.project_title} could not be created; admin: #{is_admin? ? 'Yes' : 'No'}; #{@project.errors.full_messages.join('; ')}"
+        flash[:alert] = "Project record for #{@project.project_title} could not be created; admin: #{is_admin?(@project.program) ? 'Yes' : 'No'}; #{@project.errors.full_messages.join('; ')}"
         format.html { render action: 'new', program_id: @program.id }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
       end
@@ -312,13 +319,20 @@ class ProjectsController < ApplicationController
   # PUT /projects/1
   # PUT /projects/1.xml
   def update
+    if params[:program_id] 
+      @program = Program.find(params[:program_id])
+    else
+      project = current_project
+      @program = project.program
+    end
+    
     respond_to do |format|
-      if is_admin?(@project.program) && @project.update_attributes(project_params)
+      if is_admin?(@program) && @project.update_attributes(project_params)
         flash[:notice] = "Project record for #{@project.project_title} was successfully updated"
         format.html { redirect_to(project_path(@project)) }
         format.xml  { head :ok }
       else
-        admin = is_admin? ? 'Yes' : 'No'
+        admin = is_admin?(@program) ? 'Yes' : 'No'
         flash[:alert] = "Project record for #{@project.project_title} could not be updated; admin: #{admin}; errors: #{@project.errors.full_messages.join('; ')}"
         format.html { render action: :show }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
@@ -479,7 +493,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = "Project record for #{@project.project_title} was successfully deleted"
       @project.destroy
     else
-      admin = is_admin? ? 'Yes' : 'No'
+      admin = is_admin?(program) ? 'Yes' : 'No'
       flash[:alert] = "Project record for #{@project.project_title} could not be deleted; admin: #{admin};"
     end
     respond_to do |format|

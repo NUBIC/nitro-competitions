@@ -3,6 +3,8 @@
 
 # db backups
 db/*.out
+db_dumps/*
+
 
 *.log
 

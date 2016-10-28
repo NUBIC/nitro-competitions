@@ -52,6 +52,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'pry'
 end
 
 group :assets do

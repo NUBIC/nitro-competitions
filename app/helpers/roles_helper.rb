@@ -11,6 +11,7 @@
 
 module RolesHelper
   include ApplicationHelper
+  
   def is_admin?(program = current_program)
     return false unless session_exists?
     return true if current_user && current_user.system_admin?
@@ -29,7 +30,8 @@ module RolesHelper
 
   def is_super_admin?
     return false unless session_exists?
-    is_logged_in? && !session[:act_as_admin].blank?
+    is_logged_in? && current_user.system_admin?
+    # is_logged_in? && !session[:act_as_admin].blank?
   end
 
   def has_role(role, program)

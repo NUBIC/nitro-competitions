@@ -1,7 +1,7 @@
 - @program = @sponsor unless @sponsor.blank?
 - @program ||= current_program unless current_program.blank?
 - @project ||= current_project unless current_project.blank?
-- @submission_reviews = current_user.submission_reviews.select{ |sr| sr.submission.project == @project }
+- @submission_reviews = current_user.submission_reviews.select{ |sr| sr.submission.project == @project } unless current_user.blank?
 - @project ||= nil
 - @root_url = session[:user_id].blank? ? '/welcome' : '/public/home'
 
@@ -19,15 +19,20 @@
 
             %ul.dropdown-menu{role: 'menu'}
               - if @project && !@project.project_name.blank?
-                %li=link_to "View current competition - #{@project.project_title}", show_competition_url(@project.program.program_name, @project.project_name)
-              %li=link_to "All Competitions", projects_path
-              %li=link_to "All Sponsors", sponsors_path
-              %li= link_to "All your submissions", all_submissions_path
+                %li
+                  =link_to "View Current Competition: #{@project.project_title}", show_competition_url(@project.program.program_name, @project.project_name)
+              %li
+                =link_to "All Competitions", projects_path
+              %li
+                =link_to "All Sponsors", sponsors_path
+              %li
+                = link_to "All Your Submissions", all_submissions_path
               - unless current_user.submission_reviews.blank?
-                %li= link_to "All your reviews", '/reviewers/all'
+                %li
+                  = link_to "All Your Reviews", '/reviewers/all'
               - unless @project.blank? || @project.id.blank?
                 - if((Submission.approved_submissions(current_user.username).length > 0) || is_admin?(@program))
-                  %li
+                  %li.menu-title
                     = link_to "Approvals", project_approvers_path(@project.id)
 
           - if is_admin?(@program)
@@ -38,27 +43,32 @@
 
               %ul.dropdown-menu{role: 'menu'}
                 - unless @project.blank? || @project.id.blank?
-                  %li=link_to "Define Reviewers", reviewers_project_admins_path(@project.id)
-                  %li=link_to "All Submissions", submissions_project_admins_path(@project.id)
-                  %li=link_to "All Reviews", all_reviews_project_path(@project.id)
-                  %li=link_to "All Reviewed Submissions", reviews_project_admins_path(@project.id)
-                  %li=link_to "All Assigned Reviews", complete_listing_project_reviewers_path(@project.id)
-                - if is_super_admin? && !@project.blank? && !@project.id.blank?
-                  %li
-                    = link_to "Act as user", act_as_user_project_admins_path(@project.id)
+                  %li.dropdown
+                    %span.competition-menu-title
+                      = "Current Competition: #{@project.project_title}"
+                    %li=link_to "Define Reviewers", reviewers_project_admins_path(@project.id)
+                    %li=link_to "All Submissions", submissions_project_admins_path(@project.id)
+                    %li=link_to "All Reviews", all_reviews_project_path(@project.id)
+                    %li=link_to "All Reviewed Submissions", reviews_project_admins_path(@project.id)
+                    %li=link_to "All Assigned Reviews", complete_listing_project_reviewers_path(@project.id)
+                  - if is_super_admin? && !@project.blank? && !@project.id.blank?
+                    %li.dropdown
+                      %span.competition-menu-title
+                        = "System Admin Links"    
+                      - if is_super_admin? && !@project.blank? && !@project.id.blank?
+                        %li=link_to "Act as user", act_as_user_project_admins_path(@project.id)
 
-          - if @submission_reviews.length > 0
+          - if @submission_reviews && @submission_reviews.length > 0
             %li.dropdown
               %a.dropdown-toggle{data: {toggle: 'dropdown', role: 'button', href: "#"}}
                 = "#{@project.project_title} Reviewer"
                 %span.caret
               %ul.dropdown-menu{role: 'menu'}
                 - unless @project.blank? || @project.id.blank?
-                  - if @submission_reviews.length > 0
-                    %li
-                      = link_to "Assigned Reviews", project_reviewers_path(@project.id)
-                    %li
-                      = link_to "Assigned Reviews and All Assigned Proposals", complete_listing_project_reviewers_path(@project.id)
+                  %li
+                    = link_to "Assigned Reviews", project_reviewers_path(@project.id)
+                  %li
+                    = link_to "Assigned Reviews and All Assigned Proposals", complete_listing_project_reviewers_path(@project.id)
 
 
       %ul.nav.navbar-nav.navbar-right

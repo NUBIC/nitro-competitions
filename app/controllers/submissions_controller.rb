@@ -293,7 +293,7 @@ class SubmissionsController < ApplicationController
       submission.applicant_id  =  applicant.id
     end
     respond_to do |format|
-      if !is_admin? && !(current_user_can_edit_submission?(submission) && submission.is_open?)
+      if !is_admin?(@submission.project.program) && !(current_user_can_edit_submission?(submission) && submission.is_open?)
         flash[:alert] = 'You cannot reassign this proposal.'
         format.html { redirect_to project_path(submission.project_id) }
       elsif params[:applicant_id].blank?
@@ -314,7 +314,7 @@ class SubmissionsController < ApplicationController
   def destroy
     submission = Submission.find(params[:id])
     project = Project.find(submission.project_id)
-    if is_admin? || (current_user_can_edit_submission?(submission) && submission.is_open?)
+    if is_admin?(@submission.project.program) || (current_user_can_edit_submission?(submission) && submission.is_open?)
       flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
       submission.destroy
     else
