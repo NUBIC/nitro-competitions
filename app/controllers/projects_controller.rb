@@ -482,7 +482,8 @@ class ProjectsController < ApplicationController
       :other_wording,
       :show_completion_score,
       :completion_title,
-      :completion_wording)
+      :completion_wording,
+      :visible)
   end
 
   # DELETE /projects/1
