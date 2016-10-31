@@ -511,7 +511,7 @@ CREATE TABLE projects (
     total_amount_requested_wording character varying,
     show_type_of_equipment boolean DEFAULT false,
     type_of_equipment_wording character varying,
-    visible boolean
+    visible boolean DEFAULT false NOT NULL
 );
 
 
@@ -1425,4 +1425,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160330193030');
 INSERT INTO schema_migrations (version) VALUES ('20160906161210');
 
 INSERT INTO schema_migrations (version) VALUES ('20161024191544');
+
+INSERT INTO schema_migrations (version) VALUES ('20161028151620');
 
