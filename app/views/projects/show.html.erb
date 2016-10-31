@@ -1,26 +1,37 @@
 <% include_sponsor_and_competition = 0 unless @project.blank? %>
 
-<div id='title'>
-  <h2><%= current_program.program_title %></h2>
-  <h3><%= current_project.project_title %>
-</div>
+<% if @project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
+  
+  <div id='title'>
+    <h2><%= current_program.program_title %></h2>
+    <h3><%= current_project.project_title %>
+  </div>
 
-<%= render 'shared/project_list',
-           projects: @projects,
-           show_project_link: true,
-           show_action_links: true,
-           show_details: true %>
+  <%= render 'shared/project_list',
+             projects: @projects,
+             show_project_link: true,
+             show_action_links: true,
+             show_details: true %>
 
-<%= render 'shared/submissions_list',
-           submissions: @submissions,
-           title: 'Your submissions and those you are associated with for this competition',
-           include_sponsor_and_competition: include_sponsor_and_competition %>
+  <%= render 'shared/submissions_list',
+             submissions: @submissions,
+             title: 'Your submissions and those you are associated with for this competition',
+             include_sponsor_and_competition: include_sponsor_and_competition %>
 
-<%= render('reviewers/submission_review_table',
-           :submission_reviews => @assigned_submission_reviews,
-           :title => NucatsAssist.assigned_reviews_title,
-           :table_id => 'assigned_submission_reviews',
-           :include_files => false,
-           :speed_display => false) %>
+  <%= render('reviewers/submission_review_table',
+             :submission_reviews => @assigned_submission_reviews,
+             :title => NucatsAssist.assigned_reviews_title,
+             :table_id => 'assigned_submission_reviews',
+             :include_files => false,
+             :speed_display => false) %>
 
-<%= render 'shared/admin_links' %>
+  <%= render 'shared/admin_links' %>
+
+<% else %>
+
+  <div id='title'>
+    <h4><%= 'Access Denied.' %>
+    <h4><%= link_to 'Return to the Competitions page.', projects_path %>
+  </div>
+
+<% end %>

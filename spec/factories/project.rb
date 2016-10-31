@@ -22,5 +22,6 @@ FactoryGirl.define do
     association :creator, factory: :user
     created_ip '127.0.0.1'
     created_at Time.now
+    visible true
   end
 end
