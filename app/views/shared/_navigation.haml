@@ -1,7 +1,7 @@
 - @program = @sponsor unless @sponsor.blank?
 - @program ||= current_program unless current_program.blank?
 - @project ||= current_project unless current_project.blank?
-- @submission_reviews = current_user.submission_reviews.select{ |sr| sr.submission.project == @project } unless current_user.blank?
+- @submission_reviews = current_user.submission_reviews.select{ |sr| sr.submission.present? && sr.submission.project == @project } unless current_user.blank?
 - @project ||= nil
 - @root_url = session[:user_id].blank? ? '/welcome' : '/public/home'
 
@@ -58,7 +58,7 @@
                       - if is_super_admin? && !@project.blank? && !@project.id.blank?
                         %li=link_to "Act as user", act_as_user_project_admins_path(@project.id)
 
-          - if @submission_reviews && @submission_reviews.length > 0
+          - if @submission_reviews.present? && @submission_reviews.length > 0
             %li.dropdown
               %a.dropdown-toggle{data: {toggle: 'dropdown', role: 'button', href: "#"}}
                 = "#{@project.project_title} Reviewer"
