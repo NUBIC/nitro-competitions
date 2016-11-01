@@ -5,7 +5,7 @@
       Select a user to act as. Note that you will have to logout and login back in to get back to your own account.
     </p>
     <p>
-      <%= collection_select '', 'username', @users, :username, :name, {}, :size => "30" %> Select user
+      <%= collection_select '', 'username', @users.order('last_name ASC'), :username, :name, {}, :size => "30" %> Select user
     </p>
     <%= submit_tag 'Act as this user' %>
   <% end %>
