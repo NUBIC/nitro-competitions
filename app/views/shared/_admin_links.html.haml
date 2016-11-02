@@ -1,5 +1,5 @@
-- program = program || nil
-- if is_admin?(@sponsor)
+- program ||= @program
+- if is_admin?(@program)
   %h5.admin_links
     Admin links:
     %ul.admin_menu
@@ -8,8 +8,8 @@
       %li
         - path = program.blank? ? new_project_path : new_project_path(program_id: program.id)
         = link_to(image_tag('add.png', width: '16px', height: '16px') + ' New competition', path)
-      - if @sponsor
-        %li=link_to('All competitions', competitions_path(@sponsor.id))
+      - if @program.present?
+        %li=link_to('All competitions', competitions_path(@program.id))
       %li
         - unless current_project.blank? || current_project.id.blank?
           / %span.competition-menu-title

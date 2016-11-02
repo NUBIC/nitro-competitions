@@ -209,14 +209,14 @@ class ProjectsController < ApplicationController
   # GET /projects/1.xml
   def show
     unless params[:project_name].blank? || params[:program_name].blank?
-      program = Program.find_by_program_name(params[:program_name])
-      unless program.blank?
+      @program = Program.find_by_program_name(params[:program_name])
+      unless @program.blank?
         @projects = Project.where('program_id = :program_id and project_name = :project_name',
-                                  { project_name: params[:project_name], program_id: program.id }).to_a
+                                  { project_name: params[:project_name], program_id: @program.id }).to_a
       end
     else
       @projects = Project.where('id = :id', { id: params[:id] }).to_a
-      program = Program.find(@projects[0].program_id)
+      @program = Program.find(@projects[0].program_id)
     end
     unless @projects.blank?
       # get all the submissions for the current user
