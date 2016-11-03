@@ -25,7 +25,7 @@
              :include_files => false,
              :speed_display => false) %>
 
-  <%= render 'shared/admin_links' %>
+  <%= render 'shared/admin_links', program: @project.program %>
 
 <% else %>
 
