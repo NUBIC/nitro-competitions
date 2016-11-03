@@ -315,12 +315,12 @@ class SubmissionsController < ApplicationController
 
   def destroy
     # submission = Submission.find(params[:id])
-    project = Project.find(submission.project_id)
-    if is_admin?(@submission.project.program) || (current_user_can_edit_submission?(submission) && submission.is_open?)
-      flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
-      submission.destroy
+    project = Project.find(@submission.project_id)
+    if is_admin?(@submission.project.program) || (current_user_can_edit_submission?(@submission) && @submission.is_open?)
+      flash[:notice] = "Submission <i>#{@submission.submission_title}</i> was successfully deleted"
+      @submission.destroy
     else
-      flash[:alert] = "Submission  <i>#{submission.submission_title}</i> could not be deleted"
+      flash[:alert] = "Submission  <i>#{@submission.submission_title}</i> could not be deleted"
     end
 
     respond_to do |format|
