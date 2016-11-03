@@ -79,6 +79,8 @@ class SubmissionsController < ApplicationController
   include KeyPersonnelHelper
   require 'submission_emails'
 
+  before_action :set_submission, only: [:show, :edit, :update, :destroy, :reassign_applicant]
+
   def index
     # project/:project_id/submissions should be the only way to get here
     projects = Project.where(id: params[:project_id]).all
@@ -108,7 +110,7 @@ class SubmissionsController < ApplicationController
   end
 
   def show
-    @submission = Submission.find(params[:id])
+    # @submission = Submission.find(params[:id])
     @submissions = Submission.associated_with_user(current_user_session.id)
     @submission_reviews = @submission.submission_reviews
     if @submission && (has_read_all?(@submission.project.program) ||
@@ -148,7 +150,7 @@ class SubmissionsController < ApplicationController
   end
 
   def edit
-    @submission = Submission.find(params[:id])
+    # @submission = Submission.find(params[:id])
     @project    = @submission.project
     set_current_project(@project)
     @applicant  = @submission.applicant
@@ -255,7 +257,7 @@ class SubmissionsController < ApplicationController
   end
 
   def update
-    @submission = Submission.find(params[:id])
+    # @submission = Submission.find(params[:id])
     @project = @submission.project
     set_current_project(@project)
     @submission.max_budget_request = @project.max_budget_request || 50_000
@@ -285,7 +287,7 @@ class SubmissionsController < ApplicationController
   end
 
   def reassign_applicant
-    submission = Submission.find(params[:id])
+    # submission = Submission.find(params[:id])
     before_update(submission)
     @submission = submission
     unless params[:applicant_id].blank?
@@ -312,7 +314,7 @@ class SubmissionsController < ApplicationController
   end
 
   def destroy
-    submission = Submission.find(params[:id])
+    # submission = Submission.find(params[:id])
     project = Project.find(submission.project_id)
     if is_admin?(@submission.project.program) || (current_user_can_edit_submission?(submission) && submission.is_open?)
       flash[:notice] = "Submission <i>#{submission.submission_title}</i> was successfully deleted"
@@ -332,6 +334,11 @@ class SubmissionsController < ApplicationController
   end
 
   private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_submission
+    @submission = Submission.find(params[:id])
+  end
 
   def handle_usernames(submission)
     make_user(submission.core_manager_username)
