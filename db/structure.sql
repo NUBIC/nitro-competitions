@@ -939,7 +939,7 @@ CREATE TABLE users (
     oauth_name character varying,
     remember_token character varying,
     should_receive_submission_notifications boolean DEFAULT true,
-    system_admin boolean
+    system_admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -1447,4 +1447,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160906161210');
 INSERT INTO schema_migrations (version) VALUES ('20161024191544');
 
 INSERT INTO schema_migrations (version) VALUES ('20161028151620');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107173423');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107193749');
+
+INSERT INTO schema_migrations (version) VALUES ('20161107194207');
 
