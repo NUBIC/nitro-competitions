@@ -90,7 +90,7 @@ describe Submission, :type => :model do
   it { is_expected.to belong_to(:document3) }
   it { is_expected.to belong_to(:document4) }
 
-  it { is_expected.to have_many(:submission_reviews) }
+  it { is_expected.to have_many(:submission_reviews).dependent(:destroy) }
   it { is_expected.to have_many(:reviewers).through(:submission_reviews) }
   it { is_expected.to have_many(:key_personnel) }
   it { is_expected.to have_many(:key_people).through(:key_personnel) }

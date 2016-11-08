@@ -92,7 +92,7 @@ class Submission < ActiveRecord::Base
   # TODO : determine how many supplemental documents are needed or add a join model to associate many documents
   #        (probably will continue to simply add belongs_to relationships to this model)
 
-  has_many :submission_reviews
+  has_many :submission_reviews, :dependent => :destroy
   has_many :reviewers, :through => :submission_reviews, :source => :user
 
   has_many :key_personnel, :class_name => 'KeyPerson'

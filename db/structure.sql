@@ -29,79 +29,120 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: table_log_init(integer, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_name    ALIAS FOR $2;
+BEGIN
+    PERFORM table_log_init(level, orig_name, current_schema());
+    RETURN;
+END;
+$_$;
+
+
+--
+-- Name: table_log_init(integer, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_name    ALIAS FOR $2;
+    log_schema   ALIAS FOR $3;
+BEGIN
+    PERFORM table_log_init(level, current_schema(), orig_name, log_schema);
+    RETURN;
+END;
+$_$;
+
+
+--
+-- Name: table_log_init(integer, text, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text, text, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_schema  ALIAS FOR $2;
+    orig_name    ALIAS FOR $3;
+    log_schema   ALIAS FOR $4;
+BEGIN
+    PERFORM table_log_init(level, orig_schema, orig_name, log_schema,
+        CASE WHEN orig_schema=log_schema 
+            THEN orig_name||'_log' ELSE orig_name END);
+    RETURN;
+END;
+$_$;
+
+
+--
+-- Name: table_log_init(integer, text, text, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text, text, text, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_schema  ALIAS FOR $2;
+    orig_name    ALIAS FOR $3;
+    log_schema   ALIAS FOR $4;
+    log_name     ALIAS FOR $5;
+    do_log_user  int = 0;
+    level_create text = '';
+    orig_qq      text;
+    log_qq       text;
+BEGIN
+    -- Quoted qualified names
+    orig_qq := quote_ident(orig_schema)||'.'||quote_ident(orig_name);
+    log_qq := quote_ident(log_schema)||'.'||quote_ident(log_name);
+
+    IF level <> 3 THEN
+        level_create := level_create
+            ||', trigger_id BIGSERIAL NOT NULL PRIMARY KEY';
+        IF level <> 4 THEN
+            level_create := level_create
+                ||', trigger_user VARCHAR(32) NOT NULL';
+            do_log_user := 1;
+            IF level <> 5 THEN
+                RAISE EXCEPTION 
+                    'table_log_init: First arg has to be 3, 4 or 5.';
+            END IF;
+        END IF;
+    END IF;
+    
+    EXECUTE 'CREATE TABLE '||log_qq
+          ||'(LIKE '||orig_qq
+          ||', trigger_mode VARCHAR(10) NOT NULL'
+          ||', trigger_tuple VARCHAR(5) NOT NULL'
+          ||', trigger_changed TIMESTAMPTZ NOT NULL'
+          ||level_create
+          ||')';
+            
+    EXECUTE 'CREATE TRIGGER "table_log_trigger" AFTER UPDATE OR INSERT OR DELETE ON '
+          ||orig_qq||' FOR EACH ROW EXECUTE PROCEDURE table_log('
+          ||quote_literal(log_name)||','
+          ||do_log_user||','
+          ||quote_literal(log_schema)||')';
+
+    RETURN;
+END;
+$_$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: access_grants; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE access_grants (
-    id integer NOT NULL,
-    code character varying,
-    access_token character varying,
-    refresh_token character varying,
-    state character varying,
-    access_token_expires_at timestamp without time zone,
-    person_id integer,
-    client_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: access_grants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE access_grants_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: access_grants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE access_grants_id_seq OWNED BY access_grants.id;
-
-
---
--- Name: clients; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE clients (
-    id integer NOT NULL,
-    name character varying,
-    app_id character varying,
-    app_secret character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: clients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE clients_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: clients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE clients_id_seq OWNED BY clients.id;
-
 
 --
 -- Name: file_documents; Type: TABLE; Schema: public; Owner: -
@@ -113,13 +154,13 @@ CREATE TABLE file_documents (
     created_ip character varying(255),
     updated_id integer,
     updated_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     file_file_name character varying(255),
     file_content_type character varying(255),
     file_file_size integer,
     file_updated_at timestamp without time zone,
-    last_updated_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    last_updated_at timestamp without time zone
 );
 
 
@@ -188,8 +229,8 @@ CREATE TABLE key_personnel (
     first_name character varying(255),
     last_name character varying(255),
     email character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -226,8 +267,8 @@ CREATE TABLE logs (
     action_name character varying(255),
     params text,
     created_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -251,58 +292,6 @@ ALTER SEQUENCE logs_id_seq OWNED BY logs.id;
 
 
 --
--- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE people_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: person_identities; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE person_identities (
-    id integer NOT NULL,
-    person_id integer,
-    identifier character varying,
-    source_id integer,
-    provider character varying,
-    uid character varying,
-    email character varying,
-    nickname character varying,
-    username character varying,
-    domain character varying,
-    deleted_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: person_identities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE person_identities_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: person_identities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE person_identities_id_seq OWNED BY person_identities.id;
-
-
---
 -- Name: programs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -318,8 +307,8 @@ CREATE TABLE programs (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     email character varying(255),
     allow_reviewer_notification boolean DEFAULT true
 );
@@ -352,18 +341,25 @@ CREATE TABLE projects (
     id integer NOT NULL,
     program_id integer NOT NULL,
     project_title character varying(255) NOT NULL,
-    project_name character varying(255) NOT NULL,
     project_description text,
     project_url character varying(255),
     initiation_date date,
     submission_open_date date,
     submission_close_date date,
-    submission_modification_date date,
     review_start_date date,
     review_end_date date,
     project_period_start_date date,
     project_period_end_date date,
     status character varying(255),
+    created_id integer,
+    created_ip character varying(255),
+    updated_id integer,
+    updated_ip character varying(255),
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     min_budget_request double precision DEFAULT 1000,
     max_budget_request double precision DEFAULT 50000,
     max_assigned_reviewers_per_proposal integer DEFAULT 2,
@@ -416,7 +412,7 @@ CREATE TABLE projects (
     show_manage_coinvestigators boolean DEFAULT false,
     show_manage_biosketches boolean DEFAULT false,
     require_era_commons_name boolean DEFAULT false,
-    review_guidance_url character varying(255) DEFAULT '/docs/review_criteria.html'::character varying,
+    review_guidance_url character varying(255) DEFAULT '../docs/review_criteria.html'::character varying,
     overall_impact_title character varying(255) DEFAULT 'Overall Impact'::character varying,
     overall_impact_description text DEFAULT 'Please summarize the strengths and weaknesses of the application; assess the potential benefit of the instrument requested for the overall research community and its potential impact on NIH-funded research; and provide comments on the overall need of the users which led to their final recommendation and level of enthusiasm.'::text,
     overall_impact_direction text DEFAULT 'Overall Strengths and Weaknesses:<br/>Please do not exceed 3 paragraphs'::text,
@@ -444,10 +440,11 @@ CREATE TABLE projects (
     budget_wording text DEFAULT 'Is the budget reasonable and appropriate for the request?'::text,
     completion_title character varying(255) DEFAULT 'Completion'::character varying,
     completion_wording text DEFAULT 'Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?'::text,
+    project_name character varying(255) NOT NULL,
+    submission_modification_date date,
     show_abstract_field boolean DEFAULT true,
     abstract_text character varying(255) DEFAULT 'Please include an abstract of your proposal, not to exceed 200 words.'::character varying,
     show_manage_other_support boolean DEFAULT true,
-    projects character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
     manage_other_support_text character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
     show_document1 boolean DEFAULT false,
     document1_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
@@ -485,19 +482,10 @@ CREATE TABLE projects (
     show_review_summaries_to_applicants boolean DEFAULT true,
     show_review_summaries_to_reviewers boolean DEFAULT true,
     submission_category_description character varying(255) DEFAULT 'Please enter the core you are making this submission for.'::character varying,
-    human_subjects_research_text text DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::text,
+    human_subjects_research_text character varying(255) DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::character varying,
     show_application_doc boolean DEFAULT true,
     application_doc_name character varying(255) DEFAULT 'Application'::character varying,
     application_doc_description character varying(255) DEFAULT 'Please upload the completed application here.'::character varying,
-    created_id integer,
-    created_ip character varying(255),
-    updated_id integer,
-    updated_ip character varying(255),
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
     membership_required boolean DEFAULT false,
     supplemental_document_name character varying(255) DEFAULT 'Supplemental Document (Optional)'::character varying,
     supplemental_document_description character varying(255) DEFAULT 'Please upload any supplemental information here. (Optional)'::character varying,
@@ -508,10 +496,10 @@ CREATE TABLE projects (
     strict_deadline boolean DEFAULT false,
     show_review_scores_to_reviewers boolean DEFAULT false,
     show_total_amount_requested boolean DEFAULT false,
-    total_amount_requested_wording character varying,
+    total_amount_requested_wording character varying DEFAULT 'Total Amount Requested'::character varying,
     show_type_of_equipment boolean DEFAULT false,
-    type_of_equipment_wording character varying,
-    visible boolean
+    type_of_equipment_wording character varying DEFAULT 'Type of Equipment'::character varying,
+    visible boolean DEFAULT false NOT NULL
 );
 
 
@@ -549,8 +537,8 @@ CREATE TABLE reviewers (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -582,8 +570,8 @@ CREATE TABLE rights (
     name character varying(255),
     controller character varying(255),
     action character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -613,8 +601,8 @@ ALTER SEQUENCE rights_id_seq OWNED BY rights.id;
 CREATE TABLE rights_roles (
     right_id integer,
     role_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -625,8 +613,8 @@ CREATE TABLE rights_roles (
 CREATE TABLE roles (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -658,8 +646,8 @@ CREATE TABLE roles_users (
     role_id integer,
     user_id integer,
     program_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     created_id integer,
     created_ip character varying(255),
     updated_id integer,
@@ -743,6 +731,15 @@ CREATE TABLE submission_reviews (
     review_doc bytea,
     review_status character varying(255),
     review_completed_at timestamp without time zone,
+    created_id integer,
+    created_ip character varying(255),
+    updated_id integer,
+    updated_ip character varying(255),
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     innovation_score integer DEFAULT 0,
     impact_score integer DEFAULT 0,
     scope_score integer DEFAULT 0,
@@ -766,16 +763,7 @@ CREATE TABLE submission_reviews (
     overall_score integer DEFAULT 0,
     overall_text text,
     other_score integer DEFAULT 0,
-    other_text text,
-    created_id integer,
-    created_ip character varying(255),
-    updated_id integer,
-    updated_ip character varying(255),
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    other_text text
 );
 
 
@@ -835,16 +823,25 @@ CREATE TABLE submissions (
     effort_approver_username character varying(255),
     department_administrator_username character varying(255),
     effort_approval_at timestamp without time zone,
+    created_id integer,
+    created_ip character varying(255),
+    updated_id integer,
+    updated_ip character varying(255),
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     submission_reviews_count integer DEFAULT 0,
+    application_document_id integer,
+    budget_document_id integer,
     submission_category character varying(255),
     core_manager_username character varying(255),
     cost_sharing_amount double precision,
     cost_sharing_organization text,
-    received_previous_support boolean DEFAULT false,
+    received_previous_support boolean,
     previous_support_description text,
-    committee_review_approval boolean DEFAULT false,
-    application_document_id integer,
-    budget_document_id integer,
+    committee_review_approval boolean,
     abstract text,
     other_support_document_id integer,
     document1_id integer,
@@ -856,15 +853,6 @@ CREATE TABLE submissions (
     notification_sent_at timestamp without time zone,
     notification_sent_by_id integer,
     notification_sent_to character varying(255),
-    created_id integer,
-    created_ip character varying(255),
-    updated_id integer,
-    updated_ip character varying(255),
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
     supplemental_document_id integer,
     total_amount_requested double precision,
     amount_awarded double precision,
@@ -920,7 +908,6 @@ CREATE TABLE users (
     photo_content_type character varying(255),
     photo_file_name character varying(255),
     photo bytea,
-    biosketch_document_id integer,
     first_login_at timestamp without time zone,
     last_login_at timestamp without time zone,
     password_salt character varying(255),
@@ -935,8 +922,9 @@ CREATE TABLE users (
     deleted_at timestamp without time zone,
     deleted_id integer,
     deleted_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    biosketch_document_id integer,
     notify_on_new_submission boolean DEFAULT true,
     notify_on_complete_submission boolean DEFAULT true,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -1013,20 +1001,6 @@ ALTER SEQUENCE versions_id_seq OWNED BY versions.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY access_grants ALTER COLUMN id SET DEFAULT nextval('access_grants_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY clients ALTER COLUMN id SET DEFAULT nextval('clients_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY file_documents ALTER COLUMN id SET DEFAULT nextval('file_documents_id_seq'::regclass);
 
 
@@ -1049,13 +1023,6 @@ ALTER TABLE ONLY key_personnel ALTER COLUMN id SET DEFAULT nextval('key_personne
 --
 
 ALTER TABLE ONLY logs ALTER COLUMN id SET DEFAULT nextval('logs_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY person_identities ALTER COLUMN id SET DEFAULT nextval('person_identities_id_seq'::regclass);
 
 
 --
@@ -1136,22 +1103,6 @@ ALTER TABLE ONLY versions ALTER COLUMN id SET DEFAULT nextval('versions_id_seq':
 
 
 --
--- Name: access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY access_grants
-    ADD CONSTRAINT access_grants_pkey PRIMARY KEY (id);
-
-
---
--- Name: clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY clients
-    ADD CONSTRAINT clients_pkey PRIMARY KEY (id);
-
-
---
 -- Name: file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1181,14 +1132,6 @@ ALTER TABLE ONLY key_personnel
 
 ALTER TABLE ONLY logs
     ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
-
-
---
--- Name: person_identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY person_identities
-    ADD CONSTRAINT person_identities_pkey PRIMARY KEY (id);
 
 
 --
@@ -1301,13 +1244,6 @@ CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
 -- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1362,23 +1298,117 @@ INSERT INTO schema_migrations (version) VALUES ('20090929015448');
 
 INSERT INTO schema_migrations (version) VALUES ('20090929015449');
 
+INSERT INTO schema_migrations (version) VALUES ('20090929015450');
+
 INSERT INTO schema_migrations (version) VALUES ('20090929015451');
 
+INSERT INTO schema_migrations (version) VALUES ('20090929015452');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015453');
+
 INSERT INTO schema_migrations (version) VALUES ('20090929015454');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015457');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015458');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015459');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929030346');
 
 INSERT INTO schema_migrations (version) VALUES ('20090930210257');
 
 INSERT INTO schema_migrations (version) VALUES ('20091031200204');
 
+INSERT INTO schema_migrations (version) VALUES ('20091121144825');
+
+INSERT INTO schema_migrations (version) VALUES ('20091201231100');
+
 INSERT INTO schema_migrations (version) VALUES ('20091222043643');
+
+INSERT INTO schema_migrations (version) VALUES ('20091222044652');
+
+INSERT INTO schema_migrations (version) VALUES ('20091222061310');
+
+INSERT INTO schema_migrations (version) VALUES ('20091223143616');
+
+INSERT INTO schema_migrations (version) VALUES ('20100215201031');
+
+INSERT INTO schema_migrations (version) VALUES ('20100228161645');
+
+INSERT INTO schema_migrations (version) VALUES ('20100406170739');
+
+INSERT INTO schema_migrations (version) VALUES ('20100419182006');
+
+INSERT INTO schema_migrations (version) VALUES ('20100427221413');
+
+INSERT INTO schema_migrations (version) VALUES ('20100428162531');
+
+INSERT INTO schema_migrations (version) VALUES ('20100511175244');
 
 INSERT INTO schema_migrations (version) VALUES ('20100526152236');
 
+INSERT INTO schema_migrations (version) VALUES ('20100709151356');
+
+INSERT INTO schema_migrations (version) VALUES ('20100713031353');
+
+INSERT INTO schema_migrations (version) VALUES ('20100713045334');
+
+INSERT INTO schema_migrations (version) VALUES ('20100713232424');
+
 INSERT INTO schema_migrations (version) VALUES ('20100714211311');
+
+INSERT INTO schema_migrations (version) VALUES ('20100903204448');
+
+INSERT INTO schema_migrations (version) VALUES ('20100923102236');
+
+INSERT INTO schema_migrations (version) VALUES ('20101015232023');
+
+INSERT INTO schema_migrations (version) VALUES ('20110105042007');
+
+INSERT INTO schema_migrations (version) VALUES ('20110612035350');
+
+INSERT INTO schema_migrations (version) VALUES ('20110621194552');
+
+INSERT INTO schema_migrations (version) VALUES ('20110902205400');
+
+INSERT INTO schema_migrations (version) VALUES ('20110905133538');
+
+INSERT INTO schema_migrations (version) VALUES ('20111005032653');
+
+INSERT INTO schema_migrations (version) VALUES ('20111114041303');
+
+INSERT INTO schema_migrations (version) VALUES ('20111115153048');
+
+INSERT INTO schema_migrations (version) VALUES ('20111116160833');
+
+INSERT INTO schema_migrations (version) VALUES ('20120314202945');
+
+INSERT INTO schema_migrations (version) VALUES ('20120406134913');
+
+INSERT INTO schema_migrations (version) VALUES ('20120911200945');
+
+INSERT INTO schema_migrations (version) VALUES ('20120921155653');
+
+INSERT INTO schema_migrations (version) VALUES ('20121026195117');
+
+INSERT INTO schema_migrations (version) VALUES ('20130114160152');
+
+INSERT INTO schema_migrations (version) VALUES ('20130123222811');
+
+INSERT INTO schema_migrations (version) VALUES ('20130511121216');
+
+INSERT INTO schema_migrations (version) VALUES ('20140213161624');
+
+INSERT INTO schema_migrations (version) VALUES ('20140320142240');
 
 INSERT INTO schema_migrations (version) VALUES ('20140327162328');
 
 INSERT INTO schema_migrations (version) VALUES ('20140418191443');
+
+INSERT INTO schema_migrations (version) VALUES ('20140516203330');
+
+INSERT INTO schema_migrations (version) VALUES ('20140529184813');
 
 INSERT INTO schema_migrations (version) VALUES ('20140908190758');
 
@@ -1391,16 +1421,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141124223129');
 INSERT INTO schema_migrations (version) VALUES ('20141215153829');
 
 INSERT INTO schema_migrations (version) VALUES ('20150102214520');
-
-INSERT INTO schema_migrations (version) VALUES ('20150908211728');
-
-INSERT INTO schema_migrations (version) VALUES ('20150908211820');
-
-INSERT INTO schema_migrations (version) VALUES ('20150908211840');
-
-INSERT INTO schema_migrations (version) VALUES ('20150908211903');
-
-INSERT INTO schema_migrations (version) VALUES ('20150908211927');
 
 INSERT INTO schema_migrations (version) VALUES ('20150908212658');
 
@@ -1425,4 +1445,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160330193030');
 INSERT INTO schema_migrations (version) VALUES ('20160906161210');
 
 INSERT INTO schema_migrations (version) VALUES ('20161024191544');
+
+INSERT INTO schema_migrations (version) VALUES ('20161028151620');
 
