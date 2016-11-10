@@ -79,7 +79,7 @@ class SubmissionsController < ApplicationController
   include KeyPersonnelHelper
   require 'submission_emails'
 
-  before_action :set_submission, only: [:show, :edit, :update, :destroy, :reassign_applicant, :edit_documents]
+  before_action :set_submission, only: [:show, :edit, :update, :destroy, :edit_documents]
 
   def index
     # project/:project_id/submissions should be the only way to get here
@@ -287,7 +287,7 @@ class SubmissionsController < ApplicationController
   end
 
   def reassign_applicant
-    # submission = Submission.find(params[:id])
+    submission = Submission.find(params[:id])
     before_update(submission)
     @submission = submission
     unless params[:applicant_id].blank?
