@@ -56,11 +56,13 @@
 <% last_review = nil %>
 <% submission_reviews.each do |review| %>
 <% unless is_admin? || last_review == nil %>
-  <% if last_review.submission.applicant_id == review.submission.applicant_id %>
-  <% unless review.reviewer_id == current_user_session.id %>
-    <% next unless current_project.show_composite_scores_to_reviewers %>
-    <% next if review.has_zero? %>
-  <% end %>
+  <% if  review.submission.present? %>
+    <% if last_review.submission.applicant_id == review.submission.applicant_id %>
+      <% unless review.reviewer_id == current_user_session.id %>
+        <% next unless current_project.show_composite_scores_to_reviewers %>
+        <% next if review.has_zero? %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
 
