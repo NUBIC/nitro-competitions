@@ -58,7 +58,7 @@ class ApplicantsController < ApplicationController
   # i.e "Is a myNUCATS member?"
   def is_member?(applicant)
     nucats_members = query_nucats_membership(name: applicant.username)
-    nucats_members = query_nucats_membership(name: applicant.email) if nucats_members.blank? && !applicant.email.blank?
+    nucats_members = query_nucats_membership(mail: applicant.email) if nucats_members.blank? && !applicant.email.blank?
     return nucats_members.first['active'] == 'True' if nucats_members.count == 1
     false
   end
