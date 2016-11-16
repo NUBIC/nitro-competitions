@@ -121,6 +121,10 @@ class User < ActiveRecord::Base
                       :message => 'Email address is not valid. Please correct',
                       :if => Proc.new { |c| !c.email.blank? }
 
+  validates_inclusion_of :system_admin, 
+                      :in => [true, false], 
+                      :message => 'The value must be true or false'
+
 
   def name
     [first_name, last_name].join(' ').gsub(/\'/, "’")
