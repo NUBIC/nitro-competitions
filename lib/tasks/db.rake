@@ -10,9 +10,10 @@ namespace :db do
     ar_config      = HashWithIndifferentAccess.new(ActiveRecord::Base.connection.instance_variable_get("@config"))
     fail 'This only works for postgres' unless ar_config[:adapter] == "postgresql"
     @app_name      = 'nucats_assist'
-    @backup_folder = %w(production staging).include?(Rails.env) ? "/var/www/apps/#{@app_name}/shared/db_backups" : File.join(Rails.root,"tmp","db_backups")
     @password      = ar_config[:password]
     @pg_options    = "-U #{ar_config[:username]} -h #{ar_config[:host] || 'localhost'} -p #{ar_config[:port] || 5432} #{ar_config[:database]}"
+    @backup_folder = # %w(production staging).include?(Rails.env) ? "/var/www/apps/#{@app_name}/shared/db_backups" : File.join(Rails.root,"tmp","db_backups")
+    "#{Rails.root}/tmp/db_backups"
 
     Dir.mkdir(@backup_folder) unless File.directory?(@backup_folder)
   end
