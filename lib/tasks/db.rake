@@ -8,7 +8,6 @@ require 'highline/import'
 namespace :db do
   task :pg_setup => :environment do
     ar_config      = HashWithIndifferentAccess.new(ActiveRecord::Base.connection.instance_variable_get("@config"))
-    puts ar_config.inspect
     fail 'This only works for postgres' unless ar_config[:adapter] == "postgresql"
     @app_name      = 'nucats_assist'
     @password      = ar_config[:password]
@@ -19,6 +18,8 @@ namespace :db do
     Dir.mkdir(@backup_folder) unless File.directory?(@backup_folder)
   end
 
+  # The environment will need to be declared to run the backup.
+  # e.g. RAILS_ENV=staging bundle exec rake db:backup
   desc "backup database"
   task :backup => :pg_setup do
     destination    = File.join(@backup_folder, "#{@app_name}_#{Rails.env}-#{Time.now.strftime("%Y-%m-%d_%H-%M-%S")}.sql.gz")
