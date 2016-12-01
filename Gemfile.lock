@@ -115,6 +115,7 @@ GEM
     haml (4.0.7)
       tilt
     hashie (3.4.2)
+    highline (1.6.8)
     i18n (0.7.0)
     jquery-rails (4.0.5)
       rails-dom-testing (~> 1.0)
@@ -316,6 +317,7 @@ DEPENDENCIES
   faraday
   fastercsv
   haml
+  highline
   jquery-rails
   lograge
   mime-types (~> 2.6)

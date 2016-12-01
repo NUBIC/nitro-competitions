@@ -23,6 +23,9 @@ tmp/pids/
 tmp/sessions/
 tmp/sockets/
 
+# backups
+tmp/db_backups/*
+
 # Testing detritus
 assets/files/
 coverage/

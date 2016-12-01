@@ -48,6 +48,9 @@ gem 'lograge'
 # https://github.com/nathanl/searchlight
 gem 'searchlight'
 
+# for rake task input
+gem 'highline'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
