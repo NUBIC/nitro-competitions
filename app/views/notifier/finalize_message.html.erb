@@ -11,7 +11,7 @@
   <% end %>
   </p>
   <p>
-  You can view <%= link_to("your submission", @the_submission_url) %> If you wish to edit your submission at any point until the end of the competition, (<%= format_date(@submission.project.submission_close_date) %>),
+  You can view <%= link_to("your submission", @the_submission_url) %>. If you wish to edit your submission at any point until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>),
   you may do so by clicking on your submission on <%= link_to("the competition's page", @the_project_url) %>.
 </p>
 <% unless @submission.key_personnel_names.blank? %>
