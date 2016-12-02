@@ -12,8 +12,14 @@ namespace :db do
     @app_name      = 'nucats_assist'
     @password      = ar_config[:password]
     @pg_options    = "-U #{ar_config[:username]} -h #{ar_config[:host] || 'localhost'} -p #{ar_config[:port] || 5432} #{ar_config[:database]}"
+    
+    # Use this for production and staging environments.
     @backup_folder = %w(production staging).include?(Rails.env) ? "/var/www/apps/#{@app_name}/shared/db_backups" : File.join(Rails.root,"tmp","db_backups")
-    # "#{Rails.root}/tmp/db_backups"
+    
+
+
+    # Use this for local development environment.
+    # @backup_folder = "#{Rails.root}/shared/db_backups"
 
     Dir.mkdir(@backup_folder) unless File.directory?(@backup_folder)
   end
@@ -27,6 +33,7 @@ namespace :db do
     pgpassword_wrapper(@password){ `pg_dump -O -o -c -x #{@pg_options} | gzip -f --best > #{destination}` }
   end
 
+  # the user associated with the DB needs to be a super user in order for the restore to work. 
   desc "restore database"
   task :restore => :pg_setup do |t|
     backup_files = Dir.glob(File.join(@backup_folder,"*.sql.gz")).sort
