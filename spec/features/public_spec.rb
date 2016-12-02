@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe 'Public Section', :type => :feature do
 
-  before do 
+  before :each do 
     FactoryGirl.create(:project) if Project.count < 1
   end
 

@@ -6,7 +6,7 @@ describe 'Applying for a competitions', type: :feature do
   context 'With an open competition', js: true do 
 
     # setup - populate necessary data for an applicant to be able to apply to a competition
-    before do 
+    before :each do
       FactoryGirl.create(:project, project_title: 'Voucher Program', 
                          submission_close_date: 1.week.from_now, submission_open_date: 1.day.ago,
                          initiation_date: 1.day.ago, visible: true)
@@ -14,7 +14,7 @@ describe 'Applying for a competitions', type: :feature do
 
     context 'with a logged in applicant' do 
 
-      before do 
+      before :each do 
         login
         visit '/projects'
       end
