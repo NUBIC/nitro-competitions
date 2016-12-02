@@ -9,17 +9,11 @@ namespace :db do
   task :pg_setup => :environment do
     ar_config      = HashWithIndifferentAccess.new(ActiveRecord::Base.connection.instance_variable_get("@config"))
     fail 'This only works for postgres' unless ar_config[:adapter] == "postgresql"
+   
     @app_name      = 'nucats_assist'
     @password      = ar_config[:password]
     @pg_options    = "-U #{ar_config[:username]} -h #{ar_config[:host] || 'localhost'} -p #{ar_config[:port] || 5432} #{ar_config[:database]}"
-    
-    # Use this for production and staging environments.
     @backup_folder = %w(production staging).include?(Rails.env) ? "/var/www/apps/#{@app_name}/shared/db_backups" : File.join(Rails.root,"tmp","db_backups")
-    
-
-
-    # Use this for local development environment.
-    # @backup_folder = "#{Rails.root}/shared/db_backups"
 
     Dir.mkdir(@backup_folder) unless File.directory?(@backup_folder)
   end
