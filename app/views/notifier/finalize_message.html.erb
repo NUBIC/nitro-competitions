@@ -9,8 +9,10 @@
     incomplete. Please note these issues: </p> <%= @status_notes.html_safe %>
     <p>
   <% end %>
-  If you would like to edit your submission at any point up until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>)
-  you may do so by clicking on your submission on <%= link_to("the competition's page", @the_project_url) %>.
+  </p>
+  <p>
+  You can view <%= link_to("your submission", @the_submission_url(@submission)) %> or edit your submission at any point until the end of the competition (<%= format_date(@submission.project.submission_close_date) %>).
+  You may do so by clicking on your submission on <%= link_to("the competition's page", @the_project_url) %>.
 </p>
 <% unless @submission.key_personnel_names.blank? %>
   <p>Key Personnel: You have listed the following key personnel:</p>
