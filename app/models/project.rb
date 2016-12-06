@@ -164,6 +164,9 @@
 #  type_of_equipment_wording           :string
 #
 
+
+include Rails.application.routes.url_helpers
+
 class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
@@ -315,6 +318,10 @@ class Project < ActiveRecord::Base
     return if txt.blank?
     txt = txt.downcase.gsub(/\s/, "").gsub(/[^a-z0-9]/, "_").gsub(/__+/, "_")
     self.project_name = txt
+  end
+
+  def project_url
+    NucatsAssist.root_url + project_path(self)
   end
 
 end
