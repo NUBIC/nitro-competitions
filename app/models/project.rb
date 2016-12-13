@@ -165,7 +165,7 @@
 #
 
 
-# include Rails.application.routes.url_helpers
+include Rails.application.routes.url_helpers
 
 class Project < ActiveRecord::Base
   belongs_to :program
@@ -320,8 +320,8 @@ class Project < ActiveRecord::Base
     self.project_name = txt
   end
 
-  # def project_url
-  #   NucatsAssist.root_url + project_path(self)
-  # end
+  def project_url
+    NucatsAssist.root_url + project_path(self)
+  end
 
 end
