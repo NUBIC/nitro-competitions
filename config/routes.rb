@@ -120,9 +120,9 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
-  # namespace :api do
-  #   resources :projects, only: :index
-  # end
+  namespace :api do
+    resources :projects, only: :index
+  end
 
   resources :applicants, only: [:edit, :update, :show]
 
