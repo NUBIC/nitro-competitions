@@ -1,6 +1,8 @@
 # https://robots.thoughtbot.com/better-serialization-less-as-json
 # See above article for possible future changes. 
 class Api::ProjectsController < ApplicationController
+  skip_before_filter :authenticate_user!
+
   def index 
     begin 
       projects = Project.open
