@@ -320,9 +320,8 @@ class Project < ActiveRecord::Base
     self.project_name = txt
   end
 
-  def project_url
-    # NucatsAssist.root_url + 
-    project_path(self)
-  end
+  # def project_url
+  #   NucatsAssist.root_url + project_path(self)
+  # end
 
 end
