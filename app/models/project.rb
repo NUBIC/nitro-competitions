@@ -165,7 +165,7 @@
 #
 
 
-include Rails.application.routes.url_helpers.project_path
+# include Rails.application.routes.url_helpers
 
 class Project < ActiveRecord::Base
   belongs_to :program
