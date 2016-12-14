@@ -164,10 +164,9 @@
 #  type_of_equipment_wording           :string
 #
 
-
-include Rails.application.routes.url_helpers
-
 class Project < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
+  
   belongs_to :program
   belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
