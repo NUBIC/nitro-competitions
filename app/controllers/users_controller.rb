@@ -62,6 +62,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, except: [:index, :new, :create, :login]
+  before_action :set_project, only: [:new, :create]
 
   def login
     url = params[:url].blank? ? root_url : params[:url]
@@ -72,7 +73,6 @@ class UsersController < ApplicationController
   end
 
   def new
-    @project = current_project
     @sponsor = @project.program if @project
     if is_admin?(@sponsor) || current_user.system_admin?
       @user = User.new
@@ -157,7 +157,7 @@ class UsersController < ApplicationController
     end
 
     def set_project
-      @project = current
+      @project = current_project
     end
 
     def user_params

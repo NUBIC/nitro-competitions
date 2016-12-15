@@ -1,22 +1,31 @@
-%h3
-  User Lookup
+%h3 Account Lookup
+%p 
+  First, check to see if the reviewer already has an account. 
+%p 
+  Or search the 
+  = link_to 'Northwestern University Directory.', NucatsAssist.ldap_url, target: '_blank'
+
 .search-form
   = form_tag ('/admins/user_lookup') do 
     .search-param
-      = text_field_tag :first_name, params[:first_name], placeholder: 'First name'
+      = text_field_tag :first_name, params[:first_name], placeholder: 'First Name'
     .search-param
-      = text_field_tag :last_name, params[:last_name], placeholder: 'Last name'
+      = text_field_tag :last_name, params[:last_name], placeholder: 'Last Name'
     .search-param
-      = text_field_tag :email, params[:email], placeholder: 'Email'
+      = text_field_tag :email, params[:email], placeholder: 'E-mail'
     .search-button
-      = submit_tag 'Search Database'
-      = link_to 'or Search Northwestern Directory', NucatsAssist.ldap_url, target: '_blank'
+      = submit_tag 'Search Accounts'
 
 .search-results
   - if @results
     - if @results.blank?
       .no-results
-        No results matched your search criteria.
+        %p
+          No results matched your search criteria.
+        %p  
+          = link_to 'Add a new user account.', '/users/new', target: '_blank'
+
+
     - else
       - @results.each do |result|
         %dl.search-result
@@ -35,5 +44,5 @@
               = blank_safe(result.email)
             - else
               = mail_to result.email 
-  - else
-    Please enter search criteria.
+  / - else
+  /   Please enter search criteria.
