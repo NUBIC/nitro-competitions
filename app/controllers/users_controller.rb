@@ -90,7 +90,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         if @user.save
           flash[:notice] = 'User was successfully created.'
-          format.html { redirect_to(root_path) } 
+          format.html { redirect_to(reviewers_project_admins_path(@project)) } 
           format.xml  { head :ok }
         else
           format.html { render :action => :new }

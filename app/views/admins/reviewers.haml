@@ -31,7 +31,7 @@
 %p Enter a comma or space-separated list of usernames (NetIDs) for the reviewers. 
 %p 
   Reviewer doesn't have a NetID?
-  = link_to 'Create an account for the reviewer.', user_lookup_project_admins_path, target: '_blank'
+  = link_to 'Create an account for the reviewer.', user_lookup_project_admins_path
   #{username_lookup_tag}
 
 = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
