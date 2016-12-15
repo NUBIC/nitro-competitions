@@ -72,6 +72,7 @@ class UsersController < ApplicationController
   end
 
   def new
+    @project = current_project
     @sponsor = @project.program if @project
     if is_admin?(@sponsor) || current_user.system_admin?
       @user = User.new
@@ -153,6 +154,10 @@ class UsersController < ApplicationController
   private
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def set_project
+      @project = current
     end
 
     def user_params
