@@ -7,9 +7,13 @@ describe 'Applying for a competitions', type: :feature do
 
     # setup - populate necessary data for an applicant to be able to apply to a competition
     before :each do
-      FactoryGirl.create(:project, project_title: 'Voucher Program', 
-                         submission_close_date: 1.week.from_now, submission_open_date: 1.day.ago,
-                         initiation_date: 1.day.ago, visible: true)
+      program = FactoryGirl.create(:program)
+      project = FactoryGirl.create(:project, project_title: 'Voucher Program', 
+                         program: program,
+                         submission_close_date: 1.week.from_now, 
+                         submission_open_date: 1.day.ago,
+                         initiation_date: 1.day.ago, 
+                         visible: true)
     end
 
     context 'with a logged in applicant' do 
@@ -20,16 +24,16 @@ describe 'Applying for a competitions', type: :feature do
       end
 
       it 'should allow the applicant to apply' do 
-        project = Project.last
+        last_project = Project.last
         user = User.last
 
         expect(page).to have_content 'Apply'
 
         click_link 'Apply'
-        expect(current_path).to eq("/projects/#{project.id}/applicants/new")
+        expect(current_path).to eq("/projects/#{last_project.id}/applicants/new")
 
         click_button 'Continue'
-        expect(current_path).to eq("/projects/#{project.id}/applicants/#{user.id}/submissions/new")
+        expect(current_path).to eq("/projects/#{last_project.id}/applicants/#{user.id}/submissions/new")
 
         fill_in 'submission_direct_project_cost', with: '5555' # todo: test that amount is within range
         fill_in 'submission_abstract', with: 'Abstractions' # todo: test required fields
@@ -44,7 +48,7 @@ describe 'Applying for a competitions', type: :feature do
         ###
         # previous:
         # click_button 'Continue'
-        # expect(current_path).to eq("/projects/#{project.id}/applicants/#{user.id}/submissions")
+        # expect(current_path).to eq("/projects/#{last_project.id}/applicants/#{user.id}/submissions")
         # current:
         find('#continue').trigger('click')
 
