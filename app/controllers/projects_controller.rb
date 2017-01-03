@@ -350,6 +350,7 @@ class ProjectsController < ApplicationController
       :initiation_date,
       :submission_open_date,
       :submission_close_date,
+      :strict_deadline,
       :submission_modification_date,
       :review_start_date,
       :review_end_date,
