@@ -660,44 +660,46 @@
     <table>
       <tr>
         <td id="title4" colspan="3">
-          <strong>Documents and manage co-investigators</strong>
+          <h3>
+            <strong>Documents and manage co-investigators</strong>
+          </h3>
         </td>
       </tr>
       <tr>
-        <td class="title">
+        <td class="title, indented">
           <%= f.label :show_manage_biosketches %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_manage_biosketches %>
-            Check to include the ability to include an NIH <b>biosketch</b> document as an uploadable file for the PI and co-investigators
+            Include the ability to include an NIH <b>biosketch</b> document as an uploadable file for the PI and co-investigators
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
+        <td class="title, indented">
           <%= f.label :show_manage_coinvestigators %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_manage_coinvestigators %>
-            Check to include the ability to include <b>co-investigators</b> in the submission (part of the Edit Documents form)
+            Include the ability to include <b>co-investigators</b> in the submission (part of the Edit Documents form)
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
+        <td class="title, indented">
           <%= f.label :show_manage_other_support %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_manage_other_support %>
-            Check to include the <b>NIH Other Support</b> document as an uploadable file
+            Include the <b>NIH Other Support</b> document as an uploadable file
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="title">
+      <tr class="border_bottom">
+        <td class="title, indented">
           <%= f.label :manage_other_support_text %>
         </td>
         <td class="notes" colspan="2">
@@ -707,254 +709,281 @@
           </div>
         </td>
       </tr>
+
       <tr>
         <td class="title">
-          <%= f.label :show_document1 %>
+          <h3>
+            <%= f.label :show_document1, 'Document 1' %>
+          </h3>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_document1 %>
-            Check to include <b>document1</b> as an uploadable file
+            Include <b>Document 1</b> as an uploadable file.
           </div>
+<!--           <div class='attribute_description'>
+            <%= f.check_box :show_document1 %>
+            Require <b>Document 1</b>.
+          </div> -->
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :document1_name %>
+        <td class="title, indented" >
+          <%= f.label :document1_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document1_name, :size=>80 %>
+          <%= f.text_field :document1_name, :size=>80, :value => '' %>
           <div class='attribute_description'>
-            Label name for <b>Document1</b> document upload item. For instance, 'OSR-1'.
-            <br />
-            Label used for submitters and reviewers.
+            Label used for <b>Document 1</b> for submitters and reviewers. For instance, 'OSR-1'.
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :document1_description %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>document 1</b>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document1_template_url %>
+        <td class="title, indented" >
+          <%= f.label :document1_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :document1_template_url, :size=>80 %>
           <div class='attribute_description'>
-            Enter url to the template file for <b>document1</b>, if it exists
+            URL to the template file for <b>Document 1</b>, if it exists.
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :document1_info_url %>
+        <td class="title, indented" >
+          <%= f.label :document1_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :document1_info_url, :size=>80 %>
           <div class='attribute_description'>
-            Enter url to additional info/instructions for how to fill in file for <b>document1</b>, if it exists
+            URL to additional info/instructions for how to fill in file for <b>Document 1</b>, if it exists.
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :show_document2 %>
+      <tr class="border_bottom">
+        <td class="title, indented" >
+          <%= f.label :document1_description, 'Description' %>
         </td>
         <td class="notes" colspan="2">
+          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
           <div class='attribute_description'>
-            <%= f.check_box :show_document2 %>
-            Check to include <b>document2</b> as an uploadable file
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document2_name %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document2_name, :size=>80 %>
-          <div class='attribute_description'>
-            Label name for <b>document2</b> document upload item. For instance, 'OSR-1'.
-            <br />
-            Label used for submitters and reviewers.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document2_description %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>document 2</b>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document2_template_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document2_template_url, :size=>80 %>
-          <div class='attribute_description'>
-            Enter url to the template file for <b>document2</b>, if it exists
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document2_info_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document2_info_url, :size=>80 %>
-          <div class='attribute_description'>
-            Enter url to additional info/instructions for how to fill in file for <b>document2</b>, if it exists
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :show_document3 %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_document3 %>
-            Check to include <b>document3</b> as an uploadable file
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document3_name %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document3_name, :size=>80 %>
-          <div class='attribute_description'>
-            Label name for <b>document3</b> document upload item. For instance, 'OSR-1'.
-            <br />
-            Label used for submitters and reviewers.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document3_description %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document3_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>document 3</b>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document3_template_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document3_template_url, :size=>80 %>
-          <div class='attribute_description'>
-            Enter url to the template file for <b>document 3</b>, if it exists
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document3_info_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document3_info_url, :size=>80 %>
-          <div class='attribute_description'>
-            Enter url to additional info/instructions for how to fill in file for <b>document 3</b>, if it exists
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :show_document4 %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_document4 %>
-            Check to include <b>document 4</b> as an uploadable file
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document4_name %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document4_name, :size=>80 %>
-          <div class='attribute_description'>
-            Label name for <b>document 4</b> document upload item. For instance, 'OSR-1'.
-            <br />
-            Label used for submitters and reviewers.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document4_description %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document4_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>document 4</b>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document4_template_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document4_template_url, :size=>80 %>
-          <div class='attribute_description'>
-            Enter url to the template file for <b>document 4</b>, if it exists
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :document4_info_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document4_info_url, :size=>80 %>
-          <div class='attribute_description'>
-            Enter url to additional info/instructions for how to fill in file for <b>document 4</b>, if it exists
+            Descriptive text to help submitters/reviewers understand what to find in <b>Document 1</b>.
           </div>
         </td>
       </tr>
 
       <tr>
         <td class="title">
-          <%= f.label :supplemental_document_name %>
+          <h3>
+            <%= f.label :show_document2, 'Document 2' %>
+          </h3>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :supplemental_document_name, :size=>80 %>
           <div class='attribute_description'>
-            Label name for the optional <b>supplemental document</b> upload item.
+            <%= f.check_box :show_document2 %>
+            Include <b>Document 2</b> as an uploadable file.
+          </div>
+<!--           <div class='attribute_description'>
+            <%= f.check_box :show_document2 %>
+            Require <b>Document 2</b>. THIS NEEDS TO BE REPLACED ONCE THE BOOLEAN EXISTS
+          </div> -->
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document2_name, 'Name' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document2_name, :size=>80, :value => '' %>
+          <div class='attribute_description'>
+            Label used for <b>Document 2</b> for submitters and reviewers. For instance, 'OSR-2'.
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :supplemental_document_description %>
+        <td class="title, indented" >
+          <%= f.label :document2_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :supplemental_document_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_field :document2_template_url, :size=>80 %>
           <div class='attribute_description'>
-            Text to describe what might be expected in the optional <b>supplemental document</b>.
+            URL to the template file for <b>Document 2</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document2_info_url, 'Info URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document2_info_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to additional info/instructions for how to fill in file for <b>Document 2</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented" >
+          <%= f.label :document2_description, 'Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
+          <div class='attribute_description'>
+            Descriptive text to help submitters/reviewers understand what to find in <b>Document 2</b>.
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="title">
+          <h3>
+            <%= f.label :show_document3, 'Document 3' %>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_document3 %>
+            Include <b>Document 3</b> as an uploadable file.
+          </div>
+<!--           <div class='attribute_description'>
+            <%= f.check_box :show_document3 %>
+            Require <b>Document 3</b>. THIS NEEDS TO BE REPLACED ONCE THE BOOLEAN EXISTS
+          </div> -->
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document3_name, 'Name' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document3_name, :size=>80, :value => '' %>
+          <div class='attribute_description'>
+            Label used for <b>Document 3</b> for submitters and reviewers. For instance, 'OSR-3'.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document3_template_url, 'Template URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document3_template_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to the template file for <b>Document 3</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document3_info_url, 'Info URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document3_info_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to additional info/instructions for how to fill in file for <b>Document 3</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented" >
+          <%= f.label :document3_description, 'Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document3_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
+          <div class='attribute_description'>
+            Descriptive text to help submitters/reviewers understand what to find in <b>Document 3</b>.
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="title">
+          <h3>
+            <%= f.label :show_document4, 'Document 4' %>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_document4 %>
+            Include <b>Document 4</b> as an uploadable file.
+          </div>
+<!--           <div class='attribute_description'>
+            <%= f.check_box :show_document4 %>
+            Require <b>Document 4</b>. THIS NEEDS TO BE REPLACED ONCE THE BOOLEAN EXISTS
+          </div> -->
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document4_name, 'Name' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document4_name, :size=>80, :value => '' %>
+          <div class='attribute_description'>
+            Label used for <b>Document 4</b> for submitters and reviewers. For instance, 'OSR-4'.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document4_template_url, 'Template URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document4_template_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to the template file for <b>Document 4</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document4_info_url, 'Info URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document4_info_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to additional info/instructions for how to fill in file for <b>Document 4</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented" >
+          <%= f.label :document4_description, 'Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document4_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
+          <div class='attribute_description'>
+            Descriptive text to help submitters/reviewers understand what to find in <b>Document 4</b>.
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td id="title4" colspan="3">
+          <h3>
+            <strong>Supplemental Document</strong>
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :supplemental_document_name, 'Name' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :supplemental_document_name, :size=>80, :value => '' %>
+          <div class='attribute_description'>
+            Label used for the optional <b>Supplemental Document</b> upload item.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :supplemental_document_description, 'Description'  %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :supplemental_document_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
+          <div class='attribute_description'>
+            Descriptive text of what might be expected in the optional <b>Supplemental Document</b>.
           </div>
         </td>
       </tr>

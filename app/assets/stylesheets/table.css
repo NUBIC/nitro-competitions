@@ -2,11 +2,19 @@ table {
   border: none;
 }
 
+tr.border_bottom td {
+  border-bottom:1pt solid black;
+}
+
 td, th {
   margin: 0;
   padding: 0.25em 0.5em;
   vertical-align: top;
   text-align: left;
+}
+
+td.indented {
+  text-indent: 15px;
 }
 
 table.wide {
