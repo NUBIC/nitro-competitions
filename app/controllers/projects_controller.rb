@@ -527,6 +527,7 @@ class ProjectsController < ApplicationController
                 initiation_date: project.initiation_date,
                 submission_open_date: project.submission_open_date,
                 submission_close_date: project.submission_close_date,
+                strict_deadline: project.strict_deadline,
                 review_start_date: project.review_start_date,
                 review_end_date: project.review_end_date,
                 project_period_start_date: project.project_period_start_date,
