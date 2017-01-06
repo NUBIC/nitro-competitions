@@ -499,7 +499,11 @@ CREATE TABLE projects (
     total_amount_requested_wording character varying DEFAULT 'Total Amount Requested'::character varying,
     show_type_of_equipment boolean DEFAULT false,
     type_of_equipment_wording character varying DEFAULT 'Type of Equipment'::character varying,
-    visible boolean DEFAULT false NOT NULL
+    visible boolean DEFAULT false NOT NULL,
+    document1_required boolean DEFAULT true,
+    document2_required boolean DEFAULT true,
+    document3_required boolean DEFAULT true,
+    document4_required boolean DEFAULT true
 );
 
 
@@ -1453,4 +1457,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161107173423');
 INSERT INTO schema_migrations (version) VALUES ('20161107193749');
 
 INSERT INTO schema_migrations (version) VALUES ('20161107194207');
+
+INSERT INTO schema_migrations (version) VALUES ('20170104212020');
 
