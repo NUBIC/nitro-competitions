@@ -992,293 +992,308 @@
   <div id='institution_tab'>
     <table>
       <tr>
-        <td id="title7" colspan="3">
-          <strong>OR Core Facilities items</strong>
+        <td id="title7">
+          <h3>
+            <strong>OR Core Facilities</strong>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <br>
+            Include
+          </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_core_manager %>
+        <td class="title, indented">
+          <%= f.label :show_core_manager, 'Core Manager NetID' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_core_manager %>
-            Check to include the <b>Core Manager</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_cost_sharing_amount %>
+        <td class="title, indented">
+          <%= f.label :show_cost_sharing_amount, 'Cost sharing amount' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_cost_sharing_amount %>
-            Check to include the <b>cost sharing amount</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_cost_sharing_organization %>
+        <td class="title, indented">
+          <%= f.label :show_cost_sharing_organization, 'Cost sharing organization' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_cost_sharing_organization %>
-            Check to include the <b>cost sharing organization</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_received_previous_support %>
+        <td class="title, indented">
+          <%= f.label :show_received_previous_support, 'Did this research receive Office of Research support in the past 2 years?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_received_previous_support %>
-            Check to include the <b>Received Previous Support</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_previous_support_description %>
+        <td class="title, indented2">
+          <%= f.label :show_previous_support_description, 'Description of support:' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_previous_support_description %>
-            Check to include the <b>Previous Support Description</b> submission form item
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :show_committee_review_approval %>
+      <tr class="border_bottom">
+        <td class="title, indented">
+          <%= f.label :show_committee_review_approval, 'Did this research receive approval of review committee for this request?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_committee_review_approval %>
-            Check to include the <b>Committee Review Approval</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td id="title8" colspan="3">
-          <strong>CTI and NMF items</strong>
+        <td id="title8">
+          <h3>
+            <strong>CTI and NMF items</strong>
+          </h3>
         </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <br>
+            Include
+          </div>
+        </td>        
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_human_subjects_research %>
+        <td class="title, indented">
+          <%= f.label :show_human_subjects_research, 'Is this human subjects research?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_human_subjects_research %>
-            Check to include the <b>human subjects research</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :human_subjects_research_text, "Human subjects research help wording" %>
+        <td class="title, indented2">
+          <%= f.label :human_subjects_research_text, 'Help text for human subjects research question:' %>
         </td>
         <td class="notes" colspan="2">
+
+<!--           <div class='attribute_description'>
+            <%= f.check_box :show_irb_approved %>
+            Text will read: If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item. Be specific.
+          </div> -->
+
           <%= f.text_area :human_subjects_research_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
+<!--           <div class='attribute_description'>
             Text to include with the <b>human subjects research</b> submission form item
-          </div>
+          </div> -->
+
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_irb_approved %>
+        <td class="title, indented">
+          <%= f.label :show_irb_approved, 'Is this research IRB approved?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_irb_approved %>
-            Check to include the <b>irb approved</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_irb_study_num %>
+        <td class="title, indented2">
+          <%= f.label :show_irb_study_num, 'IRB study number:' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_irb_study_num %>
-            Check to include the <b>irb study_num</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_stem_cells %>
+        <td class="title, indented">
+          <%= f.label :show_use_stem_cells, 'Will this research user stem cells?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_stem_cells %>
-            Check to include the <b>use stem_cells</b> submission form item
+            Text will read: "Please check if this study will involve the collection, derivation or use of human stem cells."
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_embryonic_stem_cells %>
+        <td class="title, indented">
+          <%= f.label :show_use_embryonic_stem_cells, 'Will this research user embryonic stem cells?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_embryonic_stem_cells %>
-            Check to include the <b>use embryonic_stem_cells</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_vertebrate_animals %>
+        <td class="title, indented">
+          <%= f.label :show_use_vertebrate_animals, 'Will this research use vertebrate animals?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_vertebrate_animals %>
-            Check to include the <b>use vertebrate_animals</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_iacuc_approved %>
+        <td class="title, indented">
+          <%= f.label :show_iacuc_approved, 'Is this research IACUC approved?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_iacuc_approved %>
-            Check to include the <b>iacuc approved</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_iacuc_study_num %>
+        <td class="title, indented2">
+          <%= f.label :show_iacuc_study_num, 'IACUC study number:' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_iacuc_study_num %>
-            Check to include the <b>iacuc study_num</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_not_new_explanation %>
+        <td class="title, indented">
+          <%= f.label :show_not_new_explanation, 'If this is not new work, please explain:' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_not_new_explanation %>
-            Check to include the <b>not new_explanation</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_is_conflict %>
+        <td class="title, indented">
+          <%= f.label :show_is_conflict, 'Are there any conflicts of interest?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_is_conflict %>
-            Check to include the <b>is conflict</b> submission form item
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="title">
-          <%= f.label :show_conflict_explanation %>
+      <tr class="border_bottom">
+        <td class="title, indented2">
+          <%= f.label :show_conflict_explanation, 'Description of conflicts of interest:' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_conflict_explanation %>
-            Check to include the <b>conflict explanation</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td id="title8" colspan="3">
-          <strong>Northwestern Specific items</strong>
+        <td id="title8">
+          <h3>
+           <strong>Northwestern-specific</strong>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <br>
+            Include
+          </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_nucats_cru %>
+        <td class="title, indented">
+          <%= f.label :show_use_nucats_cru, 'Will this research use the NUCATS Clinical Research Unit (CRU)?' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_nucats_cru %>
-            Check to include the <b>use nucats_cru</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_nucats_cru_contact_name %>
+        <td class="title, indented2">
+          <%= f.label :show_nucats_cru_contact_name, 'Name of NUCATS CRU contact:' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_nucats_cru_contact_name %>
-            Check to include the <b>nucats cru_contact_name</b> submission form item
           </div>
         </td>
       </tr>
 
       <tr>
-        <td class="title">
-          <%= f.label :show_use_nmh %>
+        <td class="title, indented">
+          <label>
+            Will this study require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_use_nmh, 'NMH' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_nmh %>
-            Check to include the <b>use nmh</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_nmff %>
+        <td class="title, indented2">
+          <%= f.label :show_use_nmff, 'NMFF' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_nmff %>
-            Check to include the <b>use nmff</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_va %>
+        <td class="title, indented2">
+          <%= f.label :show_use_va, 'VA' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_va %>
-            Check to include the <b>use va</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_ric %>
+        <td class="title, indented2">
+          <%= f.label :show_use_ric, 'RIC' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_ric %>
-            Check to include the <b>use ric</b> submission form item
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title">
-          <%= f.label :show_use_cmh %>
+        <td class="title, indented2">
+          <%= f.label :show_use_cmh, 'CMH' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_use_cmh %>
-            Check to include the <b>use cmh</b> submission form item
           </div>
         </td>
       </tr>
