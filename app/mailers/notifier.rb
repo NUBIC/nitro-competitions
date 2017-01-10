@@ -95,7 +95,7 @@ class Notifier < ActionMailer::Base
     @content_type      = 'text/html'
 
     from = Rails.application.config.from_address
-    to   = sponsor_admin_email_list
+    to   = sponsor_admin_email_list(@program)
     # sanity check to ensure email is sent to someone
     if to.blank?
       to = ADMIN_EMAIL_LIST
