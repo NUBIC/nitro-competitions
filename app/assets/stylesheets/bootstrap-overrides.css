@@ -68,3 +68,8 @@ ul {
   list-style: none;
   padding-left: 1em;
 }
+
+input[type='checkbox'] {
+   width: 20px;
+   height: 20px;
+}
