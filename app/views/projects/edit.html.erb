@@ -1,4 +1,4 @@
-<h1>Editing '<%= @project.project_title %>'</h1>
+<h2>Editing '<%= @project.project_title %>'</h2>
 
 <% if @project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
   <%= form_for(@project) do |f| %>

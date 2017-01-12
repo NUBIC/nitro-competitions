@@ -1,4 +1,4 @@
-<h1>New project for <%= @program.program_name %></h1>
+<h2>New project for <%= @program.program_name %></h2>
 
 <%= form_for(@project) do |f| %>
   <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
