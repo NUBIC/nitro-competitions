@@ -1,40 +1,39 @@
-
-<h2>
+<h3>
   Applicant: <%= submission.applicant.long_name %>
-</h2>
+</h3>
 <div class="indented">
   <table>
-    <tr>
+    <tr class="indented">
       <td>Project:</td>
       <td><%= submission.submission_title %></td>
     </tr>
     <% if submission.project.show_submission_category -%>
-      <tr>
+      <tr class="indented">
         <td><%= submission.project.category_wording %>:</td>
         <td><%= submission.submission_category %></td>
       </tr>
     <% end %>
-    <tr>
+    <tr class="indented">
       <td>Competition:</td>
       <td><%= submission.project.project_title %></td>
     </tr>
-    <tr>
+    <tr class="indented">
       <td>Sponsor:</td>
       <td><%= submission.project.program.program_title %></td>
     </tr>
-    <tr>
+    <tr class="indented">
       <td>Submission deadline:</td>
       <td><%= submission.project.submission_close_date %></td>
     </tr>
-    <tr>
+    <tr class="indented">
       <td>Application status:</td>
       <td><%= submission.status %></td>
     </tr>
-    <tr>
+    <tr class="indented">
       <td>Submission created at:</td>
       <td><%= submission.project.created_at.to_date %></td>
     </tr>
-    <tr>
+    <tr class="indented">
       <td>Submitter:</td>
       <td><%= submission.submitter.try(:name).to_s %></td>
     </tr>
@@ -46,7 +45,7 @@
 <% if submission.project.show_review_summaries_to_applicants ||
       is_admin? ||
       (submission.project.show_review_summaries_to_reviewers && reviewer_ids.include?(current_user_session.id) ) %>
-  <h1>Application reviews </h1>
+  <h3>Criteria</h3>
 
   <div id="scores">
     <ol>
@@ -90,7 +89,7 @@
         <%= review_comments_div(reviews, 'completion').html_safe %>
       <% end %>
     </ol>
-    <h3>Overall review comments</h3>
+    <h3>Comments</h3>
     <%= review_comments_div(reviews, 'overall').html_safe %>
   </div>
 <% end %>
@@ -98,8 +97,8 @@
 <% if submission.project.show_composite_scores_to_applicants ||
       is_admin? ||
       (submission.project.show_composite_scores_to_reviewers && reviewer_ids.include?(current_user_session.id) ) %>
-  <h3>Application scores </h3>
-  <div id="composite_scores">
+  <h3>Scores</h3>
+  <div class = "bottom_border" id="composite_scores">
     <ul>
       <% unless submission.composite_scores.blank? || submission.composite_scores.to_s == '0' %>
         <li> Composite score: <%= submission.composite_scores %>  </li>

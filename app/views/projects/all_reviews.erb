@@ -1,3 +1,9 @@
+<div class="bottom_border">
+  <h2>
+    <%= "Application Reviews for #{@project.project_title}" %>
+  </h2>
+</div>
+
 <% @project.submissions.each do |submission| %>
   <%= render('reviews/index', reviews: submission.submission_reviews, submission: submission) %>
   <p style="page-break-before: always">

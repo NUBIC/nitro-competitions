@@ -1,6 +1,6 @@
 <% @assigned_submission_reviews ||= nil %>
 <% @submission_reviews ||= nil %>
-<% @submission_reviews_title ||= "Complete list of assignments for this competition" %>
+<% @submission_reviews_title ||= "Complete List of Assigned Proposals for This Competition" %>
 <% @include_competition ||= true %>
 <% @include_files ||= false %>
 <% @speed_display ||= false %>
@@ -8,12 +8,14 @@
       (@assigned_submission_reviews.blank? or @assigned_submission_reviews. length == 0) %>
   <h2>Sorry, you do not have any accessible reviews at this time</h2>
 <% end %>
+
 <%= render('submission_review_table',
            :submission_reviews => @assigned_submission_reviews,
-           :title => 'Your assigned proposals for this competition',
+           :title => 'Your Assigned Proposals for This Competition',
            :table_id => 'assigned_submission_reviews',
            :include_files => @include_files,
            :speed_display => @speed_display) %>
+
 <%= render('submission_review_table',
            :submission_reviews => @submission_reviews,
            :title => @submission_reviews_title,
