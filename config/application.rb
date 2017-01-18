@@ -85,7 +85,7 @@ module NucatsAssist
     config.middleware.use ExceptionNotification::Rack,
                           email: {
                             email_prefix: "[#{Rails.env}] NITROCompetitions ",
-                            sender_address: "competitions@northwestern.edu",
+                            sender_address: "nitro-noreply@northwestern.edu",
                             exception_recipients: %w{competitions@northwestern.edu}
                           }
   end
