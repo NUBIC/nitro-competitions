@@ -1,6 +1,7 @@
 <div id='project_list'>
   <% show_details ||= false %>
   <% if !projects.blank? %>
+    <% projects = projects.sort_by(&:submission_close_date).reverse %>
     <% projects.each_with_index do |project, i| %>
       <% if project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(project.program)) %>
         <div class='project'>
