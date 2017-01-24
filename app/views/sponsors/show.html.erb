@@ -1,38 +1,45 @@
-<table id="sponsorTable" class="tablesorter">
-  <thead>
-    <tr>
-      <th width="100px">Name</th>
-      <th>Title</th>
-      <th>URL</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <%= link_to(@sponsor.program_name, sponsor_path(@sponsor)) %>
-      </td>
-      <td>
-        <%= @sponsor.program_title %>
-      </td>
-      <td>
-        <%= link_to(@sponsor.program_url, @sponsor.program_url) %>
-      </td>
+
+<h3>
+  <%= @sponsor.program_name %>
+</h3>
+  <div class="indented">
+    <div>
+      Title:
+      <%= h(@sponsor.program_title) %>
+    </div>
+    <div>
+      Name:
+      <%= h(@sponsor.program_name) %>
+    </div>
+    <div>
       <% if is_admin?(@sponsor) %>
-        <td><%= link_to "Edit", edit_sponsor_path(@sponsor) %></td>
+        <%= link_to "Edit sponsor information", edit_sponsor_path(@sponsor) %>
       <% end %>
-    </tr>
-  </tbody>
-</table>
-
-
-<% if current_user.system_admin? || is_admin?(@sponsor) %>  
-  <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Sponsor Admins', sponsor_roles_path(@sponsor)) %>
-
-<% end %>  
+    </div>
+    <div class="bottom_border">
+      URL: 
+      <%= link_to(@sponsor.program_url, @sponsor.program_url) %>
+    </div> 
+  </div>
+ 
+<h3>
+  Admins:
+</h3>
+<div>
+  <% @sponsor.roles_users.admins.each do |admin| %>
+    <div class="indented">
+      <%= link_to_contact(admin.user).html_safe %>
+    </div>
+  <% end %>
+  <div class="indented bottom_border">
+    <% if current_user.system_admin? || is_admin?(@sponsor) %>  
+      <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Admin', sponsor_roles_path(@sponsor)) %>
+    <% end %>
+  </div>
+</div>
 
 <% if @projects && @projects.length > 0 %>
-  <h2>Listing of all competitions sponsored by <%= @sponsor.program_title %></h2>
+  <h3>Competitions Sponsored by <%= @sponsor.program_name %>:</h3>
   <div class='program'>
     <%= render 'shared/project_list',
                projects: @projects,
