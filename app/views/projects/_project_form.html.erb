@@ -1,6 +1,6 @@
 <div id='tabs'>
   <ul>
-    <li><a href="#core_tab">Basic Competition Attributes</a></li>
+    <li><a href="#core_tab">Attributes & Dates</a></li>
     <li><a href="#customize_tab">Customize Competition</a></li>
     <li><a href="#documents_tab">Customize Upload Files</a></li>
     <li><a href="#institution_tab">Institution Configuration</a></li>
@@ -22,9 +22,9 @@
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
-            <%= f.check_box :visible %>
-            When checked the competition will be visible by the entire public.<br>
-            When unchecked the competition will only be visible by administrators associated with the sponsor.
+            <%= f.check_box :visible %><br>
+            Checked = visible to entire public.<br>
+            Unchecked = visible to sponsor admins. 
           </div>
         </td>
       </tr>
@@ -38,9 +38,8 @@
           <%= f.text_field :project_name, :size => 20, required: true %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
-            Short, no space name for the competition.<br>
-            This is the name that will appear in the URL for the competition,<br>
-            like 'https://grants.nubic.northwestern.edu/competitions/cti/spring2011' where spring2011 is the competition name
+            Short, no-space name for the competition, will appear in the URL.<br>
+            e.g. 'https://grants.nubic.northwestern.edu/competitions/cti/spring2011' where spring2011 is the competition name
           </div>
         </td>
       </tr>
@@ -58,23 +57,23 @@
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label "Competition URL" %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :project_url, :size=>80 %>
-          <div class='attribute_description'>
-            URL for more information about the competition
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :project_url_label, "Competition URL label" %>
+          <%= f.label :project_url_label, "External URL label" %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :project_url_label, :size=>80 %>
           <div class='attribute_description'>
             'Competition RFA' is the default.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :project_url, "External URL" %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :project_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL for more information about the competition
           </div>
         </td>
       </tr>
@@ -129,19 +128,19 @@
           <%= f.text_field :submission_close_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
-            Last date (at midnight that day) when the applicants can submit their submission
+            Last date (at midnight) when applicants can submit their application
           </div>
         </td>
       </tr>
 
       <tr>
         <td class="title, indented">
-          <%= f.label :strict_deadline, 'Strict deadline?' %>
+          <%= f.label :strict_deadline, 'Strict deadline' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :strict_deadline %>
-            Should this competition block submission if the form was not completed by the submission close date (even in the case that the submitter started form entry before the deadline)?
+            Should this competition block submission if the form was not completed by the submission close date?
           </div>
         </td>
       </tr>
@@ -153,9 +152,9 @@
         <td class="notes" colspan="2">
           <%= f.text_field :submission_modification_date, :size=>15, class: 'datepicker' %>
           <div class='attribute_description'>
-            Last date (at midnight that day) when the applicants can modify their submission.
+            Last date (at midnight) when applicants can modify their submission.
             <br />
-            By default the same as the submission_close_date but you can make it later to give applicants a chance to modify existing proposals.
+            By default the same as the submission close date but you can make it later to give applicants a chance to modify existing proposals.
            </div>
         </td>
       </tr>
@@ -168,9 +167,7 @@
           <%= f.text_field :review_start_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
-            Start of the Review process.
-            <br />
-            Date when the reviewers can first access the review form.
+            Date when reviewers can first access the review form.
           </div>
         </td>
       </tr>
@@ -183,32 +180,24 @@
           <%= f.text_field :review_end_date, :size=>15, required: true, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
-            End of the Review process.
-            <br />
-            Final date when the reviewers can change the review form.
+            Final date that reviewers can change the review form.
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :project_period_start_date %>
+          <%= f.label :project_period_start_date, 'Project funding start date' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :project_period_start_date, :size=>15, required: true, class: 'datepicker' %>
-          <div class='attribute_description'>
-            When the project funding starts. Informational only.
-          </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :project_period_end_date %>
+          <%= f.label :project_period_end_date, 'Project funding end date'  %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :project_period_end_date, :size=>15, required: true, class: 'datepicker' %>
-          <div class='attribute_description'>
-            When the project funding ends. Informational only.
-          </div>
         </td>
       </tr>
 
@@ -1330,13 +1319,6 @@
   <div id='review_tab'>
     <table>
       <tr>
-        <td id="title10" colspan="3">
-          <h3>
-            <strong>Review Form / Summary Access</strong>
-          </h3>
-        </td>
-      </tr>
-      <tr>
         <td id="title9" colspan="3">
           <h3>
             Reviewer Limits
@@ -1366,51 +1348,46 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_composite_scores_to_applicants %>
-            Check to allow applicants to see the review composite scores
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_composite_scores_to_reviewers %>
+          <%= f.label :show_composite_scores_to_reviewers, 'Show composite scores to all reviewers' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_composite_scores_to_reviewers %>
-            Check to allow reviewers to see other reviewers composite scores
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_review_summaries_to_applicants %>
+          <%= f.label :show_review_summaries_to_applicants, "Show reviewers' summaries to applicants" %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_summaries_to_applicants %>
-            Check to allow applicants to see the review write-up
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_review_summaries_to_reviewers %>
+          <%= f.label :show_review_summaries_to_reviewers, "Show reviewers' summaries to all reviewers"  %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_summaries_to_reviewers %>
-            Check to allow reviewers to see other reviewers' write-ups
           </div>
         </td>
       </tr>
       <tr class="border_bottom">
         <td class="title, indented">
-          <%= f.label :show_review_scores_to_reviewers %>
+          <%= f.label :show_review_scores_to_reviewers, "Show reviewers' scores to all reviewers" %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_scores_to_reviewers %>
-            Check to allow reviewers to see other reviewers' scores
           </div>
         </td>
       </tr>
@@ -1428,12 +1405,16 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_guidance %>
-            Default is set to 'true', but if for some reason
-            the review guidance directions should be hidden
-            uncheck this.
-            <br />
-            By doing so the Review Guidance URL will not be shown.
+            Check to show default instructions and additional guidance URL. 
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :review_guidance_url, 'Additional guidance URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :review_guidance_url, :size=>80 %>
         </td>
       </tr>
       <tr>
@@ -1446,45 +1427,27 @@
             Add alternate or additional review guidance text 
             placed at the top of the review form here. 
             <br />
-            You may enter html markup in this section.
+            You may enter HTML markup in this section.
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :comment_review_only %>
+          <%= f.label :comment_review_only, 'Comments only' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :comment_review_only %>
-            If you would like to only have review comments and 
-            no scoring, check this box. 
-            <br />
-            All scoring fields will be hidden.
-            Default is set to 'false'.
+            Check to have comments, but no scores. 
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :review_guidance_url %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :review_guidance_url, :size=>80 %>
-          <div class='attribute_description'>
-            URL to additional guidance to reviewers.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :overall_impact_title %>
+          <%= f.label :overall_impact_title, 'Overall impact label' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :overall_impact_title, :size=>80 %>
-          <div class='attribute_description'>
-            Title for "Overall Impact" score item.
-          </div>
         </td>
       </tr>
       <tr>
@@ -1500,7 +1463,7 @@
       </tr>
       <tr class="border_bottom">
         <td class="title, indented">
-          <%= f.label :overall_impact_direction %>
+          <%= f.label :overall_impact_direction, 'Overall impact directions' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_area :overall_impact_direction, {:rows => 3, :cols => 80, :wrap => "virtual"} %>
