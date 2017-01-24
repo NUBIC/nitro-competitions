@@ -1,7 +1,5 @@
-<h1>Current and Recent Competitions</h1>
+<h2>Current and Recent Competitions</h2>
 <div class='project_selection_list'>
-
-
   <% programs.each do |program, projects| %>
     <div class='program'>
       <div class='program_information'>
@@ -10,9 +8,9 @@
         <% else %>
           <h3>
             <%= link_to(h(program.program_title),
-                        program.program_url,
-                        :title => "Get more information on #{program.program_title}",
-                        :target => '_blank' ) %>
+                              sponsor_path(program), 
+                              :title => "Get more information on #{program.program_title}", 
+                              :target => '_blank' ) %>
           </h3>
         <% end %>
       </div>

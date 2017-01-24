@@ -73,7 +73,9 @@
                 <div class='project_information'>
                   <% program_title = "Get more information on #{project.program.program_title}" %>
                   <%= link_to(h(project.program.program_title),
-                              project.program.program_url, :title => program_title, :target => '_blank' ) %>
+                              sponsor_path(project.program), 
+                              :title => program_title, 
+                              :target => '_blank' ) %>
                 </div>
               <% end %>
             <% end %>
