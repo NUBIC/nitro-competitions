@@ -55,29 +55,6 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :project_url_label, "External URL label" %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :project_url_label, :size=>80 %>
-          <div class='attribute_description'>
-            'Competition RFA' is the default.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :project_url, "External URL" %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :project_url, :size=>80 %>
-          <div class='attribute_description'>
-            URL for more information about the competition
-          </div>
-        </td>
-      </tr>
-
       <tr class="border_bottom">
         <td class="title, indented">
           <%= f.label :membership_required, 'NUCATS Membership required?' %>
@@ -89,6 +66,7 @@
           </div>
         </td>
       </tr>
+
 
       <tr>
         <td id="title1" colspan="3">
@@ -226,13 +204,11 @@
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :require_era_commons_name %>
+          <%= f.label :require_era_commons_name, 'Require ERA Commons name' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :require_era_commons_name %>
-            Check to require a <b>ERA Commons name</b> for the principal investigator.
-            <br />
             This is the unique investigator name given by the NIH for any investigator applying for federal money as 'key personnel'
           </div>
         </td>
@@ -244,7 +220,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_effort_approver %>
-            Check to include the <b>effort approver</b> submission form item
           </div>
         </td>
       </tr>
@@ -268,7 +243,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_department_administrator %>
-            Check to include the <b>department administrator</b> submission form item
           </div>
         </td>
       </tr>
@@ -339,7 +313,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_abstract_field %>
-            Check to include an <b>abstract</b> submission form item
           </div>
         </td>
       </tr>
@@ -362,7 +335,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_other_funding_sources %>
-            Check to include the <b>other funding_sources</b> submission form item
           </div>
         </td>
       </tr>
@@ -384,7 +356,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_submission_category %>
-            Check to include the <b>submission category</b> submission form item. Not used by most competitions.
+            Not used by most competitions.
           </div>
         </td>
       </tr>
@@ -424,7 +396,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_application_doc %>
-            Check to include the <b>application document</b> upload file form item
           </div>
         </td>
       </tr>
@@ -501,7 +472,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_budget_form %>
-            Check to include the <b>budget form</b> submission form item
           </div>
         </td>
       </tr>
@@ -563,13 +533,12 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_project_cost %>
-            Check to include "project cost item" in the submission form
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :direct_project_cost_wording %>
+          <%= f.label :direct_project_cost_wording, 'Project cost wording' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_field :direct_project_cost_wording, :size=>80 %>
@@ -586,7 +555,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_total_amount_requested %>
-            Check to include "total amount requested" in the submission form
           </div>
         </td>
       </tr>
@@ -632,7 +600,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_is_new %>
-            Check to include the <b>is new</b> submission form item
           </div>
         </td>
       </tr>
@@ -655,7 +622,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_type_of_equipment %>
-            Check to include the <b>type of equipment</b> submission form item
           </div>
         </td>
       </tr>
@@ -705,7 +671,7 @@
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_manage_other_support %>
+          <%= f.label :show_manage_other_support, 'Show NIH other support document' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -716,7 +682,7 @@
       </tr>
       <tr class="border_bottom">
         <td class="title, indented">
-          <%= f.label :manage_other_support_text %>
+          <%= f.label :manage_other_support_text, 'NIH other support description' %>
         </td>
         <td class="notes" colspan="2">
           <%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
