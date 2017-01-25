@@ -1,39 +1,39 @@
-<table id="sponsorTable" class="tablesorter">
-  <thead>
-    <tr>
-      <th width="100px">Name</th>
-      <th>Title</th>
-      <th>URL</th>
-      <th width="200px">Admins</th>
-      <th>Competitions</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% sponsors.each do |sponsor| %>
-      <tr>
-        <td>
-          <%= link_to(sponsor.program_name, sponsor_path(sponsor)) %>
-        </td>
-        <td>
-          <%= sponsor.program_title %>
-        </td>
-        <td>
-          <%= link_to(sponsor.program_url, sponsor.program_url) %>
-        </td>
-        <td>
-          <% sponsor.roles_users.admins.each do |admin| %>
-            <%= link_to_contact(admin.user).html_safe %>
-            <br />
+<div id='sponsor_list'>
+  <% show_details ||= false %>
+  <% if !sponsors.blank? %>
+    <% sponsors.each_with_index do |sponsor| %>
+      <div class='program'>
+
+        <div class="program_name">
+          <%= link_to(h(sponsor.program_name), sponsor_path(sponsor), title: "Click here to view the sponsor: #{sponsor.program_name}") %>
+        </div>
+
+        <div class='program_details'>
+
+          <div class='program_information program_title'>
+            <%= sponsor.program_title %>
+          </div>
+
+          <div class='program_information'>
+            Number of Competitions:
+            <%= link_to(sponsor.projects.count, sponsor_path(sponsor)) %>
+          </div>
+
+          <div class='program_information'>
+            URL:
+            <%= link_to(sponsor.program_url, sponsor.program_url, :target => '_blank') %>
+          </div>
+
+          <% if is_admin?(sponsor) %>
+            <%= link_to(image_tag("page_white_edit.png",
+                          width: "16px", height: "16px",
+                          style: "margin-top:-5px; margin-bottom:-2px;") + ' Edit sponsor information',
+                edit_sponsor_path(sponsor),
+                title: "Click here to edit information about this sponsor") %>
           <% end %>
-        </td>
-        <td>
-          <%= link_to "List (#{sponsor.projects.count})", sponsor_path(sponsor) %>
-        </td>
-        <% if is_admin?(sponsor) %>
-          <td class="list-right"><%= link_to "Edit", edit_sponsor_path(sponsor) %></td>
-        <% end %>
-      </tr>
+
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+</div>
