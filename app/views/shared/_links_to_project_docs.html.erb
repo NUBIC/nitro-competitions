@@ -1,17 +1,22 @@
 <div class='project_docs'>
-  <div class='project_doc'>
-    <%= link_to_rfa(project).html_safe %>
-  </div>
-  <div class='project_doc'>
-    <%= link_to_application_template(project).html_safe %>
-  </div>
-  <div class='project_doc'>
-    <%= link_to_application_info(project).html_safe %>
-  </div>
-  <div class='project_doc'>
-    <%= link_to_budget_template(project).html_safe %>
-  </div>
-  <div class='project_doc'>
-    <%= link_to_budget_info(project).html_safe %>
-  </div>
+  <% if project.application_template_url.present? %>
+    <div class='project_doc'>
+      <%= link_to_application_template(project).html_safe %>
+    </div>
+  <% end %>
+  <% if project.application_info_url.present? %>
+    <div class='project_doc'>
+      <%= link_to_application_info(project).html_safe %>
+    </div>
+  <% end %>
+  <% if project.budget_template_url.present? %>
+    <div class='project_doc'>
+      <%= link_to_budget_template(project).html_safe %>
+    </div>
+  <% end %>
+  <% if project.budget_info_url.present? %>
+    <div class='project_doc'>
+      <%= link_to_budget_info(project).html_safe %>
+    </div>
+  <% end %>
 </div>

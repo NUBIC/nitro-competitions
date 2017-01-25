@@ -56,18 +56,22 @@
                 </div>
               <% end %>
             </div>
-            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
-            <% if project.membership_required? %>
-              <div class='project_information membership_required'>
-                NUCATS Membership is required to apply for this competition
-              </div>
-            <% end %>
+
             <% if has_read_all?(project.program) %>
               <div class='project_information'>
                 Number of Applications:
                 <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
               </div>
             <% end %>
+
+            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
+            <% if project.membership_required? %>
+              <div class='project_information membership_required'>
+                <%= link_to('NUCATS Membership is required to apply for this competition.', ENV['MEMBERSHIP_URL'] + ENV['MEMBERSHIP_PATH'], 
+                              :target => '_blank') %>
+              </div>
+            <% end %>
+
             <% if show_details %>
               <% unless project.program.program_url.blank? %>
                 <div class='project_information'>
@@ -75,7 +79,7 @@
                   <%= link_to(h(project.program.program_title),
                               sponsor_path(project.program), 
                               :title => program_title, 
-                              :target => '_blank' ) %>
+                              :target => '_blank') %>
                 </div>
               <% end %>
             <% end %>
