@@ -61,14 +61,18 @@
           - if @submission_reviews.present? && @submission_reviews.length > 0
             %li.dropdown
               %a.dropdown-toggle{data: {toggle: 'dropdown', role: 'button', href: "#"}}
-                = "#{@project.project_title} Reviewer"
+                = 'Reviewer'
                 %span.caret
+
               %ul.dropdown-menu{role: 'menu'}
                 - unless @project.blank? || @project.id.blank?
-                  %li
-                    = link_to "Assigned Reviews", project_reviewers_path(@project.id)
-                  %li
-                    = link_to "Assigned Reviews and All Assigned Proposals", complete_listing_project_reviewers_path(@project.id)
+                  %li.dropdown
+                    %span.competition-menu-title
+                      = "Current Competition: #{@project.project_title}"
+                    %li
+                      = link_to "Your Assigned Reviews", project_reviewers_path(@project.id)
+                    %li
+                      = link_to "Assigned Reviews and All Assigned Proposals", complete_listing_project_reviewers_path(@project.id)
 
 
       %ul.nav.navbar-nav.navbar-right
