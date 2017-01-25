@@ -13,6 +13,7 @@
  *= require pagination
  *= require projects
  *= require scoring
+ *= require sponsor
  *= require style
  *= require submission
  *= require table

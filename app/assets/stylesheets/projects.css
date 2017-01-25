@@ -66,6 +66,15 @@ div.information {
   color: maroon;
 }
 
+.membership_required a{
+  font-weight: bold;
+  color: maroon;
+}
+
+.membership_required a:hover{
+  text-decoration: underline;
+}
+
 div#project_membership_required {
   margin: 1em 0 2em 0;
 }

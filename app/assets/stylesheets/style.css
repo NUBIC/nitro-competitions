@@ -24,6 +24,7 @@
 .bottom_border 
 {
   border-bottom: 1pt solid black;
+  padding-bottom: .75em;
 }
 
 #key_personnel .notes {
