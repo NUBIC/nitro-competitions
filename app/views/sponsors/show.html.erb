@@ -41,13 +41,12 @@
       <div class="indented">
         <%= link_to_contact(admin.user).html_safe %>
       </div>
-
-    <!-- Practically speaking, this should never happen. -->
-    <% else %>
-      <div>
-        There are currently no administrators for this sponsor.
-      </div>
     <% end %>
+    <!-- Practically speaking, this should never happen. -->
+  <% else %>
+    <div>
+      There are currently no administrators for this sponsor.
+    </div>
   <% end %>
   <div class="indented">
     <% if current_user.system_admin? || is_admin?(@sponsor) %>  
