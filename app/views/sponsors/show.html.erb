@@ -35,17 +35,34 @@
   Admins:
 </h3>
 <div>
+  <h4>Full Administrators:</h4>
   <% @sponsor.roles_users.admins.each do |admin| %>
     <div class="indented">
       <%= link_to_contact(admin.user).html_safe %>
     </div>
   <% end %>
-  <div class="indented bottom_border">
+  <div class="indented">
     <% if current_user.system_admin? || is_admin?(@sponsor) %>  
-      <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Admin', sponsor_roles_path(@sponsor)) %>
+      <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Admin', sponsor_role_path(@sponsor, Role.admin)) %>
     <% end %>
   </div>
 </div>
+
+<% if @sponsor.roles_users.read_only.count > 0 || current_user.system_admin? || is_admin?(@sponsor) %>
+  <div>
+    <h4>Read-only Access:</h4>
+    <% @sponsor.roles_users.read_only.each do |ro| %>
+      <div class="indented">
+        <%= link_to_contact(ro.user).html_safe %>
+      </div>
+    <% end %>
+    <div class="indented bottom_border">
+      <% if current_user.system_admin? || is_admin?(@sponsor) %>  
+        <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Read-only Access', sponsor_role_path(@sponsor, Role.read_only)) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
 
 <% if @projects && @projects.length > 0 %>
   <h3>Competitions Sponsored by <%= @sponsor.program_name %>:</h3>
