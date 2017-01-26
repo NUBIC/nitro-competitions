@@ -3,8 +3,7 @@
 <% if @project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
   
   <div id='title'>
-    <h2><%= current_program.program_title %></h2>
-    <h3><%= current_project.project_title %>
+    <h3><%= current_program.program_title %></h3>
   </div>
 
   <%= render 'shared/project_list',
