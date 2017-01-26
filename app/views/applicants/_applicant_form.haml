@@ -8,18 +8,7 @@
 .hide
   = @applicant.username
 
-%h4 Contact
-.form-group
-  = f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'}
-  .col-xs-9
-    = f.text_field :email, {required: true, class: 'form-control'}
-
-.form-group
-  = f.label :business_phone, 'Phone', {class: 'col-xs-3 control-label'}
-  .col-xs-9
-    = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
-
-%h4 Name
+%h3 Name
 .form-group
   = f.label :title, 'Academic title', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -35,13 +24,28 @@
   .col-xs-9
     = f.text_field :last_name, {required: true, placeholder: 'last name', class: 'form-control'}
 
-- if current_user.system_admin?
-  .form-group
-    = f.label :system_admin, 'System Admin', {class: 'col-xs-3 control-label'}
-    .col-xs-9
-      = f.check_box :system_admin
+.bottom_border
+  - if current_user.system_admin?
+    .form-group
+      = f.label :system_admin, 'System Admin', {class: 'col-xs-3 control-label'}
+      .col-xs-9
+        = f.check_box :system_admin
 
-%h4 On-campus mailing address
+%h3 Contact
+.form-group
+  = f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'}
+  .col-xs-9
+    = f.text_field :email, {required: true, class: 'form-control'}
+
+.bottom_border
+  .form-group
+    = f.label :business_phone, 'Phone', {class: 'col-xs-3 control-label'}
+    .col-xs-9
+      = f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'}
+        
+%h3 Addresses
+.indented
+  %h4 On-campus mailing address
 .form-group
   = f.label :campus, 'Campus', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -52,7 +56,8 @@
   .col-xs-9
     = f.text_area :campus_address, {placeholder: 'address', class: 'form-control', rows: 5}
 
-%h4 Off-campus mailing address (if you have one)
+.indented
+  %h4 Off-campus mailing address (if you have one)
 .form-group
   = f.label :address, 'Address', {class: 'col-xs-3 control-label'}
   .col-xs-9
@@ -73,12 +78,13 @@
   .col-xs-9
     = f.text_field :postal_code, {placeholder: 'postal code', class: 'form-control'}
 
-.form-group
-  = f.label :country, {class: 'col-xs-3 control-label'}
-  .col-xs-9
-    = f.text_field :country, {placeholder: 'country', class: 'form-control'}
+.bottom_border
+  .form-group
+    = f.label :country, {class: 'col-xs-3 control-label'}
+    .col-xs-9
+      = f.text_field :country, {placeholder: 'country', class: 'form-control'}
 
-%h4 Research and credentials
+%h3 Research and Credentials
 .form-group
   .col-xs-3
     %strong eRA Commons registration is required.
@@ -97,29 +103,30 @@
   .col-xs-9
     = f.text_area :primary_department, {placeholder: 'the university unit that holds your primary appointment.', class: 'form-control', rows: 3}
 
-.form-group
-  .col-xs-3
-    = f.label :uploaded_biosketch, 'Default biosketch document'
-    %br
-    %br
-    This should be uploaded in <b>MS Word or PDF format</b>.
-  .col-xs-9
-    = f.file_field('uploaded_biosketch')
-    - unless @applicant.biosketch_document_id.blank?
+.bottom_border
+  .form-group
+    .col-xs-3
+      = f.label :uploaded_biosketch, 'Default biosketch document'
       %br
       %br
-      %em
-        = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
-        = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
-    %br
-    %br
-    Your default biosketch document will be used as the biosketch document when:
-    %br
-    %br
-    %ul
-      %li you are named as key personnel (<em>not</em> as PI)
-      %li and as the default biosketch for any new proposals you submit
-    You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
+      This should be uploaded in <b>MS Word or PDF format</b>.
+    .col-xs-9
+      = f.file_field('uploaded_biosketch')
+      - unless @applicant.biosketch_document_id.blank?
+        %br
+        %br
+        %em
+          = link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe
+          = "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}"
+      %br
+      %br
+      Your default biosketch document will be used as the biosketch document when:
+      %br
+      %br
+      %ul
+        %li you are named as key personnel (<em>not</em> as PI)
+        %li and as the default biosketch for any new proposals you submit
+      You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.
 
 .form-group
   = f.submit('Update', {class: 'btn btn-default btn-info'})
