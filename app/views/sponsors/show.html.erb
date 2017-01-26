@@ -36,10 +36,16 @@
 </h3>
 <div>
   <h4>Full Administrators:</h4>
-  <% @sponsor.roles_users.admins.each do |admin| %>
-    <div class="indented">
-      <%= link_to_contact(admin.user).html_safe %>
-    </div>
+  <% if @sponsor.roles_users.admins.count > 0 %>
+    <% @sponsor.roles_users.admins.each do |admin| %>
+      <div class="indented">
+        <%= link_to_contact(admin.user).html_safe %>
+      </div>
+
+    <!-- Practically speaking, this should never happen. -->
+    <% else %>
+      There are currently no administrators for this sponsor.
+    <% end %>
   <% end %>
   <div class="indented">
     <% if current_user.system_admin? || is_admin?(@sponsor) %>  
