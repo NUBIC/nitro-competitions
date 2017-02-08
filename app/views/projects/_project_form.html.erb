@@ -649,23 +649,23 @@
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_manage_biosketches %>
+          <%= f.label :show_manage_biosketches, 'Show NIH biosketch'  %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_manage_biosketches %>
-            Include the ability to include an NIH <b>biosketch</b> document as an uploadable file for the PI and co-investigators
+            NIH <b>biosketch</b> for the PI and key personnel, if applicable
           </div>
         </td>
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_manage_coinvestigators %>
+          <%= f.label :show_manage_coinvestigators, 'Show key personnel' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_manage_coinvestigators %>
-            Include the ability to include <b>co-investigators</b> in the submission (part of the Edit Documents form)
+            e.g. Co-investigator, Co-PI, Postdoctoral Fellow, etc.
           </div>
         </td>
       </tr>
@@ -676,7 +676,6 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_manage_other_support %>
-            Include the <b>NIH Other Support</b> document as an uploadable file
           </div>
         </td>
       </tr>
@@ -714,10 +713,19 @@
           <%= f.label :document1_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document1_name, :size=>80, :value => '' %>
+          <%= f.text_field :document1_name, :size=>80 %>
           <div class='attribute_description'>
             Label used for <b>Document 1</b> for submitters and reviewers. For instance, 'OSR-1'.
           </div>
+        </td>
+      </tr>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document1_description, 'Instructions/Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
         </td>
       </tr>
       <tr>
@@ -731,7 +739,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr class="border_bottom">
         <td class="title, indented" >
           <%= f.label :document1_info_url, 'Info URL' %>
         </td>
@@ -741,18 +749,6 @@
             URL to additional info/instructions for how to fill in file for <b>Document 1</b>, if it exists.
           </div>
         </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented" >
-          <%= f.label :document1_description, 'Description' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>Document 1</b>.
-          </div>
-        </td>
-      </tr>
 
       <tr>
         <td class="title">
@@ -776,10 +772,18 @@
           <%= f.label :document2_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document2_name, :size=>80, :value => '' %>
+          <%= f.text_field :document2_name, :size=>80 %>
           <div class='attribute_description'>
             Label used for <b>Document 2</b> for submitters and reviewers. For instance, 'OSR-2'.
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document2_description, 'Instructions/Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
         </td>
       </tr>
       <tr>
@@ -793,7 +797,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr class="border_bottom">
         <td class="title, indented" >
           <%= f.label :document2_info_url, 'Info URL' %>
         </td>
@@ -801,17 +805,6 @@
           <%= f.text_field :document2_info_url, :size=>80 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 2</b>, if it exists.
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented" >
-          <%= f.label :document2_description, 'Description' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>Document 2</b>.
           </div>
         </td>
       </tr>
@@ -838,10 +831,18 @@
           <%= f.label :document3_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document3_name, :size=>80, :value => '' %>
+          <%= f.text_field :document3_name, :size=>80 %>
           <div class='attribute_description'>
             Label used for <b>Document 3</b> for submitters and reviewers. For instance, 'OSR-3'.
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document3_description, 'Instructions/Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document3_description, {:rows => 5, :cols => 80, :wrap => "virtual", } %>
         </td>
       </tr>
       <tr>
@@ -855,7 +856,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr class="border_bottom">
         <td class="title, indented" >
           <%= f.label :document3_info_url, 'Info URL' %>
         </td>
@@ -863,17 +864,6 @@
           <%= f.text_field :document3_info_url, :size=>80 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 3</b>, if it exists.
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented" >
-          <%= f.label :document3_description, 'Description' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document3_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>Document 3</b>.
           </div>
         </td>
       </tr>
@@ -900,10 +890,18 @@
           <%= f.label :document4_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document4_name, :size=>80, :value => '' %>
+          <%= f.text_field :document4_name, :size=>80 %>
           <div class='attribute_description'>
             Label used for <b>Document 4</b> for submitters and reviewers. For instance, 'OSR-4'.
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document4_description, 'Instructions/Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document4_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
         </td>
       </tr>
       <tr>
@@ -917,7 +915,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr class="border_bottom">
         <td class="title, indented" >
           <%= f.label :document4_info_url, 'Info URL' %>
         </td>
@@ -925,17 +923,6 @@
           <%= f.text_field :document4_info_url, :size=>80 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 4</b>, if it exists.
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented" >
-          <%= f.label :document4_description, 'Description' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document4_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
-          <div class='attribute_description'>
-            Descriptive text to help submitters/reviewers understand what to find in <b>Document 4</b>.
           </div>
         </td>
       </tr>
