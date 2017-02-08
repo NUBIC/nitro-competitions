@@ -1,5 +1,5 @@
 div#submissions_list {
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid black;
 }
 
 div#show_submission {
@@ -18,7 +18,7 @@ div#show_submission div p {
 div.submission {
   float: left;
   width: 98%;
-  border: 1px solid gray;
+  bottom-border: 1px solid black;
   margin-bottom: 1em;
   padding: 1em 0.5em;
 }
@@ -31,6 +31,20 @@ div.submission_info {
 div.submission_actions {
   width: 35%;
   float: left;
+}
+
+div.submission_title {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+div.submission_complete {
+  color: green;
+}
+
+div.submission_incomplete {
+  font-weight: bold;
+  color: maroon;
 }
 
 #unassigned_submissions {

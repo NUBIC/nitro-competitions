@@ -22,6 +22,11 @@ td, th {
   text-align: left;
 }
 
+th {
+  text-decoration: underline;
+  font-size: 1.2em
+}
+
 table.wide {
   width: 95%;
 }
@@ -80,16 +85,27 @@ table.compact {
   border: 0;
 }
 
-table.compact tr th, table.compact td {
+table.compact tr th {
   margin: 0;
   padding: 0;
   padding-right: 0.8em;
 }
 
-table.compact tr th a, table.compact td a {
+table.compact th {
+  text-decoration: underline;
+  font-size: 1.2em
+}
+
+table.compact td {
+  margin: 0;
+  padding: 0;
+  padding-right: 0.8em;
+}
+
+/*table.compact tr th a, table.compact td a {
   color: #222266;
   text-decoration: none;
-}
+}*/
 
 td.list-left, th.list-left {
   padding-left: 1em;
