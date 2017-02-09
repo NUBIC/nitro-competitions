@@ -13,7 +13,7 @@
     %script{type: 'text/javascript'}
       jQuery.noConflict(); var $j = jQuery;
 
-  %body
+  %body{class: "#{Rails.env}_background"}
     - unless notice.blank?
       .notice
         = notice.html_safe

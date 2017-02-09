@@ -27,6 +27,23 @@
   padding-bottom: .75em;
 }
 
+
+/*BACKGROUNDS*/
+.development_background
+{
+  background-image: url('dev_bg.jpg');
+}
+
+.staging_background
+{
+  background-image: url('staging_bg.jpg');
+}
+
+.production_background
+{
+}
+
+
 #key_personnel .notes {
   margin: 0.5em 0;
 }
