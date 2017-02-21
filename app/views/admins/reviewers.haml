@@ -20,8 +20,7 @@
     .col-xs-8
       = render 'reviewers', reviewers: @reviewers, project: @project
     .col-xs-4
-      %p.indented
-        Drag the below submissions to the box next to the desired reviewer.
+      %p Drag the below submissions to the box next to the desired reviewer.
       #unassigned_submissions{style:'height:50px;'}
         .unassigned_submission_list
           - @unfilled_submissions.each do |item|
@@ -29,18 +28,17 @@
               = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}"
 
 %h3 Add Reviewers
-%p.indented
-  Enter a comma or space-separated list of usernames (NetIDs) for the reviewers. 
-%p.indented 
+%p Enter a comma or space-separated list of usernames (NetIDs) for the reviewers. 
+%p 
   Reviewer doesn't have a NetID?
   = link_to 'Create an account for the reviewer.', user_lookup_project_admins_path
   #{username_lookup_tag}
 
 = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
   = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
-  %p.indented
+  %p
     = f.text_area :reviewer_list, {:rows => 10, :cols => 40, :wrap=>"virtual"}
-  %p.indented
+  %p
     = f.submit 'Add'
 
 :javascript

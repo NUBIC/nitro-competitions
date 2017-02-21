@@ -1,4 +1,4 @@
-<h2>
-  This page no longer exists.
-</h2>
-
+<% @project.submissions.each do |submission| %>
+  <%= render('reviews/index', reviews: submission.submission_reviews, submission: submission) %>
+  <p style="page-break-before: always">
+<% end %>

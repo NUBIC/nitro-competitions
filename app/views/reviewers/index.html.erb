@@ -1,6 +1,6 @@
 <% @assigned_submission_reviews ||= nil %>
 <% @submission_reviews ||= nil %>
-<% @submission_reviews_title ||= "Complete List of Assigned Proposals for This Competition" %>
+<% @submission_reviews_title ||= "Complete list of assignments for this competition" %>
 <% @include_competition ||= true %>
 <% @include_files ||= false %>
 <% @speed_display ||= false %>
@@ -8,23 +8,16 @@
       (@assigned_submission_reviews.blank? or @assigned_submission_reviews. length == 0) %>
   <h2>Sorry, you do not have any accessible reviews at this time</h2>
 <% end %>
-
 <%= render('submission_review_table',
            :submission_reviews => @assigned_submission_reviews,
-           :title => 'Your Assigned Proposals for This Competition',
+           :title => 'Your assigned proposals for this competition',
            :table_id => 'assigned_submission_reviews',
            :include_files => @include_files,
            :speed_display => @speed_display) %>
-
-
-<!-- This section was removed because it seems that the average 
-reviewer should not see all other reviews for the competition. -->
-<!-- 
 <%= render('submission_review_table',
            :submission_reviews => @submission_reviews,
            :title => @submission_reviews_title,
            :table_id => 'all_submission_reviews',
            :include_competition => @include_competition,
            :include_files => @include_files,
-           :speed_display => @speed_display) %> 
--->
+           :speed_display => @speed_display) %>
