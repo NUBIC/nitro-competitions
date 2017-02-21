@@ -1,21 +1,24 @@
 <div id='tabs'>
   <ul>
-    <li><a href="#core_tab">Attributes & Dates</a></li>
-    <li><a href="#customize_tab">Customize Competition</a></li>
-    <li><a href="#documents_tab">Customize Upload Files</a></li>
-    <li><a href="#institution_tab">Institution Configuration</a></li>
-    <li><a href="#review_tab">Reviewer Configuration</a></li>
+    <li><a href="#basic_tab">Basic Attributes</a></li>
+    <li><a href="#dates_tab">Dates</a></li>
+    <li><a href="#institutions_tab">Institutions</a></li>
+    <li><a href="#funding_tab">Funding</a></li>
+    <li><a href="#documents_tab">Upload Files</a></li>
+    <li><a href="#review_tab">Reviewers</a></li>
   </ul>
-  <div id='core_tab'>
+
+
+
+  <div id='basic_tab'>
     <table>
       <tr>
         <td id="title1" colspan="3">
           <h3>
-            Basic Attributes
+            <strong>Basic Attributes</strong>
           </h3>
         </td>
       </tr>
-
       <tr>
         <td class="title, indented">
           <%= f.label :visible, 'Visible' %>
@@ -29,7 +32,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.hidden_field :program_id %>
           <%= hidden_field_tag 'program_id', @program.id if @program %>
           <%= f.label "Competition Name" %>
@@ -44,7 +47,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label "Competition Title" %>
         </td>
         <td class="notes" colspan="2">
@@ -55,161 +58,25 @@
           </div>
         </td>
       </tr>
-      <tr class="border_bottom">
-        <td class="title, indented">
-          <%= f.label :membership_required, 'NUCATS Membership required?' %>
+      <tr>
+        <td class="title indented">
+          <%= f.label :project_url, "Competition URL" %>
         </td>
         <td class="notes" colspan="2">
+          <%= f.text_field :project_url, :size=>80 %>
           <div class='attribute_description'>
-            <%= f.check_box :membership_required %>
-            Is this competition restricted to <%= NucatsAssist.ctsa_name %> members?
-          </div>
-        </td>
-      </tr>
-
-
-      <tr>
-        <td id="title1" colspan="3">
-          <h3>
-            Dates
-          </h3>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :initiation_date %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :initiation_date, :size=>15, required: true, class: 'datepicker' %>
-          <div class='attribute_description'>
-            Date this competition will first appear on this site
+            URL for more information about the competition
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
-          <%= f.label :submission_open_date  %>
+        <td class="title indented">
+          <%= f.label :project_url_label, "Competition URL label" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_open_date, :size=>15, required: true, class: 'datepicker' %>
-          <span class='required_marker'> * </span>
+          <%= f.text_field :project_url_label, :size=>80 %>
           <div class='attribute_description'>
-            Date when applicants can first start to apply for the competition
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :submission_close_date  %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :submission_close_date, :size=>15, required: true, class: 'datepicker' %>
-          <span class='required_marker'> * </span>
-          <div class='attribute_description'>
-            Last date (at midnight) when applicants can submit their application
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="title, indented">
-          <%= f.label :strict_deadline, 'Strict deadline' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :strict_deadline %>
-            Should this competition block submission if the form was not completed by the submission close date?
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="title, indented">
-          <%= f.label :submission_modification_date  %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :submission_modification_date, :size=>15, class: 'datepicker' %>
-          <div class='attribute_description'>
-            Last date (at midnight) when applicants can modify their submission.
-            <br />
-            By default the same as the submission close date but you can make it later to give applicants a chance to modify existing proposals.
-           </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :review_start_date  %>
-          <span class='required_marker'> * </span>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :review_start_date, :size=>15, required: true, class: 'datepicker' %>
-          <span class='required_marker'> * </span>
-          <div class='attribute_description'>
-            Date when reviewers can first access the review form.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :review_end_date, required: true %>
-          <span class='required_marker'> * </span>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :review_end_date, :size=>15, required: true, class: 'datepicker' %>
-          <span class='required_marker'> * </span>
-          <div class='attribute_description'>
-            Final date that reviewers can change the review form.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :project_period_start_date, 'Project funding start date' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :project_period_start_date, :size=>15, required: true, class: 'datepicker' %>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :project_period_end_date, 'Project funding end date'  %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :project_period_end_date, :size=>15, required: true, class: 'datepicker' %>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="title, indented">
-          <%= f.label :closed_status_wording %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :closed_status_wording %>
-          <div class='attribute_description'>
-            Wording for project status used when project has closed. Default is 'Awarded'.
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <div id='customize_tab'>
-    <table>
-      <tr>
-        <td id="title2" colspan="3">
-          <h3>
-            Select Elements to Require / Show
-          </h3>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :require_era_commons_name, 'Require ERA Commons name' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :require_era_commons_name %>
-            This is the unique investigator name given by the NIH for any investigator applying for federal money as 'key personnel'
+            'Competition RFA' is the default.
           </div>
         </td>
       </tr>
@@ -246,7 +113,7 @@
           </div>
         </td>
       </tr>
-      <tr class="border_bottom">
+      <tr>
         <td class="title, indented">
           <%= f.label :department_administrator_title %>
         </td>
@@ -259,10 +126,23 @@
           </div>
         </td>
       </tr>
+      <tr class="border_bottom">
+        <td class="title, indented">
+          <%= f.label :require_era_commons_name, 'Require ERA Commons name' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :require_era_commons_name %>
+            This is the unique investigator name given by the NIH for any investigator applying for federal money as 'key personnel'
+          </div>
+        </td>
+      </tr>
+
+
       <tr>
         <td id="title2" colspan="3">
           <h3>
-            Customize Wording of Data Fields for This Competition
+            <strong>Wording of Data Fields</strong>
           </h3>
         </td>
       </tr>
@@ -330,27 +210,6 @@
 
       <tr>
         <td class="title, indented">
-          <%= f.label :show_other_funding_sources %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_other_funding_sources %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :other_funding_sources_wording %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :other_funding_sources_wording, :size=>80 %>
-          <div class='attribute_description'>
-            'Other funding sources' for most competitions
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
           <%= f.label :show_submission_category %>
         </td>
         <td class="notes" colspan="2">
@@ -371,7 +230,7 @@
           </div>
         </td>
       </tr>
-      <tr class="border_bottom">
+      <tr>
         <td class="title, indented">
           <%= f.label :submission_category_description %>
         </td>
@@ -382,10 +241,667 @@
           </div>
         </td>
       </tr>
+    </table>
+  </div>
+
+
+
+  <div id='dates_tab'>
+    <table>
+      <tr>
+        <td id="title1" colspan="3">
+          <h3>
+            <strong>Dates</strong>
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :initiation_date %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :initiation_date, :size=>15, required: true, class: 'datepicker' %>
+          <div class='attribute_description'>
+            Date this competition will first appear on this site
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :submission_open_date  %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :submission_open_date, :size=>15, required: true, class: 'datepicker' %>
+          <span class='required_marker'> * </span>
+          <div class='attribute_description'>
+            Date when applicants can first start to apply for the competition
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :submission_close_date  %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :submission_close_date, :size=>15, required: true, class: 'datepicker' %>
+          <span class='required_marker'> * </span>
+          <div class='attribute_description'>
+            Last date (at midnight) when applicants can submit their application
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :strict_deadline, 'Strict deadline' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :strict_deadline %>
+            Should this competition block submission if the form was not completed by the submission close date?
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :submission_modification_date  %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :submission_modification_date, :size=>15, class: 'datepicker' %>
+          <div class='attribute_description'>
+            Last date (at midnight) when applicants can modify their submission.
+            <br />
+            By default the same as the submission close date but you can make it later to give applicants a chance to modify existing proposals.
+           </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :review_start_date  %>
+          <span class='required_marker'> * </span>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :review_start_date, :size=>15, required: true, class: 'datepicker' %>
+          <span class='required_marker'> * </span>
+          <div class='attribute_description'>
+            Date when reviewers can first access the review form.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :review_end_date, required: true %>
+          <span class='required_marker'> * </span>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :review_end_date, :size=>15, required: true, class: 'datepicker' %>
+          <span class='required_marker'> * </span>
+          <div class='attribute_description'>
+            Final date that reviewers can change the review form.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :project_period_start_date, 'Project funding start date' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :project_period_start_date, :size=>15, required: true, class: 'datepicker' %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :project_period_end_date, 'Project funding end date'  %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :project_period_end_date, :size=>15, required: true, class: 'datepicker' %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :closed_status_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :closed_status_wording %>
+          <div class='attribute_description'>
+            Wording for project status used when project has closed. Default is 'Awarded'.
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <div id='institutions_tab'>
+    <table>
+      <tr>
+        <td id="title8">
+          <h3>
+            <strong>Regulatory Requirements</strong>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <br>
+            Include
+          </div>
+        </td>        
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_human_subjects_research, 'Is this human subjects research?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_human_subjects_research %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :human_subjects_research_text, 'Help text for human subjects research question:' %>
+        </td>
+        <td class="notes" colspan="2">
+
+<!--           <div class='attribute_description'>
+            <%= f.check_box :show_irb_approved %>
+            Text will read: If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item. Be specific.
+          </div> -->
+
+          <%= f.text_area :human_subjects_research_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+<!--           <div class='attribute_description'>
+            Text to include with the <b>human subjects research</b> submission form item
+          </div> -->
+
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_use_stem_cells, 'Will this research use stem cells?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_stem_cells %>
+            Text will read: "Please check if this study will involve the collection, derivation or use of human stem cells."
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_use_embryonic_stem_cells, 'Will this research use embryonic stem cells?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_embryonic_stem_cells %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_use_vertebrate_animals, 'Will this research use vertebrate animals?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_vertebrate_animals %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_irb_approved, 'Is this research IRB approved?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_irb_approved %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_irb_study_num, 'IRB study number:' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_irb_study_num %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_iacuc_approved, 'Is this research IACUC approved?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_iacuc_approved %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_iacuc_study_num, 'IACUC study number:' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_iacuc_study_num %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_is_new %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_is_new %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :is_new_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :is_new_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Is this completely new work?' for most competitions
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_not_new_explanation, 'If this is not new work, please explain:' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_not_new_explanation %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_is_conflict, 'Are there any conflicts of interest?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_is_conflict %>
+          </div>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented2">
+          <%= f.label :show_conflict_explanation, 'Description of conflicts of interest:' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_conflict_explanation %>
+          </div>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td id="title8">
+          <h3>
+           <strong>Northwestern-specific</strong>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <br>
+            Include
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :membership_required, 'NUCATS Membership required?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :membership_required %>
+            Is this competition restricted to <%= NucatsAssist.ctsa_name %> members?
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_use_nucats_cru, 'Will this research use the NUCATS Clinical Research Unit (CRU)?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_nucats_cru %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_nucats_cru_contact_name, 'Name of NUCATS CRU contact:' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_nucats_cru_contact_name %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <label>
+            Will this study require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_use_nmh, 'NMH' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_nmh %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_use_nmff, 'NMFF' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_nmff %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_use_va, 'VA' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_va %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_use_ric, 'RIC' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_ric %>
+          </div>
+        </td>
+      </tr>
+      <tr class='bottom_border'>
+        <td class="title, indented2">
+          <%= f.label :show_use_cmh, 'CMH' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_use_cmh %>
+          </div>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td id="title7">
+          <h3>
+            <strong>OR Core Facilities</strong>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <br>
+            Include
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_received_previous_support, 'Did this research receive Office of Research support in the past 2 years?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_received_previous_support %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_previous_support_description, 'Description of support:' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_previous_support_description %>
+            Text will read: "If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:" 
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_core_manager, 'Core Manager NetID' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_core_manager %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_cost_sharing_amount, 'Cost sharing amount' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_cost_sharing_amount %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_cost_sharing_organization, 'Cost sharing organization' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_cost_sharing_organization %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_committee_review_approval, 'Did this research receive approval of review committee for this request?' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_committee_review_approval %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_type_of_equipment %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_type_of_equipment %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :type_of_equipment_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :type_of_equipment_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Type of Equipment' for most competitions
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <div id='funding_tab'>
+    <table>
+      <tr>
+        <td id="title5" colspan="3">
+          <h3>
+            <strong>Proposal Cost</strong>
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_project_cost %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_project_cost %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :direct_project_cost_wording, 'Project cost wording' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :direct_project_cost_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Project Budget Request, Directs Only' for most competitions
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_total_amount_requested %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_total_amount_requested %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :total_amount_requested_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :total_amount_requested_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Total Amount Requested' for most competitions
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :min_budget_request %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :min_budget_request, :size=>15 %>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented">
+          <%= f.label :max_budget_request %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :max_budget_request, :size=>15 %>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td id="title5" colspan="3">
+          <h3>
+            <strong>Other Funding Sources</strong>
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_other_funding_sources %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_other_funding_sources %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :other_funding_sources_wording %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :other_funding_sources_wording, :size=>80 %>
+          <div class='attribute_description'>
+            'Other funding sources' for most competitions
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <div id='documents_tab'>
+    <table>
+    <tr>
+        <td id="title4" colspan="3">
+          <h3>
+            <strong>NIH Documents and Co-investigators</strong>
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_manage_biosketches, 'Show NIH biosketch'  %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_manage_biosketches %>
+            NIH <b>biosketch</b> for the PI and key personnel, if applicable
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_manage_coinvestigators, 'Show key personnel' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_manage_coinvestigators %>
+            e.g. Co-investigator, Co-PI, Postdoctoral Fellow, etc.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented">
+          <%= f.label :show_manage_other_support, 'Show NIH other support document' %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_manage_other_support %>
+          </div>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented">
+          <%= f.label :manage_other_support_text, 'NIH other support description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <div class='attribute_description'>
+            Text to include with the <b>NIH Other Support</b> document item
+          </div>
+        </td>
+      </tr>
+
+
       <tr>
         <td id="title3" colspan="3">
           <h3>
-            Customize Template and Help Documentation URLs and Wording
+            <strong>Application Uploads</strong>
           </h3>
         </td>
       </tr>
@@ -454,7 +970,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr class='bottom_border'>
         <td class="title, indented">
           <%= f.label :application_info_url_label %>
         </td>
@@ -463,6 +979,15 @@
           <div class='attribute_description'>
             Label for the URL to the <b>application instructions</b>
           </div>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td id="title3" colspan="3">
+          <h3>
+            <strong>Budget Uploads</strong>
+          </h3>
         </td>
       </tr>
       <tr>
@@ -519,241 +1044,14 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td id="title5" colspan="3">
-          <h3>
-            Direct Cost Item, Wording and Budget Request Limits
-          </h3>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_project_cost %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_project_cost %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :direct_project_cost_wording, 'Project cost wording' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :direct_project_cost_wording, :size=>80 %>
-          <div class='attribute_description'>
-            'Project Budget Request, Directs Only' for most competitions
-          </div>
-        </td>
-      </tr>
 
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_total_amount_requested %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_total_amount_requested %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :total_amount_requested_wording %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :total_amount_requested_wording, :size=>80 %>
-          <div class='attribute_description'>
-            'Total Amount Requested' for most competitions
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="title, indented">
-          <%= f.label :min_budget_request %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :min_budget_request, :size=>15 %>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented">
-          <%= f.label :max_budget_request %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :max_budget_request, :size=>15 %>
-        </td>
-      </tr>
-      <tr>
-        <td id="title6" colspan="3">
-          <h3>
-            Select submission items to show
-          </h3>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_is_new %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_is_new %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :is_new_wording %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :is_new_wording, :size=>80 %>
-          <div class='attribute_description'>
-            'Is this completely new work?' for most competitions
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_type_of_equipment %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_type_of_equipment %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :type_of_equipment_wording %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :type_of_equipment_wording, :size=>80 %>
-          <div class='attribute_description'>
-            'Type of Equipment' for most competitions
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div id='documents_tab'>
-    <table>
-      <tr>
-        <td id="title4" colspan="3">
-          <h3>
-            <strong>Documents and Manage Co-investigators</strong>
-          </h3>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_manage_biosketches, 'Show NIH biosketch'  %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_manage_biosketches %>
-            NIH <b>biosketch</b> for the PI and key personnel, if applicable
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_manage_coinvestigators, 'Show key personnel' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_manage_coinvestigators %>
-            e.g. Co-investigator, Co-PI, Postdoctoral Fellow, etc.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_manage_other_support, 'Show NIH other support document' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_manage_other_support %>
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented">
-          <%= f.label :manage_other_support_text, 'NIH other support description' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-          <div class='attribute_description'>
-            Text to include with the <b>NIH Other Support</b> document item
-          </div>
-        </td>
-      </tr>
 
       <tr>
         <td class="title">
           <h3>
-            <%= f.label :show_document1, 'Document 1' %>
-          </h3>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_document1 %>
-            Include <b>Document 1</b> as an uploadable file.
-          </div>
-          <div class='attribute_description'>
-            <%= f.check_box :document1_required %>
-            Require <b>Document 1</b>.
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented" >
-          <%= f.label :document1_name, 'Name' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document1_name, :size=>80 %>
-          <div class='attribute_description'>
-            Label used for <b>Document 1</b> for submitters and reviewers. For instance, 'OSR-1'.
-          </div>
-        </td>
-      </tr>
-      </tr>
-      <tr>
-        <td class="title, indented" >
-          <%= f.label :document1_description, 'Instructions/Description' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented" >
-          <%= f.label :document1_template_url, 'Template URL' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document1_template_url, :size=>80 %>
-          <div class='attribute_description'>
-            URL to the template file for <b>Document 1</b>, if it exists.
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented" >
-          <%= f.label :document1_info_url, 'Info URL' %>
-        </td>
-        <td class="notes" colspan="2">
-          <%= f.text_field :document1_info_url, :size=>80 %>
-          <div class='attribute_description'>
-            URL to additional info/instructions for how to fill in file for <b>Document 1</b>, if it exists.
-          </div>
-        </td>
-
-      <tr>
-        <td class="title">
-          <h3>
-            <%= f.label :show_document2, 'Document 2' %>
+            <strong>
+              <%= f.label :show_document2, 'Document 2' %>
+            </strong>
           </h3>
         </td>
         <td class="notes" colspan="2">
@@ -809,10 +1107,13 @@
         </td>
       </tr>
 
+
       <tr>
         <td class="title">
           <h3>
-            <%= f.label :show_document3, 'Document 3' %>
+            <strong>
+              <%= f.label :show_document3, 'Document 3' %>
+            </strong>
           </h3>
         </td>
         <td class="notes" colspan="2">
@@ -868,10 +1169,13 @@
         </td>
       </tr>
 
+
       <tr>
         <td class="title">
           <h3>
-            <%= f.label :show_document4, 'Document 4' %>
+            <strong>
+              <%= f.label :show_document4, 'Document 4' %>
+            </strong>
           </h3>
         </td>
         <td class="notes" colspan="2">
@@ -927,6 +1231,7 @@
         </td>
       </tr>
 
+
       <tr>
         <td id="title4" colspan="3">
           <h3>
@@ -958,323 +1263,15 @@
       </tr>
     </table>
   </div>
-  <div id='institution_tab'>
-    <table>
-      <tr>
-        <td id="title7">
-          <h3>
-            <strong>OR Core Facilities</strong>
-          </h3>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <br>
-            Include
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_core_manager, 'Core Manager NetID' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_core_manager %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_cost_sharing_amount, 'Cost sharing amount' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_cost_sharing_amount %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_cost_sharing_organization, 'Cost sharing organization' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_cost_sharing_organization %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_received_previous_support, 'Did this research receive Office of Research support in the past 2 years?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_received_previous_support %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_previous_support_description, 'Description of support:' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_previous_support_description %>
-            Text will read: "If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:" 
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented">
-          <%= f.label :show_committee_review_approval, 'Did this research receive approval of review committee for this request?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_committee_review_approval %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td id="title8">
-          <h3>
-            <strong>CTI and NMF</strong>
-          </h3>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <br>
-            Include
-          </div>
-        </td>        
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_human_subjects_research, 'Is this human subjects research?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_human_subjects_research %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :human_subjects_research_text, 'Help text for human subjects research question:' %>
-        </td>
-        <td class="notes" colspan="2">
 
-<!--           <div class='attribute_description'>
-            <%= f.check_box :show_irb_approved %>
-            Text will read: If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item. Be specific.
-          </div> -->
 
-          <%= f.text_area :human_subjects_research_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-<!--           <div class='attribute_description'>
-            Text to include with the <b>human subjects research</b> submission form item
-          </div> -->
 
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_irb_approved, 'Is this research IRB approved?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_irb_approved %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_irb_study_num, 'IRB study number:' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_irb_study_num %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_use_stem_cells, 'Will this research use stem cells?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_stem_cells %>
-            Text will read: "Please check if this study will involve the collection, derivation or use of human stem cells."
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_use_embryonic_stem_cells, 'Will this research use embryonic stem cells?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_embryonic_stem_cells %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_use_vertebrate_animals, 'Will this research use vertebrate animals?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_vertebrate_animals %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_iacuc_approved, 'Is this research IACUC approved?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_iacuc_approved %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_iacuc_study_num, 'IACUC study number:' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_iacuc_study_num %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_not_new_explanation, 'If this is not new work, please explain:' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_not_new_explanation %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_is_conflict, 'Are there any conflicts of interest?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_is_conflict %>
-          </div>
-        </td>
-      </tr>
-      <tr class="border_bottom">
-        <td class="title, indented2">
-          <%= f.label :show_conflict_explanation, 'Description of conflicts of interest:' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_conflict_explanation %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td id="title8">
-          <h3>
-           <strong>Northwestern-specific</strong>
-          </h3>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <br>
-            Include
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_use_nucats_cru, 'Will this research use the NUCATS Clinical Research Unit (CRU)?' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_nucats_cru %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_nucats_cru_contact_name, 'Name of NUCATS CRU contact:' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_nucats_cru_contact_name %>
-          </div>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="title, indented">
-          <label>
-            Will this study require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
-          </label>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_use_nmh, 'NMH' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_nmh %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_use_nmff, 'NMFF' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_nmff %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_use_va, 'VA' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_va %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_use_ric, 'RIC' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_ric %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_use_cmh, 'CMH' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_cmh %>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
   <div id='review_tab'>
     <table>
       <tr>
         <td id="title9" colspan="3">
           <h3>
-            Reviewer Limits
+            <strong>Reviewer Limits</strong>
           </h3>
         </td>
       </tr>
@@ -1296,17 +1293,34 @@
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_composite_scores_to_applicants %>
+          <label>
+            Show All Reviewers:
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_review_summaries_to_reviewers, "All Reviewers' Summaries"  %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
-            <%= f.check_box :show_composite_scores_to_applicants %>
+            <%= f.check_box :show_review_summaries_to_reviewers %>
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
-          <%= f.label :show_composite_scores_to_reviewers, 'Show composite scores to all reviewers' %>
+        <td class="title, indented2">
+          <%= f.label :show_review_scores_to_reviewers, "All Reviewers' Scores" %>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_review_scores_to_reviewers %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_composite_scores_to_reviewers, 'All Composite Scores' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -1316,7 +1330,14 @@
       </tr>
       <tr>
         <td class="title, indented">
-          <%= f.label :show_review_summaries_to_applicants, "Show reviewers' summaries to applicants" %>
+          <label>
+            Show Applicants:
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented2">
+          <%= f.label :show_review_summaries_to_applicants, "Their Reviewers' Summaries" %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -1324,30 +1345,22 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="title, indented">
-          <%= f.label :show_review_summaries_to_reviewers, "Show reviewers' summaries to all reviewers"  %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_review_summaries_to_reviewers %>
-          </div>
-        </td>
-      </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
-          <%= f.label :show_review_scores_to_reviewers, "Show reviewers' scores to all reviewers" %>
+        <td class="title, indented2">
+          <%= f.label :show_composite_scores_to_applicants, 'Their Composite Scores' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
-            <%= f.check_box :show_review_scores_to_reviewers %>
+            <%= f.check_box :show_composite_scores_to_applicants %>
           </div>
         </td>
       </tr>
+
+
       <tr>
         <td id="title11" colspan="3">
           <h3>
-            Review Form Information
+            <strong>Review Form Information</strong>
           </h3>
         </td>
       </tr>
@@ -1425,13 +1438,15 @@
           </div>
         </td>
       </tr>
+
+
       <tr>
-        <th id="title12">
+        <th class='no_underline' id="title12">
           <h3>
-            Criteria
+            <strong>Criteria</strong>
           </h3>
         </th>
-        <th id="title13" colspan="2">
+        <th class='no_underline' id="title13" colspan="2">
           <br>
           Description
         </th>
