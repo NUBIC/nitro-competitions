@@ -15,7 +15,7 @@ describe 'Public Section', :type => :feature do
 
       it 'shows the home page' do
         expect(page).to have_content(NucatsAssist::plain_app_name)
-        expect(page).to have_content('Current and Recent Competitions')
+        expect(page).to have_content('Welcome to NITRO Competitions')
         expect(page).to have_content('Login')
       end
     end
