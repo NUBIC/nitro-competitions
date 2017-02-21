@@ -3,7 +3,9 @@
 <% if @project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
   
   <div id='title'>
-    <h3><%= current_program.program_title %></h3>
+    <h3>
+      <%= link_to(current_program.program_title, sponsor_path(current_program)) %>
+    </h3>
   </div>
 
   <%= render 'shared/project_list',
