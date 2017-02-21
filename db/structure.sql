@@ -342,7 +342,7 @@ CREATE TABLE projects (
     program_id integer NOT NULL,
     project_title character varying(255) NOT NULL,
     project_description text,
-    project_url character varying(255),
+    rfa_url character varying(255),
     initiation_date date,
     submission_open_date date,
     submission_close_date date,
@@ -1459,4 +1459,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161107193749');
 INSERT INTO schema_migrations (version) VALUES ('20161107194207');
 
 INSERT INTO schema_migrations (version) VALUES ('20170104212020');
+
+INSERT INTO schema_migrations (version) VALUES ('20170214205823');
 
