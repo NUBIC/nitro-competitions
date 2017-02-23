@@ -172,7 +172,8 @@ class Project < ActiveRecord::Base
   has_many :submissions
   has_many :submission_reviews, :through => :submissions
   has_many :logs
-  before_validation :clean_params, :set_defaults
+  before_validation :clean_params
+  before_create :set_defaults
 
   validates_length_of :project_title, :within => 10..255, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
   validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"

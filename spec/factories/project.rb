@@ -4,7 +4,7 @@ FactoryGirl.define do
     sequence(:project_name) { |n| "project_name#{n}_#{Time.now.to_i}" }
     project_title 'MyStringAloneIsNotLongEnough'
     project_description 'MyString'
-    project_url 'MyString'
+    rfa_url 'http://www.northwestern.edu'
     association :program, factory: :program
     initiation_date Date.today
     submission_open_date Date.today
