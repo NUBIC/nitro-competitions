@@ -1,4 +1,11 @@
 <div class='project_docs'>
+  <% if project.rfa_url.present? && (project.rfa_url != project.project_url) %>
+    <div class='project_doc'>
+      <%= link_to_rfa(project).html_safe %>
+    </div>
+  <% end %>
+</div>
+<div class='project_docs'>
   <% if project.application_template_url.present? %>
     <div class='project_doc'>
       <%= link_to_application_template(project).html_safe %>
