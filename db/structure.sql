@@ -29,6 +29,117 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: table_log_init(integer, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_name    ALIAS FOR $2;
+BEGIN
+    PERFORM table_log_init(level, orig_name, current_schema());
+    RETURN;
+END;
+$_$;
+
+
+--
+-- Name: table_log_init(integer, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_name    ALIAS FOR $2;
+    log_schema   ALIAS FOR $3;
+BEGIN
+    PERFORM table_log_init(level, current_schema(), orig_name, log_schema);
+    RETURN;
+END;
+$_$;
+
+
+--
+-- Name: table_log_init(integer, text, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text, text, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_schema  ALIAS FOR $2;
+    orig_name    ALIAS FOR $3;
+    log_schema   ALIAS FOR $4;
+BEGIN
+    PERFORM table_log_init(level, orig_schema, orig_name, log_schema,
+        CASE WHEN orig_schema=log_schema 
+            THEN orig_name||'_log' ELSE orig_name END);
+    RETURN;
+END;
+$_$;
+
+
+--
+-- Name: table_log_init(integer, text, text, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION table_log_init(integer, text, text, text, text) RETURNS void
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    level        ALIAS FOR $1;
+    orig_schema  ALIAS FOR $2;
+    orig_name    ALIAS FOR $3;
+    log_schema   ALIAS FOR $4;
+    log_name     ALIAS FOR $5;
+    do_log_user  int = 0;
+    level_create text = '';
+    orig_qq      text;
+    log_qq       text;
+BEGIN
+    -- Quoted qualified names
+    orig_qq := quote_ident(orig_schema)||'.'||quote_ident(orig_name);
+    log_qq := quote_ident(log_schema)||'.'||quote_ident(log_name);
+
+    IF level <> 3 THEN
+        level_create := level_create
+            ||', trigger_id BIGSERIAL NOT NULL PRIMARY KEY';
+        IF level <> 4 THEN
+            level_create := level_create
+                ||', trigger_user VARCHAR(32) NOT NULL';
+            do_log_user := 1;
+            IF level <> 5 THEN
+                RAISE EXCEPTION 
+                    'table_log_init: First arg has to be 3, 4 or 5.';
+            END IF;
+        END IF;
+    END IF;
+    
+    EXECUTE 'CREATE TABLE '||log_qq
+          ||'(LIKE '||orig_qq
+          ||', trigger_mode VARCHAR(10) NOT NULL'
+          ||', trigger_tuple VARCHAR(5) NOT NULL'
+          ||', trigger_changed TIMESTAMPTZ NOT NULL'
+          ||level_create
+          ||')';
+            
+    EXECUTE 'CREATE TRIGGER "table_log_trigger" AFTER UPDATE OR INSERT OR DELETE ON '
+          ||orig_qq||' FOR EACH ROW EXECUTE PROCEDURE table_log('
+          ||quote_literal(log_name)||','
+          ||do_log_user||','
+          ||quote_literal(log_schema)||')';
+
+    RETURN;
+END;
+$_$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -40,16 +151,16 @@ SET default_with_oids = false;
 CREATE TABLE file_documents (
     id integer NOT NULL,
     created_id integer,
-    created_ip character varying,
+    created_ip character varying(255),
     updated_id integer,
-    updated_ip character varying,
-    file_file_name character varying,
-    file_content_type character varying,
+    updated_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    file_file_name character varying(255),
+    file_content_type character varying(255),
     file_file_size integer,
     file_updated_at timestamp without time zone,
-    last_updated_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    last_updated_at timestamp without time zone
 );
 
 
@@ -113,11 +224,11 @@ CREATE TABLE key_personnel (
     id integer NOT NULL,
     submission_id integer,
     user_id integer,
-    role character varying,
-    username character varying,
-    first_name character varying,
-    last_name character varying,
-    email character varying,
+    role character varying(255),
+    username character varying(255),
+    first_name character varying(255),
+    last_name character varying(255),
+    email character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -148,14 +259,14 @@ ALTER SEQUENCE key_personnel_id_seq OWNED BY key_personnel.id;
 
 CREATE TABLE logs (
     id integer NOT NULL,
-    activity character varying,
+    activity character varying(255),
     user_id integer,
     program_id integer,
     project_id integer,
-    controller_name character varying,
-    action_name character varying,
+    controller_name character varying(255),
+    action_name character varying(255),
     params text,
-    created_ip character varying,
+    created_ip character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -186,19 +297,19 @@ ALTER SEQUENCE logs_id_seq OWNED BY logs.id;
 
 CREATE TABLE programs (
     id integer NOT NULL,
-    program_name character varying,
-    program_title character varying,
-    program_url character varying,
+    program_name character varying(255),
+    program_title character varying(255),
+    program_url character varying(255),
     created_id integer,
-    created_ip character varying,
+    created_ip character varying(255),
     updated_id integer,
-    updated_ip character varying,
+    updated_ip character varying(255),
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying,
+    deleted_ip character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    email character varying,
+    email character varying(255),
     allow_reviewer_notification boolean DEFAULT true
 );
 
@@ -229,21 +340,28 @@ ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
 CREATE TABLE projects (
     id integer NOT NULL,
     program_id integer NOT NULL,
-    project_title character varying NOT NULL,
-    project_name character varying NOT NULL,
+    project_title character varying(255) NOT NULL,
     project_description text,
-    rfa_url character varying,
+    rfa_url character varying(255),
     initiation_date date,
     submission_open_date date,
     submission_close_date date,
-    submission_modification_date date,
     review_start_date date,
     review_end_date date,
     project_period_start_date date,
     project_period_end_date date,
-    status character varying,
-    min_budget_request double precision DEFAULT 1000.0,
-    max_budget_request double precision DEFAULT 50000.0,
+    status character varying(255),
+    created_id integer,
+    created_ip character varying(255),
+    updated_id integer,
+    updated_ip character varying(255),
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    min_budget_request double precision DEFAULT 1000,
+    max_budget_request double precision DEFAULT 50000,
     max_assigned_reviewers_per_proposal integer DEFAULT 2,
     max_assigned_proposals_per_reviewer integer DEFAULT 3,
     applicant_wording text DEFAULT 'Principal Investigator'::text,
@@ -294,8 +412,8 @@ CREATE TABLE projects (
     show_manage_coinvestigators boolean DEFAULT false,
     show_manage_biosketches boolean DEFAULT false,
     require_era_commons_name boolean DEFAULT false,
-    review_guidance_url character varying DEFAULT '/docs/review_criteria.html'::character varying,
-    overall_impact_title character varying DEFAULT 'Overall Impact'::character varying,
+    review_guidance_url character varying(255) DEFAULT '../docs/review_criteria.html'::character varying,
+    overall_impact_title character varying(255) DEFAULT 'Overall Impact'::character varying,
     overall_impact_description text DEFAULT 'Please summarize the strengths and weaknesses of the application; assess the potential benefit of the instrument requested for the overall research community and its potential impact on NIH-funded research; and provide comments on the overall need of the users which led to their final recommendation and level of enthusiasm.'::text,
     overall_impact_direction text DEFAULT 'Overall Strengths and Weaknesses:<br/>Please do not exceed 3 paragraphs'::text,
     show_impact_score boolean DEFAULT true,
@@ -306,80 +424,72 @@ CREATE TABLE projects (
     show_budget_score boolean DEFAULT false,
     show_completion_score boolean DEFAULT false,
     show_other_score boolean DEFAULT false,
-    impact_title character varying DEFAULT 'Significance'::character varying,
+    impact_title character varying(255) DEFAULT 'Significance'::character varying,
     impact_wording text DEFAULT 'Does the project address an important unmet health need? If the aims of the project are achieved, how will scientific knowledge, technical capability, and/or clinical practice be improved? How will successful completion of the aims change the methods, technologies, treatments, services, or preventative interventions that drive this field?'::text,
-    team_title character varying DEFAULT 'Investigator(s)'::character varying,
+    team_title character varying(255) DEFAULT 'Investigator(s)'::character varying,
     team_wording text DEFAULT 'Are the PIs, collaborators, and other researchers well suited to the project? If Early Stage Investigators or New Investigators, do they have appropriate experience and training? If established, have they demonstrated an ongoing record of accomplishments that have advanced their field(s)? If the project is collaborative, do the investigators have complementary and integrated expertise; are their leadership approach, governance and organizational structure appropriate for the project?'::text,
-    innovation_title character varying DEFAULT 'Innovation'::character varying,
+    innovation_title character varying(255) DEFAULT 'Innovation'::character varying,
     innovation_wording text DEFAULT 'Does the application challenge and seek to shift current clinical practice paradigms by utilizing novel approaches or methodologies, instrumentation, or interventions? Are the approaches or methodologies, instrumentation, or interventions novel to one field of research or novel in a broad sense? Is a refinement, improvement, or new application of approaches or methodologies, instrumentation, or interventions proposed?'::text,
-    scope_title character varying DEFAULT 'Approach'::character varying,
+    scope_title character varying(255) DEFAULT 'Approach'::character varying,
     scope_wording text DEFAULT 'Are the overall strategy, methodology, and analyses well-reasoned and appropriate to accomplish the specific aims of the project? Are potential problems, alternative strategies, and benchmarks for success presented? If the project is in the early stages of development, will the strategy establish feasibility and will particularly risky aspects be managed?'::text,
-    environment_title character varying DEFAULT 'Environment'::character varying,
+    environment_title character varying(255) DEFAULT 'Environment'::character varying,
     environment_wording text DEFAULT 'Will the scientific environment in which the work will be done contribute to the probability of success? Are the institutional support, equipment and other physical resources available to the investigators adequate for the project proposed? Will the project benefit from unique features of the scientific environment, subject populations, or collaborative arrangements?'::text,
-    other_title character varying DEFAULT 'Additional Review Criteria'::character varying,
+    other_title character varying(255) DEFAULT 'Additional Review Criteria'::character varying,
     other_wording text DEFAULT 'Are the responses to comments from the previous review group adequate? Are the improvements in the resubmission application appropriate? Are there other issues that should be considered when scoring this application?'::text,
-    budget_title character varying DEFAULT 'Budget'::character varying,
+    budget_title character varying(255) DEFAULT 'Budget'::character varying,
     budget_wording text DEFAULT 'Is the budget reasonable and appropriate for the request?'::text,
-    completion_title character varying DEFAULT 'Completion'::character varying,
+    completion_title character varying(255) DEFAULT 'Completion'::character varying,
     completion_wording text DEFAULT 'Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?'::text,
+    project_name character varying(255) NOT NULL,
+    submission_modification_date date,
     show_abstract_field boolean DEFAULT true,
-    abstract_text character varying DEFAULT 'Please include an abstract of your proposal, not to exceed 200 words.'::character varying,
+    abstract_text character varying(255) DEFAULT 'Please include an abstract of your proposal, not to exceed 200 words.'::character varying,
     show_manage_other_support boolean DEFAULT true,
-    projects character varying DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
-    manage_other_support_text character varying DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
+    manage_other_support_text character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
     show_document1 boolean DEFAULT false,
-    document1_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document1_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document1_template_url character varying,
-    document1_info_url character varying,
-    project_url_label character varying DEFAULT 'Competition RFA'::character varying,
-    application_template_url character varying,
-    application_template_url_label character varying DEFAULT 'Application template'::character varying,
-    application_info_url character varying,
-    application_info_url_label character varying DEFAULT 'Application instructions'::character varying,
-    budget_template_url character varying,
-    budget_template_url_label character varying DEFAULT 'Budget template'::character varying,
-    budget_info_url character varying,
-    budget_info_url_label character varying DEFAULT 'Budget instructions'::character varying,
+    document1_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document1_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document1_template_url character varying(255),
+    document1_info_url character varying(255),
+    project_url_label character varying(255) DEFAULT 'Competition RFA'::character varying,
+    application_template_url character varying(255),
+    application_template_url_label character varying(255) DEFAULT 'Application template'::character varying,
+    application_info_url character varying(255),
+    application_info_url_label character varying(255) DEFAULT 'Application instructions'::character varying,
+    budget_template_url character varying(255),
+    budget_template_url_label character varying(255) DEFAULT 'Budget template'::character varying,
+    budget_info_url character varying(255),
+    budget_info_url_label character varying(255) DEFAULT 'Budget instructions'::character varying,
     only_allow_pdfs boolean DEFAULT false,
     show_document2 boolean DEFAULT false,
-    document2_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document2_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document2_template_url character varying,
-    document2_info_url character varying,
+    document2_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document2_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document2_template_url character varying(255),
+    document2_info_url character varying(255),
     show_document3 boolean DEFAULT false,
-    document3_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document3_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document3_template_url character varying,
-    document3_info_url character varying,
+    document3_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document3_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document3_template_url character varying(255),
+    document3_info_url character varying(255),
     show_document4 boolean DEFAULT false,
-    document4_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document4_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document4_template_url character varying,
-    document4_info_url character varying,
+    document4_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document4_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document4_template_url character varying(255),
+    document4_info_url character varying(255),
     show_project_cost boolean DEFAULT true,
     show_composite_scores_to_applicants boolean DEFAULT false,
     show_composite_scores_to_reviewers boolean DEFAULT true,
     show_review_summaries_to_applicants boolean DEFAULT true,
     show_review_summaries_to_reviewers boolean DEFAULT true,
-    submission_category_description character varying DEFAULT 'Please enter the core you are making this submission for.'::character varying,
-    human_subjects_research_text text DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::text,
+    submission_category_description character varying(255) DEFAULT 'Please enter the core you are making this submission for.'::character varying,
+    human_subjects_research_text character varying(255) DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::character varying,
     show_application_doc boolean DEFAULT true,
-    application_doc_name character varying DEFAULT 'Application'::character varying,
-    application_doc_description character varying DEFAULT 'Please upload the completed application here.'::character varying,
-    created_id integer,
-    created_ip character varying,
-    updated_id integer,
-    updated_ip character varying,
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    application_doc_name character varying(255) DEFAULT 'Application'::character varying,
+    application_doc_description character varying(255) DEFAULT 'Please upload the completed application here.'::character varying,
     membership_required boolean DEFAULT false,
-    supplemental_document_name character varying DEFAULT 'Supplemental Document (Optional)'::character varying,
-    supplemental_document_description character varying DEFAULT 'Please upload any supplemental information here. (Optional)'::character varying,
-    closed_status_wording character varying DEFAULT 'Awarded'::character varying,
+    supplemental_document_name character varying(255) DEFAULT 'Supplemental Document (Optional)'::character varying,
+    supplemental_document_description character varying(255) DEFAULT 'Please upload any supplemental information here. (Optional)'::character varying,
+    closed_status_wording character varying(255) DEFAULT 'Awarded'::character varying,
     show_review_guidance boolean DEFAULT true,
     comment_review_only boolean DEFAULT false,
     custom_review_guidance text,
@@ -425,12 +535,12 @@ CREATE TABLE reviewers (
     program_id integer,
     user_id integer,
     created_id integer,
-    created_ip character varying,
+    created_ip character varying(255),
     updated_id integer,
-    updated_ip character varying,
+    updated_ip character varying(255),
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying,
+    deleted_ip character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -461,9 +571,9 @@ ALTER SEQUENCE reviewers_id_seq OWNED BY reviewers.id;
 
 CREATE TABLE rights (
     id integer NOT NULL,
-    name character varying,
-    controller character varying,
-    action character varying,
+    name character varying(255),
+    controller character varying(255),
+    action character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -506,7 +616,7 @@ CREATE TABLE rights_roles (
 
 CREATE TABLE roles (
     id integer NOT NULL,
-    name character varying,
+    name character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -543,12 +653,12 @@ CREATE TABLE roles_users (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     created_id integer,
-    created_ip character varying,
+    created_ip character varying(255),
     updated_id integer,
-    updated_ip character varying,
+    updated_ip character varying(255),
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying
+    deleted_ip character varying(255)
 );
 
 
@@ -576,7 +686,7 @@ ALTER SEQUENCE roles_users_id_seq OWNED BY roles_users.id;
 --
 
 CREATE TABLE schema_migrations (
-    version character varying NOT NULL
+    version character varying(255) NOT NULL
 );
 
 
@@ -586,10 +696,10 @@ CREATE TABLE schema_migrations (
 
 CREATE TABLE sessions (
     id integer NOT NULL,
-    session_id character varying NOT NULL,
+    session_id character varying(255) NOT NULL,
     data text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -623,8 +733,17 @@ CREATE TABLE submission_reviews (
     review_score double precision,
     review_text text,
     review_doc bytea,
-    review_status character varying,
+    review_status character varying(255),
     review_completed_at timestamp without time zone,
+    created_id integer,
+    created_ip character varying(255),
+    updated_id integer,
+    updated_ip character varying(255),
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     innovation_score integer DEFAULT 0,
     impact_score integer DEFAULT 0,
     scope_score integer DEFAULT 0,
@@ -648,16 +767,7 @@ CREATE TABLE submission_reviews (
     overall_score integer DEFAULT 0,
     overall_text text,
     other_score integer DEFAULT 0,
-    other_text text,
-    created_id integer,
-    created_ip character varying,
-    updated_id integer,
-    updated_ip character varying,
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    other_text text
 );
 
 
@@ -688,18 +798,18 @@ CREATE TABLE submissions (
     id integer NOT NULL,
     project_id integer,
     applicant_id integer,
-    submission_title character varying,
-    submission_status character varying,
+    submission_title character varying(255),
+    submission_status character varying(255),
     is_human_subjects_research boolean,
     is_irb_approved boolean,
-    irb_study_num character varying,
+    irb_study_num character varying(255),
     use_nucats_cru boolean,
-    nucats_cru_contact_name character varying,
+    nucats_cru_contact_name character varying(255),
     use_stem_cells boolean,
     use_embryonic_stem_cells boolean,
     use_vertebrate_animals boolean,
     is_iacuc_approved boolean,
-    iacuc_study_num character varying,
+    iacuc_study_num character varying(255),
     direct_project_cost double precision,
     is_new boolean,
     use_nmh boolean,
@@ -711,22 +821,31 @@ CREATE TABLE submissions (
     other_funding_sources text,
     is_conflict boolean,
     conflict_explanation text,
-    effort_approver_ip character varying,
+    effort_approver_ip character varying(255),
     submission_at timestamp without time zone,
     completion_at timestamp without time zone,
-    effort_approver_username character varying,
-    department_administrator_username character varying,
+    effort_approver_username character varying(255),
+    department_administrator_username character varying(255),
     effort_approval_at timestamp without time zone,
+    created_id integer,
+    created_ip character varying(255),
+    updated_id integer,
+    updated_ip character varying(255),
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     submission_reviews_count integer DEFAULT 0,
-    submission_category character varying,
-    core_manager_username character varying,
-    cost_sharing_amount double precision,
-    cost_sharing_organization text,
-    received_previous_support boolean DEFAULT false,
-    previous_support_description text,
-    committee_review_approval boolean DEFAULT false,
     application_document_id integer,
     budget_document_id integer,
+    submission_category character varying(255),
+    core_manager_username character varying(255),
+    cost_sharing_amount double precision,
+    cost_sharing_organization text,
+    received_previous_support boolean,
+    previous_support_description text,
+    committee_review_approval boolean,
     abstract text,
     other_support_document_id integer,
     document1_id integer,
@@ -737,16 +856,7 @@ CREATE TABLE submissions (
     notification_cnt integer DEFAULT 0,
     notification_sent_at timestamp without time zone,
     notification_sent_by_id integer,
-    notification_sent_to character varying,
-    created_id integer,
-    created_ip character varying,
-    updated_id integer,
-    updated_ip character varying,
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    notification_sent_to character varying(255),
     supplemental_document_id integer,
     total_amount_requested double precision,
     amount_awarded double precision,
@@ -779,46 +889,46 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 CREATE TABLE users (
     id integer NOT NULL,
-    username character varying NOT NULL,
-    era_commons_name character varying,
-    first_name character varying NOT NULL,
-    last_name character varying NOT NULL,
-    middle_name character varying,
-    email character varying,
-    degrees character varying,
-    name_suffix character varying,
-    business_phone character varying,
-    fax character varying,
-    title character varying,
+    username character varying(255) NOT NULL,
+    era_commons_name character varying(255),
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    middle_name character varying(255),
+    email character varying(255),
+    degrees character varying(255),
+    name_suffix character varying(255),
+    business_phone character varying(255),
+    fax character varying(255),
+    title character varying(255),
     employee_id integer,
-    primary_department character varying,
-    campus character varying,
+    primary_department character varying(255),
+    campus character varying(255),
     campus_address text,
     address text,
-    city character varying,
-    postal_code character varying,
-    state character varying,
-    country character varying,
-    photo_content_type character varying,
-    photo_file_name character varying,
+    city character varying(255),
+    postal_code character varying(255),
+    state character varying(255),
+    country character varying(255),
+    photo_content_type character varying(255),
+    photo_file_name character varying(255),
     photo bytea,
-    biosketch_document_id integer,
     first_login_at timestamp without time zone,
     last_login_at timestamp without time zone,
-    password_salt character varying,
-    password_hash character varying,
+    password_salt character varying(255),
+    password_hash character varying(255),
     password_changed_at timestamp without time zone,
     password_changed_id integer,
-    password_changed_ip character varying,
+    password_changed_ip character varying(255),
     created_id integer,
-    created_ip character varying,
+    created_ip character varying(255),
     updated_id integer,
-    updated_ip character varying,
+    updated_ip character varying(255),
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying,
+    deleted_ip character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    biosketch_document_id integer,
     notify_on_new_submission boolean DEFAULT true,
     notify_on_complete_submission boolean DEFAULT true,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -1138,13 +1248,6 @@ CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
 -- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1199,23 +1302,117 @@ INSERT INTO schema_migrations (version) VALUES ('20090929015448');
 
 INSERT INTO schema_migrations (version) VALUES ('20090929015449');
 
+INSERT INTO schema_migrations (version) VALUES ('20090929015450');
+
 INSERT INTO schema_migrations (version) VALUES ('20090929015451');
 
+INSERT INTO schema_migrations (version) VALUES ('20090929015452');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015453');
+
 INSERT INTO schema_migrations (version) VALUES ('20090929015454');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015457');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015458');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929015459');
+
+INSERT INTO schema_migrations (version) VALUES ('20090929030346');
 
 INSERT INTO schema_migrations (version) VALUES ('20090930210257');
 
 INSERT INTO schema_migrations (version) VALUES ('20091031200204');
 
+INSERT INTO schema_migrations (version) VALUES ('20091121144825');
+
+INSERT INTO schema_migrations (version) VALUES ('20091201231100');
+
 INSERT INTO schema_migrations (version) VALUES ('20091222043643');
+
+INSERT INTO schema_migrations (version) VALUES ('20091222044652');
+
+INSERT INTO schema_migrations (version) VALUES ('20091222061310');
+
+INSERT INTO schema_migrations (version) VALUES ('20091223143616');
+
+INSERT INTO schema_migrations (version) VALUES ('20100215201031');
+
+INSERT INTO schema_migrations (version) VALUES ('20100228161645');
+
+INSERT INTO schema_migrations (version) VALUES ('20100406170739');
+
+INSERT INTO schema_migrations (version) VALUES ('20100419182006');
+
+INSERT INTO schema_migrations (version) VALUES ('20100427221413');
+
+INSERT INTO schema_migrations (version) VALUES ('20100428162531');
+
+INSERT INTO schema_migrations (version) VALUES ('20100511175244');
 
 INSERT INTO schema_migrations (version) VALUES ('20100526152236');
 
+INSERT INTO schema_migrations (version) VALUES ('20100709151356');
+
+INSERT INTO schema_migrations (version) VALUES ('20100713031353');
+
+INSERT INTO schema_migrations (version) VALUES ('20100713045334');
+
+INSERT INTO schema_migrations (version) VALUES ('20100713232424');
+
 INSERT INTO schema_migrations (version) VALUES ('20100714211311');
+
+INSERT INTO schema_migrations (version) VALUES ('20100903204448');
+
+INSERT INTO schema_migrations (version) VALUES ('20100923102236');
+
+INSERT INTO schema_migrations (version) VALUES ('20101015232023');
+
+INSERT INTO schema_migrations (version) VALUES ('20110105042007');
+
+INSERT INTO schema_migrations (version) VALUES ('20110612035350');
+
+INSERT INTO schema_migrations (version) VALUES ('20110621194552');
+
+INSERT INTO schema_migrations (version) VALUES ('20110902205400');
+
+INSERT INTO schema_migrations (version) VALUES ('20110905133538');
+
+INSERT INTO schema_migrations (version) VALUES ('20111005032653');
+
+INSERT INTO schema_migrations (version) VALUES ('20111114041303');
+
+INSERT INTO schema_migrations (version) VALUES ('20111115153048');
+
+INSERT INTO schema_migrations (version) VALUES ('20111116160833');
+
+INSERT INTO schema_migrations (version) VALUES ('20120314202945');
+
+INSERT INTO schema_migrations (version) VALUES ('20120406134913');
+
+INSERT INTO schema_migrations (version) VALUES ('20120911200945');
+
+INSERT INTO schema_migrations (version) VALUES ('20120921155653');
+
+INSERT INTO schema_migrations (version) VALUES ('20121026195117');
+
+INSERT INTO schema_migrations (version) VALUES ('20130114160152');
+
+INSERT INTO schema_migrations (version) VALUES ('20130123222811');
+
+INSERT INTO schema_migrations (version) VALUES ('20130511121216');
+
+INSERT INTO schema_migrations (version) VALUES ('20140213161624');
+
+INSERT INTO schema_migrations (version) VALUES ('20140320142240');
 
 INSERT INTO schema_migrations (version) VALUES ('20140327162328');
 
 INSERT INTO schema_migrations (version) VALUES ('20140418191443');
+
+INSERT INTO schema_migrations (version) VALUES ('20140516203330');
+
+INSERT INTO schema_migrations (version) VALUES ('20140529184813');
 
 INSERT INTO schema_migrations (version) VALUES ('20140908190758');
 
