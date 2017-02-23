@@ -345,7 +345,7 @@ class ProjectsController < ApplicationController
       :program_id,
       :project_name,
       :project_title,
-      :project_url,
+      :rfa_url,
       :project_url_label,
       :initiation_date,
       :submission_open_date,
@@ -526,7 +526,7 @@ class ProjectsController < ApplicationController
   def duplicate_project(project)
     Project.new(program_id: project.program_id,
                 project_description: project.project_description,
-                project_url: project.project_url,
+                rfa_url: project.rfa_url,
                 show_application_doc: project.show_application_doc,
                 initiation_date: project.initiation_date,
                 submission_open_date: project.submission_open_date,
