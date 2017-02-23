@@ -99,7 +99,7 @@ module SubmissionsHelper
   end
 
   def link_to_rfa(project)
-    project.project_url.blank? ? '' : link_to_document(project.project_url_label, project.project_url)
+    project.rfa_url.blank? ? '' : link_to_document(project.project_url_label, project.rfa_url)
   end
 
   def link_to_application_documents(project)
