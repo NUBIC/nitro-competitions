@@ -156,6 +156,7 @@ class ReviewersController < ApplicationController
       :environment_score, :environment_text,
       :budget_score,      :budget_text,
       :other_score,       :other_text,
+      :completion_score,  :completion_text,
       :overall_score,     :overall_text
     )
   end

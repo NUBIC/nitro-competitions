@@ -3,7 +3,7 @@
   <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
   <% project = submission_review.submission.project %>
   <ol>
-    <% %w( impact team innovation scope environment budget other ).each do |section| %>
+    <% %w( impact team innovation scope environment budget other completion ).each do |section| %>
       <% if project.send("show_#{section}_score") %>
         <li>
           <p>

@@ -767,7 +767,8 @@ CREATE TABLE submission_reviews (
     overall_score integer DEFAULT 0,
     overall_text text,
     other_score integer DEFAULT 0,
-    other_text text
+    other_text text,
+    completion_text text
 );
 
 
@@ -1461,4 +1462,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161107194207');
 INSERT INTO schema_migrations (version) VALUES ('20170104212020');
 
 INSERT INTO schema_migrations (version) VALUES ('20170221205919');
+
+INSERT INTO schema_migrations (version) VALUES ('20170228172406');
 

@@ -80,7 +80,14 @@ class SubmissionReview < ActiveRecord::Base
   end
 
   def count_nonzeros
-    nz?(innovation_score) + nz?(impact_score) + nz?(scope_score) + nz?(team_score) + nz?(environment_score) + nz?(budget_score) + nz?(other_score)
+    nz?(innovation_score) + 
+    nz?(impact_score) + 
+    nz?(scope_score) + 
+    nz?(team_score) + 
+    nz?(environment_score) + 
+    nz?(budget_score) + 
+    nz?(completion_score) + 
+    nz?(other_score)
   end
   alias :count_nonzeros? :count_nonzeros
 
