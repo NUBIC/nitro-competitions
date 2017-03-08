@@ -1050,6 +1050,68 @@
         <td class="title">
           <h3>
             <strong>
+              <%= f.label :show_document1, 'Document 1' %>
+            </strong>
+          </h3>
+        </td>
+        <td class="notes" colspan="2">
+          <div class='attribute_description'>
+            <%= f.check_box :show_document1 %>
+            Include <b>Document 1</b> as an uploadable file.
+          </div>
+          <div class='attribute_description'>
+            <%= f.check_box :document1_required %>
+            Require <b>Document 1</b>.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document1_name, 'Name' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document1_name, :size=>80 %>
+          <div class='attribute_description'>
+            Label used for <b>Document 1</b> for submitters and reviewers. For instance, 'OSR-2'.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document1_description, 'Instructions/Description' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
+        </td>
+      </tr>
+      <tr>
+        <td class="title, indented" >
+          <%= f.label :document1_template_url, 'Template URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document1_template_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to the template file for <b>Document 1</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+      <tr class="border_bottom">
+        <td class="title, indented" >
+          <%= f.label :document1_info_url, 'Info URL' %>
+        </td>
+        <td class="notes" colspan="2">
+          <%= f.text_field :document1_info_url, :size=>80 %>
+          <div class='attribute_description'>
+            URL to additional info/instructions for how to fill in file for <b>Document 1</b>, if it exists.
+          </div>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td class="title">
+          <h3>
+            <strong>
               <%= f.label :show_document2, 'Document 2' %>
             </strong>
           </h3>
