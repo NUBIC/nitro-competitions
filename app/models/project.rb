@@ -217,29 +217,36 @@ class Project < ActiveRecord::Base
     where('projects.review_end_date <= :then', { :then => 80.days.ago })
   end
 
+
   def current_status
     way_before_today = Date.today - 300
     in_the_future = review_end_date + 1000
     case Date.today
-    when way_before_today..initiation_date
-      pre_initiation_date_status
-    when initiation_date..submission_open_date
-      pre_submission_date_status
+    # The open case is the most important and must be first
+    # for it to catch all the open dates.
     when submission_open_date..submission_close_date
       open_submission_status
-    when submission_close_date..review_start_date
-      closed_submission_status
-    when review_start_date..review_end_date
-      under_review_status
+
+    # The rest of the cases.
     when review_end_date..in_the_future
       closed_status
+    when review_start_date..review_end_date
+      under_review_status
+    when submission_close_date..review_start_date
+      closed_submission_status
+    when submission_open_date..submission_close_date
+      open_submission_status
+    when initiation_date..submission_open_date
+      pre_submission_date_status
+    when way_before_today..initiation_date
+      pre_initiation_date_status
     else
       'Unknown'
     end
   end
 
   def is_open?
-    submission_open_date < Date.today && submission_close_date >= Date.today
+    submission_open_date <= Date.today && submission_close_date >= Date.today
   end
   alias :open? :is_open?
 
