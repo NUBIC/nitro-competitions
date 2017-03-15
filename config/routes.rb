@@ -120,6 +120,10 @@ NucatsAssist::Application.routes.draw do
     end
   end
 
+  namespace :competitions do
+    get :open
+  end
+
   namespace :api do
     resources :projects, only: :index
   end

@@ -22,11 +22,13 @@
                 %li
                   =link_to "View Current Competition: #{@project.project_title}", show_competition_url(@project.program.program_name, @project.project_name)
               %li
-                =link_to "All Competitions", projects_path
-              %li
                 =link_to "All Sponsors", sponsors_path
               %li
-                = link_to "All Your Submissions", all_submissions_path
+                =link_to "All Competitions", projects_path
+              %li
+                =link_to "Open Competitions", competitions_open_path
+              %li
+                =link_to "All Your Submissions", all_submissions_path
               - unless current_user.submission_reviews.blank?
                 %li
                   = link_to "All Your Reviews", '/reviewers/all'

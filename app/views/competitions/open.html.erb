@@ -1,0 +1,14 @@
+<h2 class='bottom_border'>
+  Open Competitions
+</h2>
+
+<% if @projects.present? %>
+  <%= render 'shared/project_selection_list',
+             programs: @programs,
+             show_project_link: true,
+             show_action_links: true %>
+<% else %>
+  <h3>
+    There are currently no open competitions.
+  </h3>
+<% end %>
