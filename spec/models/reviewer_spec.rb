@@ -17,8 +17,6 @@
 #  updated_at :datetime         not null
 #
 
-require 'spec_helper'
-
 describe Reviewer, :type => :model do
 
   it { is_expected.to belong_to(:user) }

@@ -20,8 +20,6 @@
 #  allow_reviewer_notification :boolean          default(TRUE)
 #
 
-require 'spec_helper'
-
 describe Program, :type => :model do
   it { is_expected.to have_many(:roles_users) }
   it { is_expected.to have_many(:projects) }

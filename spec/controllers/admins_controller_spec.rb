@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-require 'spec_helper'
-
 describe AdminsController, :type => :controller do
 
   context 'with a logged in admin user' do

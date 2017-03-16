@@ -71,8 +71,6 @@
 #  type_of_equipment                 :string
 #
 
-require 'spec_helper'
-
 describe SubmissionsController, :type => :controller do
 
 

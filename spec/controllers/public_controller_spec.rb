@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-require 'spec_helper'
-
 describe PublicController, :type => :controller do
   describe 'GET welcome' do
     it 'renders the page' do

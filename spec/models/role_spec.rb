@@ -9,8 +9,6 @@
 #  updated_at :datetime         not null
 #
 
-require 'spec_helper'
-
 describe Role, :type => :model do
 
   it 'can be instantiated' do

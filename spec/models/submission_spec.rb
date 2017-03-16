@@ -71,8 +71,6 @@
 #  type_of_equipment                 :string
 #
 
-require 'spec_helper'
-
 describe Submission, :type => :model do
 
   it { is_expected.to belong_to(:project) }

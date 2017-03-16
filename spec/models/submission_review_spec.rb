@@ -46,8 +46,6 @@
 #  updated_at                      :datetime         not null
 #
 
-require 'spec_helper'
-
 describe SubmissionReview, :type => :model do
 
   it { is_expected.to belong_to(:submission) }

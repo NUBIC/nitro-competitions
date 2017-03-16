@@ -11,8 +11,6 @@
 #  updated_at :datetime         not null
 #
 
-require 'spec_helper'
-
 describe Right, :type => :model do
 
   it { is_expected.to have_and_belong_to_many(:roles) }

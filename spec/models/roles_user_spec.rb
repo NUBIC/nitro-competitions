@@ -18,8 +18,6 @@
 #  deleted_ip :string(255)
 #
 
-require 'spec_helper'
-
 describe RolesUser, :type => :model do
 
   it { is_expected.to belong_to(:program) }

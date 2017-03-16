@@ -17,9 +17,6 @@
 #  updated_at        :datetime         not null
 #
 
-
-require 'spec_helper'
-
 describe FileDocumentsController, :type => :controller do
   context 'with a logged in user' do
     user_login

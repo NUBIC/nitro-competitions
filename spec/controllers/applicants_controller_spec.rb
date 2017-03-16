@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-require 'spec_helper'
-
 describe ApplicantsController, :type => :controller do
 
   context "with an authenticated user" do

@@ -164,8 +164,6 @@
 #  type_of_equipment_wording           :string
 #
 
-require 'spec_helper'
-
 describe Project, :type => :model do
 
   it { is_expected.to have_many(:submissions) }

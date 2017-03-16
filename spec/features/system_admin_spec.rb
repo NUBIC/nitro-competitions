@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
 
 describe 'View for a System Admin', type: :feature do
   context 'With an open competition', js: true do

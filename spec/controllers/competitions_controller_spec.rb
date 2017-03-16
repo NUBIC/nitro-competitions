@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe CompetitionsController, :type => :controller do
   describe 'GET open' do
     it 'renders the page' do

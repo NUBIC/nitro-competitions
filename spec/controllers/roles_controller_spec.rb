@@ -9,8 +9,6 @@
 #  updated_at :datetime         not null
 #
 
-require 'spec_helper'
-
 describe RolesController, :type => :controller do
 
   context 'with a logged in user' do

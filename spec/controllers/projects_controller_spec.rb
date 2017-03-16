@@ -164,8 +164,6 @@
 #  type_of_equipment_wording           :string
 #
 
-require 'spec_helper'
-
 describe ProjectsController, :type => :controller do
 
   

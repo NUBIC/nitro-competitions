@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
 
 describe 'Applying for a competitions', type: :feature do
 

@@ -17,8 +17,6 @@
 #  updated_at        :datetime         not null
 #
 
-require 'spec_helper'
-
 describe FileDocument, :type => :model do
 
   it 'can be instantiated' do
