@@ -155,14 +155,16 @@ namespace :reports do
 
   def generate_projects_with_submissions_csv(competitions)
     cols = ["program_id", "project_title", "project_description", "project_url", "created_at", "updated_at", "initiation_date", "submission_open_date", "submission_close_date", "review_start_date", "review_end_date", "project_period_start_date", "project_period_end_date", "status"]
-    file_name = "#{Rails.root}/tmp/projects_kh_#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = "#{Rails.root}/tmp/projects_kh_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}.csv"
     puts "Writing projects file to " + file_name
     CSV.open(file_name, "w") do |csv|
-      csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip", "submission_count"]
+      csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip", "submission_count", "assigned_submissions", "unassigned_submissions"]
       competitions.each do |competition|
         program = competition.program
         submission_count = competition.submissions.count
-        csv << [competition.id] + cols.map{|c| competition[c]} + [program.program_name, program.program_title, program.program_url, program.created_at, program.created_ip, submission_count]
+        assigned_submissions = competition.submissions.assigned_submissions.count
+        unassigned_submissions = competition.submissions.unassigned_submissions.count
+        csv << [competition.id] + cols.map{|c| competition[c]} + [program.program_name, program.program_title, program.program_url, program.created_at, program.created_ip, submission_count, assigned_submissions, unassigned_submissions]
         STDOUT.flush
       end
      end
