@@ -13,12 +13,8 @@
       <%=h reviewer.user.username %>
     </td>
     <td>
-      <% unless reviewer.user.email.blank? %>
-        <%= mail_to(user.email, user.name,
-                    subject: NucatsAssist.email_subject,
-                    encode: 'javascript',
-                    title: "Send email to #{user.name}") %>
-      <% end %>
+      <%= link_to_contact(user).html_safe %> 
+      <%= "(#{@project.max_assigned_proposals_per_reviewer - user.submission_reviews.this_project(@project).count})" %>
     </td>
     <td>
       <%=h user.business_phone %>
