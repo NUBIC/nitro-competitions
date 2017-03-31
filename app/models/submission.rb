@@ -113,10 +113,11 @@ class Submission < ActiveRecord::Base
   #       will throw an ActiveRecord::ReadOnlyRecord error upon save
   # default_scope joins([:applicant]) #.order('lower(users.last_name), submissions.project_id, lower(submissions.submission_title)')
   scope :assigned_submissions, lambda { where('submission_reviews_count >= 2') }
-  scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
-
   scope :unassigned_submissions, lambda { where(:submission_reviews_count => 0) }
   scope :recent, lambda { where('submissions.created_at > ?', 3.weeks.ago) }
+  
+  scope :filled_submissions, lambda { |*args| where('submission_reviews_count >= :max_reviewers', { :max_reviewers => args.first || 2 }) }
+  scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 
   scope :associated, lambda { |*args|
     includes('submission_reviews')
