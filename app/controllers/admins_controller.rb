@@ -257,7 +257,7 @@ class AdminsController < ApplicationController
 
   def prep_reviewer_data
     @reviewers = @sponsor.reviewers
-    @unfilled_submissions = @project.submissions.unfilled_submissions(@project.max_assigned_proposals_per_reviewer)
+    @unfilled_submissions = @project.submissions.unfilled_submissions(@project.max_assigned_reviewers_per_proposal)
   end
 
   def set_project
