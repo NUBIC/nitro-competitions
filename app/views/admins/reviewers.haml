@@ -10,42 +10,53 @@
     border: none;
   }
 
+%h3
+  .bottom_border
+    = "#{@project.program.program_name}: #{@project.project_title}"
+
+
 .container-fluid
-  .row
-    .col-xs-8
-      %h3 Reviewers
+  .row   
+    .col-xs-6         
+      %h3 
+        Add Reviewers
+      %p 
+        .indented
+          Enter a comma or space-separated list of usernames (NetIDs) for the reviewers. 
+          Reviewer doesn't have a NetID?
+          = link_to 'Create an account for the reviewer.', user_lookup_project_admins_path
+          #{username_lookup_tag}
+      %p 
+        .indented
+          = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
+            = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
+            %p
+              = f.text_area :reviewer_list, {:rows => 1, :cols => 40, :wrap=>"virtual"}
+              = f.submit 'Add'
 
   .row
-    .col-xs-8
+    .col-xs-7
       %h3 
         Assigned Submissions
-    .col-xs-4
+      %p
+        .indented
+          = "To remove an assignment, drag the submission from the reviewer's box back to the unassigned submissions box on the right. Each reviewer may assess up to #{@project.max_assigned_proposals_per_reviewer} submissions."
+    .col-xs-5
       %h3 
         Unassigned Submissions
+      %p
+        .indented
+          = "Drag the unassigned submissions below to the box under the desired reviewer on the left. Each submission should be assessed by  #{@project.max_assigned_reviewers_per_proposal} reviewers"
+
   .row
-    .col-xs-8
+    .col-xs-7
       = render 'reviewers', reviewers: @reviewers, project: @project
-    .col-xs-4
-      %p Drag the below submissions to the box next to the desired reviewer.
+    .col-xs-5
       #unassigned_submissions{style:'height:50px;'}
         .unassigned_submission_list
           - @unfilled_submissions.each do |item|
             .row.unassigned_submission{id: "submission_#{item.id}"}
-              = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 20)}(#{@project.max_assigned_reviewers_per_proposal.to_int - item.reviewers.count})"
-
-%h3 Add Reviewers
-%p Enter a comma or space-separated list of usernames (NetIDs) for the reviewers. 
-%p 
-  Reviewer doesn't have a NetID?
-  = link_to 'Create an account for the reviewer.', user_lookup_project_admins_path
-  #{username_lookup_tag}
-
-= form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
-  = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
-  %p
-    = f.text_area :reviewer_list, {:rows => 10, :cols => 40, :wrap=>"virtual"}
-  %p
-    = f.submit 'Add'
+              = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 25)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
 
 :javascript
   jQuery('.unassigned_submission').draggable();

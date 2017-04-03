@@ -1,7 +1,16 @@
 <div id='sponsor_contact'>
-  <h2>
-    Contact Info for <%=h [@contact.name, @contact.name_suffix, @contact.degrees].reject(&:blank?).join(", ") %>
-  </h2>
+  <div>
+  <h3>
+    <%=h [@contact.name, @contact.name_suffix, @contact.degrees].reject(&:blank?).join(", ") %>
+  </h3>
+  <div class='indented'>
+    <%= link_to('Edit this entry.', edit_applicant_path(@contact.id), title: "Edit #{@contact.name}'s profile") %>
+  </div>
+  
+  <div>
+    <b>Username:</b>
+    <%=h @contact.username %>
+  </div>
 
   <div>
     <b>Email:</b>
