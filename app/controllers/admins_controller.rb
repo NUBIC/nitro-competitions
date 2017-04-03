@@ -256,8 +256,8 @@ class AdminsController < ApplicationController
   private
 
   def prep_reviewer_data
-    @reviewers = @sponsor.reviewers
-    @unfilled_submissions = @project.submissions.unfilled_submissions(@project.max_assigned_reviewers_per_proposal)
+    @reviewers = @sponsor.reviewers.includes(:user).order("#{User.table_name}.last_name, #{User.table_name}.first_name")
+    @unfilled_submissions = @project.submissions.unfilled_submissions(@project.max_assigned_reviewers_per_proposal).includes(:applicant).order("#{User.table_name}.last_name, #{User.table_name}.first_name")
   end
 
   def set_project
