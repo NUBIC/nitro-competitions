@@ -158,15 +158,17 @@ namespace :reports do
     file_name = "#{Rails.root}/tmp/projects_kh_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}.csv"
     puts "Writing projects file to " + file_name
     CSV.open(file_name, "w") do |csv|
-      csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip", "submission_count", "filled_submissions", "unfilled_submissions", "assigned_submissions", "unassigned_submissions"]
+      csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip", "submission_count", "assigned_submissions", "unassigned_submissions", "filled_submissions", "unfilled_submissions", "complete_submissions", "incomplete_submissions"]
       competitions.each do |competition|
         program = competition.program
         submission_count = competition.submissions.count
-        filled_submissions = competition.submissions.filled_submissions.count
-        unfilled_submissions = competition.submissions.unfilled_submissions.count
         assigned_submissions = competition.submissions.assigned_submissions.count
         unassigned_submissions = competition.submissions.unassigned_submissions.count
-        csv << [competition.id] + cols.map{|c| competition[c]} + [program.program_name, program.program_title, program.program_url, program.created_at, program.created_ip, submission_count, filled_submissions, unfilled_submissions assigned_submissions, unassigned_submissions]
+        filled_submissions = competition.submissions.filled_submissions.count
+        unfilled_submissions = competition.submissions.unfilled_submissions.count
+        complete_submissions = competition.complete_submissions.count
+        incomplete_submissions = competition.incomplete_submissions.count
+        csv << [competition.id] + cols.map{|c| competition[c]} + [program.program_name, program.program_title, program.program_url, program.created_at, program.created_ip, submission_count, assigned_submissions, unassigned_submissions, filled_submissions, unfilled_submissions, complete_submissions, incomplete_submissions]
         STDOUT.flush
       end
      end
