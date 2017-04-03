@@ -52,7 +52,7 @@
         .unassigned_submission_list
           - @unfilled_submissions.each do |item|
             .row.unassigned_submission{id: "submission_#{item.id}"}
-              = "PI: #{item.applicant.name}; Title: #{truncate_words(item.submission_title, 25)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
+              = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 30)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
 
 :javascript
   jQuery('.unassigned_submission').draggable();

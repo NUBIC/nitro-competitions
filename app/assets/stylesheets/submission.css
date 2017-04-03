@@ -49,6 +49,13 @@ div.submission_incomplete {
 
 #unassigned_submissions {
   position: relative;
+  cursor: -moz-grab;
+}
+
+.unassigned_submission:nth-child(odd) {
+  background: #e6e6e6;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 label.error {
