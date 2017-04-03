@@ -313,6 +313,16 @@ class Project < ActiveRecord::Base
     show?(show_other_score)
   end
 
+  # Submission lists
+  def complete_submissions
+    submissions.to_a.delete_if {|s| !s.complete? }
+  end
+
+  def incomplete_submissions
+    submissions.to_a.delete_if {|s| s.complete? }
+  end
+
+  
   def show?(val)
     (val.blank? or !val) ? 0 : 1
   end
