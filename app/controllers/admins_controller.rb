@@ -229,7 +229,7 @@ class AdminsController < ApplicationController
       @reviewer = User.find(params[:id])
       @submission = Submission.find(params[:submission_id])
       @review = @submission.submission_reviews.find_by_reviewer_id(params[:id])
-      if @project.max_assigned_proposals_per_reviewer > user.submission_reviews.this_project(@project).count
+      if @reviewer.submission_reviews.this_project(@project).count >= @project.max_assigned_proposals_per_reviewer
         flash[:notice] += "This reviewer already has the maximum number of submissions assigned."
       elsif @review.blank?
         @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
