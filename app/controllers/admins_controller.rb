@@ -226,6 +226,7 @@ class AdminsController < ApplicationController
   def assign_submission
     @sponsor = @project.program
     if is_admin?(@sponsor)
+      flash[:notice] = ''
       @reviewer = User.find(params[:id])
       @submission = Submission.find(params[:submission_id])
       @review = @submission.submission_reviews.find_by_reviewer_id(params[:id])
@@ -235,6 +236,7 @@ class AdminsController < ApplicationController
         @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
         @submission.submission_reviews << @review
         Notifier.reviewer_assignment(@review, @submission).deliver if @sponsor.allow_reviewer_notification
+        flash[:notice] += "Added submission to #{@reviewer.name}."
       else
         flash[:notice] += "NITRO Competitions was unable to assign the submission to this reviewer."
       end
