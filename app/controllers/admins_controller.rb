@@ -148,7 +148,7 @@ class AdminsController < ApplicationController
     if has_read_all?(@sponsor)
       prep_reviewer_data
       respond_to do |format|
-        format.html # index.html.erb
+        format.html { render :action => 'reviewers' } # index.html.erb
         format.xml  { render :xml => @reviewers }
       end
     else
@@ -226,23 +226,23 @@ class AdminsController < ApplicationController
   def assign_submission
     @sponsor = @project.program
     if is_admin?(@sponsor)
-      flash[:notice] = ''
       @reviewer = User.find(params[:id])
       @submission = Submission.find(params[:submission_id])
       @review = @submission.submission_reviews.find_by_reviewer_id(params[:id])
-      if @reviewer.submission_reviews.this_project(@project).count >= @project.max_assigned_proposals_per_reviewer
-        flash[:notice] += "This reviewer already has the maximum number of submissions assigned."
+      if @review.present?
+        flash[:notice] = "This submission has already been assigned to this reviewer."
+      elsif @reviewer.submission_reviews.this_project(@project).count >= @project.max_assigned_proposals_per_reviewer
+        flash[:notice] = "This reviewer already has the maximum number of submissions assigned."
       elsif @review.blank?
         @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
         @submission.submission_reviews << @review
         Notifier.reviewer_assignment(@review, @submission).deliver if @sponsor.allow_reviewer_notification
-        flash[:notice] += "Added submission to #{@reviewer.name}."
+        flash[:notice] = "Added submission to #{@reviewer.name}."
       else
-        flash[:notice] += "NITRO Competitions was unable to assign the submission to this reviewer."
+        flash[:notice] = "NITRO Competitions was unable to assign the submission to this reviewer."
       end
     end
-
-    redirect_to project_reviewers_path(@project)
+    render layout: false
   end
 
   def unassign_submission
