@@ -1,7 +1,7 @@
 %ul.assigned_submission_list
   - reviewer.submission_reviews.this_project(project.id).includes(submission: :applicant).order("#{User.table_name}.last_name, #{User.table_name}.first_name").each do |item|
     %li.assigned_submission{id: "submission_review_#{item.id}"}
-      = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 50)}"
+      = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission.submission_title, 50)}"
 
 :javascript
   jQuery('.assigned_submission').draggable({ 
