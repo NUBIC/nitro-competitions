@@ -1,10 +1,12 @@
 %ul.assigned_submission_list
   - reviewer.submission_reviews.this_project(project.id).each do |item|
     %li.assigned_submission{id: "submission_review_#{item.id}"}
-      = "PI: #{item.submission.applicant.name}; Title: #{truncate_words(item.submission.submission_title, 50)}"
+      = "#{item.submission.applicant.last_name}, #{item.submission.applicant.first_name}: #{truncate_words(item.submission.submission_title, 50)}"
 
 :javascript
-  jQuery('.assigned_submission').draggable();
+  jQuery('.assigned_submission').draggable({ 
+    revert: "invalid" 
+  });
   jQuery('.assigned_submission_list').droppable({
     hoverClass: 'hover',
     drop: function(event, ui) {

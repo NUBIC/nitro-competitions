@@ -16,26 +16,26 @@
 
 
 .container-fluid
-  .row   
-    .col-xs-6         
+  .row
+    .col-xs-7   
       %h3 
         Add Reviewers
-      %p 
-        Enter a comma or space-separated list of usernames (NetIDs) for the reviewers. 
-        Reviewer doesn't have a NetID?
-        = link_to 'Create an account for the reviewer.', user_lookup_project_admins_path
-        #{username_lookup_tag}
-      %p 
+      %section
+        Username/NetID:
         = form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f|
           = render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank?
-          %p
-            = f.text_area :reviewer_list, {:rows => 1, :cols => 40, :wrap=>"virtual"}
+          %section
+            = f.text_area :reviewer_list, {:rows => 1, :cols => 20, :wrap=>"virtual"}
             = f.submit 'Add'
-
+          %section
+            Reviewer doesn't have a NetID?
+            = link_to 'Search for or create an account.', user_lookup_project_admins_path
+            #{username_lookup_tag}
+            
   .row
     .col-xs-7
       %h3 
-        Assigned Submissions
+        Reviewers and Submissions
       %p
         = "To remove an assignment, drag the submission from the reviewer's box back to the unassigned submissions box on the right. Each reviewer may assess up to #{@project.max_assigned_proposals_per_reviewer} submissions."
     .col-xs-5
@@ -55,7 +55,9 @@
               = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 30)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
 
 :javascript
-  jQuery('.unassigned_submission').draggable();
+  jQuery('.unassigned_submission').draggable({ 
+    revert: "invalid" 
+  });
   jQuery('.unassigned_submission_list').droppable({
     hoverClass: 'hover',
     drop: function(event, ui) {

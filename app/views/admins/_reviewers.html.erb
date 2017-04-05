@@ -10,7 +10,7 @@
     <td>
       <%= link_to('Remove', remove_reviewer_project_admin_path(project_id: project.id, id: reviewer.id),
                   title: "Remove #{user.name} as a reviewer",
-                  confirm: 'Are you sure you want to delete this reviewer? This will delete any reviews associated with this reviewer!') %>
+                  confirm: 'Are you sure you want to delete this reviewer? This will delete any reviews associated with this reviewer for this sponsor!') %>
     </td>
   </tr>
   <tr>
