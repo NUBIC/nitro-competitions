@@ -237,7 +237,7 @@ class AdminsController < ApplicationController
         @review = SubmissionReview.new(reviewer_id: @reviewer.id) 
         @submission.submission_reviews << @review
         Notifier.reviewer_assignment(@review, @submission).deliver if @sponsor.allow_reviewer_notification
-        flash[:notice] = "Added submission to #{@reviewer.name}."
+        flash[:notice] = "Added submission(#{@submission.applicant.last_name}: #{truncate_words(@submission.submission_title, 30)}) to #{@reviewer.name}."
       else
         flash[:notice] = "NITRO Competitions was unable to assign the submission to this reviewer."
       end
