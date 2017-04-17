@@ -8,4 +8,12 @@ class GeneralMailer < ActionMailer::Base
       :to           => recipient
     })
   end
+
+
+  def monthly_report_message(report)
+    attachments["competitions_report_#{Date.today}.csv"] = File.read(report)
+    mail({
+      subject: "NITRO Competitions Monthly Report for #{Date.today}",
+      to: 'matthew.baumann@northwestern.edu' })
+  end
 end

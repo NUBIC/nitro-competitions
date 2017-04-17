@@ -61,6 +61,17 @@ namespace :reports do
   end
 
 
+  task :monthly_report,[:year, :month, :date] => [:environment] do |t, args|
+    args.with_defaults(:year => Date.today.year, :month => Date.today.month - 1, :date => 1)
+    test_date = Date.new(args.year.to_i, args.month.to_i, args.date.to_i)
+
+    competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'").all.order("updated_at ASC")
+    file_name = generate_projects_with_submissions_csv(competitions)
+    puts file_name.inspect
+    GeneralMailer.monthly_report_message(file_name).deliver
+  end
+
+
   def csv_export(competitions)
     puts "#{competitions.length} competitions to process."
     generate_projects_csv(competitions)
@@ -171,7 +182,8 @@ namespace :reports do
         csv << [competition.id] + cols.map{|c| competition[c]} + [program.program_name, program.program_title, program.program_url, program.created_at, program.created_ip, submission_count, assigned_submissions, unassigned_submissions, filled_submissions, unfilled_submissions, complete_submissions, incomplete_submissions]
         STDOUT.flush
       end
-     end
-   end
+    end
+    return file_name
+  end
 
 end
