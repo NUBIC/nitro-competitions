@@ -12,8 +12,11 @@
 
 %h3
   .bottom_border
-    = "#{@project.program.program_name}: #{@project.project_title}"
-
+    %span><
+      = link_to(@project.program.program_name, sponsor_path(@project.program))
+    = ':'
+    %span
+      = link_to(@project.project_title, project_path(@project))
 
 .container-fluid
   .row
@@ -29,7 +32,7 @@
             = f.submit 'Add'
           %section
             Reviewer doesn't have a NetID?
-            = link_to 'Search for or create an account.', user_lookup_project_admins_path
+            = link_to 'Search for an account.', user_lookup_project_admins_path
             #{username_lookup_tag}
             
   .row
