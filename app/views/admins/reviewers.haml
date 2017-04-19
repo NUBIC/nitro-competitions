@@ -12,8 +12,11 @@
 
 %h3
   .bottom_border
-    = "#{@project.program.program_name}: #{@project.project_title}"
-
+    %span><
+      = link_to(@project.program.program_name, sponsor_path(@project.program))
+    = ':'
+    %span
+      = link_to(@project.project_title, project_path(@project))
 
 .container-fluid
   .row
