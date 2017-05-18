@@ -88,5 +88,7 @@ module NucatsAssist
                             sender_address: "nitro-noreply@northwestern.edu",
                             exception_recipients: %w{competitions@northwestern.edu}
                           }
+
+    config.nucats_assist_config = ActiveSupport::HashWithIndifferentAccess.new(YAML.load_file(YAML.load_file(File.join(Rails.root, 'config', 'nucats_assist_config.yml'))))                    
   end
 end
