@@ -51,6 +51,8 @@ gem 'searchlight'
 # for rake task input
 gem 'highline'
 
+gem 'whenever', require: false
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
