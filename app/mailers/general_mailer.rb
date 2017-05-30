@@ -10,8 +10,11 @@ class GeneralMailer < ActionMailer::Base
   end
 
 
-  def monthly_report_message(report)
-    attachments["competitions_report_#{Date.today}.csv"] = File.read(report)
+  def monthly_report_message(reports)
+    reports.each_with_index do |report, index|
+      attachments["competitions_report_#{Date.today}_#{index + 1}.csv"] = File.read(report)
+    end
+
     mail({
       subject: "NITRO Competitions Monthly Report for #{Date.today}",
       to: Rails.configuration.nucats_assist_config[:reports][:recipients] })

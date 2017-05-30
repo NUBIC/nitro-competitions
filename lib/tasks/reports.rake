@@ -61,14 +61,38 @@ namespace :reports do
   end
 
 
-  task :monthly_report,[:year, :month, :date] => [:environment] do |t, args|
-    args.with_defaults(:year => Date.today.year, :month => Date.today.month - 1, :date => 1)
-    test_date = Date.new(args.year.to_i, args.month.to_i, args.date.to_i)
+  # task :monthly_report,[:year, :month, :date] => [:environment] do |t, args|
 
-    competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'").all.order("updated_at ASC")
-    file_name = generate_projects_with_submissions_csv(competitions)
-    puts file_name.inspect
-    GeneralMailer.monthly_report_message(file_name).deliver
+  #   args.with_defaults(:year => Date.today.year, :month => Date.today.month - 1, :date => 1)
+  #   test_date = Date.new(args.year.to_i, args.month.to_i, args.date.to_i)
+
+  #   new_competitions = Project.includes(:program).where("created_at >= '%#{test_date}%'")
+  #   updated_competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'")
+  #   competitions = (new_competitions + updated_competitions).uniq.sort_by(&:created_at)
+
+  #   file_name = generate_projects_with_submissions_csv(competitions)
+  #   puts "Creating monthly report file:"
+  #   puts file_name.inspect
+  #   GeneralMailer.monthly_report_message(file_name).deliver
+  # end
+
+
+
+  task :monthly_report => :environment do
+    test_date = (Date.current - (1.month)).beginning_of_month 
+    new_competitions = Project.includes(:program).where("created_at >= '%#{test_date}%'")
+    updated_competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'")
+
+    file_name_new = generate_projects_with_submissions_csv(new_competitions, '_new')
+    puts "Creating monthly report file:"
+    puts file_name_new.inspect
+    
+    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')
+    puts "Creating monthly report file:"
+    puts file_name_updated.inspect
+    
+    file_names = [file_name_new, file_name_updated]
+    GeneralMailer.monthly_report_message(file_names).deliver
   end
 
 
@@ -93,9 +117,9 @@ namespace :reports do
 
 
   # Here are the different CSV generators used above.
-  def generate_projects_csv(competitions)
+  def generate_projects_csv(competitions, extension = '')
     cols = ["program_id", "project_title", "project_description", "project_url", "initiation_date", "submission_open_date", "submission_close_date", "review_start_date", "review_end_date", "project_period_start_date", "project_period_end_date", "status"]
-    file_name = "#{Rails.root}/tmp/projects_#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = "#{Rails.root}/tmp/projects_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing projects file to " + file_name
     CSV.open(file_name, "w") do |csv|
       csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip"]
@@ -107,9 +131,9 @@ namespace :reports do
      end
    end
 
-  def generate_submissions_csv(submissions)
+  def generate_submissions_csv(submissions, extension = '')
     cols = ["project_id", "applicant_id", "submission_title"]
-    file_name = "#{Rails.root}/tmp/submissions#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = "#{Rails.root}/tmp/submissions#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing submissions file to " + file_name
     CSV.open(file_name, "w") do |csv|
       csv <<  ["submission_id"] + cols
@@ -120,9 +144,9 @@ namespace :reports do
     end
   end
 
-  def generate_applicants_csv(applicants)
+  def generate_applicants_csv(applicants, extension = '')
     user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
-    file_name = "#{Rails.root}/tmp/applicants_#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = "#{Rails.root}/tmp/applicants_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing applicants file to " + file_name
     CSV.open(file_name, "w") do |csv|
       csv <<  ["user_id"] + user_cols
@@ -133,10 +157,10 @@ namespace :reports do
     end
   end
 
-  def generate_key_personnel_csv(key_personnel)
+  def generate_key_personnel_csv(key_personnel, extension = '')
     user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
     cols = ["submission_id", "user_id", "role"]
-    file_name = "#{Rails.root}/tmp/key_personnel_#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = "#{Rails.root}/tmp/key_personnel_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing key_personnel file to " + file_name
     CSV.open(file_name, "w") do |csv|
       csv <<  cols+ user_cols
@@ -148,11 +172,11 @@ namespace :reports do
     end
   end
 
-  def generate_submission_reviews_csv(submission_reviews)
+  def generate_submission_reviews_csv(submission_reviews, extension = '')
     user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
     cols = ["submission_id", "reviewer_id", "review_score", "review_text", "review_status", "review_completed_at", "created_at", "updated_at", "innovation_score", "impact_score", "scope_score", "team_score", "environment_score",
       "budget_score", "completion_score", "innovation_text", "impact_text", "scope_text", "team_text", "environment_text", "budget_text", "overall_score", "overall_text", "other_score", "other_text"]
-    file_name = "#{Rails.root}/tmp/submission_reviews#{Time.now.strftime("%Y-%m-%d")}.csv"
+    file_name = "#{Rails.root}/tmp/submission_reviews#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing submission_reviews file to " + file_name
     CSV.open(file_name, "w") do |csv|
       csv <<  ["submission_review_id"] + cols + user_cols
@@ -164,9 +188,9 @@ namespace :reports do
     end
   end
 
-  def generate_projects_with_submissions_csv(competitions)
+  def generate_projects_with_submissions_csv(competitions, extension = '')
     cols = ["program_id", "project_title", "project_description", "project_url", "created_at", "updated_at", "initiation_date", "submission_open_date", "submission_close_date", "review_start_date", "review_end_date", "project_period_start_date", "project_period_end_date", "status"]
-    file_name = "#{Rails.root}/tmp/projects_kh_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}.csv"
+    file_name = "#{Rails.root}/tmp/projects_kh_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing projects file to " + file_name
     CSV.open(file_name, "w") do |csv|
       csv <<  ["project_id"] + cols + ["program_name",  "program.program_title",  "program.program_url",  "program.created_at",  "program.created_ip", "submission_count", "assigned_submissions", "unassigned_submissions", "filled_submissions", "unfilled_submissions", "complete_submissions", "incomplete_submissions"]
