@@ -39,10 +39,10 @@ case environment
   #
   # whenever --update-crontab 
   when 'production'
-    every 1.month, :at => "start of the month at 1:00am" do
-      rake "db:backup"
-      puts "Running backup."
-    end
+    # every 1.month, :at => "start of the month at 1:00am" do
+    #   rake "db:backup"
+    #   puts "Running backup."
+    # end
     every 1.month, :at => "start of the month at 5:00am" do
       rake "reports:monthly_report"
       puts "Running monthly report."
