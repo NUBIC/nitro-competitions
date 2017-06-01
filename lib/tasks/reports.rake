@@ -84,13 +84,7 @@ namespace :reports do
     updated_competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'")
 
     file_name_new = generate_projects_with_submissions_csv(new_competitions, '_new')
-    puts "Creating monthly report file:"
-    puts file_name_new.inspect
-    
-    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')
-    puts "Creating monthly report file:"
-    puts file_name_updated.inspect
-    
+    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')    
     file_names = [file_name_new, file_name_updated]
     GeneralMailer.monthly_report_message(file_names).deliver
   end
