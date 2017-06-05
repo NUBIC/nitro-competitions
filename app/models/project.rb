@@ -217,31 +217,39 @@ class Project < ActiveRecord::Base
     where('projects.review_end_date <= :then', { :then => 80.days.ago })
   end
 
+  def self.not_published
+    where('projects.visible = false')
+  end
+
 
   def current_status
-    way_before_today = Date.today - 300
-    in_the_future = review_end_date + 1000
-    case Date.today
-    # The open case is the most important and must be first
-    # for it to catch all the open dates.
-    when submission_open_date..submission_close_date
-      open_submission_status
-
-    # The rest of the cases.
-    when review_end_date..in_the_future
-      closed_status
-    when review_start_date..review_end_date
-      under_review_status
-    when submission_close_date..review_start_date
-      closed_submission_status
-    when submission_open_date..submission_close_date
-      open_submission_status
-    when initiation_date..submission_open_date
-      pre_submission_date_status
-    when way_before_today..initiation_date
-      pre_initiation_date_status
+    if self.visible == false
+      not_published_status
     else
-      'Unknown'
+      way_before_today = Date.today - 300
+      in_the_future = review_end_date + 1000
+      case Date.today
+      # The open case is the most important and must be first
+      # for it to catch all the open dates.
+      when submission_open_date..submission_close_date
+        open_submission_status
+
+      # The rest of the cases.
+      when review_end_date..in_the_future
+        closed_status
+      when review_start_date..review_end_date
+        under_review_status
+      when submission_close_date..review_start_date
+        closed_submission_status
+      when submission_open_date..submission_close_date
+        open_submission_status
+      when initiation_date..submission_open_date
+        pre_submission_date_status
+      when way_before_today..initiation_date
+        pre_initiation_date_status
+      else
+        'Unknown'
+      end
     end
   end
 
@@ -261,6 +269,12 @@ class Project < ActiveRecord::Base
   alias :reviewable? :is_reviewable?
 
   ##
+  # Status shown when today is less than
+  # the @initiation_date
+  def not_published_status
+    'Not published'
+  end
+
   # Status shown when today is less than
   # the @initiation_date
   def pre_initiation_date_status
