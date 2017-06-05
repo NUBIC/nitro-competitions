@@ -75,7 +75,9 @@ div.admin_links {
 }
 
 .apply_link a,
-.apply_link a:hover {
+.apply_link a:hover,
+.not_published_link a,
+.not_published_link a:hover {
   border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
@@ -97,6 +99,14 @@ div.admin_links {
 .apply_link a:hover {
   background-color: limegreen;
 }
+
+.not_published_link a {
+  background-color: firebrick;
+}
+.not_published_link a:hover {
+  background-color: red;
+}
+
 
 .key_personnel_remove_link {
   width: 41em;
