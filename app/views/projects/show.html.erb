@@ -29,10 +29,14 @@
   <%= render 'shared/admin_links', program: @project.program %>
 
 <% else %>
-
-  <div id='title'>
-    <h4><%= 'Access Denied.' %>
-    <h4><%= link_to 'Return to the Competitions page.', projects_path %>
-  </div>
-
+  <h3>This competition has not been published. Please contact the sponsor.</h3>
+  <h4>
+    <% if @project.program.email.blank? %>
+      No email on record.
+    <% else %>
+      <%= mail_to(@project.program.email, @project.program.email,
+                  :subject => "NITRO Competitions-#{@project.project_title} is unpublished", 
+                  :title => "Send email to #{@project.program.program_title}") %>
+    <% end %> 
+  </h4>
 <% end %>

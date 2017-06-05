@@ -8,18 +8,16 @@
     <li><a href="#review_tab">Reviewers</a></li>
   </ul>
 
-
-
   <div id='basic_tab'>
     <table>
       <tr>
         <td id="title1" colspan="3">
           <h3>
-            <strong>Basic Attributes</strong>
+            <strong>Publish</strong>
           </h3>
         </td>
       </tr>
-      <tr>
+      <tr class="border_bottom">
         <td class="title, indented">
           <%= f.label :visible, 'Visible' %>
         </td>
@@ -29,6 +27,16 @@
             Checked = visible to entire public.<br>
             Unchecked = visible to sponsor admins. 
           </div>
+        </td>
+      </tr>
+
+
+
+      <tr>
+        <td id="title2" colspan="3">
+          <h3>
+            <strong>Basic Attributes</strong>
+          </h3>
         </td>
       </tr>
       <tr>
@@ -140,7 +148,7 @@
 
 
       <tr>
-        <td id="title2" colspan="3">
+        <td id="title3" colspan="3">
           <h3>
             <strong>Wording of Data Fields</strong>
           </h3>

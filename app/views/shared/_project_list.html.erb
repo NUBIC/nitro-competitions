@@ -6,7 +6,15 @@
       <% if project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(project.program)) %>
         <div class='project'>
           <div class='apply'>
-            <% if project.current_status =~ /open for/i %>
+            <% if !project.visible %>
+              <div class='not_published_link'>
+                <% url = new_project_applicant_path(project.id) %>
+                <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
+                <%= link_to('Not Published',
+                    application_url,
+                    title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+              </div>
+            <% elsif project.current_status =~ /open for/i %>
               <div class='apply_link'>
                 <% url = new_project_applicant_path(project.id) %>
                 <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
