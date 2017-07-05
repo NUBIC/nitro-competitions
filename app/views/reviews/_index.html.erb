@@ -102,9 +102,9 @@
   <div id="composite_scores">
     <ul>
       <% unless submission.composite_scores.blank? || submission.composite_scores.to_s == '0' %>
-        <li> Composite score: <%= submission.composite_scores %>  </li>
+        <li> Composite score: <%= submission.composite_scores_string %>  </li>
       <% end %>
-      <li> Overall score: <%= submission.overall_scores %></li>
+      <li> Overall score: <%= submission.overall_scores_string %></li>
     </ul>
   </div>
 <% end %>

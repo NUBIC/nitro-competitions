@@ -156,12 +156,12 @@ class Submission < ActiveRecord::Base
     return 0 if submission_reviews.length == 0
     cnt = submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : 1 }.sum
     return 0 if cnt < 1
-    submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : s.overall_score }.sum / cnt
+    (submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : s.overall_score }.sum).to_f / cnt
   end
 
   def overall_scores_string
     return 0 if submission_reviews.length == 0
-    overall_scores.to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
+    overall_scores.round(2).to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
   end
 
   def composite_scores
@@ -173,7 +173,7 @@ class Submission < ActiveRecord::Base
 
   def composite_scores_string
     return 0 if submission_reviews.length == 0
-    composite_scores.to_s + ' (' + submission_reviews.map(&:composite_score).join(' & ') + ')'
+    composite_scores.round(2).to_s + ' (' + submission_reviews.map(&:composite_score).join(' & ') + ')'
   end
 
   def max_project_cost
