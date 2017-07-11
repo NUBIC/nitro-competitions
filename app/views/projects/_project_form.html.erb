@@ -1350,7 +1350,8 @@
           <%= f.label :max_assigned_reviewers_per_proposal %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :max_assigned_reviewers_per_proposal, :size=>15 %>
+          <%= f.number_field :max_assigned_reviewers_per_proposal, :size=>15, required: true %>
+          <span class='required_marker'> * </span>
         </td>
       </tr>
       <tr>
@@ -1358,7 +1359,8 @@
           <%= f.label :max_assigned_proposals_per_reviewer %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :max_assigned_proposals_per_reviewer, :size=>15 %>
+          <%= f.number_field :max_assigned_proposals_per_reviewer, :size=>15, required: true %>
+          <span class='required_marker'> * </span>
         </td>
       </tr>
       <tr>
