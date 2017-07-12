@@ -4,6 +4,7 @@
 # Controller for SubmissionReviews to be evaluated by Reviewers
 class ReviewsController < ApplicationController
 
+  before_filter :set_project
   skip_before_filter :verify_authenticity_token
 
   # GET /submission/:submission_id/reviews
@@ -54,5 +55,13 @@ class ReviewsController < ApplicationController
     submission_review.submission.project.review_end_date >= (Date.today - 1)
   end
   private :can_update_submission_review?
+
+  def set_project
+    unless params[:project_id].blank?
+      @project = Project.find(params[:project_id])
+      set_current_project(@project)
+    end
+  end
+  private :set_project
 
 end
