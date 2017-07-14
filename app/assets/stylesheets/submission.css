@@ -38,11 +38,11 @@ div.submission_title {
   font-size: 1.2em;
 }
 
-div.submission_complete {
+.submission_complete {
   color: green;
 }
 
-div.submission_incomplete {
+.submission_incomplete {
   font-weight: bold;
   color: maroon;
 }

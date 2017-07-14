@@ -46,6 +46,11 @@
         Unassigned Submissions
       %p
         = "Drag the unassigned submissions below to the box under the desired reviewer on the left. Each submission should be assessed by  #{@project.max_assigned_reviewers_per_proposal} reviewers"
+      %p
+        %span.submission_incomplete
+          i 
+        %span
+          = "= incomplete submission"
 
   .row
     .col-xs-7
@@ -55,7 +60,12 @@
         .unassigned_submission_list
           - @unfilled_submissions.each do |item|
             .row.unassigned_submission{id: "submission_#{item.id}"}
-              = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 30)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
+              %span 
+                = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 30)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
+              - unless item.is_complete?
+                %span.submission_incomplete            
+                  i
+
 
 :javascript
   jQuery('.unassigned_submission').draggable({ 
