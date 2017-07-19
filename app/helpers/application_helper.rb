@@ -95,7 +95,7 @@ module ApplicationHelper
   end
 
   def project_set?
-    defined?(@@project) && ! @@project.blank? && ! @@project.id.blank?
+    defined?(@@project) && ! @@project.blank? && ! @@project.id.blank? && Project.exists?(@@project.id)
   end
 
   def handle_set_project

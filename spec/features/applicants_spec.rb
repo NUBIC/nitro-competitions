@@ -16,20 +16,17 @@ describe 'Applying for a competitions', type: :feature do
     end
 
     context 'with a logged in applicant' do 
-
-      before :each do 
+      it 'should allow the applicant to apply' do 
         login
         visit '/projects'
-      end
-
-      it 'should allow the applicant to apply' do 
         last_project = Project.last
         user = User.last
-
         expect(page).to have_content 'Apply'
 
         click_link 'Apply'
         expect(current_path).to eq("/projects/#{last_project.id}/applicants/new")
+
+        page.execute_script "window.scrollBy(0, 1181)"
 
         click_button 'Continue'
         expect(current_path).to eq("/projects/#{last_project.id}/applicants/#{user.id}/submissions/new")
@@ -46,10 +43,10 @@ describe 'Applying for a competitions', type: :feature do
         #  If you don't care about overlapping elements, try using node.trigger('click')."
         ###
         # previous:
-        # click_button 'Continue'
+        click_button 'Continue'
         # expect(current_path).to eq("/projects/#{last_project.id}/applicants/#{user.id}/submissions")
         # current:
-        find('#continue').trigger('click')
+        # find('#continue').trigger('click')
 
         expect(page).to have_content 'Application Process - Step 3 (last step!)'
         attach_file 'submission_uploaded_application', "#{Rails.root}/spec/support/test_upload_document.txt"
