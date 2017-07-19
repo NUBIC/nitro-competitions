@@ -13,12 +13,12 @@ require 'devise'
 
 # For front-end testing with phantomjs and poltergeist
 require 'capybara/rspec'
-require 'capybara/poltergeist'
+# require 'capybara/poltergeist'
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: true, inspector: true)
-end
-Capybara.javascript_driver = :poltergeist
+# Capybara.register_driver :poltergeist do |app|
+#   Capybara::Poltergeist::Driver.new(app, js_errors: true, inspector: true)
+# end
+# Capybara.javascript_driver = :poltergeist
 
 require 'shoulda'
 require 'factory_girl'
@@ -82,3 +82,9 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
   config.extend ControllerMacros, :type => :controller
 end
+
+Capybara.register_driver :chrome do |app|
+      Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+Capybara.javascript_driver = :chrome
