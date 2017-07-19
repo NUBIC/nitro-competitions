@@ -53,11 +53,14 @@ gem 'highline'
 
 gem 'whenever', require: false
 
+group :development, :test do
+  gem 'pry'
+end
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'pry'
 end
 
 group :assets do
@@ -74,10 +77,11 @@ gem 'mime-types', '~> 2.6'
 group :test do
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'poltergeist'
+  # gem 'poltergeist'
   gem 'database_cleaner'
   gem 'shoulda'
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
+  gem 'selenium-webdriver'
 end
