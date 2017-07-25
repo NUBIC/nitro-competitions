@@ -355,6 +355,10 @@ class Project < ActiveRecord::Base
     NucatsAssist.root_url + project_path(self)
   end
 
+  def competition_url
+    NucatsAssist.root_url + show_competition_path(self.program.program_name, self.project_name)
+  end
+
   def set_defaults
     self.rfa_url ||= NucatsAssist.root_url + project_path(self)
   end
