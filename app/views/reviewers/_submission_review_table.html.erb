@@ -85,8 +85,7 @@
         <%= link_to(h(program.program_title), sponsor_path(program), target: '_blank') %>
       </td>
       <td>
-        <%= link_to(h(project.project_title),
-                    show_competition_url(project.program.program_name, project.project_name),
+        <%= link_to(h(project.project_title), project.competition_url,
                     { title: "Click here to view the competition #{project.project_title}",
                       target: '_blank' } ) %>
 
