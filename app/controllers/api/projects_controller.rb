@@ -9,7 +9,9 @@ class Api::ProjectsController < ApplicationController
         begin 
           projects = Project.open
           render json: projects.as_json(
-          only: [:project_title, :submission_close_date, :project_url],
+
+          only: [:project_title, :submission_close_date, :membership_required],
+          methods: :competition_url,
           include: { program: {only: [:program_name, :program_title] } }) 
         rescue => e
           render json: { errors: e.message}, status: :unprocessable_entity 
