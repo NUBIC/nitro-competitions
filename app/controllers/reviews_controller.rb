@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-##
 # Controller for SubmissionReviews to be evaluated by Reviewers
 class ReviewsController < ApplicationController
 

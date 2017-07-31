@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # TODO: This controller is deprecated.
 class AuditsController < ApplicationController
 

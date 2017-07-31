@@ -1,13 +1,4 @@
-# == Schema Information
-#
-# Table name: roles
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-
+# -*- coding: utf-8 -*-
 class RolesController < ApplicationController
 
 # I have modified the routes in a non-standard way

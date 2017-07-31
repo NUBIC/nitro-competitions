@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # # https://robots.thoughtbot.com/better-serialization-less-as-json
 # # See above article for possible future changes. 
 class Api::ProjectsController < ApplicationController

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class ApproversController < ApplicationController
   before_filter  :set_project
 

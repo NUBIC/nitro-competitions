@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class SponsorsController < ApplicationController
 
   #sponsor is really a program in the database
