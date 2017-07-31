@@ -1,20 +1,4 @@
 # -*- coding: utf-8 -*-
-# == Schema Information
-#
-# Table name: key_personnel
-#
-#  id            :integer          not null, primary key
-#  submission_id :integer
-#  user_id       :integer
-#  role          :string(255)
-#  username      :string(255)
-#  first_name    :string(255)
-#  last_name     :string(255)
-#  email         :string(255)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#
-
 
 module KeyPersonnelHelper
 
