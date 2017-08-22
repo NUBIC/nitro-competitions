@@ -20,7 +20,7 @@
             %ul.dropdown-menu{role: 'menu'}
               - if @project && !@project.project_name.blank?
                 %li
-                  =link_to "View Current Competition: #{@project.project_title}", @project.competition_url
+                  =link_to "View Current Competition: #{@project.project_title}", show_competition_url(@project.program.program_name, @project.project_name)
               %li
                 =link_to "All Sponsors", sponsors_path
               %li
