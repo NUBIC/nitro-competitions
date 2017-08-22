@@ -191,7 +191,7 @@ class Project < ActiveRecord::Base
     NucatsAssist.root_url + project_path(self)
   end
 
-  def competition_url
+  def full_competition_url
     NucatsAssist.root_url + show_competition_path(self.program.program_name, self.project_name)
   end
 
