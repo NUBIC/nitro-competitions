@@ -24,7 +24,7 @@ set :output, {:error => 'log/cron_error.log', :standard => 'log/cron.log'}
 
 case environment
   # whenever --update-crontab --set environment=development
-  # when 'development'
+  when 'development'
   #   every 2.minutes do
   #     rake "reports:monthly_report"
   #     puts "Running monthly report."
@@ -46,5 +46,10 @@ case environment
     every 1.month, :at => "start of the month at 5:00am" do
       rake "reports:monthly_report"
       puts "Running monthly report."
+    end
+
+    every 3.month :at => "start of the month at 5:30am" do
+      rake "reports:quarterly_report"
+      puts "Running quarterly report."
     end
 end

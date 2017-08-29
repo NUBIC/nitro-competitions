@@ -19,4 +19,12 @@ class GeneralMailer < ActionMailer::Base
       subject: "NITRO Competitions Monthly Report for #{Date.today}",
       to: Rails.configuration.nucats_assist_config[:reports][:recipients] })
   end
+
+  def quarterly_report_message(report)
+    attachments["competitions_quarterly_report_#{Date.today}.csv"] = File.read(report)
+    mail({
+      subject: "NITRO Competitions Quarterly Report for #{Date.today}",
+      to: Rails.configuration.nucats_assist_config[:reports][:recipients] })
+  end
+
 end

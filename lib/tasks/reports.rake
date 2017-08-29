@@ -89,6 +89,13 @@ namespace :reports do
     GeneralMailer.monthly_report_message(file_names).deliver
   end
 
+  task :quarterly_report => :environment do
+    competitions = Project.includes(:program).all
+    file_name = generate_projects_with_submissions_csv(competitions)
+    GeneralMailer.quarterly_report_message(file_name).deliver
+  end
+
+
 
   def csv_export(competitions)
     puts "#{competitions.length} competitions to process."
