@@ -6,7 +6,15 @@
   NITRO Competitions provides a place for investigators, reviewers and administrators to apply for or run competitions including pilot projects and research awards.
 </h5>
 
-<%= render 'shared/project_selection_list',
-           programs: @programs,
-           show_project_link: false,
-           show_action_links: false %>
+<% if @projects.present? %>
+  <%= render 'shared/project_selection_list',
+             programs: @programs,
+             show_project_link: false,
+             show_action_links: false %>
+
+
+<% else %>
+  <p class='indented'>
+    There are currently no competitions accepting submissions.
+  </p>
+<% end %>

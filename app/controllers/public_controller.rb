@@ -18,7 +18,8 @@ class PublicController < ApplicationController
     if current_user
       redirect_to '/public/home'
     else
-      @projects = Project.open.flatten.uniq
+      @projects = Project.open.flatten.uniq.select { |p| p.visible == true }
+
       @programs = {}
       @projects.each do |pr|
         @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
