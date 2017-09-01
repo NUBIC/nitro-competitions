@@ -48,7 +48,9 @@ case environment
       puts "Running monthly report."
     end
 
-    every 3.month :at => "start of the month at 5:30am" do
+    # Used cron syntax to create a quarterly report. This should run at 
+    # 5:30 on the first of every March, June, September, and December
+    every '30 5 1 3,6,9,12 *' do
       rake "reports:quarterly_report"
       puts "Running quarterly report."
     end
