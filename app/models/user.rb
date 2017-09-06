@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   validates_presence_of :era_commons_name, :if => :validate_era_commons
   validates_presence_of :email, :if => :validate_email
 
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, :case_sensitive => false
   validates_uniqueness_of :era_commons_name, :if => :validate_era_commons
   validates_uniqueness_of :email, :if => :validate_email_attr
   validates_format_of :email,

@@ -2,6 +2,7 @@
 class UsersController < ApplicationController
   before_action :set_user, except: [:index, :new, :create, :login]
   before_action :set_project, only: [:new, :create]
+  before_save :downcase_username, only: [:new, :create, :login]
 
   def login
     url = params[:url].blank? ? root_url : params[:url]
@@ -97,6 +98,10 @@ class UsersController < ApplicationController
 
     def set_project
       @project = current_project
+    end
+
+    def downcase_username
+      self.username.downcase!
     end
 
     def user_params
