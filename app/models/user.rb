@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   end
 
   # Callbacks
+  before_save :downcase_username
   after_save :save_documents
 
   # Validations
@@ -115,6 +116,10 @@ class User < ActiveRecord::Base
       end
     end
     self.biosketch.uploaded_file = field
+  end
+
+  def downcase_username
+    self.username.downcase!
   end
 
   def save_documents
