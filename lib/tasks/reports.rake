@@ -76,6 +76,10 @@ namespace :reports do
   #   GeneralMailer.monthly_report_message(file_name).deliver
   # end
 
+  task :reviewer_list => :environment do
+    reviewers = Reviewer.includes(:user).all
+    file_name = generate_reviewers_csv(reviewers)
+  end
 
 
   task :monthly_report => :environment do
@@ -210,5 +214,19 @@ namespace :reports do
     end
     return file_name
   end
+
+  def generate_reviewers_csv(reviewers, extension = '')
+    cols = ["program_id", "user_id", "created_id", "created_ip", "updated_ip", "deleted_at", "deleted_id", "deleted_ip", "created_at", "updated_at"]
+    file_name = "#{Rails.root}/tmp/reviewers_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
+    puts "Writing reviewers file to " + file_name
+    CSV.open(file_name, "w") do |csv|
+      csv <<  ["reviewer_id"] + cols + ["user.last_name",  "user.first_name",  "user.username",  "user.email"]
+      reviewers.each do |reviewer|
+        user = reviewer.user
+        csv << [reviewer.id] + cols.map{|r| reviewer[r]} + [user.last_name, user.first_name, user.username, user.email]
+        STDOUT.flush
+      end
+     end
+   end
 
 end
