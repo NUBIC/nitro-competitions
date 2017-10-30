@@ -331,11 +331,10 @@
       <br />
       Will this project require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
       <br />
-      <% if project.show_use_nmh %><br /><%= f.check_box :use_nmh %> NMH &nbsp; &nbsp; <% end %>
-      <% if project.show_use_nmff %><br /><%= f.check_box :use_nmff %> NMFF &nbsp; &nbsp; <% end %>
-      <% if project.show_use_va %><br /><%= f.check_box :use_va %> VA &nbsp; &nbsp; <% end %>
-      <% if project.show_use_ric %><br /><%= f.check_box :use_ric %> RIC &nbsp; &nbsp; <% end %>
-      <% if project.show_use_cmh %><br /><%= f.check_box :use_cmh %> CMH &nbsp; &nbsp; <% end %>
+      <% if project.show_use_nmh %><br /><%= f.check_box :use_nmh %> Northwestern Memorial Health Care &nbsp; &nbsp; <% end %>
+      <% if project.show_use_va %><br /><%= f.check_box :use_va %> Jesse Brown VA Medical Center &nbsp; &nbsp; <% end %>
+      <% if project.show_use_ric %><br /><%= f.check_box :use_ric %> Shirley Ryan AbilityLab &nbsp; &nbsp; <% end %>
+      <% if project.show_use_cmh %><br /><%= f.check_box :use_cmh %> Anne & Robert H. Lurie Children's Hospital of Chicago &nbsp; &nbsp; <% end %>
       <br />
       <br />
     </td>
