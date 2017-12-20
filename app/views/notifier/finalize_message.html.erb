@@ -4,7 +4,7 @@
   competition.
   Your submission is currently
   <% if @submission.is_complete? %>
-    complete. Congratulations!
+    complete. Congratulations! </p> <%= @status_notes.html_safe %>
   <% else %>
     incomplete. Please note these issues: </p> <%= @status_notes.html_safe %>
     <p>
