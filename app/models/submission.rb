@@ -170,13 +170,13 @@ class Submission < ActiveRecord::Base
     out << 'Abstract needs to be completed. Complete in title page. ' if project.show_abstract_field && abstract.blank?
     out << 'Manage Other Support document needs to be uploaded. ' if project.show_manage_other_support && other_support_document_id.blank?
     out << "#{project.document1_name} document needs to be uploaded. " if project.show_document1 && project.document1_required && document1_id.blank?
-    out << "#{project.document1_name} document is missing but not required. " if project.show_document1 && document1_id.blank?
+    out << "#{project.document1_name} document is absent but not required. " if project.show_document1 && document1_id.blank?
     out << "#{project.document2_name} document needs to be uploaded. " if project.show_document2 && project.document2_required && document2_id.blank?
-    out << "#{project.document2_name} document is missing but not required. " if project.show_document2 && document2_id.blank?
+    out << "#{project.document2_name} document is absent but not required. " if project.show_document2 && document2_id.blank?
     out << "#{project.document3_name} document needs to be uploaded. " if project.show_document3 && project.document3_required && document3_id.blank?
-    out << "#{project.document3_name} document is missing but not required. " if project.show_document3 && document3_id.blank?
+    out << "#{project.document3_name} document is absent but not required. " if project.show_document3 && document3_id.blank?
     out << "#{project.document4_name} document needs to be uploaded. " if project.show_document4 && project.document4_required && document4_id.blank?
-    out << "#{project.document4_name} document is missing but not required. " if project.show_document4 && document4_id.blank?
+    out << "#{project.document4_name} document is absent but not required. " if project.show_document4 && document4_id.blank?
     out << 'Budget document needs to be uploaded. ' if project.show_budget_form && budget_document_id.blank?
     out << 'PI biosketch needs to be uploaded. ' if project.show_manage_biosketches && applicant_biosketch_document_id.blank?
     out << 'Application document needs to be uploaded. ' if project.show_application_doc && application_document_id.blank?
