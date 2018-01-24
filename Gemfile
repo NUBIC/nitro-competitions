@@ -24,7 +24,7 @@ gem 'rails', '~> 4.2.5'
 gem 'activerecord-session_store'
 gem 'actionpack-action_caching'
 
-gem 'pg'
+gem 'pg', '0.21.0'
 gem 'haml'
 gem 'fastercsv'
 
