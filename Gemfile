@@ -44,10 +44,6 @@ gem 'faraday'
 
 gem 'lograge'
 
-# Search support gem
-# https://github.com/nathanl/searchlight
-gem 'searchlight'
-
 # for rake task input
 gem 'highline'
 

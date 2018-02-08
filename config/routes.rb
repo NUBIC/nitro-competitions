@@ -74,7 +74,6 @@ NucatsAssist::Application.routes.draw do
         get :view_sponsor_applicants
         get :reviewers
         get :submissions
-        get :submission_search
         post :add_reviewers
         post :unassign_submission
         get :act_as_user

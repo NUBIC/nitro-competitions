@@ -2,10 +2,6 @@
 
 module ProjectsHelper
 
-  def projects_collection
-    @projects_collection ||= Project.all.map { |proj| [proj.project_title, proj.id] }
-  end
-
   def project_status
     return if current_projects.nil?
     s = ''

@@ -121,20 +121,6 @@ class AdminsController < ApplicationController
     end
   end
 
-  def submission_search
-    @search = SubmissionSearch.new(submission_search_params)
-    @submissions = @search.results
-    respond_to do |format|
-      format.html
-      format.js {render inline: "location.reload();" }
-    end
-  end
-
-  def submission_search_params
-    @search_params ||= params.delete(:submission_search) || {}
-  end
-  protected :submission_search_params
-
   def reviews
     @sponsor = @project.program
     if has_read_all?(@sponsor)
