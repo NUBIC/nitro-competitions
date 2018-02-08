@@ -1,4 +1,4 @@
-<%= form_for @search, url: submission_search_project_admins_path(@project), remote: remote_opt, method: :get do |f| %>
+<%= form_for @search, url: submission_search_project_admins_path(@project), method: :get do |f| %>
   <fieldset>
     <%= f.label :submission_status %>
     <%= f.select :submission_status, Submission::STATUSES, include_blank: true %>

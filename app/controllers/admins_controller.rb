@@ -126,7 +126,7 @@ class AdminsController < ApplicationController
     @submissions = @search.results
     respond_to do |format|
       format.html
-      format.js
+      format.js {render inline: "location.reload();" }
     end
   end
 
