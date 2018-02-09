@@ -88,3 +88,12 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.javascript_driver = :chrome
+
+# Methods for scrolling
+def scroll_to_bottom_of_the_page
+  page.execute_script "window.scrollBy(0,10000)"
+end
+
+def scroll_to_half_of_the_page
+  page.execute_script "window.scrollBy(0,2000)"
+end
