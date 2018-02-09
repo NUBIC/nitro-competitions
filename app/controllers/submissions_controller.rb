@@ -127,6 +127,7 @@ class SubmissionsController < ApplicationController
     params.require(:submission).permit(
       :submission_status, 
       :submission_title, 
+      :submission_category,
       :core_manager_username, 
       :abstract, 
       :is_human_subjects_research,
