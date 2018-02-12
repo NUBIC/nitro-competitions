@@ -73,29 +73,29 @@ module ApplicationHelper
 
   def set_current_project(project)
     session[:project_id] = project.id if defined?(session) && !session.nil?
-    @@project = project
+    @project = project
   end
 
   def set_session_project(project_id)
     session[:project_id] = project_id if session_exists?
-    if project_set? && ! project_id.blank? && project_id != @@project.id
-      @@project = Project.find(project_id)
+    if project_set? && ! project_id.blank? && project_id != @project.id
+      @project = Project.find(project_id)
     end
-    if (!defined?(@@project) || @@project.id.blank?)
-      @@project = Project.find(project_id) unless project_id.blank?
+    if (!defined?(@project) || @project.id.blank?)
+      @project = Project.find(project_id) unless project_id.blank?
     end
     current_project
   end
 
   def current_project
-    return @@project if project_set?
+    return @project if project_set?
 
-    @@project = handle_set_project
-    @@project
+    @project = handle_set_project
+    @project
   end
 
   def project_set?
-    defined?(@@project) && ! @@project.blank? && ! @@project.id.blank? && Project.exists?(@@project.id)
+    defined?(@project) && ! @project.blank? && ! @project.id.blank? && Project.exists?(@project.id)
   end
 
   def handle_set_project
@@ -122,15 +122,15 @@ module ApplicationHelper
   end
 
   ##
-  # Here we check the session for the user who is placed into the @current_user_session variable 
+  # Here we check the session for the user who is placed into the @current_user_session variable
   # if a User record is found by the username in the session.
   #
-  # There is a whole lot of checking the database via User.find_by_username(current_user.username) 
+  # There is a whole lot of checking the database via User.find_by_username(current_user.username)
   # and checking of session attributes. This is followed by a number of create user and set session calls.
   #
-  # The method to set this variable (set_session_attributes) is called at the end of this method 
+  # The method to set this variable (set_session_attributes) is called at the end of this method
   # if the current_user was not put into the session previously.
-  # 
+  #
   # @see ApplicationController#current_user_session
   # @see ApplicationController#set_current_user_session
   # @see make_user
@@ -150,11 +150,11 @@ module ApplicationHelper
     if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
       user = User.find_by_username(current_user.username)
       if user.blank? || user.name.blank?
-        # 
+        #
         # The current_user has logged in successfully but there is no user with that unique username in the users table
         # so here we make a new user with that username
         # and then call this method again
-        # 
+        #
         if make_user(current_user.username)
           flash[:notice] = 'User account was successfully created.'
           logger.error("check_session. current_user: #{current_user.username} was created")
@@ -290,7 +290,7 @@ module ApplicationHelper
       # or if we can locate applicant in the database
       applicant_in_db = find_user_in_db(applicant.username, applicant.email)
       return applicant_in_db unless applicant_in_db.blank? || applicant_in_db.id.blank?
-      # get data for user from LDAP 
+      # get data for user from LDAP
       pi_data = GetLDAPentry(applicant.username) if do_ldap?
       if pi_data.nil?
         logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
@@ -319,7 +319,7 @@ module ApplicationHelper
   def find_user_in_db(username, email)
     user = User.where(username: username).first
     user = User.where(email: email).first if user.blank? && !email.blank?
-    user    
+    user
   end
 
   def make_user(username, email = nil)
