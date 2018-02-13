@@ -15,8 +15,6 @@
           %a{href: "mailto:#{@sponsor.email}?subject=[NITRO Competitions] Contact Question"}>#{@sponsor.program_title}
     - else
       %p
-        &copy; #{Date.current.year}
-        = precede ' ' do
-          %a{href: NucatsAssist.nubic_url}>Northwestern Center Data Science & Informatics
+        %a{href: NucatsAssist.nubic_url}>Northwestern Center Data Science & Informatics
   .version
     = "v. #{NucatsAssist::VERSION}"
