@@ -1,12 +1,17 @@
 .footer
-  - if !current_project.nil? && !current_project.program.email.blank?
-    .help 
+  - if current_page? controller: 'projects', action: 'show'
+    .help
       For assistance with current competition,
       %b
         %i
-          = link_to(current_project.project_title, show_competition_url(current_project.program.program_name, current_project.project_name)) + "," 
+          = link_to(current_project.project_title, show_competition_url(current_project.program.program_name, current_project.project_name)) + ","
           e-mail
       %a{href: "mailto:#{current_project.program.email}?subject=[NITRO Competitions] Assistance with #{current_project.project_title}"}
         = current_project.program.email + "."
+  - else
+    .help
+      %p
+        &copy; #{Date.current.year}&nbsp;
+        %a{href: 'http://www.nucats.northwestern.edu/about/centers-and-programs/center-for-data-science-and-informatics.html'}>Northwestern Center Data Science & Informatics
   .version
     = "v. #{NucatsAssist::VERSION}"
