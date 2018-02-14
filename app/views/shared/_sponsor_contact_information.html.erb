@@ -1,0 +1,3 @@
+For assistance with this competition <strong><em>
+  <%= link_to(current_project.project_title, show_competition_url(current_project.program.program_name, current_project.project_name))%>, </em></strong> contact
+  <%= mail_to current_project.program.email, current_project.program.email, subject: "[#{NucatsAssist::plain_app_name}] - Assistance with #{current_project.project_title}" %>.

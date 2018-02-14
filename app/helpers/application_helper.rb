@@ -400,4 +400,10 @@ module ApplicationHelper
     content_tag('div', attributes, &block)
   end
 
+  def footer_contact
+    Rails.logger.debug "RAILS DEBUGGER footer_contact - controller = #{controller_name}"
+    Rails.logger.debug "RAILS DEBUGGER footer_contact - action     = #{action_name}"
+    return render 'shared/sponsor_contact_information' if (controller_name == 'projects' && action_name != 'index') || controller_name == 'submissions' && action_name != 'all'
+  end
+
 end
