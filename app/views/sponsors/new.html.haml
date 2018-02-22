@@ -1,10 +1,10 @@
-= provide(:title_tag, 'Create a New Sponsor')
+- provide(:title_tag, 'Create a New Sponsor')
 
 %h1= yield :title_tag
 
 %h2=@sponsor.program_title
 
 = form_for(@sponsor, url: '/sponsors', method: :post) do |f|
-  =render('shared/error_messages', object: f.object) if f.object && !f.object.try(:errors).blank?
+  = render('shared/error_messages', object: f.object) if f.object && !f.object.try(:errors).blank?
 
   = render('/sponsors/form_fields', f: f)
