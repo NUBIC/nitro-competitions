@@ -1,4 +1,4 @@
-
+<%= provide(:title_tag, "Submission Reviews for #{@project.project_title}") %>
 <%= render(:partial => 'reviews', :locals=>{:submissions=>@submissions, :project=>@project}) %>
 
 <br />

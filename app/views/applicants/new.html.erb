@@ -1,3 +1,4 @@
+<% provide(:title_tag, "Application Process - Step 1, #{@project.project_title} ") %>
 <% if !@project.visible && ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
   <header class='unpublished' role='banner'>
     This competition is unpublished.
@@ -10,7 +11,7 @@
 
 <% if @project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
   <span class='instructions'>
-    You will only need to complete this page once 
+    You will only need to complete this page once
     <br />
     but you can edit it at any time
   </span>
@@ -34,7 +35,7 @@
           <%= text_field_tag :username, @applicant.username %>
           <%= link_to_function(image_tag("arrow_refresh.png",
                                style: "margin-left:10px; margin-bottom:-10px; margin-top:-5px;",
-                               title: "click here to reload this page with a new #{NucatsAssist.institute_id_name}"), 
+                               title: "click here to reload this page with a new #{NucatsAssist.institute_id_name}"),
                                "jQuery('#username_form').submit()") -%>
           <%# FIXME: Why does this only work for NU personnel? %>
           Username <%= netid_lookup_tag %> for the Principal Investigator
@@ -63,8 +64,8 @@
       No email on record.
     <% else %>
       <%= mail_to(@project.program.email, @project.program.email,
-                  :subject => "NITRO Competitions-#{@project.project_title} is unpublished", 
+                  :subject => "NITRO Competitions-#{@project.project_title} is unpublished",
                   :title => "Send email to #{@project.program.program_title}") %>
-    <% end %> 
+    <% end %>
   </h4>
 <% end %>

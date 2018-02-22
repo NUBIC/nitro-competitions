@@ -1,3 +1,4 @@
+= provide(:title_tag, "Define Reviewers for #{@project.project_title}")
 :css
   .hover {
     background-color: #888888;
@@ -20,8 +21,8 @@
 
 .container-fluid
   .row
-    .col-xs-7   
-      %h3 
+    .col-xs-7
+      %h3
         Add Reviewers
       %section
         Username/NetID:
@@ -34,21 +35,21 @@
             Reviewer doesn't have a NetID?
             = link_to 'Search for an account.', user_lookup_project_admins_path
             #{username_lookup_tag}
-            
+
   .row
     .col-xs-7
-      %h3 
+      %h3
         Reviewers and Submissions
       %p
         = "To remove an assignment, drag the submission from the reviewer's box back to the unassigned submissions box on the right. Each reviewer may assess up to #{@project.max_assigned_proposals_per_reviewer} submissions."
     .col-xs-5
-      %h3 
+      %h3
         Unassigned Submissions
       %p
         = "Drag the unassigned submissions below to the box under the desired reviewer on the left. Each submission should be assessed by  #{@project.max_assigned_reviewers_per_proposal} reviewers"
       %p
         %span.submission_incomplete
-          i 
+          i
         %span
           = "= incomplete submission"
 
@@ -60,16 +61,16 @@
         .unassigned_submission_list
           - @unfilled_submissions.each do |item|
             .row.unassigned_submission{id: "submission_#{item.id}"}
-              %span 
+              %span
                 = "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 30)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})"
               - unless item.is_complete?
-                %span.submission_incomplete            
+                %span.submission_incomplete
                   i
 
 
 :javascript
-  jQuery('.unassigned_submission').draggable({ 
-    revert: "invalid" 
+  jQuery('.unassigned_submission').draggable({
+    revert: "invalid"
   });
   jQuery('.unassigned_submission_list').droppable({
     hoverClass: 'hover',

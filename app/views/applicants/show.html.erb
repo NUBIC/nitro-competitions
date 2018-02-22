@@ -1,3 +1,4 @@
+<% provide(:title_tag, is_current_user?(@applicant.id) ? 'Your Profile' : "#{@applicant.name} Profile") %>
 <p>
   <b>Username:</b>
   <%=h @applicant.username %>
