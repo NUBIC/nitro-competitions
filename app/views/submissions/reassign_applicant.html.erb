@@ -1,3 +1,4 @@
+<% provide(:title_tag, 'Application Process - Select PI, #{@project.project_title}') %>
 <div id="reassign_applicant">
   <%= form_for :submission, url: reassign_applicant_submission_path(@submission), html: { method: :post, class: "p" } do |form| %>
     <p>

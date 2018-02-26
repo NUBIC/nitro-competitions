@@ -1,4 +1,6 @@
-%h1=@sponsor.program_title
+- provide(:title_tag, "Edit #{@sponsor.program_name}")
+
+%h1="Edit #{@sponsor.program_title}"
 
 =form_for(@sponsor, url: sponsor_path(@sponsor)) do |f|
   =render('shared/error_messages', object: f.object) if f.object && !f.object.try(:errors).blank?

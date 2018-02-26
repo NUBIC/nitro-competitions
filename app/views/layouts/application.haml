@@ -1,10 +1,15 @@
+- base_title = 'NITRO Competitions'
+- page_title_tag = yield(:title_tag)
 <!DOCTYPE html>
 %html
   %head
     %meta{:'http-equiv'=>'X-UA-Compatible', :content=>'IE=edge'}
     = csrf_meta_tag
-    %title 
-      NITRO Competitions
+    %title
+      - unless page_title_tag.empty?
+        = "#{page_title_tag} | #{base_title}"
+      - else
+        = "#{base_title}"
     = javascript_include_tag 'application'
     = stylesheet_link_tag 'application', media: 'screen, projection'
     = stylesheet_link_tag 'application-print', media: 'print'
