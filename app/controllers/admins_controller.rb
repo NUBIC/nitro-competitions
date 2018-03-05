@@ -2,7 +2,7 @@
 class AdminsController < ApplicationController
 
   include AdminsHelper
-  before_filter  :set_project
+  before_action  :set_project
 
   # all admin methods have a :sponsor_id set
 

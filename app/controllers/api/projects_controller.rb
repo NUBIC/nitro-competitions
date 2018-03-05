@@ -2,7 +2,7 @@
 # # https://robots.thoughtbot.com/better-serialization-less-as-json
 # # See above article for possible future changes. 
 class Api::ProjectsController < ApplicationController
-  skip_before_filter :authenticate_user!
+  skip_before_action :authenticate_user!
 
   def index 
     respond_to do |format|

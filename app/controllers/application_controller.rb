@@ -14,12 +14,12 @@ class ApplicationController < ActionController::Base
   require 'ldap_utilities' # specific ldap methods
   require 'config' # adds program_name method
 
-  after_filter :log_request, except: [:login, :sign_in, :username_lookup, :lookup, :welcome, :update_item,
+  after_action :log_request, except: [:login, :sign_in, :username_lookup, :lookup, :welcome, :update_item,
                                       :add_user, :remove_user, :add_key_personnel, :remove_key_personnel,
                                       :personnel_data, :applicant_data, :application_data, :key_personnel_data, :submission_data,
                                       :reviewer_data, :review_data, :login_data]
 
-  before_filter :authenticate_user!, except: [:welcome] unless Rails.env == 'test'
+  before_action :authenticate_user!, except: [:welcome] unless Rails.env == 'test'
 
   # for lograge 
   # cf. http://ionrails.com/2013/03/26/how-to-add-the-request-parameters-along-with-full-url-request-in-lograge-outputted-files/
@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
   end
   private :set_current_user_session
 
-  # before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
+  # before_action :ensure_signup_complete, only: [:new, :create, :update, :destroy]
   def ensure_signup_complete
     # Ensure we don't go into an infinite loop
     return if action_name == 'finish_signup'
