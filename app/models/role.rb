@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
 
   ADMIN     = 'Admin'
   READ_ONLY = 'Full Read-only Access'
