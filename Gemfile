@@ -71,6 +71,7 @@ gem 'exception_notification'
 gem 'mime-types', '~> 2.6'
 
 group :test do
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'capybara'
   # gem 'poltergeist'
