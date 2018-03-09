@@ -4,7 +4,7 @@ class CompetitionsController < ApplicationController
   include RolesHelper
 
   def open
-    @projects = Project.open.flatten.uniq.select { |p| p.visible == true }
+    @projects = Project.open.uniq.flatten.select { |p| p.visible == true }
     @programs = {}
     @projects.each do |pr|
       @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
