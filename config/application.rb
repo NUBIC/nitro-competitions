@@ -67,7 +67,6 @@ module NucatsAssist
 
     # The line below was removed when updating to Rails 5.1.5
     # config.active_record.raise_in_transactional_callbacks = true
-    ActiveSupport.halt_callback_chains_on_return_false = false
     config.action_controller.forgery_protection_origin_check = true
     # config.action_mailer.perform_caching = true
     ActiveSupport.to_time_preserves_timezone = true
