@@ -1,5 +1,6 @@
+<% provide(:title_tag, 'Open Competitions') %>
 <h2 class='bottom_border'>
-  Open Competitions
+  <%= yield :title_tag %>
 </h2>
 
 <% if @projects.present? %>

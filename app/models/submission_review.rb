@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class SubmissionReview < ActiveRecord::Base
+class SubmissionReview < ApplicationRecord
   belongs_to :submission, :counter_cache => true
   has_one :applicant,  :class_name => 'User', :through => :submission, :source => :applicant # doesn't seem to work
   has_one :project, :through => :submission # doesn't seem to work

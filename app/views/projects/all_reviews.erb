@@ -1,3 +1,4 @@
+<% provide(:title_tag, "All Reviews for #{@project.project_title}") %>
 <% @project.submissions.each do |submission| %>
   <%= render('reviews/index', reviews: submission.submission_reviews, submission: submission) %>
   <p style="page-break-before: always">

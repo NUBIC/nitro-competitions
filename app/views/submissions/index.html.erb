@@ -1,3 +1,4 @@
+<% provide(:title_tag, (@title.nil?) ? 'Submissions' : @title) %>
 <% unless @project.blank? %>
   <% include_sponsor_and_competition = 0 %>
 <% end %>
@@ -5,7 +6,7 @@
 <% if @submissions.empty? %>
 
   <h3>
-    You do not have any submissions. Please visit the 
+    You do not have any submissions. Please visit the
     <%= link_to 'Competitions', '/projects' %>
     list for opportunities.
   </h3>

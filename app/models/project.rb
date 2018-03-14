@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   include Rails.application.routes.url_helpers
   
   belongs_to :program

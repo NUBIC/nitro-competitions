@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class RolesUser < ActiveRecord::Base
+class RolesUser < ApplicationRecord
   belongs_to :program
   belongs_to :user
   belongs_to :role

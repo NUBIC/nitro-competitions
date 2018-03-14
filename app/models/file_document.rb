@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class FileDocument < ActiveRecord::Base
+class FileDocument < ApplicationRecord
   # Associations
   has_attached_file :file, :path => ":rails_root/public/system/:attachment/:id/:basename.:extension"
 

@@ -2,8 +2,8 @@
 # Controller for SubmissionReviews to be evaluated by Reviewers
 class ReviewsController < ApplicationController
 
-  before_filter :set_project
-  skip_before_filter :verify_authenticity_token
+  before_action :set_project
+  skip_before_action :verify_authenticity_token
 
   # GET /submission/:submission_id/reviews
   # GET /submission/:submission_id/reviews.xml

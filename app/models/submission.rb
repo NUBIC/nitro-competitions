@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class Submission < ActiveRecord::Base
+class Submission < ApplicationRecord
   belongs_to :project
   belongs_to :applicant,                :class_name => 'User', :foreign_key => 'applicant_id'
   belongs_to :submitter,                :class_name => 'User', :foreign_key => 'created_id'

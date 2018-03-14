@@ -9,11 +9,11 @@ describe RolesController, :type => :controller do
       context 'for a non admin' do
         let(:program) { FactoryGirl.create(:program) }
         it 'redirects to the sponsor_path' do
-          get :index, :sponsor_id => program.id
+          process :index, method: :get, params: { sponsor_id: program }
           expect(response).to redirect_to(sponsor_path(program))
         end
         it 'assigns variables' do
-          get :index, :sponsor_id => program.id
+          process :index, method: :get, params: { sponsor_id: program }
           expect(assigns[:sponsor]).not_to be_nil
           expect(assigns[:roles]).to be_nil
         end
@@ -25,11 +25,11 @@ describe RolesController, :type => :controller do
         let(:program) { FactoryGirl.create(:program) }
         let(:role) { FactoryGirl.create(:role) }
         it 'redirects to the sponsor_path' do
-          get :show, :sponsor_id => program.id, :role_id => role.id
+          process :show, method: :get, params: { sponsor_id: program, role_id: role }
           expect(response).to redirect_to(sponsor_path(program))
         end
         it 'assigns variables' do
-          get :show, :sponsor_id => program.id, :role_id => role.id
+          process :show, method: :get, params: { sponsor_id: program, role_id: role }
           expect(assigns[:sponsor]).not_to be_nil
           expect(assigns[:role]).to be_nil
         end
@@ -41,11 +41,11 @@ describe RolesController, :type => :controller do
         let(:program) { FactoryGirl.create(:program) }
         let(:role) { FactoryGirl.create(:role) }
         it 'redirects to the sponsor_path' do
-          get :add, :sponsor_id => program.id, :role_id => role.id
+          process :add, method: :get, params: { sponsor_id: program, role_id: role }
           expect(response).to redirect_to(sponsor_path(program))
         end
         it 'assigns variables' do
-          get :add, :sponsor_id => program.id, :role_id => role.id
+          process :add, method: :get, params: { sponsor_id: program, role_id: role }
           expect(assigns[:sponsor]).not_to be_nil
           expect(assigns[:role]).not_to be_nil
         end
@@ -58,11 +58,11 @@ describe RolesController, :type => :controller do
         let(:roles_user) { FactoryGirl.create(:roles_user) }
         let(:role) { roles_user.role }
         it 'redirects to the sponsor_role_path' do
-          delete :remove, :id => roles_user.id, :sponsor_id => program.id, :role_id => role.id
+          process :remove, method: :delete, params: { id: roles_user, sponsor_id: program, role_id: role }
           expect(response).to redirect_to(sponsor_role_path(program, role))
         end
         it 'assigns variables' do
-          delete :remove, :id => roles_user.id, :sponsor_id => program.id, :role_id => role.id
+          process :remove, method: :delete, params: { id: roles_user, sponsor_id: program, role_id: role }
           expect(assigns[:sponsor]).not_to be_nil
           expect(assigns[:roles_user]).not_to be_nil
 
