@@ -18,11 +18,12 @@ class SubmissionReview < ActiveRecord::Base
   validates_numericality_of :environment_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :other_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :budget_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
+  validates_numericality_of :completion_score, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   validates_numericality_of :overall_score, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
 
   def composite_score
     return 0 if unscored?
-    (((z(innovation_score) + z(impact_score) + z(scope_score) + z(team_score) + z(environment_score) + z(budget_score) + z(other_score)).to_f / count_nonzeros?) * 10).round / 10.0
+    (((z(innovation_score) + z(impact_score) + z(scope_score) + z(team_score) + z(environment_score) + z(budget_score) + z(other_score) + z(completion_score)).to_f / count_nonzeros?) * 10).round / 10.0
   end
 
   def z(val)
@@ -34,13 +35,13 @@ class SubmissionReview < ActiveRecord::Base
   end
 
   def count_nonzeros
-    nz?(innovation_score) + 
-    nz?(impact_score) + 
-    nz?(scope_score) + 
-    nz?(team_score) + 
-    nz?(environment_score) + 
-    nz?(budget_score) + 
-    nz?(completion_score) + 
+    nz?(innovation_score) +
+    nz?(impact_score) +
+    nz?(scope_score) +
+    nz?(team_score) +
+    nz?(environment_score) +
+    nz?(budget_score) +
+    nz?(completion_score) +
     nz?(other_score)
   end
   alias :count_nonzeros? :count_nonzeros
