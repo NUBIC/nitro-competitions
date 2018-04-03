@@ -55,5 +55,17 @@ describe Project, :type => :model do
     it 'defaults membership_required to false' do
       expect(project.membership_required).to be_falsey
     end
+
+    it 'requires default scores' do
+      expect(project.review_criteria).to match_array(Scoring::DEFAULT_CRITERIA)
+    end
+  end
+
+  describe 'a non-default valid instance' do
+    it 'updates review criteria' do
+      project = FactoryGirl.create(:project, show_budget_score: true)
+      updated_criteria = (Scoring::DEFAULT_CRITERIA.dup << 'budget')
+      expect(project.review_criteria).to match_array (updated_criteria)
+    end
   end
 end
