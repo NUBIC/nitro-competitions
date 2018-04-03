@@ -1513,70 +1513,16 @@
           Description
         </th>
       </tr>
+      <% Scoring::CRITERIA.each do |criterion| %>
       <tr>
         <td colspan="2">
-          <%= f.check_box :show_impact_score %><%= f.text_field :impact_title, :size => 40 %>
+          <%= f.check_box "show_#{criterion}_score".to_sym %><%= f.text_field "#{criterion}_title".to_sym, :size => 40 %>
         </td>
         <td>
-          <%= f.text_area :impact_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area "#{criterion}_wording".to_sym, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
         </td>
       </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_team_score %><%= f.text_field :team_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :team_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_innovation_score %><%= f.text_field :innovation_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :innovation_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_scope_score %><%= f.text_field :scope_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :scope_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_environment_score %><%= f.text_field :environment_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :environment_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_budget_score %><%= f.text_field :budget_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :budget_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_other_score %><%= f.text_field :other_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :other_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_completion_score %><%= f.text_field :completion_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :completion_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
+      <% end %>
     </table>
   </div>
 </div>
