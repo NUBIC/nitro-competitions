@@ -50,44 +50,9 @@
 
   <div id="scores">
     <ol>
-      <% if submission.project.show_impact_score %>
-        <li> <%= submission.project.impact_title %>. </li>
-        <%= review_comments_div(reviews, 'impact').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_team_score %>
-        <li> <%= submission.project.team_title %>. </li>
-        <%= review_comments_div(reviews, 'team').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_innovation_score %>
-        <li> <%= submission.project.innovation_title %>. </li>
-        <%= review_comments_div(reviews, 'innovation').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_scope_score %>
-        <li> <%= submission.project.scope_title %>. </li>
-        <%= review_comments_div(reviews, 'scope').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_environment_score %>
-        <li> <%= submission.project.environment_title %>. </li>
-        <%= review_comments_div(reviews, 'environment').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_budget_score %>
-        <li> <%= submission.project.budget_title %>. </li>
-        <%= review_comments_div(reviews, 'budget').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_other_score %>
-        <li> <%= submission.project.other_title %>. </li>
-        <%= review_comments_div(reviews, 'other').html_safe %>
-      <% end %>
-
-      <% if submission.project.show_completion_score %>
-        <li> <%= submission.project.completion_title %>. </li>
-        <%= review_comments_div(reviews, 'completion').html_safe %>
+      <% submission.project.review_criteria.each do |criterion| %>
+        <li> <%= submission.project.send("#{criterion}_title".to_sym) %>. </li>
+        <%= review_comments_div(reviews, criterion).html_safe %>
       <% end %>
     </ol>
     <h3>Overall review comments</h3>
@@ -101,8 +66,9 @@
   <h3>Application scores </h3>
   <div id="composite_scores">
     <ul>
-      <% unless submission.composite_scores.blank? || submission.composite_scores.to_s == '0' %>
-        <li> Composite score: <%= submission.composite_scores_string %>  </li>
+      <% submission_composite = submission.composite_score %>
+      <% unless submission_composite.zero? %>
+        <li> Composite score: <%= submission_composite %>  </li>
       <% end %>
       <li> Overall score: <%= submission.overall_scores_string %></li>
     </ul>
