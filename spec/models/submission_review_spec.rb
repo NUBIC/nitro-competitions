@@ -8,12 +8,51 @@ describe SubmissionReview, :type => :model do
   it { is_expected.to belong_to(:reviewer) }
   it { is_expected.to belong_to(:user) }
 
+  Scoring::CRITERIA.each do |criterion|
+    it { should validate_numericality_of("#{criterion}_score".to_sym) }
+  end
+
+  it {should validate_numericality_of(:overall_score) }
+
   it 'can be instantiated' do
     expect(FactoryGirl.build(:submission_review)).to be_an_instance_of(SubmissionReview)
   end
 
   it 'can be saved successfully' do
     expect(FactoryGirl.create(:submission_review)).to be_persisted
+  end
+
+  describe '.incomplete?' do
+    project = FactoryGirl.create(:project, show_impact_score: false)
+
+    it 'returns false when all project criteria are scored' do
+      submission_review  = FactoryGirl.create(:submission_review, project: project, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, other_score: 0)
+      expect(submission_review.incomplete?).to be false
+    end
+
+    it 'returns true when not all project criteria are scored' do
+      submission_review  = FactoryGirl.create(:submission_review, project: project, innovation_score: 5, scope_score: 4, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, other_score: 0)
+      expect(submission_review.incomplete?).to be true
+    end
+  end
+
+
+  describe '.unscored?' do
+    project = FactoryGirl.create(:project)
+
+    it 'returns true for an unscored review' do
+      submission_review_nils  = FactoryGirl.create(:submission_review, project: project, innovation_score: nil, scope_score: nil, team_score: nil, environment_score: nil, impact_score: nil)
+      submission_review_zeros  = FactoryGirl.create(:submission_review, project: project, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0)
+      expect(submission_review_nils.unscored?).to be true
+      expect(submission_review_zeros.unscored?).to be true
+    end
+
+    it 'returns false for a scored review' do
+      submission_review_complete = FactoryGirl.create(:submission_review, project: project, innovation_score: 3, scope_score: 3, team_score: 3, environment_score: 3, impact_score: 3)
+      submission_review_partial = FactoryGirl.create(:submission_review, project: project, innovation_score: nil, scope_score: 3, team_score: 3, environment_score: 3, impact_score: 3)
+      expect(submission_review_complete.unscored?).to be false
+      expect(submission_review_partial.unscored?).to be false
+    end
   end
 
   describe '.this_project' do
@@ -46,20 +85,15 @@ describe SubmissionReview, :type => :model do
 
   context 'scoring' do
     let(:scores) {
-      [
-        :innovation_score,
-        :impact_score,
-        :scope_score,
-        :team_score,
-        :environment_score,
-        :other_score,
-        :budget_score,
-        :overall_score
-      ]
+      Scoring::CRITERIA.map{ |criterion| "#{criterion}_score".to_sym } << :overall_score
     }
+
     describe 'for a new SubmissionReview' do
       it 'defaults scores to 0' do
+        project =  FactoryGirl.create(:project)
         submission_review = SubmissionReview.new
+        submission_review.project = project
+        submission_review.save!
         scores.each do |s|
           score = submission_review.send(s)
           expect(score).not_to be_blank
@@ -67,13 +101,14 @@ describe SubmissionReview, :type => :model do
         end
         expect(submission_review.review_score).to be_blank
         expect(submission_review.composite_score).to eq 0
-        expect(submission_review.has_zero?).to be_truthy
-        expect(submission_review.count_nonzeros?).to eq 0
+        expect(submission_review.incomplete?).to be true
       end
     end
+
     describe 'for an existing SubmissionReview' do
       it 'has non-zero values' do
-        submission_review = FactoryGirl.create(:submission_review)
+        project =  FactoryGirl.create(:project)
+        submission_review = FactoryGirl.create(:submission_review, project: project)
         scores.each do |s|
           score = submission_review.send(s)
           expect(score).not_to be_blank
@@ -81,10 +116,35 @@ describe SubmissionReview, :type => :model do
         end
         expect(submission_review.review_score).not_to be_blank
         expect(submission_review.composite_score).to be > 0
-        expect(submission_review.has_zero?).to be_falsey
-        expect(submission_review.count_nonzeros?).to be > 5
+        expect(submission_review.incomplete?).to be false
       end
     end
+  end
+
+  context 'composite scoring' do
+    project = FactoryGirl.create(:project, show_impact_score: false)
+    submission_review  = FactoryGirl.create(:submission_review, project: project, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 1, other_score: 0)
+    submission_review2 = FactoryGirl.create(:submission_review, project: project, innovation_score: 9, scope_score: 3, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 1, other_score: 3)
+    submission_review3 = FactoryGirl.create(:submission_review, project: project, innovation_score: 7, scope_score: 7, team_score: 7, environment_score: 7, impact_score: 1, budget_score: 1, completion_score: 1, overall_score: 1, other_score: 1)
+    submission_review4 = FactoryGirl.create(:submission_review, project: project, innovation_score: 0, scope_score: 7, team_score: 8, environment_score: 8, impact_score: nil, budget_score: nil, completion_score: 1, overall_score: 1, other_score: 1)
+    unscored_review = FactoryGirl.create(:submission_review, project: project, innovation_score: nil, scope_score: nil, team_score: nil, environment_score: nil, impact_score: nil, budget_score: nil, completion_score: nil, overall_score: 1, other_score: nil)
+
+    it 'calculates a review composite score based on project criteria' do
+      expect(submission_review.composite_score).to  eq 11.fdiv(4).round(1)
+      expect(submission_review2.composite_score).to eq 19.fdiv(4).round(1)
+      expect(submission_review3.composite_score).to eq 28.fdiv(4).round(1)
+      expect(submission_review4.composite_score).to eq 23.fdiv(3).round(1)
+      expect(unscored_review.composite_score).to be 0
+    end
+
+    it 'returns an array containing the sum of scores and a count of scores' do
+      expect(submission_review.score_sum_and_count).to match_array [11, 4]
+      expect(submission_review2.score_sum_and_count).to match_array [19, 4]
+      expect(submission_review3.score_sum_and_count).to match_array [28, 4]
+      expect(submission_review4.score_sum_and_count).to match_array [23, 3]
+      expect(unscored_review.score_sum_and_count).to match_array [0, 0]
+    end
+
   end
 
 end
