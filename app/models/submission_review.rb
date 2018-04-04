@@ -24,23 +24,17 @@ class SubmissionReview < ApplicationRecord
   end
 
   def criteria_scores
-    scores = Hash[project_criteria.map { |criterion| [criterion, send("#{criterion}_score").to_i] }]
+    Hash[project_criteria.map { |criterion| [criterion, send("#{criterion}_score").to_i] }]
+  end
+
+  def scores
+    project_criteria.map { |criterion| send("#{criterion}_score").to_i }
   end
 
   def composite_score
-    scores = criteria_scores
-    return 0 if scores.all?{ |_, score| score.zero? }
-
-    sum_of_scores      = scores.sum  { |_, score| score }
-    scored_value_count = scores.count{ |_, score| score > 0 }
-    (sum_of_scores.to_f / scored_value_count).round(1)
-  end
-
-  def score_sum_and_count
-    scores = criteria_scores
-    sum_of_scores         = scores.sum { |_, score| score }
-    scored_criteria_count = scores.count { |_, score| score.nonzero? }
-    [sum_of_scores, scored_criteria_count]
+    review_scores = scores
+    return 0 if review_scores.all?(&:zero?)
+    (review_scores.sum.to_f / review_scores.count(&:nonzero?)).round(1)
   end
 
   def incomplete?

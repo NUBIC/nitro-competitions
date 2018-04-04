@@ -97,11 +97,9 @@ class Submission < ApplicationRecord
 
   def composite_score
     return 0 if unreviewed?
-    review_components  = submission_reviews.each.map(&:score_sum_and_count)
-    sum_of_scores      = review_components.sum { |review_component_sum, _| review_component_sum }
-    return 0 if sum_of_scores.zero?
-    count_of_scores    = review_components.sum { |_, review_component_count| review_component_count }
-    (sum_of_scores.to_f / count_of_scores).round(2)
+    all_scores   = submission_reviews.map(&:scores).flatten
+    return 0 if all_scores.all?(&:zero?)
+    (all_scores.sum.to_f / all_scores.count(&:nonzero?)).round(2)
   end
   alias :composite_scores_string :composite_score
 

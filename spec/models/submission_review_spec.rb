@@ -137,14 +137,6 @@ describe SubmissionReview, :type => :model do
       expect(unscored_review.composite_score).to be 0
     end
 
-    it 'returns an array containing the sum of scores and a count of scores' do
-      expect(submission_review.score_sum_and_count).to match_array [11, 4]
-      expect(submission_review2.score_sum_and_count).to match_array [19, 4]
-      expect(submission_review3.score_sum_and_count).to match_array [28, 4]
-      expect(submission_review4.score_sum_and_count).to match_array [23, 3]
-      expect(unscored_review.score_sum_and_count).to match_array [0, 0]
-    end
-
   end
 
 end
