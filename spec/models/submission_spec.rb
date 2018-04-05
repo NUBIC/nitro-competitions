@@ -80,8 +80,8 @@ describe Submission, :type => :model do
 
   context 'scope' do
 
-    describe '.associated' do 
-      it 'returns the submissions associated with a given project and applicant' do 
+    describe '.associated' do
+      it 'returns the submissions associated with a given project and applicant' do
         project     = FactoryGirl.create(:project)
         applicant   = FactoryGirl.create(:user)
         submission  = FactoryGirl.create(:submission, project: project, applicant: applicant)
@@ -93,8 +93,8 @@ describe Submission, :type => :model do
       end
     end
 
-    describe '.associated_with_user' do 
-      it 'returns the submissions associated with a given applicant' do 
+    describe '.associated_with_user' do
+      it 'returns the submissions associated with a given applicant' do
         project     = FactoryGirl.create(:project)
         applicant   = FactoryGirl.create(:user)
         submission  = FactoryGirl.create(:submission, project: project, applicant: applicant)
@@ -103,24 +103,24 @@ describe Submission, :type => :model do
       end
     end
 
-  end 
+  end
 
-  context 'statuses' do 
-    it 'knows if it is complete' do 
+  context 'statuses' do
+    it 'knows if it is complete' do
       sub = FactoryGirl.create(:submission)
       expect(sub).to be_complete
     end
   end
 
-  context 'cost' do 
+  context 'cost' do
     let (:sub) { FactoryGirl.build(:submission) }
-    describe '.max_project_cost' do 
-      it 'defaults to 50,000' do 
+    describe '.max_project_cost' do
+      it 'defaults to 50,000' do
         expect(sub.max_budget_request).to be_nil
         expect(sub.max_project_cost).to eq(50_000)
       end
 
-      it 'returns the max_budget_request' do 
+      it 'returns the max_budget_request' do
         [15_000, 25_000, 35_000].each do |cost|
           sub.max_budget_request = cost
           expect(sub.max_project_cost).to eq(sub.max_budget_request)
@@ -128,13 +128,13 @@ describe Submission, :type => :model do
       end
     end
 
-    describe '.min_project_cost' do 
-      it 'defaults to 1,000'  do 
+    describe '.min_project_cost' do
+      it 'defaults to 1,000'  do
         expect(sub.min_budget_request).to be_nil
         expect(sub.min_project_cost).to eq(1000)
       end
 
-      it 'returns the min_budget_request' do 
+      it 'returns the min_budget_request' do
         [500, 2000, 3000].each do |cost|
           sub.min_budget_request = cost
           expect(sub.min_project_cost).to eq(sub.min_budget_request)
@@ -152,6 +152,17 @@ describe Submission, :type => :model do
       expect(submission.overall_score_average).to eq 0
     end
 
+    it 'calculates when there are scored reviews' do
+      project    = FactoryGirl.create(:project, show_innovation_score: false)
+      submission = FactoryGirl.create(:submission)
+      submission_review  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
+      submission_review2 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
+      submission_review3 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
+      expect(submission.unreviewed?).to be false
+      expect(submission.composite_score).to eq (31.to_f / 10).round(2)
+      expect(submission.overall_score_average).to eq (11.to_f / 3).round(2)
+    end
+
     it 'returns 0s when there are unscored reviews' do
       submission = FactoryGirl.create(:submission)
       unscored_review   = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
@@ -161,7 +172,7 @@ describe Submission, :type => :model do
       expect(submission.overall_score_average).to eq 0
     end
 
-    it 'calculates when there are scored reviews' do
+    it 'calculates when there are scored and unscored reviews' do
       submission = FactoryGirl.create(:submission)
       submission_review  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
       submission_review2 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 9, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
