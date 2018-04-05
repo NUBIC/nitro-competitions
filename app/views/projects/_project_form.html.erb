@@ -25,7 +25,7 @@
           <div class='attribute_description'>
             <%= f.check_box :visible %><br>
             Checked = visible to entire public.<br>
-            Unchecked = visible to sponsor admins. 
+            Unchecked = visible to sponsor admins.
           </div>
         </td>
       </tr>
@@ -393,7 +393,7 @@
             <br>
             Include
           </div>
-        </td>        
+        </td>
       </tr>
       <tr>
         <td class="title, indented">
@@ -670,7 +670,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_previous_support_description %>
-            Text will read: "If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:" 
+            Text will read: "If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:"
           </div>
         </td>
       </tr>
@@ -1433,7 +1433,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_guidance %>
-            Check to show default instructions and additional guidance URL. 
+            Check to show default instructions and additional guidance URL.
           </div>
         </td>
       </tr>
@@ -1452,8 +1452,8 @@
         <td class="notes" colspan="2">
           <%= f.text_area :custom_review_guidance, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
           <div class='attribute_description'>
-            Add alternate or additional review guidance text 
-            placed at the top of the review form here. 
+            Add alternate or additional review guidance text
+            placed at the top of the review form here.
             <br />
             You may enter HTML markup in this section.
           </div>
@@ -1466,7 +1466,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :comment_review_only %>
-            Check to have comments, but no scores. 
+            Check to have comments, but no scores.
           </div>
         </td>
       </tr>
@@ -1513,7 +1513,7 @@
           Description
         </th>
       </tr>
-      <% Scoring::CRITERIA.each do |criterion| %>
+      <% WithScoring::CRITERIA.each do |criterion| %>
       <tr>
         <td colspan="2">
           <%= f.check_box "show_#{criterion}_score".to_sym %><%= f.text_field "#{criterion}_title".to_sym, :size => 40 %>
