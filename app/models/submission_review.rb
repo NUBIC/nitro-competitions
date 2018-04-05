@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class SubmissionReview < ApplicationRecord
-  require './lib/competitions/scoring.rb'
+  include WithScoring
 
   belongs_to  :submission, :counter_cache => true
   has_one     :applicant,  :class_name => 'User', :through => :submission, :source => :applicant # doesn't seem to work
@@ -13,7 +13,7 @@ class SubmissionReview < ApplicationRecord
   scope :this_project,  lambda { |*args| joins(:submission).where('submissions.project_id = :project_id', { :project_id => args.first }) }
   scope :active,        lambda { |*args| joins(:submission).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
 
-  Scoring::CRITERIA.each do |criterion|
+  WithScoring::CRITERIA.each do |criterion|
     validates_numericality_of "#{criterion}_score".to_sym, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0
   end
 
@@ -24,26 +24,28 @@ class SubmissionReview < ApplicationRecord
   end
 
   def criteria_scores
-    Hash[project_criteria.map { |criterion| [criterion, send("#{criterion}_score").to_i] }]
+    Hash[project_criteria.map { |criterion| [criterion, get_score(criterion)] }]
   end
 
   def scores
-    project_criteria.map { |criterion| send("#{criterion}_score").to_i }
+    project_criteria.map { |criterion| get_score(criterion) }
   end
 
   def composite_score
-    review_scores = scores
-    return 0 if review_scores.all?(&:zero?)
-    (review_scores.sum.to_f / review_scores.count(&:nonzero?)).round(1)
+    calculate_average scores.reject(&:zero?)
   end
 
   def incomplete?
-    project_criteria.any? { |criterion| send("#{criterion}_score").to_i.zero? }
+    project_criteria.any? { |criterion| get_score(criterion).zero? }
   end
-  alias :has_zero? :incomplete?
 
   def unscored?
-    project_criteria.all? { |criterion| send("#{criterion}_score").to_i.zero? }
+    project_criteria.all? { |criterion| get_score(criterion).zero? }
+  end
+
+  private
+  def get_score(criterion)
+    send("#{criterion}_score").to_i
   end
 
 end

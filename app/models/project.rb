@@ -2,7 +2,7 @@
 
 class Project < ApplicationRecord
   include Rails.application.routes.url_helpers
-  require './lib/competitions/scoring.rb'
+  include WithScoring
 
   belongs_to :program
   belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
@@ -154,7 +154,7 @@ class Project < ApplicationRecord
   end
 
   def review_criteria
-    Scoring::CRITERIA.select { |criterion| send("show_#{criterion}_score") }
+    WithScoring::CRITERIA.select { |criterion| send("show_#{criterion}_score") }
   end
 
   # Submission lists

@@ -1,6 +1,8 @@
 # encoding: UTF-8
 
 class Submission < ApplicationRecord
+  include WithScoring
+
   belongs_to :project
   belongs_to :applicant,                :class_name => 'User', :foreign_key => 'applicant_id'
   belongs_to :submitter,                :class_name => 'User', :foreign_key => 'created_id'
@@ -82,26 +84,18 @@ class Submission < ApplicationRecord
   validates :type_of_equipment, inclusion: { in: EQUIPMENT_TYPES }, allow_blank: true
 
   def overall_score_average
-    return 0 if unreviewed?
-    sum_of_scores   = submission_reviews.sum { |review| review.overall_score.to_i }
-    count_of_scores = submission_reviews.reject { |review| review.overall_score.to_i.zero? }.length
-    return 0 if sum_of_scores.zero?
-    (sum_of_scores.to_f / count_of_scores).round(2)
+    calculate_average submission_reviews.map(&:overall_score).reject{ |score| score.to_i.zero? }
   end
   alias :overall_scores :overall_score_average
 
   def overall_scores_string
-    return 0 if unreviewed?
+    return '-' if unreviewed?
     overall_score_average.to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
   end
 
   def composite_score
-    return 0 if unreviewed?
-    all_scores   = submission_reviews.map(&:scores).flatten
-    return 0 if all_scores.all?(&:zero?)
-    (all_scores.sum.to_f / all_scores.count(&:nonzero?)).round(2)
+    calculate_average submission_reviews.flat_map(&:scores).reject(&:zero?)
   end
-  alias :composite_scores_string :composite_score
 
   def max_project_cost
     max_budget_request || 50_000
@@ -305,6 +299,6 @@ class Submission < ApplicationRecord
   end
 
   def unreviewed?
-    submission_reviews.length.zero?
+    submission_reviews.blank?
   end
 end
