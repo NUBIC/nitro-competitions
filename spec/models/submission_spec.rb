@@ -2,6 +2,8 @@
 
 describe Submission, :type => :model do
 
+  let(:submission) { FactoryGirl.create(:submission) }
+
   it { is_expected.to belong_to(:project) }
   it { is_expected.to belong_to(:applicant) }
   it { is_expected.to belong_to(:submitter) }
@@ -146,7 +148,6 @@ describe Submission, :type => :model do
   context 'scoring' do
 
     it 'returns 0s when there are no reviews' do
-      submission = FactoryGirl.create(:submission)
       expect(submission.unreviewed?).to be true
       expect(submission.composite_score).to eq 0
       expect(submission.overall_score_average).to eq 0
@@ -154,7 +155,6 @@ describe Submission, :type => :model do
 
     it 'calculates when there are scored reviews' do
       project    = FactoryGirl.create(:project, show_innovation_score: false)
-      submission = FactoryGirl.create(:submission)
       submission_review  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
       submission_review2 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
       submission_review3 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
@@ -164,7 +164,6 @@ describe Submission, :type => :model do
     end
 
     it 'returns 0s when there are unscored reviews' do
-      submission = FactoryGirl.create(:submission)
       unscored_review   = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
       unscored_review2  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
       expect(submission.unreviewed?).to be false
@@ -173,14 +172,13 @@ describe Submission, :type => :model do
     end
 
     it 'calculates when there are scored and unscored reviews' do
-      submission = FactoryGirl.create(:submission)
       submission_review  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
       submission_review2 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 9, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
       submission_review3 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 3, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
       unscored_review    = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
       expect(submission.unreviewed?).to be false
-      expect(submission.composite_score).to eq (48.to_f / 13).round(2)
-      expect(submission.overall_score_average).to eq (11.to_f / 3).round(2)
+      expect(submission.composite_score).to eq 48.fdiv(13).round(2)
+      expect(submission.overall_score_average).to eq 11.fdiv(3).round(2)
     end
   end
 

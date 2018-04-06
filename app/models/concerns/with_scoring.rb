@@ -12,8 +12,8 @@ module WithScoring
                          'other',
                          'completion'].freeze
 
-  # Combined criteria based on Project attributes
-  CRITERIA = (DEFAULT_CRITERIA + ADDITIONAL_CRITERIA).freeze
+  # All possible composite criteria -- based on Project attributes
+  COMPOSITE_CRITERIA = (DEFAULT_CRITERIA + ADDITIONAL_CRITERIA).freeze
 
   def calculate_average scores
     return 0 if scores.empty?

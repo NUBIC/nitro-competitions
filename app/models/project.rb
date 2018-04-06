@@ -154,7 +154,7 @@ class Project < ApplicationRecord
   end
 
   def review_criteria
-    WithScoring::CRITERIA.select { |criterion| send("show_#{criterion}_score") }
+    WithScoring::COMPOSITE_CRITERIA.select { |criterion| send("show_#{criterion}_score") }
   end
 
   # Submission lists

@@ -1513,7 +1513,7 @@
           Description
         </th>
       </tr>
-      <% WithScoring::CRITERIA.each do |criterion| %>
+      <% WithScoring::COMPOSITE_CRITERIA.each do |criterion| %>
       <tr>
         <td colspan="2">
           <%= f.check_box "show_#{criterion}_score".to_sym %><%= f.text_field "#{criterion}_title".to_sym, :size => 40 %>
