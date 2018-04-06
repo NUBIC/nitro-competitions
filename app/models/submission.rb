@@ -86,7 +86,6 @@ class Submission < ApplicationRecord
   def overall_score_average
     calculate_average submission_reviews.map(&:overall_score).reject{ |score| score.to_i.zero? }
   end
-  alias :overall_scores :overall_score_average
 
   def overall_scores_string
     return '-' if unreviewed?
