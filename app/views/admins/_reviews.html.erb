@@ -25,12 +25,12 @@
         <% link_to_submission_files(submission, project, false).each do |lnk| %>
           <%= lnk.html_safe %>
         <% end %>
-        <% if submission.submission_reviews.collect{|r| r.has_zero? ? 0 : 1 }.sum > 0 %>
+        <% if submission.submission_reviews.none?(&:incomplete?) %>
           <%= link_to(image_tag("page_white_link.png", width: "16px", height: "16px")+' Reviews', submission_reviews_path(submission.id), title: "View the review summary for this submission") %>
         <% end %>
       </td>
     </td>
-     <td><%=h submission.composite_scores_string %></td>
+     <td><%=h submission.composite_score %></td>
      <td><%=h submission.overall_scores_string %></td>
     </tr>
   <% end %>

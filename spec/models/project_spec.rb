@@ -55,5 +55,18 @@ describe Project, :type => :model do
     it 'defaults membership_required to false' do
       expect(project.membership_required).to be_falsey
     end
+
+    it 'requires default scores' do
+      expect(project.review_criteria).to match_array(WithScoring::DEFAULT_CRITERIA)
+    end
+  end
+
+  describe 'criteria' do
+    it 'returns correct review criteria array' do
+      default_project           = FactoryGirl.create(:project)
+      project_with_budget_score = FactoryGirl.create(:project, show_budget_score: true)
+      expect(default_project.review_criteria).to match_array (WithScoring::DEFAULT_CRITERIA)
+      expect(project_with_budget_score.review_criteria).to match_array (WithScoring::DEFAULT_CRITERIA.dup << 'budget')
+    end
   end
 end

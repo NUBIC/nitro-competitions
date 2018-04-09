@@ -1,6 +1,8 @@
 # encoding: UTF-8
 
 class Submission < ApplicationRecord
+  include WithScoring
+
   belongs_to :project
   belongs_to :applicant,                :class_name => 'User', :foreign_key => 'applicant_id'
   belongs_to :submitter,                :class_name => 'User', :foreign_key => 'created_id'
@@ -44,20 +46,20 @@ class Submission < ApplicationRecord
   scope :assigned_submissions, lambda { where('submission_reviews_count >= 2') }
   scope :unassigned_submissions, lambda { where(:submission_reviews_count => 0) }
   scope :recent, lambda { where('submissions.created_at > ?', 3.weeks.ago) }
-  
+
   scope :filled_submissions, lambda { |*args| where('submission_reviews_count >= :max_reviewers', { :max_reviewers => args.first || 2 }) }
   scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 
   scope :associated, lambda { |*args|
     includes('submission_reviews')
-    .where('(submissions.applicant_id = :id OR submissions.created_id = :id) AND 
-            submissions.project_id IN (:projects)', 
+    .where('(submissions.applicant_id = :id OR submissions.created_id = :id) AND
+            submissions.project_id IN (:projects)',
       { :projects => args[0], :id => args[1] })
   }
 
   scope :associated_with_user, lambda { |*args|
     includes('submission_reviews')
-    .where('submissions.applicant_id = :id or submissions.created_id = :id', 
+    .where('submissions.applicant_id = :id or submissions.created_id = :id',
       { :id => args.first })
     .order('id asc')
   }
@@ -81,28 +83,17 @@ class Submission < ApplicationRecord
   validates :submission_status, inclusion: { in: STATUSES }
   validates :type_of_equipment, inclusion: { in: EQUIPMENT_TYPES }, allow_blank: true
 
-  def overall_scores
-    return 0 if submission_reviews.length == 0
-    cnt = submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : 1 }.sum
-    return 0 if cnt < 1
-    (submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : s.overall_score }.sum).to_f / cnt
+  def overall_score_average
+    calculate_average submission_reviews.map(&:overall_score).reject{ |score| score.to_i.zero? }
   end
 
   def overall_scores_string
-    return 0 if submission_reviews.length == 0
-    overall_scores.round(2).to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
+    return '-' if unreviewed?
+    overall_score_average.to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
   end
 
-  def composite_scores
-    return 0 if submission_reviews.length == 0
-    cnt = submission_reviews.map { |s| s.has_zero? ? 0 : 1 }.sum
-    return 0 if cnt < 1
-    submission_reviews.map { |s| s.has_zero? ? 0 : s.composite_score }.sum / cnt
-  end
-
-  def composite_scores_string
-    return 0 if submission_reviews.length == 0
-    composite_scores.round(2).to_s + ' (' + submission_reviews.map(&:composite_score).join(' & ') + ')'
+  def composite_score
+    calculate_average submission_reviews.flat_map(&:scores).reject(&:zero?)
   end
 
   def max_project_cost
@@ -298,11 +289,15 @@ class Submission < ApplicationRecord
   def do_save(model, name)
     if !model.nil? && model.changed?
       if model.errors.blank?
-        model.save 
+        model.save
       else
-        msg = "unable to save #{name.to_s.titleize}: #{model.errors.full_messages.join('; ')}" 
+        msg = "unable to save #{name.to_s.titleize}: #{model.errors.full_messages.join('; ')}"
         self.errors.add(name.to_sym, msg)
       end
     end
+  end
+
+  def unreviewed?
+    submission_reviews.blank?
   end
 end
