@@ -87,13 +87,19 @@ class Submission < ApplicationRecord
     calculate_average submission_reviews.map(&:overall_score).reject{ |score| score.to_i.zero? }
   end
 
-  def overall_scores_string
+  def overall_score_string
     return '-' if unreviewed?
-    overall_score_average.to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
+    ("%.2f" % overall_score_average) + " (#{submission_reviews.map(&:overall_score).join(',')})"
   end
 
   def composite_score
     calculate_average submission_reviews.flat_map(&:scores).reject(&:zero?)
+  end
+
+  def composite_score_string
+    composite = composite_score
+    return '-' if composite.zero?
+    "%.2f" % composite
   end
 
   def max_project_cost
