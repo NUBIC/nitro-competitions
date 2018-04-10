@@ -1,6 +1,6 @@
 <% unless submissions.blank? || project.blank? %>
   <h3><span style="font-size: .75em;"><%= project.project_title %></span></br>Submissions</h3>
-  <table id="submissionTable" class="tablesorter { sortList: [[2,0]] }">
+  <table id="submissionTable" class="tablesorter">
     <thead>
     <tr>
       <th>Applicant</th>
@@ -50,15 +50,22 @@
     jQuery(document).ready(function() {
       // call the tablesorter plugin
       jQuery("#submissionTable").tablesorter(
+        // sort ascending on status then applicant
+        { sortList: [[2,0], [0,0]] },
         // disable Documents column sorting
+        { headers:
+          {
         <% if project.show_effort_approver && project.show_department_administrator %>
-        { headers: { 5: {sorter: false} } }
+            5: { sorter: false }
         <% elsif project.show_effort_approver || project.show_department_administrator %>
-        { headers: { 4: {sorter: false} } }
+            4: { sorter: false }
         <% else %>
-        { headers: { 3: {sorter: false} } }
+            3: { sorter: false}
         <% end %>
-      ); });
+          }
+        }
+      );
+    });
   <% end %>
 <% else %>
   <h3>You do not have any existing submissions for this competition.</h3>
