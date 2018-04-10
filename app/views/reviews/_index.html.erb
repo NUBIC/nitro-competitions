@@ -66,11 +66,8 @@
   <h3>Application scores </h3>
   <div id="composite_scores">
     <ul>
-      <% submission_composite = submission.composite_score %>
-      <% unless submission_composite.zero? %>
-        <li> Composite score: <%= submission_composite %>  </li>
-      <% end %>
-      <li> Overall score: <%= submission.overall_scores_string %></li>
+      <li> Composite score: <%= submission.composite_score_string %>  </li>
+      <li> Overall score: <%= submission.overall_score_string %></li>
     </ul>
   </div>
 <% end %>

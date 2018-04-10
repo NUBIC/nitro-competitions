@@ -44,11 +44,11 @@
       <th>Reviewer(s)</th>
       <th>Review Form</th>
       <th>Composite</th>
-      <th>Overall Score</th>
+      <th>Overall</th>
     <% if include_files -%>
       <th>Complete</th>
       <th>Files</th>
-      <th>More</th>
+      <th>Additional Files</th>
     <% end -%>
     </tr>
   </thead>
@@ -73,6 +73,7 @@
       <% submission  = review.submission %>
       <% project     = review.submission.project %>
       <% program     = review.submission.project.program %>
+      <% is_admin    = is_admin?(program) %>
       <% incomplete  = review.incomplete? %>
       <% style       = 'style="background-color:thistle;"'.html_safe if incomplete %>
 
@@ -99,10 +100,10 @@
         </td>
       <% end -%>
         <td>
-          <%=h review.reviewer.sort_name if is_admin?(program) || is_reviewer %>
+          <%=h review.reviewer.sort_name if is_admin || is_reviewer %>
         </td>
         <td>
-          <% if is_admin?(program) || is_reviewer %>
+          <% if is_admin || is_reviewer %>
             <%= link_to(image_tag('application_form.png', width: '16px', height: '16px') + ' Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id)) %>
           <% end %>
           <% if program.allow_reviewer_notification %>
@@ -111,17 +112,16 @@
           <% end %>
         </td>
         <td <%= style %>>
-          <%= review.composite_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>
+          <%= review.composite_score if is_admin || is_reviewer || current_project.show_composite_scores_to_reviewers %>
         </td>
         <td <%= style %>>
-          <%= review.overall_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>
+          <%= review.overall_score if is_admin || is_reviewer || current_project.show_composite_scores_to_reviewers %>
         </td>
       <% if include_files -%>
         <td <%= style %>>
           <%= incomplete ? 'No' : 'Yes' %>
         </td>
         <td>
-          <br />
           <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
             <% unless lnk.blank? %>
               <%= lnk.html_safe %>
@@ -142,8 +142,12 @@
   jQuery(document).ready(function() {
     // call the tablesorter plugin
     jQuery("#<%= table_id -%>").tablesorter(
-      // turn off sorting on the 6th header
-      { headers: { 6: {sorter: false}, 7: {sorter: false}, 8: {sorter: false} } }
+      <% if include_files && include_competition %>
+      // disable File column sorting
+      { headers: { 10: {sorter: false}, 11: {sorter: false} } }
+      <% elsif include_files || include_competition %>
+      { headers: { 8: {sorter: false}, 9: {sorter: false} } }
+      <% end %>
     ); });
 <% end %>
 
