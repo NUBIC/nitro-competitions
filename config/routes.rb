@@ -41,6 +41,8 @@ NucatsAssist::Application.routes.draw do
   end
 
   resources :projects do
+    resources :duplications, only: [:new], controller: 'projects/duplications'
+
     member do
       get :all_reviews
       get :membership_required
