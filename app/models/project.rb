@@ -12,16 +12,73 @@ class Project < ApplicationRecord
   before_validation :clean_params
   before_create :set_defaults
 
-  validates_length_of :project_title, :within => 10..255, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
-  validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
+
   validates_uniqueness_of :project_name  #simplifies the logic a lot if we force the project names to be absolutely unique
-  validates_presence_of :initiation_date, :message => "you must have an initiation date!"
-  validates_presence_of :submission_open_date, :message => "you must have a submission open date!"
-  validates_presence_of :submission_close_date, :message => "you must have a submission close date!"
-  validates_presence_of :review_start_date, :message => "you must have a review start date!"
-  validates_presence_of :review_end_date, :message => "you must have a review end date!"
-  validates_presence_of :project_period_start_date, :message => "you must have a project start date!"
-  validates_presence_of :project_period_end_date, :message => "you must have a project end date!"
+  
+
+  dates = ['initiation_date', 'submission_open_date', 'submission_close_date', 'review_start_date', 'review_end_date', 'project_period_start_date', 'project_period_end_date']
+  
+  dates.each do |date|
+    validates_presence_of date.to_sym, :message => "you must have a #{date}!"
+  end
+
+
+  # make this a hash instead of an array and concat onto end of the other hash
+  # documents = {}
+  # (1..4).each do |number|
+  #   documents << "document#{number}_name"
+  #   documents << "document#{number}_description"
+  #   documents << "document#{number}_template_url"
+  #   documents << "document#{number}_info_url"
+  # end
+
+  docs = {}
+  (1..4).each do |i|
+    docs["document#{i}_name"] = "Document#{i} Name"  
+    docs["document#{i}_description"] = "Document#{i} Description"
+    docs["document#{i}_template_url"] = "Document#{i} Template URL"
+    docs["document#{i}_info_url"] = "Document#{i} Info URL"
+  end
+
+  other_docs = {}
+  od = ['applicaton', 'budget']
+  od.each do |doc|
+    other_docs["#{doc}_template_url"] = "#{doc.titleize()} Template URL"
+    other_docs["#{doc}_template_url_label"] = "#{doc.titleize} Template URL Label"
+    other_docs["#{doc}_info_url"] = "#{doc.titleize} Info URL"
+    other_docs["#{doc}_info_url_label"] = "#{doc.titleize} Info URL Label"
+  end
+
+  criteria_titles = {}
+  WithScoring::COMPOSITE_CRITERIA.each do |criterion|
+    criteria_titles["#{criterion}_title"] = "#{criterion.titleize} Title"
+  end
+
+  varchars = documents
+
+  varchars << ['rfa_url', 'status', 'created_ip', 'updated_ip', 'deleted_ip', 'review_guidance_url', 'project_name', 'abstract_text', 'manage_other_support_text', 'project_url_label', 'submission_category_description', 'human_subjects_research_text', 'application_doc_name', 'application_doc_description', 'supplemental_document_name', 'supplemental_document_description', 'closed_status_wording', 'total_amount_requested_wording', 'type_of_equipment_wording']
+  
+  varchars.each do |varchar|
+    validates_length_of varchar.to_sym, :allow_blank => true, :maximum => 255, :too_long => "--- pick a shorter #{varchar}"
+  end 
+
+  validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
+  validates_length_of :project_title, :within => 10..255, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
+
+
+
+
+  # validates_presence_of :initiation_date, :message => "you must have an initiation date!"
+  # validates_presence_of :submission_open_date, :message => "you must have a submission open date!"
+  # validates_presence_of :submission_close_date, :message => "you must have a submission close date!"
+  # validates_presence_of :review_start_date, :message => "you must have a review start date!"
+  # validates_presence_of :review_end_date, :message => "you must have a review end date!"
+  # validates_presence_of :project_period_start_date, :message => "you must have a project start date!"
+  # validates_presence_of :project_period_end_date, :message => "you must have a project end date!"
+
+
+
+
 
   def self.current(*date)
     where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now })
