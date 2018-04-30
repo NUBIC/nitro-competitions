@@ -1,5 +1,11 @@
 %span{ class: 'domain_option', id: "#{provider}", title: t("login.#{provider}")}
   .domain_option_image
-    = link_to image_tag("#{provider}_64.png"), send("user_#{provider}_omniauth_authorize_path"), id: "#{provider}_link"
+    - if provider == :google_oauth2
+      = link_to image_tag("google_64.png"), send("user_#{provider}_omniauth_authorize_path"), id: "#{provider}_link"
+    - else
+      = link_to image_tag("#{provider}_64.png"), send("user_#{provider}_omniauth_authorize_path"), id: "#{provider}_link"
   .domain_name
-    = link_to(h(provider.upcase), send("user_#{provider}_omniauth_authorize_path"))
+    - if provider == :google_oauth2
+      = link_to "GOOGLE", send("user_#{provider}_omniauth_authorize_path")
+    - else
+      = link_to(h(provider.upcase), send("user_#{provider}_omniauth_authorize_path"))

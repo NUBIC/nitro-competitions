@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, 
-         :omniauthable, omniauth_providers: [:northwestern_medicine, :facebook, :linkedin, :google, :twitter]
+         :omniauthable, omniauth_providers: [:northwestern_medicine, :facebook, :linkedin, :google_oauth2, :twitter]
 
   # Associations
   has_many :reviewers  # really program reviewers since the reviewer model is a user + program
