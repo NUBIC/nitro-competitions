@@ -38,14 +38,6 @@ module ApplicationHelper
     url
   end
 
-  ##
-  # Handle google provider discrepancy
-  # @param [Symbol]
-  # @return [Symbol]
-  def omniauth_provider(provider)
-    provider == :google ? :google_oauth2 : provider
-  end
-
   def internetexplorer_user_agent?
     request.env['HTTP_USER_AGENT'] && request.env['HTTP_USER_AGENT'][/(MSIE)/]
   end

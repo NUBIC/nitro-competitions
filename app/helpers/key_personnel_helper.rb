@@ -34,14 +34,14 @@ module KeyPersonnelHelper
   end
 
   def handle_key_personnel_param(submission)
-    key_personnel_usernames = ''
-    if defined?(params)
-      unless params[:key_personnel].blank?
-        key_personnel_usernames = params[:key_personnel].map { |x, y| y['username'] }
-        submission.key_personnel.each do |key_person|
-          key_person.destroy if key_personnel_usernames.blank? || !key_personnel_usernames.include?(key_person.username)
-        end
-        params[:key_personnel].each_value do |key_person|
+      key_personnel_usernames = Array.new
+      if defined?(params)
+        unless params[:key_personnel].blank?
+          params[:key_personnel].each { |_, person| key_personnel_usernames << person[:username] }
+          submission.key_personnel.each do |key_person|
+            key_person.destroy if key_personnel_usernames.blank? || !key_personnel_usernames.include?(key_person.username)
+          end
+          params[:key_personnel].each do |_, key_person|
           unless key_person['username'].blank?
             # check if we have this user
             key_user = make_user(key_person['username'], key_person['email'])

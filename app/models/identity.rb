@@ -23,7 +23,7 @@ class Identity < ApplicationRecord
   # @return [Array<Symbol>]
   def self.external_providers
     [ :facebook,
-      :google,
+      :google_oauth2,
       # :yahoo,
       :twitter,
       :linkedin
