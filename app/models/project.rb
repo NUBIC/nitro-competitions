@@ -23,15 +23,8 @@ class Project < ApplicationRecord
   end
 
 
-  # make this a hash instead of an array and concat onto end of the other hash
-  # documents = {}
-  # (1..4).each do |number|
-  #   documents << "document#{number}_name"
-  #   documents << "document#{number}_description"
-  #   documents << "document#{number}_template_url"
-  #   documents << "document#{number}_info_url"
-  # end
-
+  # BUILDING VALIDATIONS FOR VARCHARS(255).
+  # TODO: This should be reconsidered when a new framework is added.
   docs = {}
   (1..4).each do |i|
     docs["document#{i}_name"] = "Document#{i} Name"  
@@ -41,7 +34,7 @@ class Project < ApplicationRecord
   end
 
   other_docs = {}
-  od = ['applicaton', 'budget']
+  od = ['application', 'budget']
   od.each do |doc|
     other_docs["#{doc}_template_url"] = "#{doc.titleize()} Template URL"
     other_docs["#{doc}_template_url_label"] = "#{doc.titleize} Template URL Label"
@@ -49,35 +42,40 @@ class Project < ApplicationRecord
     other_docs["#{doc}_info_url_label"] = "#{doc.titleize} Info URL Label"
   end
 
-  criteria_titles = {}
-  WithScoring::COMPOSITE_CRITERIA.each do |criterion|
-    criteria_titles["#{criterion}_title"] = "#{criterion.titleize} Title"
+  the_rest = {status: 'Status',
+              rfa_url: 'RFA URL',
+              review_guidance_url: 'Review Guidance URL',
+              overall_impact_title: 'Overall Impact Title',
+              impact_title: 'Impact Title',
+              team_title: 'Team Title',
+              innovation_title: 'Innovation Title',
+              scope_title: 'Scope Title',
+              environment_title: 'Environment Title',
+              other_title: 'Other Title',
+              budget_title: 'Budget Title',
+              completion_title: 'Completion Title',
+              project_name: 'Project Name',
+              abstract_text: 'Abstract Text',
+              manage_other_support_text: 'Manage Other Support Text',
+              project_url_label: 'Project URL Label',
+              submission_category_description: 'Submission Category Description',
+              human_subjects_research_text: 'Human Subjects Research Text',
+              application_doc_name: 'Application Doc Name',
+              application_doc_description: 'Application Doc Description',
+              supplemental_document_name: 'Supplemental Document Name',
+              supplemental_document_description: 'Supplemental Document Description',
+              closed_status_wording: 'Closed Status Wording',
+              total_amount_requested_wording: 'Total Amount Requested Wording',
+              type_of_equipment_wording: 'Type of Equipment Wording'}
+
+  varchars = docs.merge(other_docs).merge(the_rest)
+
+  varchars.each do |attribute, label|
+    validates_length_of attribute.to_sym, :allow_blank => true, :maximum => 255, :too_long => "#{label} is too long (maximum is 255 characters)"
   end
 
-  varchars = documents
-
-  varchars << ['rfa_url', 'status', 'created_ip', 'updated_ip', 'deleted_ip', 'review_guidance_url', 'project_name', 'abstract_text', 'manage_other_support_text', 'project_url_label', 'submission_category_description', 'human_subjects_research_text', 'application_doc_name', 'application_doc_description', 'supplemental_document_name', 'supplemental_document_description', 'closed_status_wording', 'total_amount_requested_wording', 'type_of_equipment_wording']
-  
-  varchars.each do |varchar|
-    validates_length_of varchar.to_sym, :allow_blank => true, :maximum => 255, :too_long => "--- pick a shorter #{varchar}"
-  end 
-
-  validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
-  validates_length_of :project_title, :within => 10..255, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
-
-
-
-
-  # validates_presence_of :initiation_date, :message => "you must have an initiation date!"
-  # validates_presence_of :submission_open_date, :message => "you must have a submission open date!"
-  # validates_presence_of :submission_close_date, :message => "you must have a submission close date!"
-  # validates_presence_of :review_start_date, :message => "you must have a review start date!"
-  # validates_presence_of :review_end_date, :message => "you must have a review end date!"
-  # validates_presence_of :project_period_start_date, :message => "you must have a project start date!"
-  # validates_presence_of :project_period_end_date, :message => "you must have a project end date!"
-
-
-
+  validates_length_of :project_name, :within => 2..25, :too_long => "Project Name is too short (minimum is 2 characters)", :too_short => "Project Name is too long (maximum is 25 characters)"
+  validates_length_of :project_title, :within => 10..255, :too_long => "Project Title is too short (minimum is 10 characters)", :too_short => "Project Title is too long (maximum is 255 characters)"
 
 
   def self.current(*date)

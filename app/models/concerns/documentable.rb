@@ -7,12 +7,12 @@ module Documentable
                          'document3',
                          'document4'].freeze
 
-  ADDITIONAL_CRITERIA = ['budget',
+  ADDITIONAL_DOCUMENTS = ['budget',
                          'other',
                          'completion'].freeze
 
   # All possible composite criteria -- based on Project attributes
-  COMPOSITE_CRITERIA = (DEFAULT_CRITERIA + ADDITIONAL_CRITERIA).freeze
+  COMPOSITE_DOCUMENTS = (MAIN_DOCUMENTS + ADDITIONAL_DOCUMENTS).freeze
 
   def calculate_average scores
     return 0 if scores.empty?
