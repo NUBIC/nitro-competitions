@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: f8e1b81f8da82ea9eb88c4939a3a6801f97e5ac1
+  branch: master
+  specs:
+    faker (1.8.7)
+      i18n (>= 0.7)
+
 PATH
   remote: vendor/gems/omniauth-northwestern-medicine-0.0.4
   specs:
@@ -342,6 +350,7 @@ DEPENDENCIES
   execjs
   factory_girl
   factory_girl_rails
+  faker!
   faraday
   fastercsv
   haml

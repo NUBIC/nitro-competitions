@@ -82,4 +82,5 @@ group :test do
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
   gem 'selenium-webdriver'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 end
