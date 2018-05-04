@@ -8,9 +8,8 @@ describe Project, :type => :model do
   it { is_expected.to belong_to(:program) }
   it { is_expected.to belong_to(:creator) }
 
-  describe 'validation of length on varchars' do
+  describe 'validation of length on varchars for project' do
     let(:project) { FactoryGirl.create(:project) }
-    # let(:project) { FactoryGirl.create(:project, project_name: "ThisIsStupid") }
     it "validates length of varchars" do
       varchar_attributes = [:status,
                             :rfa_url,
