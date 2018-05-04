@@ -3,6 +3,17 @@
 class Submission < ApplicationRecord
   include WithScoring
 
+  SUBMISSION_VARCHAR_COLUMNS = ['submission_status',
+                                'irb_study_num',
+                                'nucats_cru_contact_name',
+                                'iacuc_study_num',
+                                'effort_approver_username',
+                                'department_administrator_username',
+                                'submission_category',
+                                'core_manager_username',
+                                'notification_sent_to',
+                                'type_of_equipment'].freeze
+
   belongs_to :project
   belongs_to :applicant,                :class_name => 'User', :foreign_key => 'applicant_id'
   belongs_to :submitter,                :class_name => 'User', :foreign_key => 'created_id'
@@ -66,7 +77,11 @@ class Submission < ApplicationRecord
 
   before_validation :clean_params, :set_defaults
 
+  SUBMISSION_VARCHAR_COLUMNS.each do |column|
+    validates_length_of column.to_sym, :allow_blank => true, :maximum => 255, :too_long => 'is too long (maximum is 255 characters)'
+  end
   validates_length_of :submission_title, :within => 6..200, :too_long => '--- pick a shorter title', :too_short => '--- pick a longer title'
+
   validates_numericality_of :direct_project_cost, :greater_than => 1_000_000, :if => proc { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => 'is too low'
   validates_numericality_of :direct_project_cost, :less_than => 1000, :if => proc { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => 'is too high'
 
