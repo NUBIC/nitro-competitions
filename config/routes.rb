@@ -41,7 +41,7 @@ NucatsAssist::Application.routes.draw do
   end
 
   resources :projects do
-    resources :duplications, only: [:new], controller: 'projects/duplications'
+    resources :duplications, controller: 'projects/duplications', only: [:new]
 
     member do
       get :all_reviews
@@ -149,6 +149,8 @@ NucatsAssist::Application.routes.draw do
 
   match '/users/login', to: 'users#login', via: [:get]
   match '/users/create_user', to: 'users#create', via: [:post]
+
+  match '/projects/:id/copy' => 'projects/duplications#new', as: :copy_project, via: [:get]
 
   match '/:controller(/:action(/:id))', via: [:get, :post]
 
