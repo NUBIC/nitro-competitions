@@ -87,11 +87,9 @@ class ProjectsController < ApplicationController
     if params[:program_id]
       @program = Program.find(params[:program_id])
       @project = Project.new(program: @program)
-    else
-      @program = Program.find(@project.program_id)
     end
     respond_to do |format|
-      if is_admin?(@program)
+      if @program.present? && is_admin?(@program)
         format.html # new.html.erb
         format.xml { render xml: @project }
       else
