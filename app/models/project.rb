@@ -14,14 +14,14 @@ class Project < ApplicationRecord
 
   validates_length_of :project_title, :within => 10..255, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
   validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
-  validates_uniqueness_of :project_name  #simplifies the logic a lot if we force the project names to be absolutely unique
-  validates_presence_of :initiation_date, :message => "you must have an initiation date!"
-  validates_presence_of :submission_open_date, :message => "you must have a submission open date!"
-  validates_presence_of :submission_close_date, :message => "you must have a submission close date!"
-  validates_presence_of :review_start_date, :message => "you must have a review start date!"
-  validates_presence_of :review_end_date, :message => "you must have a review end date!"
-  validates_presence_of :project_period_start_date, :message => "you must have a project start date!"
-  validates_presence_of :project_period_end_date, :message => "you must have a project end date!"
+  validates_uniqueness_of :project_name, :message => 'must be unique'  #simplifies the logic a lot if we force the project names to be absolutely unique
+  validates_presence_of :initiation_date, :message => 'must be set'
+  validates_presence_of :submission_open_date, :message => 'must be set'
+  validates_presence_of :submission_close_date, :message => 'must be set'
+  validates_presence_of :review_start_date, :message => 'must be set'
+  validates_presence_of :review_end_date, :message => 'must be set'
+  validates_presence_of :project_period_start_date, :message => 'must be set'
+  validates_presence_of :project_period_end_date, :message => 'must be set'
 
   def self.current(*date)
     where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now })
