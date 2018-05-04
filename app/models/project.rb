@@ -4,6 +4,56 @@ class Project < ApplicationRecord
   include Rails.application.routes.url_helpers
   include WithScoring
 
+  PROJECT_DATE_COLUMNS = ['initiation_date', 
+        'submission_open_date', 
+        'submission_close_date', 
+        'review_start_date', 
+        'review_end_date', 
+        'project_period_start_date', 
+        'project_period_end_date'].freeze
+
+  # BUILDING VALIDATIONS FOR VARCHARS(255).
+    # These groups are rather arbitrary and could easily be rethought. 
+    # TODO: This should be reconsidered when a new framework is added.
+  PROJECT_VARCHAR_COLUMNS = []
+  (1..4).each do |number|
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_name"
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_description"
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_template_url"
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_info_url"
+  end
+
+  ['application', 'budget'].each do |doc|
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_template_url"
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_template_url_label"
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_info_url"
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_info_url_label"
+  end
+
+  WithScoring::FULL_CRITERIA_LIST.each do |score|
+    PROJECT_VARCHAR_COLUMNS << "#{score}_title"
+  end
+
+  # The rest of the varchar attributes.
+  PROJECT_VARCHAR_COLUMNS << 'status'
+  PROJECT_VARCHAR_COLUMNS << 'rfa_url'
+  PROJECT_VARCHAR_COLUMNS << 'review_guidance_url'
+  PROJECT_VARCHAR_COLUMNS << 'project_name'
+  PROJECT_VARCHAR_COLUMNS << 'abstract_text'
+  PROJECT_VARCHAR_COLUMNS << 'manage_other_support_text'
+  PROJECT_VARCHAR_COLUMNS << 'project_url_label'
+  PROJECT_VARCHAR_COLUMNS << 'submission_category_description'
+  PROJECT_VARCHAR_COLUMNS << 'human_subjects_research_text'
+  PROJECT_VARCHAR_COLUMNS << 'application_doc_name'
+  PROJECT_VARCHAR_COLUMNS << 'application_doc_description'
+  PROJECT_VARCHAR_COLUMNS << 'supplemental_document_name'
+  PROJECT_VARCHAR_COLUMNS << 'supplemental_document_description'
+  PROJECT_VARCHAR_COLUMNS << 'closed_status_wording'
+  PROJECT_VARCHAR_COLUMNS << 'total_amount_requested_wording'
+  PROJECT_VARCHAR_COLUMNS << 'type_of_equipment_wording'
+  PROJECT_VARCHAR_COLUMNS.freeze
+
+
   belongs_to :program
   belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
@@ -12,66 +62,14 @@ class Project < ApplicationRecord
   before_validation :clean_params
   before_create :set_defaults
 
-
   validates_uniqueness_of :project_name  #simplifies the logic a lot if we force the project names to be absolutely unique
-  
 
-  dates = ['initiation_date', 'submission_open_date', 'submission_close_date', 'review_start_date', 'review_end_date', 'project_period_start_date', 'project_period_end_date']
-  
-  dates.each do |date|
-    validates_presence_of date.to_sym, :message => "you must have a #{date}!"
+  PROJECT_DATE_COLUMNS.each do |column|
+    validates_presence_of column.to_sym, :message => "you must have a #{column}!"
   end
 
-
-  # BUILDING VALIDATIONS FOR VARCHARS(255).
-  # TODO: This should be reconsidered when a new framework is added.
-  docs = {}
-  (1..4).each do |i|
-    docs["document#{i}_name"] = "Document#{i} Name"  
-    docs["document#{i}_description"] = "Document#{i} Description"
-    docs["document#{i}_template_url"] = "Document#{i} Template URL"
-    docs["document#{i}_info_url"] = "Document#{i} Info URL"
-  end
-
-  other_docs = {}
-  od = ['application', 'budget']
-  od.each do |doc|
-    other_docs["#{doc}_template_url"] = "#{doc.titleize()} Template URL"
-    other_docs["#{doc}_template_url_label"] = "#{doc.titleize} Template URL Label"
-    other_docs["#{doc}_info_url"] = "#{doc.titleize} Info URL"
-    other_docs["#{doc}_info_url_label"] = "#{doc.titleize} Info URL Label"
-  end
-
-  the_rest = {status: 'Status',
-              rfa_url: 'RFA URL',
-              review_guidance_url: 'Review Guidance URL',
-              overall_impact_title: 'Overall Impact Title',
-              impact_title: 'Impact Title',
-              team_title: 'Team Title',
-              innovation_title: 'Innovation Title',
-              scope_title: 'Scope Title',
-              environment_title: 'Environment Title',
-              other_title: 'Other Title',
-              budget_title: 'Budget Title',
-              completion_title: 'Completion Title',
-              project_name: 'Project Name',
-              abstract_text: 'Abstract Text',
-              manage_other_support_text: 'Manage Other Support Text',
-              project_url_label: 'Project URL Label',
-              submission_category_description: 'Submission Category Description',
-              human_subjects_research_text: 'Human Subjects Research Text',
-              application_doc_name: 'Application Doc Name',
-              application_doc_description: 'Application Doc Description',
-              supplemental_document_name: 'Supplemental Document Name',
-              supplemental_document_description: 'Supplemental Document Description',
-              closed_status_wording: 'Closed Status Wording',
-              total_amount_requested_wording: 'Total Amount Requested Wording',
-              type_of_equipment_wording: 'Type of Equipment Wording'}
-
-  varchars = docs.merge(other_docs).merge(the_rest)
-
-  varchars.each do |attribute, label|
-    validates_length_of attribute.to_sym, :allow_blank => true, :maximum => 255, :too_long => "#{label} is too long (maximum is 255 characters)"
+  PROJECT_VARCHAR_COLUMNS.each do |column|
+    validates_length_of column.to_sym, :allow_blank => true, :maximum => 255, :too_long => 'is too long (maximum is 255 characters)'
   end
 
   validates_length_of :project_name, :within => 2..25, :too_long => "Project Name is too short (minimum is 2 characters)", :too_short => "Project Name is too long (maximum is 25 characters)"
