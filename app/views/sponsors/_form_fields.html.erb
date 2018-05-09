@@ -1,0 +1,49 @@
+<table>
+  <tr>
+    <td class="title">
+      <%= f.label 'Name' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :program_name, size: 40 %>
+      <br/>
+      <em>Used in competition URL. Ex: <%= root_url %>competitions/<strong>sponsor_name</strong>/competition_name</em>
+      <br/>
+      <em>Spaces will be removed.</em>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'Contact email' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :email, size: 40 %>
+      <br/>
+      <em>Where can applicants contact you for help with your competitions?</em>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'Allow Reviewer Notification' %>
+    </td>
+    <td class="notes">
+      <%= f.check_box :allow_reviewer_notification %>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'Title' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :program_title, size: 80 %>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'Website' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :program_url, size: 80 %>
+    </td>
+</table>
+
+<%= f.submit 'Save' %>

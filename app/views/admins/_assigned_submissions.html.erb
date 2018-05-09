@@ -1,0 +1,34 @@
+<ul class="assigned_submission_list">
+  <% reviewer.submission_reviews.this_project(project.id).includes(submission: :applicant).order("#{User.table_name}.last_name, #{User.table_name}.first_name").each do |item| %>
+    <li class="assigned_submission" id="submission_review_<%= "#{item.id}" %>">
+      <span>
+        <%= "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission.submission_title, 50)}" %>
+      </span>
+      <%- unless item.submission.is_complete? %>
+        <span class="submission_incomplete">i</span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<script>
+  jQuery('.assigned_submission').draggable({
+    revert: "invalid"
+  });
+  jQuery('.assigned_submission_list').droppable({
+    hoverClass: 'hover',
+    drop: function(event, ui) {
+      reviewerID = jQuery(this).parent().attr('id').split('_').splice(-1)[0];
+      submissionID = jQuery(ui.draggable).attr('id').split('_').slice(-1)[0];
+
+      jQuery.ajax({
+        type: "POST",
+        url: '/projects/' + <%= @project.id %> + '/admins/' + reviewerID + '/assign_submission.js',
+        data: { "submission_id": submissionID },
+        success: function(data) {
+          window.location.href = '/projects/' + <%= @project.id %> + '/admins/reviewers';
+        }
+      });
+    }
+  });
+</script>
