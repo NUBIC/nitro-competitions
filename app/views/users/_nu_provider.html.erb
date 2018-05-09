@@ -1,0 +1,9 @@
+<% link_class = (domain == 'nu' ? 'domain_option selected_domain' : 'domain_option') %>
+<%= link_to '#', class: link_class, id: domain, title: t("login.#{domain}") do  %>
+  <div class="image_button">
+    <%= image_tag("#{domain}.png", width: '64', height: '64') %>
+  </div>
+  <div class="domain_name">
+    <%= domain.upcase %>
+  </div>
+<% end %>
