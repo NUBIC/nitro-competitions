@@ -16,7 +16,7 @@ class Projects::DuplicationsController < ApplicationController
       @program = Project.find(params[:id]).program
       redirect_to(sponsor_path(@program))
     else
-      flash[:alert] = 'Project not found. Please contact the Sponsor Admin.'
+      flash[:alert] = 'Competition not found. Please contact the Sponsor Admin.'
       redirect_to root_path
     end
   end
