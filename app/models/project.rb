@@ -30,8 +30,8 @@ class Project < ApplicationRecord
     PROJECT_VARCHAR_COLUMNS << "#{doc}_info_url_label"
   end
 
-  WithScoring::FULL_CRITERIA_LIST.each do |score|
-    PROJECT_VARCHAR_COLUMNS << "#{score}_title"
+  WithScoring::ALL_REVIEW_CRITERIA.each do |criterion|
+    PROJECT_VARCHAR_COLUMNS << "#{criterion}_title"
   end
 
   # The rest of the varchar attributes.
