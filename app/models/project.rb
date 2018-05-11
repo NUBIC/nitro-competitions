@@ -4,6 +4,56 @@ class Project < ApplicationRecord
   include Rails.application.routes.url_helpers
   include WithScoring
 
+  PROJECT_DATE_COLUMNS = ['initiation_date', 
+        'submission_open_date', 
+        'submission_close_date', 
+        'review_start_date', 
+        'review_end_date', 
+        'project_period_start_date', 
+        'project_period_end_date'].freeze
+
+  # BUILDING VALIDATIONS FOR VARCHARS(255).
+    # These groups are rather arbitrary and could easily be rethought. 
+    # TODO: This should be reconsidered when a new framework is added.
+  PROJECT_VARCHAR_COLUMNS = []
+  (1..4).each do |number|
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_name"
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_description"
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_template_url"
+    PROJECT_VARCHAR_COLUMNS << "document#{number}_info_url"
+  end
+
+  ['application', 'budget'].each do |doc|
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_template_url"
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_template_url_label"
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_info_url"
+    PROJECT_VARCHAR_COLUMNS << "#{doc}_info_url_label"
+  end
+
+  WithScoring::ALL_REVIEW_CRITERIA.each do |criterion|
+    PROJECT_VARCHAR_COLUMNS << "#{criterion}_title"
+  end
+
+  # The rest of the varchar attributes.
+  PROJECT_VARCHAR_COLUMNS << 'status'
+  PROJECT_VARCHAR_COLUMNS << 'rfa_url'
+  PROJECT_VARCHAR_COLUMNS << 'review_guidance_url'
+  PROJECT_VARCHAR_COLUMNS << 'project_name'
+  PROJECT_VARCHAR_COLUMNS << 'abstract_text'
+  PROJECT_VARCHAR_COLUMNS << 'manage_other_support_text'
+  PROJECT_VARCHAR_COLUMNS << 'project_url_label'
+  PROJECT_VARCHAR_COLUMNS << 'submission_category_description'
+  PROJECT_VARCHAR_COLUMNS << 'human_subjects_research_text'
+  PROJECT_VARCHAR_COLUMNS << 'application_doc_name'
+  PROJECT_VARCHAR_COLUMNS << 'application_doc_description'
+  PROJECT_VARCHAR_COLUMNS << 'supplemental_document_name'
+  PROJECT_VARCHAR_COLUMNS << 'supplemental_document_description'
+  PROJECT_VARCHAR_COLUMNS << 'closed_status_wording'
+  PROJECT_VARCHAR_COLUMNS << 'total_amount_requested_wording'
+  PROJECT_VARCHAR_COLUMNS << 'type_of_equipment_wording'
+  PROJECT_VARCHAR_COLUMNS.freeze
+
+
   belongs_to :program
   belongs_to :creator, :class_name => "User", :foreign_key => "created_id"
   has_many :submissions
@@ -12,17 +62,21 @@ class Project < ApplicationRecord
   before_validation :clean_params
   before_create :set_defaults
 
-  validates_length_of :project_title, :within => 10..255, :too_long => "--- pick a shorter title", :too_short => "--- pick a longer title"
-  validates_length_of :project_name, :within => 2..25, :too_long => "--- pick a shorter name", :too_short => "--- pick a longer name"
-  validates_uniqueness_of :project_name, :message => 'must be unique'  #simplifies the logic a lot if we force the project names to be absolutely unique
-  validates_presence_of :initiation_date, :message => 'must be set'
-  validates_presence_of :submission_open_date, :message => 'must be set'
-  validates_presence_of :submission_close_date, :message => 'must be set'
-  validates_presence_of :review_start_date, :message => 'must be set'
-  validates_presence_of :review_end_date, :message => 'must be set'
-  validates_presence_of :project_period_start_date, :message => 'must be set'
-  validates_presence_of :project_period_end_date, :message => 'must be set'
+  
+  validates_uniqueness_of :project_name, :message => 'must be unique'   #simplifies the logic a lot if we force the project names to be absolutely unique
 
+  PROJECT_DATE_COLUMNS.each do |column|
+    validates_presence_of column.to_sym, :message => 'must be set'
+  end
+
+  PROJECT_VARCHAR_COLUMNS.each do |column|
+    validates_length_of column.to_sym, :allow_blank => true, :maximum => 255, :too_long => 'is too long (maximum is 255 characters)'
+  end
+
+  validates_length_of :project_name, :within => 2..25, :too_long => "Project Name is too short (minimum is 2 characters)", :too_short => "Project Name is too long (maximum is 25 characters)"
+  validates_length_of :project_title, :within => 10..255, :too_long => "Project Title is too short (minimum is 10 characters)", :too_short => "Project Title is too long (maximum is 255 characters)"
+
+  
   def self.current(*date)
     where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now })
   end

@@ -24,6 +24,25 @@ describe Submission, :type => :model do
   it { is_expected.to have_many(:key_personnel) }
   it { is_expected.to have_many(:key_people).through(:key_personnel) }
 
+  describe 'validation of length on varchars for submission' do
+    let(:submission) { FactoryGirl.create(:submission) }
+    it "validates length of varchars" do
+      varchar_attributes = [:submission_status,
+                            :irb_study_num,
+                            :nucats_cru_contact_name,
+                            :iacuc_study_num,
+                            :effort_approver_username,
+                            :department_administrator_username,
+                            :submission_category,
+                            :core_manager_username,
+                            :notification_sent_to,
+                            :type_of_equipment]                   
+      varchar_attributes.each do |att|
+        expect(submission).to validate_length_of(att)
+      end
+    end
+  end
+
   it 'can be instantiated' do
     expect(FactoryGirl.build(:submission)).to be_an_instance_of(Submission)
   end
