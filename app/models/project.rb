@@ -4,16 +4,16 @@ class Project < ApplicationRecord
   include Rails.application.routes.url_helpers
   include WithScoring
 
-  PROJECT_DATE_COLUMNS = ['initiation_date', 
-        'submission_open_date', 
-        'submission_close_date', 
-        'review_start_date', 
-        'review_end_date', 
-        'project_period_start_date', 
+  PROJECT_DATE_COLUMNS = ['initiation_date',
+        'submission_open_date',
+        'submission_close_date',
+        'review_start_date',
+        'review_end_date',
+        'project_period_start_date',
         'project_period_end_date'].freeze
 
   # BUILDING VALIDATIONS FOR VARCHARS(255).
-    # These groups are rather arbitrary and could easily be rethought. 
+    # These groups are rather arbitrary and could easily be rethought.
     # TODO: This should be reconsidered when a new framework is added.
   PROJECT_VARCHAR_COLUMNS = []
   (1..4).each do |number|
@@ -62,7 +62,7 @@ class Project < ApplicationRecord
   before_validation :clean_params
   before_create :set_defaults
 
-  
+
   validates_uniqueness_of :project_name, :message => 'must be unique'   #simplifies the logic a lot if we force the project names to be absolutely unique
 
   PROJECT_DATE_COLUMNS.each do |column|
@@ -73,10 +73,10 @@ class Project < ApplicationRecord
     validates_length_of column.to_sym, :allow_blank => true, :maximum => 255, :too_long => 'is too long (maximum is 255 characters)'
   end
 
-  validates_length_of :project_name, :within => 2..25, :too_long => "Project Name is too short (minimum is 2 characters)", :too_short => "Project Name is too long (maximum is 25 characters)"
-  validates_length_of :project_title, :within => 10..255, :too_long => "Project Title is too short (minimum is 10 characters)", :too_short => "Project Title is too long (maximum is 255 characters)"
+  validates_length_of :project_name, :within => 2..25, :too_short => "Project Name is too short (minimum is 2 characters)", :too_long => "Project Name is too long (maximum is 25 characters)"
+  validates_length_of :project_title, :within => 10..255, :too_short => "Project Title is too short (minimum is 10 characters)", :too_long => "Project Title is too long (maximum is 255 characters)"
 
-  
+
   def self.current(*date)
     where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now })
   end

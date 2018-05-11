@@ -59,7 +59,7 @@ describe Project, :type => :model do
                             :supplemental_document_description,
                             :closed_status_wording,
                             :total_amount_requested_wording,
-                            :type_of_equipment_wording]                   
+                            :type_of_equipment_wording]
       varchar_attributes.each do |att|
         expect(project).to validate_length_of(att)
       end
@@ -92,6 +92,14 @@ describe Project, :type => :model do
       ].each do |att|
         expect(project.errors).to include(att)
       end
+    end
+  end
+
+  describe 'an invalid project' do
+    it 'rejects a one character project_name' do
+      project = FactoryGirl.build(:project, project_name: 'a')
+      expect(project).not_to be_valid
+      expect(project.errors).to include(:project_name)
     end
   end
 
