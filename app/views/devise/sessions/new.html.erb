@@ -1,0 +1,28 @@
+<%- provide(:title_tag, 'Log In') -%>
+<%- if @motd %>
+  <div id="motd">
+    <%= @motd.html_safe %>
+  </div>
+<% end -%>
+<%- if @client %>
+  <div id="client_authentication" class="login_form_header">
+    <%= t('login.authenticate_for_client', client_name: @client.name).html_safe %>
+  </div>
+<% end -%>
+  <div class="login_form_header">
+<%- if session['terms_accepted'].nil? %>
+    <h2>
+      <%= t('devise.login_message') %>
+    </h2>
+<% else %>
+    <h2>
+      <%= t('registration.verify_account') %>
+    </h2>
+    <div class="login_instructions">
+      <%= t('login.instructions') %>
+    </div>
+<% end -%>
+  </div>
+<div class="login_form">
+  <%= render "devise/shared/login", :button_text => t('login.sign_in') %>
+</div>

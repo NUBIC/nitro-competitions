@@ -1,8 +1,0 @@
-- provide(:title_tag, is_current_user?(@applicant.id) ? 'Edit Your Profile' : "Edit Profile - #{@applicant.name} ")
-- url = (params[:project_id].blank? ? applicant_path(@applicant.id) : project_applicant_path(params[:project_id], @applicant.id))
-
-.bottom_border
-  %h3= yield(:title_tag)
-
-= form_for(:applicant, :url => url, :html => { :multipart => true, :method => :put, :id => "applicant_form", class: 'form-horizontal' }) do |f|
-  = render('applicant_form', f: f)
