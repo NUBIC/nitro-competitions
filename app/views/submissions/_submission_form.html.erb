@@ -25,7 +25,7 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, size: 65, maxlength: 200, required: true, minlength: 6,
+    <%= f.text_field :submission_title, size: 70, maxlength: 200, required: true, minlength: 6,
                      onkeyup: "jQuery('#submission_title_cnt').html(200 - jQuery('#submission_submission_title').val().length);" %>
     <span class='required_marker'> * </span>
     <span id='submission_title_cnt'>200</span>
@@ -40,7 +40,7 @@
       <%= f.label :submission_category, project.category_wording.html_safe %>
     </td>
     <td>
-      <%= f.text_field :submission_category, size: 60, :maxlength => 255 %>
+      <%= f.text_field :submission_category, size: 70, :maxlength => 255 %>
     </td>
     <td class='notes'>
       <%= project.submission_category_description.html_safe %>
@@ -82,7 +82,7 @@
       <%= f.label :abstract %>
     </td>
     <td>
-      <%= f.text_area :abstract, rows: 7, cols: 80, wrap: 'virtual', required: true %>
+      <%= f.text_area :abstract, rows: 7, cols: 70, wrap: 'virtual', required: true %>
     </td>
     <td class='notes'>
       <%= project.abstract_text.html_safe %>
@@ -267,7 +267,7 @@
       <%= f.label :cost_sharing_organization %>
     </td>
     <td>
-      <%= f.text_area :cost_sharing_organization, rows: 3, cols: 80, wrap: 'virtual', required: true %>
+      <%= f.text_area :cost_sharing_organization, rows: 3, cols: 70, wrap: 'virtual', required: true %>
     </td>
     <td class='notes'>
       Please list the organization(s) providing the cost sharing
@@ -289,7 +289,7 @@
         If you received prior support, please indicate when the award(s) was made and
         how much money was awarded for each item - be specific:
         <br/>
-        <%= f.text_area :previous_support_description, rows: 3, cols: 80, wrap: 'virtual' %>
+        <%= f.text_area :previous_support_description, rows: 3, cols: 70, wrap: 'virtual' %>
       <% end %>
     </td>
   </tr>
@@ -308,7 +308,7 @@
         If this is NOT new work, please explain:
         <br />
         <span>
-          <%= f.text_area :not_new_explanation, rows: 4, wrap: 'virtual' %>
+          <%= f.text_area :not_new_explanation, rows: 4, cols: 70, wrap: 'virtual' %>
         </span>
       <% end %>
     </td>
@@ -346,7 +346,7 @@
       <%= f.label :other_funding_sources, project.other_funding_sources_wording.html_safe %>
     </td>
     <td class='notrequired'>
-      <%= f.text_area :other_funding_sources, rows: 4, wrap: 'virtual', class: 'narrow', required: true %>
+      <%= f.text_area :other_funding_sources, rows: 4, cols: 70, wrap: 'virtual', required: true %>
     </td>
     <td class='notes'>
       Are there alternative sources of funding for this project? Please list current support and
@@ -366,7 +366,7 @@
       <br />
       If yes, please explain:
       <br />
-      <%= f.text_area :conflict_explanation, { rows: 4, wrap: 'virtual', class: 'narrow'} %>
+      <%= f.text_area :conflict_explanation, { rows: 4, cols: 70, wrap: 'virtual'} %>
     </td>
   </tr>
 <% end %>
