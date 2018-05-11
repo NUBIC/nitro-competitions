@@ -1,0 +1,45 @@
+<table>
+  <tr>
+    <td class="title">
+      <%= f.label 'Username' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :username, size: 20, required: true %>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'First Name' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :first_name, size: 20, required: true %>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'Last Name' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :last_name, size: 40, required: true %>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <%= f.label 'Email' %>
+    </td>
+    <td class="notes">
+      <%= f.text_field :email, size: 40, required: true %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= f.submit 'Save' %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= link_to 'Back', reviewers_project_admins_path(current_project) %>
+    </td>
+  </tr>
+</table>
+
