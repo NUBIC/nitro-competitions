@@ -5,15 +5,6 @@ module ApplicationHelper
 
   require 'config'
 
-  def page_title(page_title, show_title = true)
-    @show_title = show_title
-    content_for(:page_title) { page_title.to_s }
-  end
-
-  def show_title?
-    @show_title == true
-  end
-
   def blank_safe(word, filler = '-')
     word.blank? ? filler : word
   end
