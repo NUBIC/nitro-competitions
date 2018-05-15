@@ -18,7 +18,7 @@ class PublicController < ApplicationController
     if current_user
       redirect_to '/public/home'
     else
-      @projects = Project.open.flatten.uniq.select { |p| p.visible == true }
+      @projects = Project.open.uniq.select { |p| p.visible == true }
 
       @programs = {}
       @projects.each do |pr|

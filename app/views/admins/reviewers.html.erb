@@ -1,0 +1,120 @@
+<% provide(:title_tag, "Define Reviewers for #{@project.project_title}") %>
+<style>
+  .hover {
+    background-color: #888888;
+  }
+  #assigned_submissions ul li, #unassigned_submissions ul li {
+    list-style: none;
+    cursor: -moz-grab;
+  }
+  #assigned_submissions, #unassigned_submissions {
+    border: none;
+  }
+</style>
+<h3>
+  <div class="bottom_border">
+    <span>
+      <%= link_to(@project.program.program_name, sponsor_path(@project.program)) %>
+    </span>
+    :
+    <span>
+      <%= link_to(@project.project_title, project_path(@project)) %>
+    </span>
+  </div>
+</h3>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-7">
+      <h3>
+        Add Reviewers
+      </h3>
+      <section>
+        Username/NetID:
+        <%= form_for(:admin, :url => add_reviewers_project_admins_path(@project.id) ) do |f| %>
+          <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
+          <section>
+            <%= f.text_area :reviewer_list, {:rows => 1, :cols => 20, :wrap=>"virtual"} %>
+            <%= f.submit 'Add' %>
+          </section>
+          <section>
+            Reviewer doesn't have a NetID?
+            <%= link_to 'Search for an account.', user_lookup_project_admins_path %>
+            <%= username_lookup_tag %>
+          </section>
+        <% end %>
+      </section>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-7">
+      <h3>
+        Reviewers and Submissions
+      </h3>
+      <p>
+        To remove an assignment, drag the submission from the reviewer's box back to the unassigned submissions box on the right. Each reviewer may assess up to <%= @project.max_assigned_proposals_per_reviewer %> submissions.
+      </p>
+    </div>
+    <div class="col-xs-5">
+      <h3>
+        Unassigned Submissions
+      </h3>
+      <p>
+        Drag the unassigned submissions below to the box under the desired reviewer on the left. Each submission should be assessed by <%= @project.max_assigned_reviewers_per_proposal %> reviewers
+      </p>
+      <p>
+        <span class="submission_incomplete">
+          i
+        </span>
+        <span> = incomplete submission</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-7">
+      <%= render 'reviewers', reviewers: @reviewers, project: @project %>
+    </div>
+    <div class="col-xs-5">
+      <div id="unassigned_submissions">
+        <div class="unassigned_submission_list">
+          <% @unfilled_submissions.each do |item| %>
+            <div class="row unassigned_submission" id="submission_<%="#{item.id}"%>">
+              <span>
+                <%= "#{item.applicant.last_name}, #{item.applicant.first_name}: #{truncate_words(item.submission_title, 30)}(#{@project.max_assigned_reviewers_per_proposal  - item.reviewers.count})" %>
+              </span>
+              <% unless item.is_complete? %>
+               <span class="submission_incomplete">i</span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery('.unassigned_submission').draggable({
+    revert: "invalid"
+  });
+  jQuery('.unassigned_submission_list').droppable({
+    hoverClass: 'hover',
+    drop: function(event, ui) {
+      submissionReviewID = jQuery(ui.draggable).attr('id').split('_').slice(-1)[0];
+
+      if (confirm('This will delete the review you just moved. Are you OK with that?')) {
+        jQuery.ajax({
+          type: "POST",
+          url: '/projects/' + '<%= @project.id %>' + '/admins/unassign_submission.js',
+          data: { "submission_review_id": submissionReviewID },
+          success: function(data) {
+            window.location.href = '/projects/' + '<%= @project.id %>' + '/admins/reviewers';
+          }
+        });
+      } else {
+        location.reload();
+      }
+    }
+  });
+</script>

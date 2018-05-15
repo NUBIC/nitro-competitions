@@ -16,7 +16,7 @@ default.
 
 ## About
 
-**NITRO**Competitions is written in [Ruby on Rails 3][2] and uses [PostgreSQL][3] as the
+**NITRO**Competitions is written in [Ruby on Rails 5][2] and uses [PostgreSQL][3] as the
 backend database by default. However, any RDBMS that is supported by
 [ActiveRecord][4] should work.
 
@@ -57,7 +57,7 @@ descriptive text can be entered for each criterion.
 
 Since **NITRO**Competitions is a standard Rails app, installing it is just like
 installing any other Rails app. The current version of the code is tested
-against Ruby 2.x.x
+against Ruby 2.5
 
 See the [wiki][8] for install instructions.
 
@@ -76,14 +76,6 @@ The current version of **NITRO**Competitions uses OAuth providers for authentica
 via the [`omniauth` gem][1].
 
 See [`config/application.rb line 58`][6]
-
-### aker
-
-Support for authentication via [the `aker` gem][5] also works, but is officially
-deprecated as of `v2.2.9`.
-
-To use the original LDAP Aker implementation, change [this line][6] from `true` to
-`false`.
 
 If you DO use an OAuth provider, note that you must register this application as
 a client of that provider (e.g. register the app with Google, Facebook, or

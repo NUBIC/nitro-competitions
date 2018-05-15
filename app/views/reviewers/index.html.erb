@@ -1,12 +1,14 @@
+<% provide(:title_tag, "Assigned Reviews - #{@project.project_title}") %>
 <% @assigned_submission_reviews ||= nil %>
-<% @submission_reviews ||= nil %>
-<% @submission_reviews_title ||= "Complete list of assignments for this competition" %>
-<% @include_competition ||= true %>
-<% @include_files ||= false %>
-<% @speed_display ||= false %>
+<% @submission_reviews  ||= nil %>
+<% @submission_reviews_title ||= 'Complete list of assignments for this competition' %>
+<% @include_competition ||= false %>
+<% @include_files       ||= false %>
+<% @speed_display       ||= false %>
+<h4><%= @project.project_title %></h4>
 <% if (@submission_reviews.blank? or @submission_reviews.length == 0) and
-      (@assigned_submission_reviews.blank? or @assigned_submission_reviews. length == 0) %>
-  <h2>Sorry, you do not have any accessible reviews at this time</h2>
+      (@assigned_submission_reviews.blank? or @assigned_submission_reviews.length == 0) %>
+  <h3>Sorry, you do not have any accessible reviews at this time</h3>
 <% end %>
 <%= render('submission_review_table',
            :submission_reviews => @assigned_submission_reviews,

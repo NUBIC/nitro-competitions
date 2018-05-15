@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class ApproversController < ApplicationController
-  before_filter  :set_project
+  before_action  :set_project
 
   def index
     @sponsor = @project.program

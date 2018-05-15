@@ -1,3 +1,4 @@
+<% provide(:title_tag, "#{NucatsAssist.ctsa_name} Membership Required") %>
 <div id='project_membership_required'>
   <p>
     <% project_title = @project.project_title.blank? ? 'competition' : "#{@project.project_title} competition" %>
@@ -16,7 +17,7 @@
   </p>
   <p class='membership_note'>
     <b>
-      Our membership database has been recently updated (May 1, 2016).  You may be asked to sign in again and/or enter new information.
+      Our membership database has been recently updated.  You may be asked to sign in again and/or enter new information.
     </b>
   </p>
   <p>

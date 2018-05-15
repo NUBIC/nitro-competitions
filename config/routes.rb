@@ -41,6 +41,8 @@ NucatsAssist::Application.routes.draw do
   end
 
   resources :projects do
+    resources :duplications, controller: 'projects/duplications', only: [:new]
+
     member do
       get :all_reviews
       get :membership_required
@@ -74,7 +76,6 @@ NucatsAssist::Application.routes.draw do
         get :view_sponsor_applicants
         get :reviewers
         get :submissions
-        get :submission_search
         post :add_reviewers
         post :unassign_submission
         get :act_as_user
@@ -148,6 +149,8 @@ NucatsAssist::Application.routes.draw do
 
   match '/users/login', to: 'users#login', via: [:get]
   match '/users/create_user', to: 'users#create', via: [:post]
+
+  match '/projects/:id/copy' => 'projects/duplications#new', as: :copy_project, via: [:get]
 
   match '/:controller(/:action(/:id))', via: [:get, :post]
 

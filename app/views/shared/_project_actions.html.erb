@@ -1,29 +1,39 @@
 <% if is_logged_in? %>
-  <div class='project_actions'>
-    <% if is_admin?(project.program) %>
-      <%= link_to(image_tag("page_white_edit.png",
-                            width: "16px", height: "16px",
-                            style: "margin-top:-5px; margin-bottom:-2px;") + ' Edit competition information',
-                  edit_project_path(project),
-                  title: "Click here to edit information about this competition") %>
-      <br/>
-      <% if show_submissions %>
-        <% if project.submissions.length == 0 %>
-          <%= link_to(image_tag("trash_blue.png",
-                                width: "16px", height: "16px",
-                                style: "margin-top:-5px; margin-bottom:-2px") + ' Destroy competition',
-                      project,
-                      confirm: "Are you sure you want to delete the competition: #{project.project_title}?",
-                      method: :delete,
-                      title: "Click here to delete this competition completely" ) %>
-        <% else %>
-          <div class='cannot_delete'>
-            Can't delete - submissions exist
-          </div>
-        <% end %>
-      <% end %>
-    <% end %>
+  <div class="project_actions">
+  <% if show_project_docs?(project) %>
     <%= render 'shared/links_to_project_docs', project: project %>
+  <% end %>
+  <% if is_admin?(project.program) || has_read_all?(project.program) %>
+    <h4>Manage this competition:</h4>
+    <div class="project_information">
+      Submissions:
+      <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
+    </div>
+  <% end %>
+  <% if is_admin?(project.program) %>
+    <div class="project_admin">
+      <ul>
+        <li>
+          <%= link_to(image_tag('page_white_edit.png') + ' Edit',
+                      edit_project_path(project),
+                      title: 'Edit information about this competition') %>
+        </li>
+    <% if project.submissions.empty? %>
+        <li>
+          <%= link_to(image_tag('trash_blue.png') + ' Delete',
+                      project,
+                      method: :delete,
+                      title:  'Delete this competition',
+                      data:   { confirm: "Are you sure you want to delete the competition: #{project.project_title}?" } ) %>
+        </li>
+    <% end %>
+        <li>
+          <%= link_to(image_tag('add.png') + ' Use this competition as a template',
+                      copy_project_path(project),
+                      title: 'Use information from this competition to create a new one') %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
   </div>
 <% end %>
-

@@ -3,7 +3,7 @@
 class ReviewersController < ApplicationController
   # GET /reviewers
   # GET /reviewers.xml
-  before_filter :set_project
+  before_action :set_project
 
   def index
     set_session_project(params[:project_id]) unless params[:project_id].blank?

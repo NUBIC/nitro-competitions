@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, 
+         :omniauthable, omniauth_providers: [:northwestern_medicine, :facebook, :linkedin, :google_oauth2, :twitter]
 
   # Associations
   has_many :reviewers  # really program reviewers since the reviewer model is a user + program

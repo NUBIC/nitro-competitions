@@ -127,6 +127,7 @@ class SubmissionsController < ApplicationController
     params.require(:submission).permit(
       :submission_status, 
       :submission_title, 
+      :submission_category,
       :core_manager_username, 
       :abstract, 
       :is_human_subjects_research,
@@ -185,6 +186,7 @@ class SubmissionsController < ApplicationController
   def update
     # @submission = Submission.find(params[:id])
     @project = @submission.project
+    @applicant = @submission.applicant
     set_current_project(@project)
     @submission.max_budget_request = @project.max_budget_request || 50_000
     @submission.min_budget_request = @project.min_budget_request || 1000
@@ -206,6 +208,7 @@ class SubmissionsController < ApplicationController
         format.html { redirect_to project_path(@project.id) }
         format.xml  { head :ok }
       else
+        flash[:alert] = "Submission was saved but: #{@submission.errors.full_messages.join('; ')}"
         format.html { render action: 'edit' }
         format.xml  { render xml: @submission.errors, status: :unprocessable_entity }
       end

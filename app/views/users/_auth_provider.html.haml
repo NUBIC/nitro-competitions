@@ -1,5 +1,0 @@
-%span{ class: 'domain_option', id: "#{provider}", title: t("login.#{provider}")}
-  .domain_option_image
-    = link_to image_tag("#{provider}_64.png"), user_omniauth_authorize_path(omniauth_provider(provider)), id: "#{provider}_link"
-  .domain_name
-    = link_to(h(provider.upcase), user_omniauth_authorize_path(omniauth_provider(provider)))

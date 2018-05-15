@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class KeyPerson < ActiveRecord::Base
+class KeyPerson < ApplicationRecord
   # Associations
   belongs_to :submission
   belongs_to :user

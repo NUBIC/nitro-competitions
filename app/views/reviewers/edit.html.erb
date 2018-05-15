@@ -1,3 +1,4 @@
+<% provide(:title_tag, "Reviewer Form: #{truncate(@submission_review.submission.submission_title, length: 10)}") %>
 <h2>
   Reviewer Form for the application
   '<i><%= @submission_review.submission.submission_title %></i>'

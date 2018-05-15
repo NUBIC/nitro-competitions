@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class Program < ActiveRecord::Base
+class Program < ApplicationRecord
   # Associations
   has_many :roles_users
 

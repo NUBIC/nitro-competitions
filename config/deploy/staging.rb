@@ -2,8 +2,8 @@
 set :stage, :staging
 set :rails_env, :staging
 
-role :app, %w{rails-staging2.nubic.northwestern.edu}
-role :web, %w{rails-staging2.nubic.northwestern.edu}
-role :db,  %w{rails-staging2.nubic.northwestern.edu}
+role :app, %w{vtfsmcdsiapps03.fsm.northwestern.edu}
+role :web, %w{vtfsmcdsiapps03.fsm.northwestern.edu}
+role :db,  %w{vtfsmcdsiapps03.fsm.northwestern.edu}
 
-server 'rails-staging2.nubic.northwestern.edu', user: 'nitrocompetitions', roles: %w{web app}, primary: true
+server 'vtfsmcdsiapps03.fsm.northwestern.edu', user: 'deploy', roles: %w{web app}, primary: true

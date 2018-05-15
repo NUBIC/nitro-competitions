@@ -1,0 +1,5 @@
+<% provider_text = (provider == :google_oauth2) ? 'Google' : provider %>
+<%= content_tag :span, { class: 'domain_option', id: "#{provider}", title: t("login.#{provider}") } do %>
+    <%= link_to image_tag("#{provider_text.downcase}_64.png"), send("user_#{provider}_omniauth_authorize_path"), id: "#{provider}_link", class: 'domain_option_image' %>
+    <%= link_to provider_text.upcase, send("user_#{provider}_omniauth_authorize_path"), class: 'domain_name' %>
+<% end %>

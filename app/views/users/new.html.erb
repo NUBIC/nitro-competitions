@@ -1,0 +1,7 @@
+<% provide(:title_tag, "New User") %>
+<h1><%= yield(:title_tag) %></h1>
+
+<%= form_for(@user, url: '/users/create_user', method: :post) do |f| %>
+  <%= render('shared/error_messages', object: f.object) if f.object && !f.object.try(:errors).blank? %>
+  <%= render('/users/form_fields', f: f) %>
+<% end %>

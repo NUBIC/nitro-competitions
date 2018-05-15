@@ -1,7 +1,8 @@
+<% provide(:title_tag, "#{@project.project_title}") %>
 <% include_sponsor_and_competition = 0 unless @project.blank? %>
 
 <% if @project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(@project.program)) %>
-  
+
   <div id='title'>
     <h3>
       <%= link_to(current_program.program_title, sponsor_path(current_program)) %>
@@ -35,8 +36,8 @@
       No email on record.
     <% else %>
       <%= mail_to(@project.program.email, @project.program.email,
-                  :subject => "NITRO Competitions-#{@project.project_title} is unpublished", 
+                  :subject => "NITRO Competitions-#{@project.project_title} is unpublished",
                   :title => "Send email to #{@project.program.program_title}") %>
-    <% end %> 
+    <% end %>
   </h4>
 <% end %>

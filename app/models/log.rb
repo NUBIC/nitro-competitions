@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class Log < ActiveRecord::Base
+class Log < ApplicationRecord
   belongs_to :project
   belongs_to :program
   belongs_to :user
