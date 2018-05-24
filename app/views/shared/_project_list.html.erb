@@ -61,6 +61,9 @@
                               :target => '_blank') %>
               </div>
             <% end %>
+            <% if show_project_docs?(project) %>
+              <%= render 'shared/links_to_project_docs', project: project %>
+            <% end %>
             <% if is_admin?(project.program) || has_read_all?(project.program) %>
               <%= render 'shared/project_actions',
                           project: project,
