@@ -1,0 +1,35 @@
+<% projects.each_with_index do |project, i| %>
+  <div class="project">
+    <div class="apply">
+      <div class="apply_link">
+        <% forwarding_url = new_project_applicant_path(project.id) %>
+        <%= link_to('Apply',
+            "/users/login?url=#{forwarding_url}",
+            title: "Log in to create an application for you or someone else for the competition '#{project.project_title}'") %>
+      </div>
+    </div>
+    <div class="project_details">
+      <div class="project_information">
+        <div class="competition">
+          <span class="project_title">
+            <%= project.project_title.html_safe %>
+          </span>
+        </div>
+        <div class="project_dates">
+          <dl>
+            <dt>Submission Period:</dt>
+            <dd><%= project.submission_open_date.to_s(:justdate) %> -
+            <%= project.submission_close_date.to_s(:justdate) %></dd>
+          </dl>
+        </div>
+      <% if project.membership_required? %>
+        <div class="membership_required">
+          <%= link_to('NUCATS Membership is required to apply for this competition.',
+                      ENV['MEMBERSHIP_URL'] + ENV['MEMBERSHIP_PATH'] ) %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
