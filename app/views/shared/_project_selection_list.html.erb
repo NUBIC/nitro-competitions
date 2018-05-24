@@ -11,8 +11,7 @@
       <% if current_user %>
         <%= render 'shared/project_list',
                    projects: projects,
-                   show_project_link: show_project_link,
-                   show_action_links: show_action_links %>
+                   show_project_link: show_project_link %>
       <% else %>
         <%= render 'public/project_list',
                    projects: projects %>
