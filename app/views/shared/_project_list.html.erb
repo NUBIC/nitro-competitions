@@ -3,24 +3,22 @@
   <% if !projects.blank? %>
     <% projects = projects.sort_by(&:submission_close_date).reverse %>
     <% projects.each_with_index do |project, i| %>
-      <% if project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(project.program)) %>
+      <% if project.visible || ((current_user.system_admin?) || is_admin?(project.program)) %>
         <div class="project">
           <div class="apply">
             <% if !project.visible %>
               <div class="not_published_link">
-                <% url = new_project_applicant_path(project.id) %>
-                <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
+                <% application_url = new_project_applicant_path(project.id) %>
                 <%= link_to('Not Published',
-                    application_url,
-                    title: "Create a test application for this unpublished competition '#{project.project_title}'") %>
+                            application_url,
+                            title: "Create a test application for this unpublished competition '#{project.project_title}'") %>
               </div>
             <% elsif project.current_status =~ /open for/i %>
               <div class="apply_link">
-                <% url = new_project_applicant_path(project.id) %>
-                <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
+                <% application_url = new_project_applicant_path(project.id) %>
                 <%= link_to('Apply',
-                    application_url,
-                    title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+                            application_url,
+                            title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
               </div>
             <% else %>
               <%= project.current_status %>
@@ -64,7 +62,7 @@
               </div>
             <% end %>
             <% if %>
-            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
+            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links && (is_admin?(project.program) || has_read_all?(project.program)) %>
             <% end %>
           </div>
         </div>
