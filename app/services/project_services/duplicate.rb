@@ -2,7 +2,7 @@ module ProjectServices
   module Duplicate
     def self.call(project_id)
       @project = Project.find(project_id).dup
-      update_rfa_url if @project.rfa_url.match? project_id
+      update_rfa_url if @project.rfa_url.match? project_id.to_s
       @project.write_attribute(:visible, false)
       @project.tap { |project| project.attribute_names.
         select{ |name| name.match? '_date' }.
