@@ -18,12 +18,10 @@ class PublicController < ApplicationController
     if current_user
       redirect_to '/public/home'
     else
-      @projects = Project.open.uniq.select { |p| p.visible == true }
-
-      @programs = {}
-      @projects.each do |pr|
-        @programs.keys.include?(pr.program) ? @programs[pr.program] << pr : @programs[pr.program] = [pr]
-      end
+      @projects = Project.with_program.published.open
+      @programs = @projects
+                    .group_by { |project| project.program }
+                      .sort_by  { |program, _| program[:program_title] }
     end
   end
 
