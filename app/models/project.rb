@@ -76,42 +76,17 @@ class Project < ApplicationRecord
   validates_length_of :project_name, :within => 2..25, :too_short => "Project Name is too short (minimum is 2 characters)", :too_long => "Project Name is too long (maximum is 25 characters)"
   validates_length_of :project_title, :within => 10..255, :too_short => "Project Title is too short (minimum is 10 characters)", :too_long => "Project Title is too long (maximum is 255 characters)"
 
-
-  def self.current(*date)
-    where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now })
-  end
-  def self.recent(*date)
-    where('project_period_start_date >= :date and initiation_date <= :date', { :date => date.first || 3.months.ago })
-  end
-  def self.ongoing_projects(*date)
-    where('project_period_end_date >= :date and project_period_start_date <= :date', { :date => date.first || 1.day.ago })
-  end
-  def self.active(*date)
-    where('project_period_start_date > :date or review_end_date > :review_end_date', { :date => date.first || 3.months.ago, :review_end_date => 60.days.ago })
-  end
-  def self.early
-    where('projects.initiation_date >= :early', { :early => 30.days.from_now })
-  end
-  def self.preinitiation
-    where(':now between projects.initiation_date - 30 and projects.submission_open_date', { :now => 1.hour.ago })
-  end
-  def self.open
-    where(':now between projects.submission_open_date and projects.submission_close_date', { :now => 1.hour.ago })
-  end
-  def self.in_review
-    where(':now between projects.submission_close_date and projects.review_end_date', { :now => 1.hour.ago })
-  end
-  def self.recently_awarded
-    where('projects.review_end_date between :then and :now', { :now => 1.hour.ago, :then => 80.days.ago })
-  end
-  def self.late
-    where('projects.review_end_date <= :then', { :then => 80.days.ago })
-  end
-
-  def self.not_published
-    where('projects.visible = false')
-  end
-
+  scope :open,              -> { where(':now between projects.submission_open_date and projects.submission_close_date', { :now => 1.hour.ago }) }
+  scope :current,           -> (*date) { where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now }) }
+  scope :recent,            -> (*date) { where('project_period_start_date >= :date and initiation_date <= :date', { :date => date.first || 3.months.ago }) }
+  scope :ongoing_projects,  -> (*date) { where('project_period_end_date >= :date and project_period_start_date <= :date', { :date => date.first || 1.day.ago }) }
+  scope :active,            -> (*date) { where('project_period_start_date > :date or review_end_date > :review_end_date', { :date => date.first || 3.months.ago, :review_end_date => 60.days.ago }) }
+  scope :early,             -> { where('projects.initiation_date >= :early', { :early => 30.days.from_now }) }
+  scope :preinitiation,     -> { where(':now between projects.initiation_date - 30 and projects.submission_open_date', { :now => 1.hour.ago }) }
+  scope :in_review,         -> { where(':now between projects.submission_close_date and projects.review_end_date', { :now => 1.hour.ago }) }
+  scope :recently_awarded,  -> { where('projects.review_end_date between :then and :now', { :now => 1.hour.ago, :then => 80.days.ago }) }
+  scope :late,              -> { where('projects.review_end_date <= :then', { :then => 80.days.ago }) }
+  scope :not_published,     -> { where('projects.visible = false') }
 
   def current_status
     if self.visible == false
