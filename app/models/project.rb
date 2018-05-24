@@ -87,6 +87,9 @@ class Project < ApplicationRecord
   scope :recently_awarded,  -> { where('projects.review_end_date between :then and :now', { :now => 1.hour.ago, :then => 80.days.ago }) }
   scope :late,              -> { where('projects.review_end_date <= :then', { :then => 80.days.ago }) }
   scope :not_published,     -> { where('projects.visible = false') }
+  scope :published,         -> { where('projects.visible = true') }
+  scope :with_program,      -> { includes :program }
+  scope :with_submissions,  -> { includes :submissions }
 
   def current_status
     if self.visible == false
