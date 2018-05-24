@@ -61,8 +61,10 @@
                               :target => '_blank') %>
               </div>
             <% end %>
-            <% if %>
-            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links && (is_admin?(project.program) || has_read_all?(project.program)) %>
+            <% if is_admin?(project.program) || has_read_all?(project.program) %>
+              <%= render 'shared/project_actions',
+                          project: project,
+                          show_submissions: show_details %>
             <% end %>
           </div>
         </div>
