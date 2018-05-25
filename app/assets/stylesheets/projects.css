@@ -16,13 +16,17 @@ div.information {
   padding: 0 0.5em;
 }
 
-.project {
+.program .project {
   float: left;
   width: 98%;
   border-bottom: 1px solid lightgray;
   margin-bottom: 0.5em;
   padding: 1em 0.5em;
 }
+
+  .program .project:last-of-type {
+    border-bottom: none;
+  }
 
 .apply {
   float: left;
@@ -42,31 +46,24 @@ div.information {
   margin-top: .25em;
 }
 
-/*
-.project_actions {
-  width: 27%;
-  float: left;
-}
-*/
-
 .project_actions .project_admin ul {
   padding-left: 0;
 }
 
-.project_actions .project_admin ul li {
-  display: inline-block;
-  margin: 0;
-}
+  .project_actions .project_admin ul li {
+    display: inline-block;
+    margin: 0;
+  }
 
-.project_actions .project_admin ul li::after {
-  content: ' | ';
-  float: right;
-  margin: 0 .5em;
-}
+  .project_actions .project_admin ul li::after {
+    content: ' | ';
+    float: right;
+    margin: 0 .5em;
+  }
 
-.project_actions .project_admin ul li:last-of-type::after {
-  content: '';
-}
+  .project_actions .project_admin ul li:last-of-type::after {
+    content: '';
+  }
 
 .project_admin a img {
   height: 16px;
@@ -101,7 +98,6 @@ div.information {
   padding-bottom: 0;
 }
 
-
 .program_information a,
 .program_information a:hover,
 .project_information a,
@@ -109,27 +105,13 @@ div.information {
   text-decoration: none;
 }
 
-.cannot_delete,
-.membership_required {
-  font-weight: bold;
-  color: maroon;
-}
-
-.membership_required a{
+.membership_required a {
   font-weight: bold;
   color: maroon;
 }
 
 .membership_required a:hover{
   text-decoration: underline;
-}
-
-div#project_membership_required {
-  margin: 1em 0 2em 0;
-}
-
-div#project_membership_required p {
-  margin: 0.5em;
 }
 
 .program_information h3 {
