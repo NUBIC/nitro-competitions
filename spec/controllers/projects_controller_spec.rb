@@ -2,9 +2,9 @@
 
 describe ProjectsController, :type => :controller do
 
-  
+
   context 'for a non-admin user' do
-    login(FactoryGirl.create(:user, username: 'uname'))
+    login(FactoryBot.create(:user, username: 'uname'))
 
     describe 'GET new' do
       it 'redirects to projects_path' do
@@ -33,7 +33,7 @@ describe ProjectsController, :type => :controller do
 
       describe 'GET show' do
         it 'renders the page' do
-          project = FactoryGirl.create(:project)
+          project = FactoryBot.create(:project)
           process :index, method: :get, params: { id: project }
           expect(response).to be_success
         end
@@ -43,7 +43,7 @@ describe ProjectsController, :type => :controller do
     describe 'GET edit' do
       context 'for a non-admin user' do
         it 'redirects to the project_path' do
-          project = FactoryGirl.create(:project)
+          project = FactoryBot.create(:project)
           process :edit, method: :get, params: { id: project }
           expect(response).to redirect_to(project_path(project))
         end
@@ -53,7 +53,7 @@ describe ProjectsController, :type => :controller do
     describe 'PUT update' do
       context 'for a non-admin user' do
         it 'renders the show template' do
-          project = FactoryGirl.create(:project)
+          project = FactoryBot.create(:project)
           process :update, method: :put, params: { id: project }
           expect(response).to render_template('projects/show')
         end
@@ -62,8 +62,8 @@ describe ProjectsController, :type => :controller do
 
     describe 'POST create' do
       it 'assigns variables' do
-        program = FactoryGirl.create(:program)
-        params = { project_title: 'the title of the project', project_name: 'project_name_xxx', 
+        program = FactoryBot.create(:program)
+        params = { project_title: 'the title of the project', project_name: 'project_name_xxx',
                    initiation_date: Date.today, submission_open_date: Date.today, submission_close_date: Date.today,
                    review_start_date: Date.today, review_end_date: Date.today, project_period_start_date: Date.today, project_period_end_date: Date.today }
 
@@ -76,7 +76,7 @@ describe ProjectsController, :type => :controller do
     describe 'DELETE destroy' do
       context 'for a non-admin user' do
         it 'redirects to the projects_path' do
-          project = FactoryGirl.create(:project)
+          project = FactoryBot.create(:project)
           process :destroy, method: :delete, params: { id: project }
           expect(assigns[:project]).not_to be_nil
           expect(response).to redirect_to(projects_path)

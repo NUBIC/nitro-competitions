@@ -7,7 +7,7 @@ describe RolesController, :type => :controller do
 
     describe 'GET index' do
       context 'for a non admin' do
-        let(:program) { FactoryGirl.create(:program) }
+        let(:program) { FactoryBot.create(:program) }
         it 'redirects to the sponsor_path' do
           process :index, method: :get, params: { sponsor_id: program }
           expect(response).to redirect_to(sponsor_path(program))
@@ -22,8 +22,8 @@ describe RolesController, :type => :controller do
 
     describe 'GET show' do
       context 'for a non admin' do
-        let(:program) { FactoryGirl.create(:program) }
-        let(:role) { FactoryGirl.create(:role) }
+        let(:program) { FactoryBot.create(:program) }
+        let(:role) { FactoryBot.create(:role) }
         it 'redirects to the sponsor_path' do
           process :show, method: :get, params: { sponsor_id: program, role_id: role }
           expect(response).to redirect_to(sponsor_path(program))
@@ -38,8 +38,8 @@ describe RolesController, :type => :controller do
 
     describe 'GET add' do
       context 'for a non admin' do
-        let(:program) { FactoryGirl.create(:program) }
-        let(:role) { FactoryGirl.create(:role) }
+        let(:program) { FactoryBot.create(:program) }
+        let(:role) { FactoryBot.create(:role) }
         it 'redirects to the sponsor_path' do
           process :add, method: :get, params: { sponsor_id: program, role_id: role }
           expect(response).to redirect_to(sponsor_path(program))
@@ -54,8 +54,8 @@ describe RolesController, :type => :controller do
 
     describe 'DELETE remove' do
       context 'for a non admin' do
-        let(:program) { FactoryGirl.create(:program) }
-        let(:roles_user) { FactoryGirl.create(:roles_user) }
+        let(:program) { FactoryBot.create(:program) }
+        let(:roles_user) { FactoryBot.create(:roles_user) }
         let(:role) { roles_user.role }
         it 'redirects to the sponsor_role_path' do
           process :remove, method: :delete, params: { id: roles_user, sponsor_id: program, role_id: role }

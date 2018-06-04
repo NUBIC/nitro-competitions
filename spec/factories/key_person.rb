@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-FactoryGirl.define do
+FactoryBot.define do
   factory :key_person do
     role 'MyString'
     sequence(:username) { |n| "username#{n}" }

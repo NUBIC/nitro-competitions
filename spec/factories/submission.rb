@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-FactoryGirl.define do
+FactoryBot.define do
   factory :submission do
     association :project, factory: :project
     association :applicant, factory: :user

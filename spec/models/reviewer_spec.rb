@@ -6,10 +6,10 @@ describe Reviewer, :type => :model do
   it { is_expected.to belong_to(:program) }
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:reviewer)).to be_an_instance_of(Reviewer)
+    expect(FactoryBot.build(:reviewer)).to be_an_instance_of(Reviewer)
   end
 
-  let(:reviewer) { FactoryGirl.create(:reviewer) }
+  let(:reviewer) { FactoryBot.create(:reviewer) }
 
   it 'can be saved successfully' do
     expect(reviewer).to be_persisted

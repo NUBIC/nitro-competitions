@@ -9,7 +9,7 @@ describe Project, :type => :model do
   it { is_expected.to belong_to(:creator) }
 
   describe 'validation of length on varchars for project' do
-    let(:project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryBot.create(:project) }
     it "validates length of varchars" do
       varchar_attributes = [:status,
                             :rfa_url,
@@ -67,11 +67,11 @@ describe Project, :type => :model do
   end
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:project)).to be_an_instance_of(Project)
+    expect(FactoryBot.build(:project)).to be_an_instance_of(Project)
   end
 
   it 'can be saved successfully' do
-    expect(FactoryGirl.create(:project)).to be_persisted
+    expect(FactoryBot.create(:project)).to be_persisted
   end
 
   describe 'a new instance' do
@@ -97,14 +97,14 @@ describe Project, :type => :model do
 
   describe 'an invalid project' do
     it 'rejects a one character project_name' do
-      project = FactoryGirl.build(:project, project_name: 'a')
+      project = FactoryBot.build(:project, project_name: 'a')
       expect(project).not_to be_valid
       expect(project.errors).to include(:project_name)
     end
   end
 
   describe 'a valid instance' do
-    let(:project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryBot.create(:project) }
     it 'project has relationships' do
 
       expect(project).not_to be_nil
@@ -129,8 +129,8 @@ describe Project, :type => :model do
 
   describe 'criteria' do
     it 'returns correct review criteria array' do
-      default_project           = FactoryGirl.create(:project)
-      project_with_budget_score = FactoryGirl.create(:project, show_budget_score: true)
+      default_project           = FactoryBot.create(:project)
+      project_with_budget_score = FactoryBot.create(:project, show_budget_score: true)
       expect(default_project.review_criteria).to match_array (WithScoring::DEFAULT_CRITERIA)
       expect(project_with_budget_score.review_criteria).to match_array (WithScoring::DEFAULT_CRITERIA.dup << 'budget')
     end

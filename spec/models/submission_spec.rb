@@ -2,7 +2,7 @@
 
 describe Submission, :type => :model do
 
-  let(:submission) { FactoryGirl.create(:submission) }
+  let(:submission) { FactoryBot.create(:submission) }
 
   it { is_expected.to belong_to(:project) }
   it { is_expected.to belong_to(:applicant) }
@@ -25,7 +25,7 @@ describe Submission, :type => :model do
   it { is_expected.to have_many(:key_people).through(:key_personnel) }
 
   describe 'validation of length on varchars for submission' do
-    let(:submission) { FactoryGirl.create(:submission) }
+    let(:submission) { FactoryBot.create(:submission) }
     it "validates length of varchars" do
       varchar_attributes = [:submission_status,
                             :irb_study_num,
@@ -36,7 +36,7 @@ describe Submission, :type => :model do
                             :submission_category,
                             :core_manager_username,
                             :notification_sent_to,
-                            :type_of_equipment]                   
+                            :type_of_equipment]
       varchar_attributes.each do |att|
         expect(submission).to validate_length_of(att)
       end
@@ -44,31 +44,31 @@ describe Submission, :type => :model do
   end
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:submission)).to be_an_instance_of(Submission)
+    expect(FactoryBot.build(:submission)).to be_an_instance_of(Submission)
   end
 
   it 'can be saved successfully' do
-    expect(FactoryGirl.create(:submission)).to be_persisted
+    expect(FactoryBot.create(:submission)).to be_persisted
   end
 
   context 'validating' do
     describe 'submission_title' do
       it 'validates it is greater than 6 characters' do
         title = 'x' * 5
-        submission = FactoryGirl.build(:submission, :submission_title => title)
+        submission = FactoryBot.build(:submission, :submission_title => title)
         expect(submission).not_to be_valid
         expect(submission.errors[:submission_title]).not_to be_blank
       end
       it 'validates it is less than 200 characters' do
         title = 'x' * 201
-        submission = FactoryGirl.build(:submission, :submission_title => title)
+        submission = FactoryBot.build(:submission, :submission_title => title)
         expect(submission).not_to be_valid
         expect(submission.errors[:submission_title]).not_to be_blank
       end
     end
     describe 'direct_project_cost' do
       it 'validates it is within limits' do
-        submission = FactoryGirl.build(:submission, :direct_project_cost => 10)
+        submission = FactoryBot.build(:submission, :direct_project_cost => 10)
         expect(submission).not_to be_valid
         expect(submission.errors[:direct_project_cost]).not_to be_blank
       end
@@ -76,7 +76,7 @@ describe Submission, :type => :model do
     describe 'submission_status' do
       it 'validates inclusion in Submission::STATUSES' do
         Submission::STATUSES.each do |s|
-          submission = FactoryGirl.build(:submission, :submission_status => "#{s}xxx")
+          submission = FactoryBot.build(:submission, :submission_status => "#{s}xxx")
           expect(submission).not_to be_valid
           submission.submission_status = s
           expect(submission).to be_valid
@@ -87,10 +87,10 @@ describe Submission, :type => :model do
 
   describe '.recent' do
     it 'returns those submissions created within the last 3 weeks' do
-      recent_project = FactoryGirl.create(:project, :project_name => 'recent')
-      older_project = FactoryGirl.create(:project, :project_name => 'older')
-      recent_submission = FactoryGirl.create(:submission, :created_at => 2.weeks.ago, :project => recent_project)
-      older_submission  = FactoryGirl.create(:submission, :created_at => 20.weeks.ago, :project => older_project)
+      recent_project = FactoryBot.create(:project, :project_name => 'recent')
+      older_project = FactoryBot.create(:project, :project_name => 'older')
+      recent_submission = FactoryBot.create(:submission, :created_at => 2.weeks.ago, :project => recent_project)
+      older_submission  = FactoryBot.create(:submission, :created_at => 20.weeks.ago, :project => older_project)
 
       submissions = Submission.recent
       expect(submissions).not_to be_blank
@@ -103,22 +103,22 @@ describe Submission, :type => :model do
 
     describe '.associated' do
       it 'returns the submissions associated with a given project and applicant' do
-        project     = FactoryGirl.create(:project)
-        applicant   = FactoryGirl.create(:user)
-        submission  = FactoryGirl.create(:submission, project: project, applicant: applicant)
+        project     = FactoryBot.create(:project)
+        applicant   = FactoryBot.create(:user)
+        submission  = FactoryBot.create(:submission, project: project, applicant: applicant)
 
         expect(Submission.associated(project.id, applicant.id)).to include(submission)
 
-        other_project = FactoryGirl.create(:project)
+        other_project = FactoryBot.create(:project)
         expect(Submission.associated(other_project.id, applicant.id)).not_to include(submission)
       end
     end
 
     describe '.associated_with_user' do
       it 'returns the submissions associated with a given applicant' do
-        project     = FactoryGirl.create(:project)
-        applicant   = FactoryGirl.create(:user)
-        submission  = FactoryGirl.create(:submission, project: project, applicant: applicant)
+        project     = FactoryBot.create(:project)
+        applicant   = FactoryBot.create(:user)
+        submission  = FactoryBot.create(:submission, project: project, applicant: applicant)
 
         expect(Submission.associated_with_user(applicant.id)).to include(submission)
       end
@@ -128,13 +128,13 @@ describe Submission, :type => :model do
 
   context 'statuses' do
     it 'knows if it is complete' do
-      sub = FactoryGirl.create(:submission)
+      sub = FactoryBot.create(:submission)
       expect(sub).to be_complete
     end
   end
 
   context 'cost' do
-    let (:sub) { FactoryGirl.build(:submission) }
+    let (:sub) { FactoryBot.build(:submission) }
     describe '.max_project_cost' do
       it 'defaults to 50,000' do
         expect(sub.max_budget_request).to be_nil
@@ -173,28 +173,28 @@ describe Submission, :type => :model do
     end
 
     it 'calculates when there are scored reviews' do
-      project    = FactoryGirl.create(:project, show_innovation_score: false)
-      submission_review  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
-      submission_review2 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
-      submission_review3 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
+      project    = FactoryBot.create(:project, show_innovation_score: false)
+      submission_review  = FactoryBot.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
+      submission_review2 = FactoryBot.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
+      submission_review3 = FactoryBot.create(:submission_review, submission: submission, innovation_score: nil, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
       expect(submission.unreviewed?).to be false
       expect(submission.composite_score).to eq (31.to_f / 10).round(2)
       expect(submission.overall_score_average).to eq (11.to_f / 3).round(2)
     end
 
     it 'returns 0s when there are unscored reviews' do
-      unscored_review   = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
-      unscored_review2  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
+      unscored_review   = FactoryBot.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
+      unscored_review2  = FactoryBot.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
       expect(submission.unreviewed?).to be false
       expect(submission.composite_score).to eq 0
       expect(submission.overall_score_average).to eq 0
     end
 
     it 'calculates when there are scored and unscored reviews' do
-      submission_review  = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
-      submission_review2 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 9, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
-      submission_review3 = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 3, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
-      unscored_review    = FactoryGirl.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
+      submission_review  = FactoryBot.create(:submission_review, submission: submission, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 3, other_score: 0)
+      submission_review2 = FactoryBot.create(:submission_review, submission: submission, innovation_score: 9, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
+      submission_review3 = FactoryBot.create(:submission_review, submission: submission, innovation_score: 3, scope_score: 4, team_score: 5, environment_score: 2, impact_score: 3, budget_score: 0, completion_score: 0, overall_score: 4, other_score: 0)
+      unscored_review    = FactoryBot.create(:submission_review, submission: submission, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0)
       expect(submission.unreviewed?).to be false
       expect(submission.composite_score).to eq 48.fdiv(13).round(2)
       expect(submission.overall_score_average).to eq 11.fdiv(3).round(2)

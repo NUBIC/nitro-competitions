@@ -21,20 +21,20 @@ require 'capybara/rspec'
 # Capybara.javascript_driver = :poltergeist
 
 require 'shoulda'
-require 'factory_girl'
+require 'factory_bot'
 
 module ControllerMacros
   def admin_login
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:admin]
-      sign_in FactoryGirl.create(:user) # Using factory girl as an example
+      sign_in FactoryBot.create(:user) # Using factory girl as an example
     end
   end
 
   def user_login
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       sign_in user
     end
   end

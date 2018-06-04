@@ -27,7 +27,7 @@ describe SubmissionsController, :type => :controller do
     end
 
     describe 'GET show' do
-      let(:submission) { FactoryGirl.create(:submission) }
+      let(:submission) { FactoryBot.create(:submission) }
       context 'where the current logged in user is associated with the submission' do
         before do
           allow(Submission).to receive(:associated_with_user).and_return([submission])
@@ -46,7 +46,7 @@ describe SubmissionsController, :type => :controller do
     end
 
     describe 'GET edit' do
-      let(:submission) { FactoryGirl.create(:submission) }
+      let(:submission) { FactoryBot.create(:submission) }
       it 'renders the page' do
         process :edit, method: :get, params: { id: submission }
         expect(response).to be_success

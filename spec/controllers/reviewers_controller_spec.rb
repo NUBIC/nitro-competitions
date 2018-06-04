@@ -14,7 +14,7 @@ describe ReviewersController, :type => :controller do
     end
 
     describe 'GET edit' do
-      let(:review) { FactoryGirl.create(:submission_review) }
+      let(:review) { FactoryBot.create(:submission_review) }
       it 'redirects to projects_path' do
         process :edit, method: :get, params: { id: review, project_id: review.project }
         expect(response).to redirect_to(project_path(review.project))
@@ -23,7 +23,7 @@ describe ReviewersController, :type => :controller do
 
     # This should potentially be moved over to the admins_controller_spec.
     describe 'PUT update' do
-      let(:review) { FactoryGirl.create(:submission_review) }
+      let(:review) { FactoryBot.create(:submission_review) }
       it 'redirects to project_reviewers_path' do
         process :update, method: :put, params: { id: review, reviewer: {} }
         response.should redirect_to(project_reviewers_path(review.submission.project))

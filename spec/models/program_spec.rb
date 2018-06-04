@@ -8,22 +8,22 @@ describe Program, :type => :model do
   it { is_expected.to belong_to(:creator) }
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:program)).to be_an_instance_of(Program)
+    expect(FactoryBot.build(:program)).to be_an_instance_of(Program)
   end
 
   it 'can be saved successfully' do
-    expect(FactoryGirl.create(:program)).to be_persisted
+    expect(FactoryBot.create(:program)).to be_persisted
   end
 
   context ".admins" do
     it 'returns the administrators associated with the program' do
       # no admins returns blank
-      program = FactoryGirl.create(:program)
+      program = FactoryBot.create(:program)
       expect(program.admins).to be_blank
       # create a RoleUser with Admin role
-      role    = FactoryGirl.create(:role, name: 'Admin')
-      admin   = FactoryGirl.create(:user)
-      FactoryGirl.create(:roles_user, program: program, role: role, user: admin)
+      role    = FactoryBot.create(:role, name: 'Admin')
+      admin   = FactoryBot.create(:user)
+      FactoryBot.create(:roles_user, program: program, role: role, user: admin)
       expect(program.admins).to eq([admin])
     end
   end
@@ -31,14 +31,14 @@ describe Program, :type => :model do
   context ".submission_notifiable_admins" do
     it 'returns the administrators associated with the program who should receive submission notifications' do
       # no admins returns blank
-      program = FactoryGirl.create(:program)
+      program = FactoryBot.create(:program)
       expect(program.submission_notifiable_admins).to be_blank
       # create a RoleUser with Admin role
-      role    = FactoryGirl.create(:role, name: 'Admin')
-      admin1  = FactoryGirl.create(:user, should_receive_submission_notifications: true)
-      admin2  = FactoryGirl.create(:user, should_receive_submission_notifications: false)
-      FactoryGirl.create(:roles_user, program: program, role: role, user: admin1)
-      FactoryGirl.create(:roles_user, program: program, role: role, user: admin2)
+      role    = FactoryBot.create(:role, name: 'Admin')
+      admin1  = FactoryBot.create(:user, should_receive_submission_notifications: true)
+      admin2  = FactoryBot.create(:user, should_receive_submission_notifications: false)
+      FactoryBot.create(:roles_user, program: program, role: role, user: admin1)
+      FactoryBot.create(:roles_user, program: program, role: role, user: admin2)
       expect(program.admins).to eq([admin1, admin2])
       expect(program.submission_notifiable_admins).to eq([admin1])
     end

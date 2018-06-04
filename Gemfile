@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
 ##
-# These two lines are NUCATS specific. 
+# These two lines are NUCATS specific.
 # Uncomment these lines if you are a part of NUCATS.
 # However, if you do end up using omniauth, you will need to
 # use one of the several omniauth strategies.
-# https://github.com/intridea/omniauth/wiki/List-of-Strategies 
+# https://github.com/intridea/omniauth/wiki/List-of-Strategies
 # source 'http://download.bioinformatics.northwestern.edu/gems'
 # gem 'omniauth-nucats-accounts'
 
@@ -78,8 +78,8 @@ group :test do
   # gem 'poltergeist'
   gem 'database_cleaner'
   gem 'shoulda'
-  gem 'factory_girl'
-  gem 'factory_girl_rails'
+  gem 'factory_bot'
+  gem 'factory_bot_rails'
   gem 'simplecov', :require => false
   gem 'selenium-webdriver'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
