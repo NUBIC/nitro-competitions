@@ -1,6 +1,6 @@
 # == Schema Information
 
-class Identity < ActiveRecord::Base
+class Identity < ApplicationRecord
   belongs_to :user
   validates_presence_of :uid, :provider
   validates_uniqueness_of :uid, :scope => :provider
@@ -23,7 +23,7 @@ class Identity < ActiveRecord::Base
   # @return [Array<Symbol>]
   def self.external_providers
     [ :facebook,
-      :google,
+      :google_oauth2,
       # :yahoo,
       :twitter,
       :linkedin

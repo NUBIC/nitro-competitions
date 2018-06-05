@@ -1,0 +1,44 @@
+<% base_title = 'NITRO Competitions' %>
+<% page_title_text = yield(:title_tag) %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <%= csrf_meta_tag %>
+    <title>
+      <% if !page_title_text.empty? %>
+        <%= "#{page_title_text} | #{base_title}" %>
+      <% else %>
+        <%= "#{base_title}" %>
+      <% end %>
+    </title>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag 'application', media: 'screen, projection' %>
+    <%= stylesheet_link_tag 'application-print', media: 'print' %>
+    <%= favicon_link_tag %>
+    <script type="text/javascript">
+      jQuery.noConflict(); var $j = jQuery;
+    </script>
+  </head>
+  <body class="<%= "#{Rails.env}_background" %>">
+    <% if !notice.blank? %>
+      <div class="notice">
+        <%= notice.html_safe %>
+      </div>
+    <% end %>
+    <% if !alert.blank? %>
+      <div class="alert">
+        <%= alert.html_safe %>
+      </div>
+    <% end %>
+    <div class="wrapper">
+      <%= render 'shared/navigation' %>
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="pushit">
+      <%= render 'shared/footer' %>
+    </div>
+  </body>
+</html>

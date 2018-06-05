@@ -8,7 +8,7 @@ describe ProjectsController, :type => :controller do
 
     describe 'GET new' do
       it 'redirects to projects_path' do
-        get :new
+        process :new, method: :get
         expect(response).to redirect_to(projects_path)
       end
     end
@@ -19,11 +19,11 @@ describe ProjectsController, :type => :controller do
 
     describe 'GET index' do
       it 'renders the page' do
-        get :index
+        process :index, method: :get
         expect(response).to be_success
       end
       it 'assigns variables' do
-        get :index
+        process :index, method: :get
         expect(assigns[:projects]).not_to be_nil
       end
     end
@@ -34,7 +34,7 @@ describe ProjectsController, :type => :controller do
       describe 'GET show' do
         it 'renders the page' do
           project = FactoryGirl.create(:project)
-          get :show, id: project
+          process :index, method: :get, params: { id: project }
           expect(response).to be_success
         end
       end
@@ -44,7 +44,7 @@ describe ProjectsController, :type => :controller do
       context 'for a non-admin user' do
         it 'redirects to the project_path' do
           project = FactoryGirl.create(:project)
-          get :edit, id: project
+          process :edit, method: :get, params: { id: project }
           expect(response).to redirect_to(project_path(project))
         end
       end
@@ -54,7 +54,7 @@ describe ProjectsController, :type => :controller do
       context 'for a non-admin user' do
         it 'renders the show template' do
           project = FactoryGirl.create(:project)
-          put :update, id: project, project: {}
+          process :update, method: :put, params: { id: project }
           expect(response).to render_template('projects/show')
         end
       end
@@ -67,7 +67,7 @@ describe ProjectsController, :type => :controller do
                    initiation_date: Date.today, submission_open_date: Date.today, submission_close_date: Date.today,
                    review_start_date: Date.today, review_end_date: Date.today, project_period_start_date: Date.today, project_period_end_date: Date.today }
 
-        post :create, program_id: program.id, project: params
+        process :create, method: :post, params: { project: params, program_id: program }
         expect(assigns[:project]).not_to be_nil
       end
       it 'redirects to project_path'
@@ -77,7 +77,7 @@ describe ProjectsController, :type => :controller do
       context 'for a non-admin user' do
         it 'redirects to the projects_path' do
           project = FactoryGirl.create(:project)
-          delete :destroy, id: project
+          process :destroy, method: :delete, params: { id: project }
           expect(assigns[:project]).not_to be_nil
           expect(response).to redirect_to(projects_path)
         end

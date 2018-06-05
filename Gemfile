@@ -19,12 +19,12 @@ gem 'omniauth-facebook'
 gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.4'
 
 gem 'bundler'
-gem 'rails', '~> 4.2.5'
+gem 'rails', '~> 5.1.5'
 
 gem 'activerecord-session_store'
 gem 'actionpack-action_caching'
 
-gem 'pg'
+gem 'pg', '0.21.0'
 gem 'haml'
 gem 'fastercsv'
 
@@ -44,10 +44,6 @@ gem 'faraday'
 
 gem 'lograge'
 
-# Search support gem
-# https://github.com/nathanl/searchlight
-gem 'searchlight'
-
 # for rake task input
 gem 'highline'
 
@@ -61,6 +57,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'capistrano-rvm'
 end
 
 group :assets do
@@ -75,6 +72,7 @@ gem 'exception_notification'
 gem 'mime-types', '~> 2.6'
 
 group :test do
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'capybara'
   # gem 'poltergeist'
@@ -84,4 +82,5 @@ group :test do
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
   gem 'selenium-webdriver'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 end

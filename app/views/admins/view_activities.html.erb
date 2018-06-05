@@ -1,5 +1,6 @@
+<% provide(:title_tag, "View #{@activity.titleize} Activities for #{@project.project_title}") %>
 <% @activity ||= "logged"%>
-<h1>Listing <%= @activity -%> activities (<%= @logs.length -%>) for <i><%= @project.project_title %></i></h1>
+<h1>Listing <%= @activity -%> activities (<%= @logs.length -%>) for <em><%= @project.project_title %></em></h1>
 
 <table id="allLogsTable" class="tablesorter { sortList: [[2,0]] }">
   <thead>

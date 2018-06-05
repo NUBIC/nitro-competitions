@@ -7,7 +7,7 @@ require 'highline/import'
 
 namespace :db do
   task :pg_setup => :environment do
-    ar_config      = HashWithIndifferentAccess.new(ActiveRecord::Base.connection.instance_variable_get("@config"))
+    ar_config      = ActiveSupport::HashWithIndifferentAccess.new(ActiveRecord::Base.connection.instance_variable_get("@config"))
     fail 'This only works for postgres' unless ar_config[:adapter] == "postgresql"
    
     @app_name      = 'nucats_assist'

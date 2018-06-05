@@ -1,29 +1,36 @@
-<div class='project_docs'>
+<div class="project_docs">
+  <h4>Supporting Documents and Links</h4>
   <% if project.rfa_url.present? && (project.rfa_url != project.project_url) %>
-    <div class='project_doc'>
+    <div class="project_doc">
       <%= link_to_rfa(project).html_safe %>
     </div>
   <% end %>
-</div>
-<div class='project_docs'>
-  <% if project.application_template_url.present? %>
-    <div class='project_doc'>
-      <%= link_to_application_template(project).html_safe %>
+  <% if project.application_template_url.present? || project.application_info_url.present? %>
+    <div class="application_docs">
+    <% if project.application_template_url.present? %>
+      <div class="project_doc">
+        <%= link_to_application_template(project).html_safe %>
+      </div>
+    <% end %>
+    <% if project.application_info_url.present? %>
+      <div class="project_doc">
+        <%= link_to_application_info(project).html_safe %>
+      </div>
+    <% end %>
     </div>
   <% end %>
-  <% if project.application_info_url.present? %>
-    <div class='project_doc'>
-      <%= link_to_application_info(project).html_safe %>
-    </div>
-  <% end %>
-  <% if project.budget_template_url.present? %>
-    <div class='project_doc'>
-      <%= link_to_budget_template(project).html_safe %>
-    </div>
-  <% end %>
-  <% if project.budget_info_url.present? %>
-    <div class='project_doc'>
-      <%= link_to_budget_info(project).html_safe %>
+  <% if project.application_template_url.present? || project.application_info_url.present? %>
+    <div class="budget_docs">
+    <% if project.budget_template_url.present? %>
+      <div class="project_doc">
+        <%= link_to_budget_template(project).html_safe %>
+      </div>
+    <% end %>
+    <% if project.budget_info_url.present? %>
+      <div class="project_doc">
+        <%= link_to_budget_info(project).html_safe %>
+      </div>
+    <% end %>
     </div>
   <% end %>
 </div>

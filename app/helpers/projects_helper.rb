@@ -2,10 +2,6 @@
 
 module ProjectsHelper
 
-  def projects_collection
-    @projects_collection ||= Project.all.map { |proj| [proj.project_title, proj.id] }
-  end
-
   def project_status
     return if current_projects.nil?
     s = ''
@@ -65,5 +61,15 @@ module ProjectsHelper
           #{phrase}
         </h3>
     }
+  end
+
+  def show_project_docs?(project)
+    project_docs = ['application_template',
+                    'application_info',
+                    'budget_template',
+                    'budget_info']
+    return true if project_docs.any? { |doc| project.send("#{doc}_url").present? }
+    return true if (project.rfa_url.present? && (project.rfa_url != project.project_url))
+    return false
   end
 end

@@ -1,0 +1,17 @@
+<%= provide(:title_tag, "Create a new project based on #{@project.project_title}") %>
+
+<h2>Create a new project based on <em><%= @project.project_title %></em> for <%= @program.program_name %></h2>
+
+<p>Review and update all information before creating. Return to the original <%= link_to "#{@project.project_title}", project_path(params[:id]) %></p>
+
+<%= form_for(@project) do |f| %>
+  <%= render('shared/error_messages', :object => f.object) if f.object && !f.object.try(:errors).blank? %>
+
+  <%= render(:partial => 'projects/project_form', :locals => { :f => f, :project => @project }) %>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+<%= button_to "Cancel", request.referrer %>
+<br/>
+<%= link_to 'List of all competitions', projects_path %>

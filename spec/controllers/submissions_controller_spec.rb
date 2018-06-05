@@ -8,11 +8,11 @@ describe SubmissionsController, :type => :controller do
 
     describe 'GET index' do
       it 'renders the page' do
-        get :index
+        process :index, method: :get
         expect(response).to be_success
       end
       it 'assigns variables' do
-        get :index
+        process :index, method: :get
         expect(assigns[:submissions]).not_to be_nil
       end
     end
@@ -20,7 +20,7 @@ describe SubmissionsController, :type => :controller do
     describe 'GET new' do
       context 'without parameters' do
         it 'redirects to projects_path' do
-          get :new
+          process :new, method: :get
           expect(response).to redirect_to(projects_path)
         end
       end
@@ -33,13 +33,13 @@ describe SubmissionsController, :type => :controller do
           allow(Submission).to receive(:associated_with_user).and_return([submission])
         end
         it 'renders the page' do
-          get :show, :id => submission.id
+          process :show, method: :get, params: { id: submission }
           expect(response).to be_success
         end
       end
       context 'where the current logged in user is not associated with the submission' do
         it 'redirects the user to the project_submissions_path' do
-          get :show, :id => submission.id
+          process :show, method: :get, params: { id: submission }
           expect(response).to redirect_to(project_submissions_path(submission.project))
         end
       end
@@ -48,7 +48,7 @@ describe SubmissionsController, :type => :controller do
     describe 'GET edit' do
       let(:submission) { FactoryGirl.create(:submission) }
       it 'renders the page' do
-        get :edit, :id => submission.id
+        process :edit, method: :get, params: { id: submission }
         expect(response).to be_success
       end
     end

@@ -165,11 +165,10 @@
     <% if project.show_use_nmh || project.show_use_nmff || project.show_use_va || project.show_use_ric || project.show_use_cmh %> 
       <dt>Will this project require facilities, resources or patients at any of the following: </dt>
       <dd>
-        NMH: <%= long_format_boolean submission.use_nmh %> <br />
-        NMFF: <%= long_format_boolean submission.use_nmff %> <br />
-        VA: <%= long_format_boolean submission.use_va %> <br />
-        RIC: <%= long_format_boolean submission.use_ric %> <br />
-        CMH: <%= long_format_boolean submission.use_cmh %> <br />
+        Northwestern Memorial Health Care: <%= long_format_boolean submission.use_nmh %> <br />
+        Jesse Brown VA Medical Center: <%= long_format_boolean submission.use_va %> <br />
+        Shirley Ryan AbilityLab: <%= long_format_boolean submission.use_ric %> <br />
+        Anne & Robert H. Lurie Children's Hospital of Chicago: <%= long_format_boolean submission.use_cmh %> <br />
       </dd>
     <% end %>
 

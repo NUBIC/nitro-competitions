@@ -64,7 +64,12 @@ module NucatsAssist
     # Enable the asset pipeline
     config.assets.enabled = true
 
-    config.active_record.raise_in_transactional_callbacks = true
+
+    # The line below was removed when updating to Rails 5.1.5
+    # config.active_record.raise_in_transactional_callbacks = true
+    config.action_controller.forgery_protection_origin_check = true
+    # config.action_mailer.perform_caching = true
+    ActiveSupport.to_time_preserves_timezone = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

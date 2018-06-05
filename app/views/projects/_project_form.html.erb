@@ -25,7 +25,7 @@
           <div class='attribute_description'>
             <%= f.check_box :visible %><br>
             Checked = visible to entire public.<br>
-            Unchecked = visible to sponsor admins. 
+            Unchecked = visible to sponsor admins.
           </div>
         </td>
       </tr>
@@ -46,7 +46,7 @@
           <%= f.label "Competition Name" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_name, :size => 20, required: true %>
+          <%= f.text_field :project_name, :size => 25, :minlength => 2, :maxlength => 25, required: true %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Short, no-space name for the competition, will appear in the URL.<br>
@@ -59,7 +59,7 @@
           <%= f.label "Competition Title" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_title, :size => 80, required: true %>
+          <%= f.text_field :project_title, :size => 70, :maxlength => 255, required: true %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Descriptive Title. Required
@@ -71,7 +71,7 @@
           <%= f.label :rfa_url, "Competition URL" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :rfa_url, :size=>80 %>
+          <%= f.text_field :rfa_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL for more information about the competition
           </div>
@@ -82,7 +82,7 @@
           <%= f.label :project_url_label, "Competition URL label" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_url_label, :size=>80 %>
+          <%= f.text_field :project_url_label, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             'Competition RFA' is the default.
           </div>
@@ -103,7 +103,7 @@
           <%= f.label :effort_approver_title %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :effort_approver_title, :size=>80 %>
+          <%= f.text_field :effort_approver_title, :size=>70 %>
           <div class='attribute_description'>
             If you include the 'effort approver' item, please enter the proper wording.
             <br />
@@ -126,7 +126,7 @@
           <%= f.label :department_administrator_title %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :department_administrator_title, :size=>80 %>
+          <%= f.text_field :department_administrator_title, :size=>70 %>
           <div class='attribute_description'>
             If you include the 'department administrator' item, please enter the proper wording.
             <br />
@@ -159,7 +159,7 @@
           <%= f.label :applicant_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :applicant_wording, :size=>80 %>
+          <%= f.text_field :applicant_wording, :size=>70 %>
           <div class='attribute_description'>
             'Principal Investigator' is the default.
             <br />
@@ -172,7 +172,7 @@
           <%= f.label :applicant_abbreviation_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :applicant_abbreviation_wording, :size=>80 %>
+          <%= f.text_field :applicant_abbreviation_wording, :size=>70 %>
           <div class='attribute_description'>
             'PI' is the default.
             <br />
@@ -185,7 +185,7 @@
           <%= f.label :title_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :title_wording, :size=>80 %>
+          <%= f.text_field :title_wording, :size=>70 %>
           <div class='attribute_description'>
             'Title of Project' is the default.
             <br />
@@ -209,7 +209,7 @@
           <%= f.label :abstract_text, "Abstract wording" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :abstract_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :abstract_text, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
           <div class='attribute_description'>
             Text to include with the <b>abstract</b> submission form item
           </div>
@@ -232,7 +232,7 @@
           <%= f.label :category_wording, "Submission category wording" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :category_wording, :size=>80 %>
+          <%= f.text_field :category_wording, :size=>70 %>
           <div class='attribute_description'>
             OR uses 'Core Facility Name'
           </div>
@@ -243,7 +243,7 @@
           <%= f.label :submission_category_description %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_category_description, :size=>80 %>
+          <%= f.text_field :submission_category_description, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             OR default: 'Please enter the core you are making this submission for'
           </div>
@@ -369,7 +369,7 @@
           <%= f.label :closed_status_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :closed_status_wording %>
+          <%= f.text_field :closed_status_wording, :size => 15, :maxlength => 255 %>
           <div class='attribute_description'>
             Wording for project status used when project has closed. Default is 'Awarded'.
           </div>
@@ -393,7 +393,7 @@
             <br>
             Include
           </div>
-        </td>        
+        </td>
       </tr>
       <tr>
         <td class="title, indented">
@@ -416,7 +416,7 @@
             Text will read: If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item. Be specific.
           </div> -->
 
-          <%= f.text_area :human_subjects_research_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :human_subjects_research_text, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
 <!--           <div class='attribute_description'>
             Text to include with the <b>human subjects research</b> submission form item
           </div> -->
@@ -509,7 +509,7 @@
           <%= f.label :is_new_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :is_new_wording, :size=>80 %>
+          <%= f.text_field :is_new_wording, :size=>70 %>
           <div class='attribute_description'>
             'Is this completely new work?' for most competitions
           </div>
@@ -600,7 +600,7 @@
       </tr>
       <tr>
         <td class="title, indented2">
-          <%= f.label :show_use_nmh, 'NMH' %>
+          <%= f.label :show_use_nmh, 'Northwestern Memorial Health Care' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -610,17 +610,7 @@
       </tr>
       <tr>
         <td class="title, indented2">
-          <%= f.label :show_use_nmff, 'NMFF' %>
-        </td>
-        <td class="notes" colspan="2">
-          <div class='attribute_description'>
-            <%= f.check_box :show_use_nmff %>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="title, indented2">
-          <%= f.label :show_use_va, 'VA' %>
+          <%= f.label :show_use_va, 'Jesse Brown VA Medical Center' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -630,7 +620,7 @@
       </tr>
       <tr>
         <td class="title, indented2">
-          <%= f.label :show_use_ric, 'RIC' %>
+          <%= f.label :show_use_ric, 'Shirley Ryan AbilityLab' %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -640,7 +630,7 @@
       </tr>
       <tr class='bottom_border'>
         <td class="title, indented2">
-          <%= f.label :show_use_cmh, 'CMH' %>
+          <%= f.label :show_use_cmh, 'Anne & Robert H. Lurie Children\'s Hospital of Chicago'  %>
         </td>
         <td class="notes" colspan="2">
           <div class='attribute_description'>
@@ -680,7 +670,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_previous_support_description %>
-            Text will read: "If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:" 
+            Text will read: "If you received prior support, please indicate when the award(s) was made and how much money was awarded for each item - be specific:"
           </div>
         </td>
       </tr>
@@ -739,7 +729,7 @@
           <%= f.label :type_of_equipment_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :type_of_equipment_wording, :size=>80 %>
+          <%= f.text_field :type_of_equipment_wording, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             'Type of Equipment' for most competitions
           </div>
@@ -774,7 +764,7 @@
           <%= f.label :direct_project_cost_wording, 'Project cost wording' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :direct_project_cost_wording, :size=>80 %>
+          <%= f.text_field :direct_project_cost_wording, :size=>70 %>
           <div class='attribute_description'>
             'Project Budget Request, Directs Only' for most competitions
           </div>
@@ -795,7 +785,7 @@
           <%= f.label :total_amount_requested_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :total_amount_requested_wording, :size=>80 %>
+          <%= f.text_field :total_amount_requested_wording, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             'Total Amount Requested' for most competitions
           </div>
@@ -841,7 +831,7 @@
           <%= f.label :other_funding_sources_wording %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :other_funding_sources_wording, :size=>80 %>
+          <%= f.text_field :other_funding_sources_wording, :size=>70 %>
           <div class='attribute_description'>
             'Other funding sources' for most competitions
           </div>
@@ -898,7 +888,7 @@
           <%= f.label :manage_other_support_text, 'NIH other support description' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :manage_other_support_text, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
           <div class='attribute_description'>
             Text to include with the <b>NIH Other Support</b> document item
           </div>
@@ -928,7 +918,7 @@
           <%= f.label :application_doc_name %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :application_doc_name, :size=>80 %>
+          <%= f.text_field :application_doc_name, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label name for <b>application document</b> upload item.
           </div>
@@ -939,7 +929,7 @@
           <%= f.label :application_doc_description %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :application_doc_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :application_doc_description, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
           <div class='attribute_description'>
             Descriptive text to help submitters/reviewers understand what should be in the <b>application document</b>
           </div>
@@ -950,7 +940,7 @@
           <%= f.label :application_template_url %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :application_template_url, :size=>80 %>
+          <%= f.text_field :application_template_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL for the <b>application template</b>, if it exists.
           </div>
@@ -961,7 +951,7 @@
           <%= f.label :application_template_url_label %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :application_template_url_label, :size=>80 %>
+          <%= f.text_field :application_template_url_label, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label for the URL to the <b>application template</b>
           </div>
@@ -972,7 +962,7 @@
           <%= f.label :application_info_url %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :application_info_url, :size=>80 %>
+          <%= f.text_field :application_info_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL for instructions for how to fill in the <b>application template</b>, if it exists.
           </div>
@@ -983,7 +973,7 @@
           <%= f.label :application_info_url_label %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :application_info_url_label, :size=>80 %>
+          <%= f.text_field :application_info_url_label, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label for the URL to the <b>application instructions</b>
           </div>
@@ -1013,7 +1003,7 @@
           <%= f.label :budget_template_url %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :budget_template_url, :size=>80 %>
+          <%= f.text_field :budget_template_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL for the <b>budget template</b>, if it is shown.
           </div>
@@ -1024,7 +1014,7 @@
           <%= f.label :budget_template_url_label %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :budget_template_url_label, :size=>80 %>
+          <%= f.text_field :budget_template_url_label, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label for the URL to the <b>budget template</b>
           </div>
@@ -1035,7 +1025,7 @@
           <%= f.label :budget_info_url %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :budget_info_url, :size=>80 %>
+          <%= f.text_field :budget_info_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL for instructions for how to fill in the <b>budget template</b>, if it is shown.
           </div>
@@ -1046,7 +1036,7 @@
           <%= f.label :budget_info_url_label %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :budget_info_url_label, :size=>80 %>
+          <%= f.text_field :budget_info_url_label, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label for the URL to the <b>budget instructions</b>
           </div>
@@ -1078,7 +1068,7 @@
           <%= f.label :document1_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document1_name, :size=>80 %>
+          <%= f.text_field :document1_name, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label used for <b>Document 1</b> for submitters and reviewers. For instance, 'OSR-2'.
           </div>
@@ -1089,7 +1079,7 @@
           <%= f.label :document1_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :document1_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
+          <%= f.text_area :document1_description, {:rows => 5, :cols => 70, :maxlength => 255,:wrap => "virtual" } %>
         </td>
       </tr>
       <tr>
@@ -1097,7 +1087,7 @@
           <%= f.label :document1_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document1_template_url, :size=>80 %>
+          <%= f.text_field :document1_template_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to the template file for <b>Document 1</b>, if it exists.
           </div>
@@ -1108,7 +1098,7 @@
           <%= f.label :document1_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document1_info_url, :size=>80 %>
+          <%= f.text_field :document1_info_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 1</b>, if it exists.
           </div>
@@ -1140,7 +1130,7 @@
           <%= f.label :document2_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document2_name, :size=>80 %>
+          <%= f.text_field :document2_name, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label used for <b>Document 2</b> for submitters and reviewers. For instance, 'OSR-2'.
           </div>
@@ -1151,7 +1141,7 @@
           <%= f.label :document2_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :document2_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
+          <%= f.text_area :document2_description, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual" } %>
         </td>
       </tr>
       <tr>
@@ -1159,7 +1149,7 @@
           <%= f.label :document2_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document2_template_url, :size=>80 %>
+          <%= f.text_field :document2_template_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to the template file for <b>Document 2</b>, if it exists.
           </div>
@@ -1170,7 +1160,7 @@
           <%= f.label :document2_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document2_info_url, :size=>80 %>
+          <%= f.text_field :document2_info_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 2</b>, if it exists.
           </div>
@@ -1202,7 +1192,7 @@
           <%= f.label :document3_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document3_name, :size=>80 %>
+          <%= f.text_field :document3_name, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label used for <b>Document 3</b> for submitters and reviewers. For instance, 'OSR-3'.
           </div>
@@ -1213,7 +1203,7 @@
           <%= f.label :document3_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :document3_description, {:rows => 5, :cols => 80, :wrap => "virtual", } %>
+          <%= f.text_area :document3_description, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual", } %>
         </td>
       </tr>
       <tr>
@@ -1221,7 +1211,7 @@
           <%= f.label :document3_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document3_template_url, :size=>80 %>
+          <%= f.text_field :document3_template_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to the template file for <b>Document 3</b>, if it exists.
           </div>
@@ -1232,7 +1222,7 @@
           <%= f.label :document3_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document3_info_url, :size=>80 %>
+          <%= f.text_field :document3_info_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 3</b>, if it exists.
           </div>
@@ -1264,7 +1254,7 @@
           <%= f.label :document4_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document4_name, :size=>80 %>
+          <%= f.text_field :document4_name, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label used for <b>Document 4</b> for submitters and reviewers. For instance, 'OSR-4'.
           </div>
@@ -1275,7 +1265,7 @@
           <%= f.label :document4_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :document4_description, {:rows => 5, :cols => 80, :wrap => "virtual" } %>
+          <%= f.text_area :document4_description, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual" } %>
         </td>
       </tr>
       <tr>
@@ -1283,7 +1273,7 @@
           <%= f.label :document4_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document4_template_url, :size=>80 %>
+          <%= f.text_field :document4_template_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to the template file for <b>Document 4</b>, if it exists.
           </div>
@@ -1294,7 +1284,7 @@
           <%= f.label :document4_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :document4_info_url, :size=>80 %>
+          <%= f.text_field :document4_info_url, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             URL to additional info/instructions for how to fill in file for <b>Document 4</b>, if it exists.
           </div>
@@ -1314,7 +1304,7 @@
           <%= f.label :supplemental_document_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :supplemental_document_name, :size=>80, :value => '' %>
+          <%= f.text_field :supplemental_document_name, :size=>70, :maxlength => 255 %>
           <div class='attribute_description'>
             Label used for the optional <b>Supplemental Document</b> upload item.
           </div>
@@ -1325,7 +1315,7 @@
           <%= f.label :supplemental_document_description, 'Description'  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :supplemental_document_description, {:rows => 5, :cols => 80, :wrap => "virtual", :value => ''} %>
+          <%= f.text_area :supplemental_document_description, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
           <div class='attribute_description'>
             Descriptive text of what might be expected in the optional <b>Supplemental Document</b>.
           </div>
@@ -1350,7 +1340,7 @@
           <%= f.label :max_assigned_reviewers_per_proposal %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.number_field :max_assigned_reviewers_per_proposal, :size=>15, required: true %>
+          <%= f.number_field :max_assigned_reviewers_per_proposal, :size => 15, required: true %>
           <span class='required_marker'> * </span>
         </td>
       </tr>
@@ -1359,7 +1349,7 @@
           <%= f.label :max_assigned_proposals_per_reviewer %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.number_field :max_assigned_proposals_per_reviewer, :size=>15, required: true %>
+          <%= f.number_field :max_assigned_proposals_per_reviewer, :size => 15, required: true %>
           <span class='required_marker'> * </span>
         </td>
       </tr>
@@ -1443,7 +1433,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :show_review_guidance %>
-            Check to show default instructions and additional guidance URL. 
+            Check to show default instructions and additional guidance URL.
           </div>
         </td>
       </tr>
@@ -1452,7 +1442,7 @@
           <%= f.label :review_guidance_url, 'Additional guidance URL' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :review_guidance_url, :size=>80 %>
+          <%= f.text_field :review_guidance_url, :size=>70, :maxlength => 255 %>
         </td>
       </tr>
       <tr>
@@ -1460,10 +1450,10 @@
           <%= f.label :custom_review_guidance %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :custom_review_guidance, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :custom_review_guidance, {:rows => 5, :cols => 70, :wrap => "virtual"} %>
           <div class='attribute_description'>
-            Add alternate or additional review guidance text 
-            placed at the top of the review form here. 
+            Add alternate or additional review guidance text
+            placed at the top of the review form here.
             <br />
             You may enter HTML markup in this section.
           </div>
@@ -1476,7 +1466,7 @@
         <td class="notes" colspan="2">
           <div class='attribute_description'>
             <%= f.check_box :comment_review_only %>
-            Check to have comments, but no scores. 
+            Check to have comments, but no scores.
           </div>
         </td>
       </tr>
@@ -1485,7 +1475,7 @@
           <%= f.label :overall_impact_title, 'Overall impact label' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :overall_impact_title, :size=>80 %>
+          <%= f.text_field :overall_impact_title, :size=>70, :maxlength => 255 %>
         </td>
       </tr>
       <tr>
@@ -1493,7 +1483,7 @@
           <%= f.label :overall_impact_description %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :overall_impact_description, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :overall_impact_description, {:rows => 5, :cols => 70, :wrap => "virtual"} %>
           <div class='attribute_description'>
             Short guidance for how to fill in "Overall Impact". You can include HTML formatting.
           </div>
@@ -1504,7 +1494,7 @@
           <%= f.label :overall_impact_direction, 'Overall impact directions' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_area :overall_impact_direction, {:rows => 3, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area :overall_impact_direction, {:rows => 3, :cols => 70, :wrap => "virtual"} %>
           <div class='attribute_description'>
             Short additional guidance to the left of the "Overall Impact" text box. You can include HTML formatting.
           </div>
@@ -1523,70 +1513,16 @@
           Description
         </th>
       </tr>
+      <% WithScoring::COMPOSITE_CRITERIA.each do |criterion| %>
       <tr>
         <td colspan="2">
-          <%= f.check_box :show_impact_score %><%= f.text_field :impact_title, :size => 40 %>
+          <%= f.check_box "show_#{criterion}_score".to_sym %><%= f.text_field "#{criterion}_title".to_sym, :size => 40 %>
         </td>
         <td>
-          <%= f.text_area :impact_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
+          <%= f.text_area "#{criterion}_wording".to_sym, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
         </td>
       </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_team_score %><%= f.text_field :team_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :team_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_innovation_score %><%= f.text_field :innovation_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :innovation_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_scope_score %><%= f.text_field :scope_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :scope_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_environment_score %><%= f.text_field :environment_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :environment_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_budget_score %><%= f.text_field :budget_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :budget_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_other_score %><%= f.text_field :other_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :other_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.check_box :show_completion_score %><%= f.text_field :completion_title, :size => 40 %>
-        </td>
-        <td>
-          <%= f.text_area :completion_wording, {:rows => 5, :cols => 80, :wrap => "virtual"} %>
-        </td>
-      </tr>
+      <% end %>
     </table>
   </div>
 </div>

@@ -1,6 +1,19 @@
 # encoding: UTF-8
 
-class Submission < ActiveRecord::Base
+class Submission < ApplicationRecord
+  include WithScoring
+
+  SUBMISSION_VARCHAR_COLUMNS = ['submission_status',
+                                'irb_study_num',
+                                'nucats_cru_contact_name',
+                                'iacuc_study_num',
+                                'effort_approver_username',
+                                'department_administrator_username',
+                                'submission_category',
+                                'core_manager_username',
+                                'notification_sent_to',
+                                'type_of_equipment'].freeze
+
   belongs_to :project
   belongs_to :applicant,                :class_name => 'User', :foreign_key => 'applicant_id'
   belongs_to :submitter,                :class_name => 'User', :foreign_key => 'created_id'
@@ -44,27 +57,31 @@ class Submission < ActiveRecord::Base
   scope :assigned_submissions, lambda { where('submission_reviews_count >= 2') }
   scope :unassigned_submissions, lambda { where(:submission_reviews_count => 0) }
   scope :recent, lambda { where('submissions.created_at > ?', 3.weeks.ago) }
-  
+
   scope :filled_submissions, lambda { |*args| where('submission_reviews_count >= :max_reviewers', { :max_reviewers => args.first || 2 }) }
   scope :unfilled_submissions, lambda { |*args| where('submission_reviews_count < :max_reviewers', { :max_reviewers => args.first || 2 }) }
 
   scope :associated, lambda { |*args|
     includes('submission_reviews')
-    .where('(submissions.applicant_id = :id OR submissions.created_id = :id) AND 
-            submissions.project_id IN (:projects)', 
+    .where('(submissions.applicant_id = :id OR submissions.created_id = :id) AND
+            submissions.project_id IN (:projects)',
       { :projects => args[0], :id => args[1] })
   }
 
   scope :associated_with_user, lambda { |*args|
     includes('submission_reviews')
-    .where('submissions.applicant_id = :id or submissions.created_id = :id', 
+    .where('submissions.applicant_id = :id or submissions.created_id = :id',
       { :id => args.first })
     .order('id asc')
   }
 
   before_validation :clean_params, :set_defaults
 
+  SUBMISSION_VARCHAR_COLUMNS.each do |column|
+    validates_length_of column.to_sym, :allow_blank => true, :maximum => 255, :too_long => 'is too long (maximum is 255 characters)'
+  end
   validates_length_of :submission_title, :within => 6..200, :too_long => '--- pick a shorter title', :too_short => '--- pick a longer title'
+
   validates_numericality_of :direct_project_cost, :greater_than => 1_000_000, :if => proc { |sub| (sub.direct_project_cost || 0) < sub.min_project_cost && ! sub.direct_project_cost.blank?  }, :message => 'is too low'
   validates_numericality_of :direct_project_cost, :less_than => 1000, :if => proc { |sub| (sub.direct_project_cost || 0) > sub.max_project_cost }, :message => 'is too high'
 
@@ -81,28 +98,23 @@ class Submission < ActiveRecord::Base
   validates :submission_status, inclusion: { in: STATUSES }
   validates :type_of_equipment, inclusion: { in: EQUIPMENT_TYPES }, allow_blank: true
 
-  def overall_scores
-    return 0 if submission_reviews.length == 0
-    cnt = submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : 1 }.sum
-    return 0 if cnt < 1
-    (submission_reviews.map { |s| s.z?(s.overall_score) ? 0 : s.overall_score }.sum).to_f / cnt
+  def overall_score_average
+    calculate_average submission_reviews.map(&:overall_score).reject{ |score| score.to_i.zero? }
   end
 
-  def overall_scores_string
-    return 0 if submission_reviews.length == 0
-    overall_scores.round(2).to_s + ' (' + submission_reviews.map(&:overall_score).join(' & ') + ')'
+  def overall_score_string
+    return '-' if unreviewed?
+    ("%.2f" % overall_score_average) + " (#{submission_reviews.map(&:overall_score).join(',')})"
   end
 
-  def composite_scores
-    return 0 if submission_reviews.length == 0
-    cnt = submission_reviews.map { |s| s.has_zero? ? 0 : 1 }.sum
-    return 0 if cnt < 1
-    submission_reviews.map { |s| s.has_zero? ? 0 : s.composite_score }.sum / cnt
+  def composite_score
+    calculate_average submission_reviews.flat_map(&:scores).reject(&:zero?)
   end
 
-  def composite_scores_string
-    return 0 if submission_reviews.length == 0
-    composite_scores.round(2).to_s + ' (' + submission_reviews.map(&:composite_score).join(' & ') + ')'
+  def composite_score_string
+    composite = composite_score
+    return '-' if composite.zero?
+    "%.2f" % composite
   end
 
   def max_project_cost
@@ -121,10 +133,10 @@ class Submission < ActiveRecord::Base
     return 'Incomplete' if project.show_core_manager && core_manager_username.blank?
     return 'Incomplete' if project.show_abstract_field && abstract.blank?
     return 'Incomplete' if project.show_manage_other_support && other_support_document_id.blank?
-    return 'Incomplete' if project.show_document1 && document1_id.blank?
-    return 'Incomplete' if project.show_document2 && document2_id.blank?
-    return 'Incomplete' if project.show_document3 && document3_id.blank?
-    return 'Incomplete' if project.show_document4 && document4_id.blank?
+    return 'Incomplete' if project.show_document1 && project.document1_required && document1_id.blank?
+    return 'Incomplete' if project.show_document2 && project.document2_required && document2_id.blank?
+    return 'Incomplete' if project.show_document3 && project.document3_required && document3_id.blank?
+    return 'Incomplete' if project.show_document4 && project.document4_required && document4_id.blank?
     return 'Incomplete' if project.show_budget_form && budget_document_id.blank?
     return 'Incomplete' if project.show_manage_biosketches && applicant_biosketch_document_id.blank?
     return 'Incomplete' if project.show_application_doc && application_document_id.blank?
@@ -169,10 +181,14 @@ class Submission < ActiveRecord::Base
     out << 'Core Manager unset. Complete in title page. ' if project.show_core_manager && core_manager_username.blank?
     out << 'Abstract needs to be completed. Complete in title page. ' if project.show_abstract_field && abstract.blank?
     out << 'Manage Other Support document needs to be uploaded. ' if project.show_manage_other_support && other_support_document_id.blank?
-    out << "#{project.document1_name} document needs to be uploaded. " if project.show_document1 && document1_id.blank?
-    out << "#{project.document2_name} document needs to be uploaded. " if project.show_document2 && document2_id.blank?
-    out << "#{project.document3_name} document needs to be uploaded. " if project.show_document3 && document3_id.blank?
-    out << "#{project.document4_name} document needs to be uploaded. " if project.show_document4 && document4_id.blank?
+    out << "#{project.document1_name} document needs to be uploaded. " if project.show_document1 && project.document1_required && document1_id.blank?
+    out << "#{project.document1_name} document is absent but not required. " if project.show_document1 && document1_id.blank?
+    out << "#{project.document2_name} document needs to be uploaded. " if project.show_document2 && project.document2_required && document2_id.blank?
+    out << "#{project.document2_name} document is absent but not required. " if project.show_document2 && document2_id.blank?
+    out << "#{project.document3_name} document needs to be uploaded. " if project.show_document3 && project.document3_required && document3_id.blank?
+    out << "#{project.document3_name} document is absent but not required. " if project.show_document3 && document3_id.blank?
+    out << "#{project.document4_name} document needs to be uploaded. " if project.show_document4 && project.document4_required && document4_id.blank?
+    out << "#{project.document4_name} document is absent but not required. " if project.show_document4 && document4_id.blank?
     out << 'Budget document needs to be uploaded. ' if project.show_budget_form && budget_document_id.blank?
     out << 'PI biosketch needs to be uploaded. ' if project.show_manage_biosketches && applicant_biosketch_document_id.blank?
     out << 'Application document needs to be uploaded. ' if project.show_application_doc && application_document_id.blank?
@@ -294,11 +310,15 @@ class Submission < ActiveRecord::Base
   def do_save(model, name)
     if !model.nil? && model.changed?
       if model.errors.blank?
-        model.save 
+        model.save
       else
-        msg = "unable to save #{name.to_s.titleize}: #{model.errors.full_messages.join('; ')}" 
+        msg = "unable to save #{name.to_s.titleize}: #{model.errors.full_messages.join('; ')}"
         self.errors.add(name.to_sym, msg)
       end
     end
+  end
+
+  def unreviewed?
+    submission_reviews.blank?
   end
 end

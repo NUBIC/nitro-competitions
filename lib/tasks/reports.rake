@@ -99,6 +99,12 @@ namespace :reports do
     GeneralMailer.quarterly_report_message(file_name).deliver
   end
 
+  task :role_emails, [:role] => :environment do |t, args|
+    args.with_defaults(:role => 1)
+    puts "Users with role: #{Role.find(args.role).name}."
+    puts RolesUser.includes(:user).where(role_id: args.role.to_i).map { |ru| ru.user.email }.uniq.reject(&:blank?).sort
+  end
+
 
 
   def csv_export(competitions)

@@ -25,7 +25,7 @@
     <%= f.label :submission_title, project.title_wording.html_safe %>
   </td>
   <td>
-    <%= f.text_field :submission_title, size: 65, maxlength: 200, required: true, minlength: 6,
+    <%= f.text_field :submission_title, size: 70, maxlength: 200, required: true, minlength: 6,
                      onkeyup: "jQuery('#submission_title_cnt').html(200 - jQuery('#submission_submission_title').val().length);" %>
     <span class='required_marker'> * </span>
     <span id='submission_title_cnt'>200</span>
@@ -40,7 +40,7 @@
       <%= f.label :submission_category, project.category_wording.html_safe %>
     </td>
     <td>
-      <%= f.text_field :submission_category, size: 60 %>
+      <%= f.text_field :submission_category, size: 70, :maxlength => 255 %>
     </td>
     <td class='notes'>
       <%= project.submission_category_description.html_safe %>
@@ -67,7 +67,7 @@
       <%= f.label :core_manager_username, 'Core Manager NetID' %>
     </td>
     <td>
-      <%= f.text_field :core_manager_username %>
+      <%= f.text_field :core_manager_username, size: 40, :maxlength => 255 %>
       <%= netid_lookup_tag.html_safe %>
       <span id='core_manager_username_match'></span>
     </td>
@@ -82,7 +82,7 @@
       <%= f.label :abstract %>
     </td>
     <td>
-      <%= f.text_area :abstract, rows: 7, cols: 80, wrap: 'virtual', required: true %>
+      <%= f.text_area :abstract, rows: 7, cols: 70, wrap: 'virtual', required: true %>
     </td>
     <td class='notes'>
       <%= project.abstract_text.html_safe %>
@@ -115,7 +115,7 @@
       <br />
       If so, enter the IRB study number:
       <br />
-      <%= f.text_field :irb_study_num %>
+      <%= f.text_field :irb_study_num, size: 40, :maxlength => 255 %>
     </td>
   </tr>
 <% end %>
@@ -131,7 +131,7 @@
       <br />
       If so, enter the IACUC study number:
       <br />
-      <%= f.text_field :iacuc_study_num %>
+      <%= f.text_field :iacuc_study_num, size: 40, :maxlength => 255 %>
     </td>
   </tr>
 <% end %>
@@ -153,7 +153,7 @@
       <%= f.label :nucats_cru_contact_name, 'NUCATS CRU contact' %>
     </td>
     <td>
-      <%= f.text_field :nucats_cru_contact_name %>
+      <%= f.text_field :nucats_cru_contact_name, size: 40, :maxlength => 255 %>
     </td>
     <td class='notes'>
       Please enter your CRU contact, if you will make use of the NUCATS CRU.
@@ -267,7 +267,7 @@
       <%= f.label :cost_sharing_organization %>
     </td>
     <td>
-      <%= f.text_area :cost_sharing_organization, rows: 3, cols: 80, wrap: 'virtual', required: true %>
+      <%= f.text_area :cost_sharing_organization, rows: 3, cols: 70, wrap: 'virtual', required: true %>
     </td>
     <td class='notes'>
       Please list the organization(s) providing the cost sharing
@@ -289,7 +289,7 @@
         If you received prior support, please indicate when the award(s) was made and
         how much money was awarded for each item - be specific:
         <br/>
-        <%= f.text_area :previous_support_description, rows: 3, cols: 80, wrap: 'virtual' %>
+        <%= f.text_area :previous_support_description, rows: 3, cols: 70, wrap: 'virtual' %>
       <% end %>
     </td>
   </tr>
@@ -308,7 +308,7 @@
         If this is NOT new work, please explain:
         <br />
         <span>
-          <%= f.text_area :not_new_explanation, rows: 4, wrap: 'virtual' %>
+          <%= f.text_area :not_new_explanation, rows: 4, cols: 70, wrap: 'virtual' %>
         </span>
       <% end %>
     </td>
@@ -331,11 +331,10 @@
       <br />
       Will this project require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
       <br />
-      <% if project.show_use_nmh %><br /><%= f.check_box :use_nmh %> NMH &nbsp; &nbsp; <% end %>
-      <% if project.show_use_nmff %><br /><%= f.check_box :use_nmff %> NMFF &nbsp; &nbsp; <% end %>
-      <% if project.show_use_va %><br /><%= f.check_box :use_va %> VA &nbsp; &nbsp; <% end %>
-      <% if project.show_use_ric %><br /><%= f.check_box :use_ric %> RIC &nbsp; &nbsp; <% end %>
-      <% if project.show_use_cmh %><br /><%= f.check_box :use_cmh %> CMH &nbsp; &nbsp; <% end %>
+      <% if project.show_use_nmh %><br /><%= f.check_box :use_nmh %> Northwestern Memorial Health Care <% end %>
+      <% if project.show_use_va %><br /><%= f.check_box :use_va %> Jesse Brown VA Medical Center <% end %>
+      <% if project.show_use_ric %><br /><%= f.check_box :use_ric %> Shirley Ryan AbilityLab <% end %>
+      <% if project.show_use_cmh %><br /><%= f.check_box :use_cmh %> Anne & Robert H. Lurie Children's Hospital of Chicago <% end %>
       <br />
       <br />
     </td>
@@ -347,7 +346,7 @@
       <%= f.label :other_funding_sources, project.other_funding_sources_wording.html_safe %>
     </td>
     <td class='notrequired'>
-      <%= f.text_area :other_funding_sources, rows: 4, wrap: 'virtual', class: 'narrow', required: true %>
+      <%= f.text_area :other_funding_sources, rows: 4, cols: 70, wrap: 'virtual', required: true %>
     </td>
     <td class='notes'>
       Are there alternative sources of funding for this project? Please list current support and
@@ -367,7 +366,7 @@
       <br />
       If yes, please explain:
       <br />
-      <%= f.text_area :conflict_explanation, { rows: 4, wrap: 'virtual', class: 'narrow'} %>
+      <%= f.text_area :conflict_explanation, { rows: 4, cols: 70, wrap: 'virtual'} %>
     </td>
   </tr>
 <% end %>
@@ -377,7 +376,7 @@
       <%= f.label :department_administrator_username, 'Contact NetID' %>
     </td>
     <td class='notrequired'>
-      <%= f.text_field :department_administrator_username %>
+      <%= f.text_field :department_administrator_username, size: 40, :maxlength => 255 %>
       <%= netid_lookup_tag.html_safe %>
       <span id='department_administrator_username_match'></span>
     </td>
@@ -403,7 +402,7 @@
       <%= f.label :effort_approver_username, "#{project.effort_approver_title.capitalize} NetID" %>
     </td>
     <td class='notrequired'>
-      <%= f.text_field :effort_approver_username %>
+      <%= f.text_field :effort_approver_username, size: 40, :maxlength => 255 %>
       <%= netid_lookup_tag.html_safe %>
       <span id='effort_approver_username_match'></span>
       </td>

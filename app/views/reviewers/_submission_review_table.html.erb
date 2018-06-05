@@ -6,7 +6,7 @@
 <% include_competition ||= false %>
 
 <% if submission_reviews.blank? %>
-  
+
 <% else %>
   <p style="margin-top: 1em; float:right;">
   <% unless controller.action_name =~ /with_files/ %>
@@ -31,118 +31,123 @@
 
 <table id="<%= table_id -%>" class="tablesorter { sortList: [[2,0]] }">
   <thead>
-  <tr>
-    <th>Applicant</th>
-    <th>Project title</th>
-  <% if include_competition -%>
-    <th>Sponsor</th>
-    <th>Competition</th>
-  <% end -%>
-  <% if include_files -%>
-    <th>Summary</th>
-  <% end -%>
-    <th>Reviewer(s)</th>
-    <th>Review Form</th>
-    <th>Composite</th>
-    <th>Overall Score</th>
-  <% if include_files -%>
-    <th>Complete</th>
-    <th>Files</th>
-    <th>More</th>
-  <% end -%>
-  </tr>
-</thead>
-<tbody>
-<% last_review = nil %>
-<% submission_reviews.each do |review| %>
-<% unless is_admin? || last_review == nil %>
-  <% if  review.submission.present? %>
-    <% if last_review.submission.applicant_id == review.submission.applicant_id %>
-      <% unless review.reviewer_id == current_user_session.id %>
-        <% next unless current_project.show_composite_scores_to_reviewers %>
-        <% next if review.has_zero? %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<% if  review.submission.present? %>
-  <% is_reviewer = review.reviewer_id == current_user_session.id %> 
-  <% last_review = review %>
-  <% submission  = review.submission %>
-  <% project     = review.submission.project %>
-  <% program     = review.submission.project.program %>
-
-  <% style="" %>
-  <% style="style='background-color:thistle;'" if review.has_zero? %>
-    <tr <%= style %>>
-      <td><%=h submission.applicant.sort_name %></td>
-      <td>
-        <%= link_to(h(submission.submission_title), submission_path(submission), target: '_blank') %>
-      </td>
+    <tr>
+      <th>Applicant</th>
+      <th>Project title</th>
     <% if include_competition -%>
-      <td>
-        <%= link_to(h(program.program_title), sponsor_path(program), target: '_blank') %>
-      </td>
-      <td>
-        <%= link_to(h(project.project_title),
-                    show_competition_url(project.program.program_name, project.project_name),
-                    { title: "Click here to view the competition #{project.project_title}",
-                      target: '_blank' } ) %>
-
-      </td>
+      <th>Sponsor</th>
+      <th>Competition</th>
     <% end -%>
     <% if include_files -%>
-      <td>
-        <%= link_to('Reviews', submission_reviews_path(submission.id)) if submission.submission_reviews.collect{|r| r.has_zero? ? 0 : 1 }.sum > 0 %>
-      </td>
+      <th>Summary</th>
     <% end -%>
-      <td>
-        <%=h review.reviewer.sort_name if is_admin?(program) || is_reviewer %>
-      </td>
-      <td>
-        <% if is_admin?(program) || is_reviewer %>
-          <%= link_to(image_tag('application_form.png', width: '16px', height: '16px') + ' Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id)) %>
-        <% end %>
-        <% if program.allow_reviewer_notification %>
-          &nbsp; &nbsp;
-          <%= button_to(NucatsAssist.opt_out_review_button_name, unassign_submission_project_admins_path(project, submission_review_id: review.id, opt_out: true)) if is_reviewer && review.unscored? %>
-        <% end %>
-      </td>
-      <td <%= style %>>
-        <%= review.composite_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>
-      </td>
-      <td <%= style %>>
-        <%= review.overall_score if is_admin?(program) || is_reviewer || current_project.show_composite_scores_to_reviewers %>
-      </td>
+      <th>Reviewer(s)</th>
+      <th>Review Form</th>
+      <th>Composite</th>
+      <th>Overall</th>
     <% if include_files -%>
-      <td <%= style %>>
-        <%= review.count_nonzeros? != review.submission.project.count_review_criteria? ? 'No' : 'Yes' %>
-      </td>
-      <td>
-        <br />
-        <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
-          <% unless lnk.blank? %>
-            <%= lnk.html_safe %>
-            <br/>
-          <% end %>
-        <% end %>
-      </td>
-      <td>
-       <%= link_to_key_personnel_documents(review.submission.key_people, !speed_display).html_safe %>
-     </td>
+      <th>Complete</th>
+      <th>Files</th>
+      <th>Additional Files</th>
     <% end -%>
     </tr>
+  </thead>
+  <tbody>
+  <% last_review = nil %>
+  <% has_scored_review = submission_reviews.none?(&:unscored?) %>
+  <% submission_reviews.each do |review| %>
+    <% unless is_admin? || last_review == nil %>
+      <% if  review.submission.present? %>
+        <% if last_review.submission.applicant_id == review.submission.applicant_id %>
+          <% unless review.reviewer_id == current_user_session.id %>
+            <% next unless current_project.show_composite_scores_to_reviewers %>
+            <% next if review.incomplete? %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if  review.submission.present? %>
+      <% is_reviewer = review.reviewer_id == current_user_session.id %>
+      <% last_review = review %>
+      <% submission  = review.submission %>
+      <% project     = review.submission.project %>
+      <% program     = review.submission.project.program %>
+      <% is_admin    = is_admin?(program) %>
+      <% incomplete  = review.incomplete? %>
+      <% style       = 'style="background-color:thistle;"'.html_safe if incomplete %>
+
+      <tr>
+        <td><%=h submission.applicant.sort_name %></td>
+        <td>
+          <%= link_to(h(submission.submission_title), submission_path(submission), target: '_blank') %>
+        </td>
+      <% if include_competition -%>
+        <td>
+          <%= link_to(h(program.program_title), sponsor_path(program), target: '_blank') %>
+        </td>
+        <td>
+          <%= link_to(h(project.project_title),
+                      show_competition_url(project.program.program_name, project.project_name),
+                      { title: "Click here to view the competition #{project.project_title}",
+                        target: '_blank' } ) %>
+
+        </td>
+      <% end -%>
+      <% if include_files -%>
+        <td>
+          <%= link_to('Reviews', submission_reviews_path(submission.id)) if has_scored_review %>
+        </td>
+      <% end -%>
+        <td>
+          <%=h review.reviewer.sort_name if is_admin || is_reviewer %>
+        </td>
+        <td>
+          <% if is_admin || is_reviewer %>
+            <%= link_to(image_tag('application_form.png', width: '16px', height: '16px') + ' Review Form', edit_project_reviewer_path(project_id: submission.project_id, id: review.id)) %>
+          <% end %>
+          <% if program.allow_reviewer_notification %>
+            &nbsp; &nbsp;
+            <%= button_to(NucatsAssist.opt_out_review_button_name, unassign_submission_project_admins_path(project, submission_review_id: review.id, opt_out: true)) if is_reviewer && review.unscored? %>
+          <% end %>
+        </td>
+        <td <%= style %>>
+          <%= review.composite_score if is_admin || is_reviewer || current_project.show_composite_scores_to_reviewers %>
+        </td>
+        <td <%= style %>>
+          <%= review.overall_score if is_admin || is_reviewer || current_project.show_composite_scores_to_reviewers %>
+        </td>
+      <% if include_files -%>
+        <td <%= style %>>
+          <%= incomplete ? 'No' : 'Yes' %>
+        </td>
+        <td>
+          <% link_to_submission_files(review.submission, review.submission.project, !speed_display).each do |lnk| %>
+            <% unless lnk.blank? %>
+              <%= lnk.html_safe %>
+              <br/>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+         <%= link_to_key_personnel_documents(review.submission.key_people, !speed_display).html_safe %>
+       </td>
+      <% end -%>
+      </tr>
+    <% end %>
   <% end %>
-<% end %>
-</tbody>
+  </tbody>
 </table>
 <%= javascript_tag do %>
   jQuery(document).ready(function() {
     // call the tablesorter plugin
     jQuery("#<%= table_id -%>").tablesorter(
-      // turn off sorting on the 6th header
-      { headers: { 6: {sorter: false}, 7: {sorter: false}, 8: {sorter: false} } }
+      <% if include_files && include_competition %>
+      // disable File column sorting
+      { headers: { 10: {sorter: false}, 11: {sorter: false} } }
+      <% elsif include_files || include_competition %>
+      { headers: { 8: {sorter: false}, 9: {sorter: false} } }
+      <% end %>
     ); });
 <% end %>
 

@@ -2,8 +2,8 @@
 set :stage, :production
 set :rails_env, :production
 
-role :app, %w{rails-prod2.nubic.northwestern.edu}
-role :web, %w{rails-prod2.nubic.northwestern.edu}
-role :db,  %w{rails-prod2.nubic.northwestern.edu}
+role :app, %w{vfsmcdsiapps03.fsm.northwestern.edu}
+role :web, %w{vfsmcdsiapps03.fsm.northwestern.edu}
+role :db,  %w{vfsmcdsiapps03.fsm.northwestern.edu}
 
-server 'rails-prod2.nubic.northwestern.edu', user: 'nitrocompetitions', roles: %w{web app}, primary: true
+server 'vfsmcdsiapps03.fsm.northwestern.edu', user: 'deploy', roles: %w{web app}, primary: true

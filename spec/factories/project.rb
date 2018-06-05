@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 FactoryGirl.define do
   factory :project do
-    sequence(:project_name) { |n| "project_name#{n}_#{Time.now.to_i}" }
+    sequence(:project_name) { |n| "pn#{n}_#{Time.now.to_i}" }
+    # project_name Faker::TwinPeaks.unique.location
     project_title 'MyStringAloneIsNotLongEnough'
     project_description 'MyString'
     rfa_url 'http://www.northwestern.edu'
     association :program, factory: :program
+    project_url = Faker::Internet.url
     initiation_date Date.today
     submission_open_date Date.today
     submission_close_date Date.today

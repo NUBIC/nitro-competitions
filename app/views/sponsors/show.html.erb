@@ -1,4 +1,4 @@
-
+<% provide(:title_tag, "#{@sponsor.program_title} Overview") %>
 <h3>
   <%= @sponsor.program_name %>
 </h3>
@@ -17,9 +17,9 @@
     </div>
 
     <div>
-      URL: 
+      URL:
       <%= link_to(@sponsor.program_url, @sponsor.program_url) %>
-    </div> 
+    </div>
     <div>
       <% if is_admin?(@sponsor) %>
         <%= link_to(image_tag("page_white_edit.png",
@@ -30,7 +30,7 @@
       <% end %>
     </div>
   </div>
- 
+
 <h3>
   Admins:
 </h3>
@@ -49,7 +49,7 @@
     </div>
   <% end %>
   <div class="indented">
-    <% if current_user.system_admin? || is_admin?(@sponsor) %>  
+    <% if current_user.system_admin? || is_admin?(@sponsor) %>
       <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Admin', sponsor_role_path(@sponsor, Role.admin)) %>
     <% end %>
   </div>
@@ -65,7 +65,7 @@
         </div>
       <% end %>
       <div class="indented">
-        <% if current_user.system_admin? || is_admin?(@sponsor) %>  
+        <% if current_user.system_admin? || is_admin?(@sponsor) %>
           <%= link_to(image_tag('add.png', width: '16px', height: '16px') + ' Add Read-only Access', sponsor_role_path(@sponsor, Role.read_only)) %>
         <% end %>
       </div>

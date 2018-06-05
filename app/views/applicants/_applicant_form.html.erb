@@ -1,0 +1,163 @@
+<%- if @applicant && !@applicant.try(:errors).blank? %>
+  <%= render('shared/error_messages', object: @applicant) %>
+<% end %>
+<%- if !current_user.email_verified? %>
+  <div class="notice">
+    Please update your email address
+  </div>
+<% end %>
+
+<div class="hide">
+  <%= @applicant.username %>
+</div>
+
+<h3>Name</h3>
+<div class="form-group">
+  <%= f.label :title, 'Academic title', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :title, {placeholder: 'Professor, Associate Professor, etc.', class: 'form-control'} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :first_name, 'First name', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :first_name, {required: true, placeholder: 'first name', class: 'form-control'} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :last_name, 'Last name', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :last_name, {required: true, placeholder: 'last name', class: 'form-control'} %>
+  </div>
+</div>
+
+<div class="bottom_border">
+  <%- if current_user.system_admin? %>
+    <div class="form-group">
+      <%= f.label :system_admin, 'System Admin', {class: 'col-xs-3 control-label'} %>
+      <div class="col-xs-9">
+        <%= f.check_box :system_admin %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<h3>Contact</h3>
+<div class="form-group">
+  <%= f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :email, {required: true, class: 'form-control'} %>
+  </div>
+</div>
+
+<div class="bottom_border">
+  <div class="form-group">
+    <%= f.label :business_phone, 'Phone', {class: 'col-xs-3 control-label'} %>
+    <div class="col-xs-9">
+      <%= f.text_field :business_phone, {placeholder: 'phone', class: 'form-control'} %>
+    </div>
+  </div>
+</div>
+<h3>Addresses</h3>
+<div class="indented">
+  <h4>On-campus mailing address</h4>
+</div>
+<div class="form-group">
+  <%= f.label :campus, 'Campus', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :campus, {placeholder: 'campus name', class: 'form-control'} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :campus_address, 'Address', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_area :campus_address, {placeholder: 'address', class: 'form-control', rows: 5} %>
+  </div>
+</div>
+<div class="indented">
+  <h4>Off-campus mailing address (if you have one)</h4>
+</div>
+<div class="form-group">
+  <%= f.label :address, 'Address', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_area :address, {placeholder: 'address', class: 'form-control', rows: 5} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :city, {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :city, {placeholder: 'city', class: 'form-control'} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :state, {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :state, {placeholder: 'state', class: 'form-control'} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :postal_code, 'ZIP', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :postal_code, {placeholder: 'postal code', class: 'form-control'} %>
+  </div>
+</div>
+
+<div class="bottom_border">
+  <div class="form-group">
+    <%= f.label :country, {class: 'col-xs-3 control-label'} %>
+    <div class="col-xs-9">
+      <%= f.text_field :country, {placeholder: 'country', class: 'form-control'} %>
+    </div>
+  </div>
+</div>
+
+<h3>Research and Credentials</h3>
+<div class="form-group">
+  <label for="era_commons_name" class="col-xs-3 control-label">eRA Commons registration is required.</label>
+  <div class="col-xs-9">
+    <%= f.text_field :era_commons_name, {required: true, placeholder: 'eRA Commons name', class: 'form-control'} %>
+    <%= link_to 'More information about eRA Commons.', NucatsAssist.era_commons_name_url, target: '_blank' %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :degrees, 'Advanced degrees', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_field :degrees, {placeholder: 'PhD, MD, etc.', class: 'form-control'} %>
+  </div>
+</div>
+<div class="form-group">
+  <%= f.label :primary_department, 'Primary department', {class: 'col-xs-3 control-label'} %>
+  <div class="col-xs-9">
+    <%= f.text_area :primary_department, { placeholder: 'the university unit that holds your primary appointment.', class: 'form-control', rows: 3} %>
+  </div>
+</div>
+
+<div class="bottom_border">
+  </div>
+  <div class="form-group">
+    <div class="col-xs-3">
+      <%= f.label :uploaded_biosketch, 'Default biosketch document' %>
+      <p>This should be uploaded in <strong>MS Word or PDF format</strong>.</p>
+    </div>
+    <div class="col-xs-9">
+      <%= f.file_field('uploaded_biosketch') %>
+      <%- unless @applicant.biosketch_document_id.blank? %>
+        <p><em>
+          <%= link_to_file(@applicant.biosketch_document_id, "#{@applicant.biosketch.file_file_name}").html_safe %>
+          <%= "updated on #{(@applicant.biosketch.last_updated_at || @applicant.biosketch.updated_at).to_date.to_s(:justdate)}" %>
+        </em></p>
+      <% end %>
+      <p>Your default biosketch document will be used as the biosketch document when:
+        <li>you are named as key personnel (<em>not</em> as PI)</li>
+        <li>and as the default biosketch for any new proposals you submit</li>
+      </p>
+      <p>You can customize your biosketch for each proposal in the 'manage documents' form once you have created the proposal submission.</p>
+    </div>
+  </div>
+</div>
+<br/>
+<div class="form-group">
+  <%= f.submit('Update', {class: 'btn btn-default btn-info'}) %>
+</div>
+<script type="text/javascript">
+  jQuery('#applicant_form').validate();
+</script>

@@ -1,21 +1,21 @@
-<div id='project_list'>
+<div id="project_list">
   <% show_details ||= false %>
   <% if !projects.blank? %>
     <% projects = projects.sort_by(&:submission_close_date).reverse %>
     <% projects.each_with_index do |project, i| %>
       <% if project.visible || ((!current_user.blank? && current_user.system_admin?) || is_admin?(project.program)) %>
-        <div class='project'>
-          <div class='apply'>
+        <div class="project">
+          <div class="apply">
             <% if !project.visible %>
-              <div class='not_published_link'>
+              <div class="not_published_link">
                 <% url = new_project_applicant_path(project.id) %>
                 <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
                 <%= link_to('Not Published',
                     application_url,
-                    title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+                    title: "Create a test application for this unpublished competition '#{project.project_title}'") %>
               </div>
             <% elsif project.current_status =~ /open for/i %>
-              <div class='apply_link'>
+              <div class="apply_link">
                 <% url = new_project_applicant_path(project.id) %>
                 <% application_url = current_user.blank? ? "/users/login?url=#{url}" : url %>
                 <%= link_to('Apply',
@@ -25,73 +25,50 @@
             <% else %>
               <%= project.current_status %>
             <% end %>
-            <% if show_details %>
-              <div>
-                Announcement:
-                <b><%= project.initiation_date.to_s(:justdate) %></b>
-              </div>
-              <div>
-                Review Closes:
-                <b><%= project.review_end_date.to_s(:justdate) %></b>
-              </div>
-            <% end %>
           </div>
-          <div class='project_details'>
-            <div class='project_information'>
-              <div class='competition'>
+          <div class="project_details">
+            <div class="project_information">
+              <div class="competition">
                 <% if show_project_link %>
                   <%= link_to(h(project.project_title), show_competition_url(project.program.program_name, project.project_name), title: "Click here to view the competition #{project.project_title}") %>
                 <% else %>
-                  <span class='project_title'>
+                  <span class="project_title">
                     <%= h(project.project_title) %>
                   </span>
                 <% end %>
               </div>
             </div>
-            <div class='project_information'>
-              <div class='project_dates'>
-                Submission Period:
-                <b><%= project.submission_open_date.to_s(:justdate) %> -
-                <%= project.submission_close_date.to_s(:justdate) %></b>
-              </div>
+            <div class="project_information">
+              <div class="project_dates">
+                <dl>
               <% if show_details %>
-                <div class='project_dates'>
-                  Award Period:
-                  <b><%= project.project_period_start_date.to_s(:justdate) %> -
-                  <%= project.project_period_end_date.to_s(:justdate) %></b>
-                </div>
+                  <dt>Announcement:</dt>
+                  <dd><%= project.initiation_date.to_s(:justdate) %></dd>
               <% end %>
+                  <dt>Submission Period:</dt>
+                  <dd><%= project.submission_open_date.to_s(:justdate) %> -
+                  <%= project.submission_close_date.to_s(:justdate) %></dd>
+              <% if show_details %>
+                  <dt>Review Closes:</dt>
+                  <dd><%= project.review_end_date.to_s(:justdate) %></dd>
+                  <dt>Award Period:</dt>
+                  <dd><%= project.project_period_start_date.to_s(:justdate) %> -
+                  <%= project.project_period_end_date.to_s(:justdate) %></dd>
+              <% end %>
+              </div>
             </div>
-
-            <% if has_read_all?(project.program) %>
-              <div class='project_information'>
-                Number of Applications:
-                <%= link_to(project.submissions.count.to_s, submissions_project_admins_url(project.id)) %>
-              </div>
-            <% end %>
-
-            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
             <% if project.membership_required? %>
-              <div class='project_information membership_required'>
-                <%= link_to('NUCATS Membership is required to apply for this competition.', ENV['MEMBERSHIP_URL'] + ENV['MEMBERSHIP_PATH'], 
+              <div class="project_information membership_required">
+                <%= link_to('NUCATS Membership is required to apply for this competition.', ENV['MEMBERSHIP_URL'] + ENV['MEMBERSHIP_PATH'],
                               :target => '_blank') %>
               </div>
             <% end %>
-
-            <% if show_details %>
-              <% unless project.program.program_url.blank? %>
-                <div class='project_information'>
-                  <% program_title = "Get more information on #{project.program.program_title}" %>
-                  <%= link_to(h(project.program.program_title),
-                              sponsor_path(project.program), 
-                              :title => program_title, 
-                              :target => '_blank') %>
-                </div>
-              <% end %>
+            <% if %>
+            <%= render 'shared/project_actions', project: project, show_submissions: show_details if show_action_links %>
             <% end %>
           </div>
         </div>
-      <% end %>  
+      <% end %>
     <% end %>
   <% end %>
 </div>
