@@ -128,7 +128,7 @@ class Submission < ApplicationRecord
   def status
     return 'Incomplete' if project.blank? || applicant.blank?
     return 'Incomplete' if project.show_project_cost && direct_project_cost.blank?
-    return 'Incomplete' if project.show_effort_approver && effort_approver_username.blank?
+    return 'Incomplete' if project.show_effort_approver && project.require_effort_approver && effort_approver_username.blank?
     return 'Incomplete' if project.show_department_administrator && department_administrator_username.blank?
     return 'Incomplete' if project.show_core_manager && core_manager_username.blank?
     return 'Incomplete' if project.show_abstract_field && abstract.blank?
