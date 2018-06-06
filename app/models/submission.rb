@@ -176,7 +176,7 @@ class Submission < ApplicationRecord
     out = []
     return ['Project undefined'] if project.blank? || applicant.blank?
     out << 'Project cost is undefined. Please enter a project cost. ' if project.show_project_cost && direct_project_cost.blank?
-    out << "#{project.effort_approver_title} unset. Complete in title page. " if project.show_effort_approver && effort_approver_username.blank?
+    out << "#{project.effort_approver_title} unset. Complete in title page. " if project.show_effort_approver && project.require_effort_approver && effort_approver_username.blank?
     out << "#{project.department_administrator_title} unset. Complete in title page. " if project.show_department_administrator && department_administrator_username.blank?
     out << 'Core Manager unset. Complete in title page. ' if project.show_core_manager && core_manager_username.blank?
     out << 'Abstract needs to be completed. Complete in title page. ' if project.show_abstract_field && abstract.blank?
