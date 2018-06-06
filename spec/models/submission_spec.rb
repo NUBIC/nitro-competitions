@@ -36,7 +36,7 @@ describe Submission, :type => :model do
                             :submission_category,
                             :core_manager_username,
                             :notification_sent_to,
-                            :type_of_equipment]                   
+                            :type_of_equipment]
       varchar_attributes.each do |att|
         expect(submission).to validate_length_of(att)
       end
@@ -130,6 +130,16 @@ describe Submission, :type => :model do
     it 'knows if it is complete' do
       sub = FactoryGirl.create(:submission)
       expect(sub).to be_complete
+    end
+    it 'knows when effort_approver_username is required' do
+      project_with_effort_approver    = FactoryGirl.create(:project, :show_effort_approver => true, :require_effort_approver => true)
+      project_without_effort_approver   = FactoryGirl.create(:project, :show_effort_approver => true)
+      submission  = FactoryGirl.create(:submission, :project => project_with_effort_approver, :effort_approver_username => '')
+      submission2 = FactoryGirl.create(:submission, :project => project_without_effort_approver, :effort_approver_username => '')
+      expect(submission.status).to eq('Incomplete')
+      expect(submission2.status).to eq('Complete')
+      submission.effort_approver_username = 'abc123'
+      expect(submission.status).to eq("Complete")
     end
   end
 
