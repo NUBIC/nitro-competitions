@@ -1,17 +1,9 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -145,7 +137,19 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: file_documents; Type: TABLE; Schema: public; Owner: -
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: file_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE file_documents (
@@ -184,7 +188,7 @@ ALTER SEQUENCE file_documents_id_seq OWNED BY file_documents.id;
 
 
 --
--- Name: identities; Type: TABLE; Schema: public; Owner: -
+-- Name: identities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE identities (
@@ -217,7 +221,7 @@ ALTER SEQUENCE identities_id_seq OWNED BY identities.id;
 
 
 --
--- Name: key_personnel; Type: TABLE; Schema: public; Owner: -
+-- Name: key_personnel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE key_personnel (
@@ -254,7 +258,7 @@ ALTER SEQUENCE key_personnel_id_seq OWNED BY key_personnel.id;
 
 
 --
--- Name: logs; Type: TABLE; Schema: public; Owner: -
+-- Name: logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE logs (
@@ -292,7 +296,7 @@ ALTER SEQUENCE logs_id_seq OWNED BY logs.id;
 
 
 --
--- Name: programs; Type: TABLE; Schema: public; Owner: -
+-- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE programs (
@@ -334,7 +338,7 @@ ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
 
 
 --
--- Name: projects; Type: TABLE; Schema: public; Owner: -
+-- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE projects (
@@ -503,7 +507,8 @@ CREATE TABLE projects (
     document1_required boolean DEFAULT true,
     document2_required boolean DEFAULT true,
     document3_required boolean DEFAULT true,
-    document4_required boolean DEFAULT true
+    document4_required boolean DEFAULT true,
+    require_effort_approver boolean DEFAULT false
 );
 
 
@@ -527,7 +532,7 @@ ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
 
 
 --
--- Name: reviewers; Type: TABLE; Schema: public; Owner: -
+-- Name: reviewers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reviewers (
@@ -566,7 +571,7 @@ ALTER SEQUENCE reviewers_id_seq OWNED BY reviewers.id;
 
 
 --
--- Name: rights; Type: TABLE; Schema: public; Owner: -
+-- Name: rights; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE rights (
@@ -599,7 +604,7 @@ ALTER SEQUENCE rights_id_seq OWNED BY rights.id;
 
 
 --
--- Name: rights_roles; Type: TABLE; Schema: public; Owner: -
+-- Name: rights_roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE rights_roles (
@@ -611,7 +616,7 @@ CREATE TABLE rights_roles (
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: -
+-- Name: roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE roles (
@@ -642,7 +647,7 @@ ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
 
 
 --
--- Name: roles_users; Type: TABLE; Schema: public; Owner: -
+-- Name: roles_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE roles_users (
@@ -682,7 +687,7 @@ ALTER SEQUENCE roles_users_id_seq OWNED BY roles_users.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -691,7 +696,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: -
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE sessions (
@@ -723,7 +728,7 @@ ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
 
 
 --
--- Name: submission_reviews; Type: TABLE; Schema: public; Owner: -
+-- Name: submission_reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE submission_reviews (
@@ -792,7 +797,7 @@ ALTER SEQUENCE submission_reviews_id_seq OWNED BY submission_reviews.id;
 
 
 --
--- Name: submissions; Type: TABLE; Schema: public; Owner: -
+-- Name: submissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE submissions (
@@ -885,7 +890,7 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -968,7 +973,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: versions; Type: TABLE; Schema: public; Owner: -
+-- Name: versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE versions (
@@ -1108,7 +1113,15 @@ ALTER TABLE ONLY versions ALTER COLUMN id SET DEFAULT nextval('versions_id_seq':
 
 
 --
--- Name: file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY file_documents
@@ -1116,7 +1129,7 @@ ALTER TABLE ONLY file_documents
 
 
 --
--- Name: identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY identities
@@ -1124,7 +1137,7 @@ ALTER TABLE ONLY identities
 
 
 --
--- Name: key_personnel_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: key_personnel_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY key_personnel
@@ -1132,7 +1145,7 @@ ALTER TABLE ONLY key_personnel
 
 
 --
--- Name: logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY logs
@@ -1140,7 +1153,7 @@ ALTER TABLE ONLY logs
 
 
 --
--- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY programs
@@ -1148,7 +1161,7 @@ ALTER TABLE ONLY programs
 
 
 --
--- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY projects
@@ -1156,7 +1169,7 @@ ALTER TABLE ONLY projects
 
 
 --
--- Name: reviewers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: reviewers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reviewers
@@ -1164,7 +1177,7 @@ ALTER TABLE ONLY reviewers
 
 
 --
--- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY rights
@@ -1172,7 +1185,7 @@ ALTER TABLE ONLY rights
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY roles
@@ -1180,7 +1193,7 @@ ALTER TABLE ONLY roles
 
 
 --
--- Name: roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY roles_users
@@ -1188,7 +1201,7 @@ ALTER TABLE ONLY roles_users
 
 
 --
--- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY sessions
@@ -1196,7 +1209,7 @@ ALTER TABLE ONLY sessions
 
 
 --
--- Name: submission_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: submission_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY submission_reviews
@@ -1204,7 +1217,7 @@ ALTER TABLE ONLY submission_reviews
 
 
 --
--- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY submissions
@@ -1212,7 +1225,7 @@ ALTER TABLE ONLY submissions
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -1220,7 +1233,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY versions
@@ -1228,56 +1241,56 @@ ALTER TABLE ONLY versions
 
 
 --
--- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_identities_on_user_id ON identities USING btree (user_id);
 
 
 --
--- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
 
 
 --
--- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
 
 
 --
--- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_era_commons_name ON users USING btree (era_commons_name);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
--- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_username ON users USING btree (username);
 
 
 --
--- Name: index_versions_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_versions_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_versions_on_item_type_and_item_id ON versions USING btree (item_type, item_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -1295,173 +1308,93 @@ ALTER TABLE ONLY identities
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
+
+INSERT INTO "schema_migrations" (version) VALUES
+('20090929015447'),
+('20090929015448'),
+('20090929015449'),
+('20090929015450'),
+('20090929015451'),
+('20090929015452'),
+('20090929015453'),
+('20090929015454'),
+('20090929015457'),
+('20090929015458'),
+('20090929015459'),
+('20090929030346'),
+('20090930210257'),
+('20091031200204'),
+('20091121144825'),
+('20091201231100'),
+('20091222043643'),
+('20091222044652'),
+('20091222061310'),
+('20091223143616'),
+('20100215201031'),
+('20100228161645'),
+('20100406170739'),
+('20100419182006'),
+('20100427221413'),
+('20100428162531'),
+('20100511175244'),
+('20100526152236'),
+('20100709151356'),
+('20100713031353'),
+('20100713045334'),
+('20100713232424'),
+('20100714211311'),
+('20100903204448'),
+('20100923102236'),
+('20101015232023'),
+('20110105042007'),
+('20110612035350'),
+('20110621194552'),
+('20110902205400'),
+('20110905133538'),
+('20111005032653'),
+('20111114041303'),
+('20111115153048'),
+('20111116160833'),
+('20120314202945'),
+('20120406134913'),
+('20120911200945'),
+('20120921155653'),
+('20121026195117'),
+('20130114160152'),
+('20130123222811'),
+('20130511121216'),
+('20140213161624'),
+('20140320142240'),
+('20140327162328'),
+('20140418191443'),
+('20140516203330'),
+('20140529184813'),
+('20140908190758'),
+('20141022182109'),
+('20141031150750'),
+('20141124223129'),
+('20141215153829'),
+('20150102214520'),
+('20150908212658'),
+('20150909163352'),
+('20150909165240'),
+('20150909165256'),
+('20151007174528'),
+('20151028195411'),
+('20151109163355'),
+('20160106220053'),
+('20160215144203'),
+('20160330193030'),
+('20160906161210'),
+('20161024191544'),
+('20161028151620'),
+('20161107173423'),
+('20161107193749'),
+('20161107194207'),
+('20170104212020'),
+('20170221205919'),
+('20170228172406'),
+('20180604213601');
 
-INSERT INTO schema_migrations (version) VALUES ('20090929015447');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015448');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015449');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015450');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015451');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015452');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015453');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015454');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015457');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015458');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929015459');
-
-INSERT INTO schema_migrations (version) VALUES ('20090929030346');
-
-INSERT INTO schema_migrations (version) VALUES ('20090930210257');
-
-INSERT INTO schema_migrations (version) VALUES ('20091031200204');
-
-INSERT INTO schema_migrations (version) VALUES ('20091121144825');
-
-INSERT INTO schema_migrations (version) VALUES ('20091201231100');
-
-INSERT INTO schema_migrations (version) VALUES ('20091222043643');
-
-INSERT INTO schema_migrations (version) VALUES ('20091222044652');
-
-INSERT INTO schema_migrations (version) VALUES ('20091222061310');
-
-INSERT INTO schema_migrations (version) VALUES ('20091223143616');
-
-INSERT INTO schema_migrations (version) VALUES ('20100215201031');
-
-INSERT INTO schema_migrations (version) VALUES ('20100228161645');
-
-INSERT INTO schema_migrations (version) VALUES ('20100406170739');
-
-INSERT INTO schema_migrations (version) VALUES ('20100419182006');
-
-INSERT INTO schema_migrations (version) VALUES ('20100427221413');
-
-INSERT INTO schema_migrations (version) VALUES ('20100428162531');
-
-INSERT INTO schema_migrations (version) VALUES ('20100511175244');
-
-INSERT INTO schema_migrations (version) VALUES ('20100526152236');
-
-INSERT INTO schema_migrations (version) VALUES ('20100709151356');
-
-INSERT INTO schema_migrations (version) VALUES ('20100713031353');
-
-INSERT INTO schema_migrations (version) VALUES ('20100713045334');
-
-INSERT INTO schema_migrations (version) VALUES ('20100713232424');
-
-INSERT INTO schema_migrations (version) VALUES ('20100714211311');
-
-INSERT INTO schema_migrations (version) VALUES ('20100903204448');
-
-INSERT INTO schema_migrations (version) VALUES ('20100923102236');
-
-INSERT INTO schema_migrations (version) VALUES ('20101015232023');
-
-INSERT INTO schema_migrations (version) VALUES ('20110105042007');
-
-INSERT INTO schema_migrations (version) VALUES ('20110612035350');
-
-INSERT INTO schema_migrations (version) VALUES ('20110621194552');
-
-INSERT INTO schema_migrations (version) VALUES ('20110902205400');
-
-INSERT INTO schema_migrations (version) VALUES ('20110905133538');
-
-INSERT INTO schema_migrations (version) VALUES ('20111005032653');
-
-INSERT INTO schema_migrations (version) VALUES ('20111114041303');
-
-INSERT INTO schema_migrations (version) VALUES ('20111115153048');
-
-INSERT INTO schema_migrations (version) VALUES ('20111116160833');
-
-INSERT INTO schema_migrations (version) VALUES ('20120314202945');
-
-INSERT INTO schema_migrations (version) VALUES ('20120406134913');
-
-INSERT INTO schema_migrations (version) VALUES ('20120911200945');
-
-INSERT INTO schema_migrations (version) VALUES ('20120921155653');
-
-INSERT INTO schema_migrations (version) VALUES ('20121026195117');
-
-INSERT INTO schema_migrations (version) VALUES ('20130114160152');
-
-INSERT INTO schema_migrations (version) VALUES ('20130123222811');
-
-INSERT INTO schema_migrations (version) VALUES ('20130511121216');
-
-INSERT INTO schema_migrations (version) VALUES ('20140213161624');
-
-INSERT INTO schema_migrations (version) VALUES ('20140320142240');
-
-INSERT INTO schema_migrations (version) VALUES ('20140327162328');
-
-INSERT INTO schema_migrations (version) VALUES ('20140418191443');
-
-INSERT INTO schema_migrations (version) VALUES ('20140516203330');
-
-INSERT INTO schema_migrations (version) VALUES ('20140529184813');
-
-INSERT INTO schema_migrations (version) VALUES ('20140908190758');
-
-INSERT INTO schema_migrations (version) VALUES ('20141022182109');
-
-INSERT INTO schema_migrations (version) VALUES ('20141031150750');
-
-INSERT INTO schema_migrations (version) VALUES ('20141124223129');
-
-INSERT INTO schema_migrations (version) VALUES ('20141215153829');
-
-INSERT INTO schema_migrations (version) VALUES ('20150102214520');
-
-INSERT INTO schema_migrations (version) VALUES ('20150908212658');
-
-INSERT INTO schema_migrations (version) VALUES ('20150909163352');
-
-INSERT INTO schema_migrations (version) VALUES ('20150909165240');
-
-INSERT INTO schema_migrations (version) VALUES ('20150909165256');
-
-INSERT INTO schema_migrations (version) VALUES ('20151007174528');
-
-INSERT INTO schema_migrations (version) VALUES ('20151028195411');
-
-INSERT INTO schema_migrations (version) VALUES ('20151109163355');
-
-INSERT INTO schema_migrations (version) VALUES ('20160106220053');
-
-INSERT INTO schema_migrations (version) VALUES ('20160215144203');
-
-INSERT INTO schema_migrations (version) VALUES ('20160330193030');
-
-INSERT INTO schema_migrations (version) VALUES ('20160906161210');
-
-INSERT INTO schema_migrations (version) VALUES ('20161024191544');
-
-INSERT INTO schema_migrations (version) VALUES ('20161028151620');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107173423');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107193749');
-
-INSERT INTO schema_migrations (version) VALUES ('20161107194207');
-
-INSERT INTO schema_migrations (version) VALUES ('20170104212020');
-
-INSERT INTO schema_migrations (version) VALUES ('20170221205919');
-
-INSERT INTO schema_migrations (version) VALUES ('20170228172406');
 

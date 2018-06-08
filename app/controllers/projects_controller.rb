@@ -184,6 +184,7 @@ class ProjectsController < ApplicationController
       :closed_status_wording,
       :require_era_commons_name,
       :show_effort_approver,
+      :require_effort_approver,
       :effort_approver_title,
       :show_department_administrator,
       :department_administrator_title,

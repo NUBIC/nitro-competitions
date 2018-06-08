@@ -1,6 +1,5 @@
-setInterval(function() {
-  var username = jQuery('#<%= element_to_observe_id %>').val();
-  jQuery.get('/username_lookup.json?username=' + username)
+jQuery('#<%= element_to_observe_id %>').on('keyup keypress blur change', function() {
+  jQuery.get('/username_lookup.json?username=' + jQuery('#<%= element_to_observe_id %>').val())
     .success(function(response) {
       console.log(response);
       jQuery('#<%= element_to_update_id %>').text(response['lookup_result']);
@@ -10,4 +9,4 @@ setInterval(function() {
       console.log(response);
       jQuery('#<%= element_to_update_id %>').text('lookup error');
     });
-}, 2000);
+}).trigger('keyup');

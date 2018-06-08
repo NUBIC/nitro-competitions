@@ -397,12 +397,13 @@
   </tr>
 <% end %>
 <% if project.show_effort_approver %>
+  <fieldset>
   <tr>
     <td>
       <%= f.label :effort_approver_username, "#{project.effort_approver_title.capitalize} NetID" %>
     </td>
-    <td class='notrequired'>
-      <%= f.text_field :effort_approver_username, size: 40, :maxlength => 255 %>
+    <td>
+      <%= f.text_field :effort_approver_username, size: 40, :maxlength => 255, required: project.require_effort_approver  %>
       <%= netid_lookup_tag.html_safe %>
       <span id='effort_approver_username_match'></span>
       </td>
@@ -410,6 +411,7 @@
         Please enter the NetID of your <%= project.effort_approver_title %>
     </td>
   </tr>
+</fieldset>
 <% end %>
 
 <% if is_admin? %>
@@ -434,19 +436,19 @@
   <%= f.hidden_field :amount_awarded %>
 <% end %>
 
-<% if project.show_effort_approver %>
+<% if project.show_core_manager %>
   <script type='text/javascript'>
     <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_core_manager_username', element_to_update_id: 'core_manager_username_match' } %>
   </script>
 <% end %>
 
-<% if project.show_core_manager %>
+<% if project.show_department_administrator %>
   <script type='text/javascript'>
     <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_department_administrator_username', element_to_update_id: 'department_administrator_username_match' } %>
   </script>
 <% end %>
 
-<% if project.show_department_administrator %>
+<% if project.show_effort_approver %>
   <script type='text/javascript'>
     <%= render partial: 'netid_observer_script', locals: { element_to_observe_id: 'submission_effort_approver_username', element_to_update_id: 'effort_approver_username_match' } %>
   </script>
