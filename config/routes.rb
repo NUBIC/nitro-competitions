@@ -131,10 +131,13 @@ NucatsAssist::Application.routes.draw do
 
   resources :applicants, only: [:edit, :update, :show]
 
+  resources :public, only: [:welcome, :home]
+
   # other
   root to: 'public#welcome'
   get 'welcome' => 'public#welcome', as: :welcome
   get 'home' => 'public#home', as: :home
+  get '/public/:name' => redirect('/%{name}', status: 302)
 
   match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
@@ -151,7 +154,5 @@ NucatsAssist::Application.routes.draw do
   match '/users/create_user', to: 'users#create', via: [:post]
 
   match '/projects/:id/copy' => 'projects/duplications#new', as: :copy_project, via: [:get]
-
-  match '/:controller(/:action(/:id))', via: [:get, :post]
 
 end

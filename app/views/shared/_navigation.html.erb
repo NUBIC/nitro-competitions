@@ -3,12 +3,12 @@
 <%- @project ||= current_project unless current_project.blank? %>
 <%- @submission_reviews = current_user.submission_reviews.select{ |sr| sr.submission.present? && sr.submission.project == @project } unless current_user.blank? %>
 <%- @project ||= nil %>
-<%- @root_url = session[:user_id].blank? ? '/welcome' : '/public/home' %>
+<%- root_url = session[:user_id].blank? ? welcome_url : home_url %>
 
 <div class="nav navbar navbar-default navbar-fluid-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a href="<%= @root_url %>"class="navbar-brand" id="app_title"><%= NucatsAssist.html_app_name %></a>
+      <%= link_to NucatsAssist.html_app_name, root_url, id: 'app_title', class: 'navbar-brand' %>
     </div>
     <div id="navbar">
       <ul class="nav navbar-nav">

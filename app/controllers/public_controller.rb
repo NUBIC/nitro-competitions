@@ -16,7 +16,7 @@ class PublicController < ApplicationController
 
   def welcome
     if current_user
-      redirect_to '/public/home'
+      redirect_to home_path
     else
       @projects = Project.with_program.published.open
       @programs = @projects
