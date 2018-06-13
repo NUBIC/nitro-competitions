@@ -5,6 +5,10 @@ class SubmissionsController < ApplicationController
   include KeyPersonnelHelper
   require 'submission_emails'
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    redirect_to projects_path, alert: 'Submission not found'
+  end
+
   before_action :set_submission, only: [:show, :edit, :update, :destroy, :edit_documents]
 
   def index
@@ -88,7 +92,7 @@ class SubmissionsController < ApplicationController
     set_current_project(@project)
     @submission = Submission.new(submission_params)
     redirect_url =  @project.blank? ? projects_path : project_path(@project.id)
-    if @applicant.blank? 
+    if @applicant.blank?
       flash[:alert] = 'Applicant cannot be blank'
       redirect_to redirect_url
     elsif @project.blank?
@@ -125,11 +129,11 @@ class SubmissionsController < ApplicationController
 
   def submission_params
     params.require(:submission).permit(
-      :submission_status, 
-      :submission_title, 
+      :submission_status,
+      :submission_title,
       :submission_category,
-      :core_manager_username, 
-      :abstract, 
+      :core_manager_username,
+      :abstract,
       :is_human_subjects_research,
       :is_irb_approved,
       :irb_study_num,
@@ -287,4 +291,5 @@ class SubmissionsController < ApplicationController
   def should_send_submission_email(submission)
     is_admin? ? (submission.applicant == current_user) : true
   end
+
 end

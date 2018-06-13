@@ -6,7 +6,7 @@ describe PublicController, :type => :controller do
       process :welcome, method: :get
       expect(response).to be_success
       expect(assigns[:projects]).not_to be_nil
-      expect(response).to render_template('public/welcome')
+      expect(response).to render_template('welcome')
     end
   end
 
@@ -14,7 +14,7 @@ describe PublicController, :type => :controller do
     it 'renders the page' do
       process :disallowed, method: :get
       expect(response).to be_success
-      expect(response).to render_template('public/disallowed')
+      expect(response).to render_template('disallowed')
     end
   end
 end

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 describe SubmissionsController, :type => :controller do
-
+  include Rails.application.routes.url_helpers
 
   context 'with a logged in user' do
     user_login
@@ -14,15 +14,6 @@ describe SubmissionsController, :type => :controller do
       it 'assigns variables' do
         process :index, method: :get
         expect(assigns[:submissions]).not_to be_nil
-      end
-    end
-
-    describe 'GET new' do
-      context 'without parameters' do
-        it 'redirects to projects_path' do
-          process :new, method: :get
-          expect(response).to redirect_to(projects_path)
-        end
       end
     end
 

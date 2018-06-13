@@ -6,8 +6,9 @@ describe ReviewersController, :type => :controller do
     user_login
 
     describe 'GET index' do
+      let(:project) { FactoryBot.create(:project) }
       it 'renders the page' do
-        process :index, method: :get
+        process :index, method: :get, params: { project_id: project.id }
         expect(response).to be_success
         expect(assigns[:assigned_submission_reviews]).to eq []
       end

@@ -137,6 +137,7 @@ NucatsAssist::Application.routes.draw do
   root to: 'public#welcome'
   get 'welcome' => 'public#welcome', as: :welcome
   get 'home' => 'public#home', as: :home
+  get 'disallowed' => 'public#disallowed', as: :disallowed
   get '/public/:name' => redirect('/%{name}', status: 302)
 
   match 'auth' => 'public#auth', as: :auth, via: [:get, :post]

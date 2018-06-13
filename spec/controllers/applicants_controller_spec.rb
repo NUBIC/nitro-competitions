@@ -10,15 +10,15 @@ describe ApplicantsController, :type => :controller do
       describe 'without having read all' do
         let(:project) { FactoryBot.create(:project) }
         it 'assigns @project' do
-          process :index, method: :get, params: { project: project }
+          process :index, method: :get, params: { project_id: project }
           expect(assigns[:project]).to eq project
         end
         it 'assigns @sponsor' do
-          process :index, method: :get, params: { project: project }
+          process :index, method: :get, params: { project_id: project }
           expect(assigns[:sponsor]).to eq project.program
         end
         it 'redirects to projects_path' do
-          process :index, method: :get, params: { project: project }
+          process :index, method: :get, params: { project_id: project }
           expect(response).to redirect_to(projects_path)
         end
       end
@@ -37,7 +37,7 @@ describe ApplicantsController, :type => :controller do
 
       it 'renders the new template' do
         allow(controller).to receive(:handle_ldap).and_return(true)
-        process :new, method: :get, params: { project: project, username: 'spuds' }
+        process :new, method: :get, params: { project_id: project, username: 'spuds' }
         expect(response).to be_success
         expect(response).to render_template('applicants/new')
       end
