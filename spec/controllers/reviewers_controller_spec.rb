@@ -9,7 +9,7 @@ describe ReviewersController, :type => :controller do
       let(:project) { FactoryBot.create(:project) }
       it 'renders the page' do
         process :index, method: :get, params: { project_id: project.id }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns[:assigned_submission_reviews]).to eq []
       end
     end

@@ -19,7 +19,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.4'
 
 gem 'bundler'
-gem 'rails', '~> 5.1.5'
+gem 'rails', '~> 5.2.0'
 
 gem 'activerecord-session_store'
 gem 'actionpack-action_caching'
@@ -75,7 +75,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'capybara'
-  # gem 'poltergeist'
+  gem 'puma'
   gem 'database_cleaner'
   gem 'shoulda'
   gem 'factory_bot'

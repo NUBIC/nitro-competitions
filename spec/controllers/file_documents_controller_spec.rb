@@ -8,7 +8,7 @@ describe FileDocumentsController, :type => :controller do
         let(:file_document) { FactoryBot.create(:file_document) }
         it 'renders the page' do
           process :show, method: :get, params: { id: file_document }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
         it 'assigns variables' do
           process :show, method: :get, params: { id: file_document }

@@ -3,7 +3,7 @@ describe CompetitionsController, :type => :controller do
     it 'renders the page' do
       process :open, method: :get #, params: { project_id: project }
       get :open
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(assigns[:projects]).not_to be_nil
       expect(response).to render_template('competitions/open')
     end

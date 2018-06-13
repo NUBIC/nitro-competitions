@@ -38,7 +38,7 @@ describe ApplicantsController, :type => :controller do
       it 'renders the new template' do
         allow(controller).to receive(:handle_ldap).and_return(true)
         process :new, method: :get, params: { project_id: project, username: 'spuds' }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template('applicants/new')
       end
     end

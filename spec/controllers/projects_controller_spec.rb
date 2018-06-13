@@ -20,7 +20,7 @@ describe ProjectsController, :type => :controller do
     describe 'GET index' do
       it 'renders the page' do
         process :index, method: :get
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'assigns variables' do
         process :index, method: :get
@@ -35,7 +35,7 @@ describe ProjectsController, :type => :controller do
         it 'renders the page' do
           project = FactoryBot.create(:project)
           process :index, method: :get, params: { id: project }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
     end

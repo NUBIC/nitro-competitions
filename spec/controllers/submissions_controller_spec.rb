@@ -9,7 +9,7 @@ describe SubmissionsController, :type => :controller do
     describe 'GET index' do
       it 'renders the page' do
         process :index, method: :get
-        expect(response).to be_success
+        expect(response).to be_successful
       end
       it 'assigns variables' do
         process :index, method: :get
@@ -25,7 +25,7 @@ describe SubmissionsController, :type => :controller do
         end
         it 'renders the page' do
           process :show, method: :get, params: { id: submission }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
       context 'where the current logged in user is not associated with the submission' do
@@ -40,7 +40,7 @@ describe SubmissionsController, :type => :controller do
       let(:submission) { FactoryBot.create(:submission) }
       it 'renders the page' do
         process :edit, method: :get, params: { id: submission }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
