@@ -2,7 +2,7 @@
 RSpec.describe ProjectServices::Duplicate do
   context "integration tests" do
     before(:each) do
-      @project = FactoryGirl.create(:project, visible: true)
+      @project = FactoryBot.create(:project, visible: true)
       @new_project = ProjectServices::Duplicate.call(@project.id)
     end
 

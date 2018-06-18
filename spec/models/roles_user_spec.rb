@@ -8,10 +8,10 @@ describe RolesUser, :type => :model do
   it { is_expected.to have_many(:rights).through(:role) }
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:roles_user)).to be_an_instance_of(RolesUser)
+    expect(FactoryBot.build(:roles_user)).to be_an_instance_of(RolesUser)
   end
 
-  let(:ru) { FactoryGirl.create(:roles_user) }
+  let(:ru) { FactoryBot.create(:roles_user) }
 
   it 'can be saved successfully' do
     expect(ru).to be_persisted

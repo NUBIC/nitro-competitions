@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-FactoryGirl.define do
+FactoryBot.define do
   factory :file_document do
     file_content_type 'html/text'
     file_file_name 'MyString'

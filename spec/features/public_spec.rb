@@ -2,8 +2,8 @@
 
 describe 'Public Section', :type => :feature do
 
-  before :each do 
-    FactoryGirl.create(:project) if Project.count < 1
+  before :each do
+    FactoryBot.create(:project) if Project.count < 1
   end
 
   context 'for a person who has not logged in' do

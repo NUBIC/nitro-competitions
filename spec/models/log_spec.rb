@@ -7,11 +7,11 @@ describe Log, :type => :model do
   it { is_expected.to belong_to(:user) }
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:log)).to be_an_instance_of(Log)
+    expect(FactoryBot.build(:log)).to be_an_instance_of(Log)
   end
 
   it 'can be saved successfully' do
-    expect(FactoryGirl.create(:log)).to be_persisted
+    expect(FactoryBot.create(:log)).to be_persisted
   end
 
 end

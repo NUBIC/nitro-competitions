@@ -5,7 +5,7 @@ describe FileDocumentsController, :type => :controller do
     user_login
     describe 'GET show' do
       context 'with a valid file_document record' do
-        let(:file_document) { FactoryGirl.create(:file_document) }
+        let(:file_document) { FactoryBot.create(:file_document) }
         it 'renders the page' do
           process :show, method: :get, params: { id: file_document }
           expect(response).to be_success

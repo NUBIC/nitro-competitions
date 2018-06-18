@@ -2,21 +2,21 @@
 
 describe 'Applying for a competitions', type: :feature do
 
-  context 'With an open competition', js: true do 
+  context 'With an open competition', js: true do
 
     # setup - populate necessary data for an applicant to be able to apply to a competition
     before :each do
-      program = FactoryGirl.create(:program)
-      project = FactoryGirl.create(:project, project_title: 'Voucher Program', 
+      program = FactoryBot.create(:program)
+      project = FactoryBot.create(:project, project_title: 'Voucher Program',
                          program: program,
-                         submission_close_date: 1.week.from_now, 
+                         submission_close_date: 1.week.from_now,
                          submission_open_date: 1.day.ago,
-                         initiation_date: 1.day.ago, 
+                         initiation_date: 1.day.ago,
                          visible: true)
     end
 
-    context 'with a logged in applicant' do 
-      it 'should allow the applicant to apply' do 
+    context 'with a logged in applicant' do
+      it 'should allow the applicant to apply' do
         login
         visit '/projects'
         last_project = Project.last
@@ -36,9 +36,9 @@ describe 'Applying for a competitions', type: :feature do
 
         ###
         # using node.trigger('click') due to poltergeist error:
-        # "Firing a click at co-ordinates [48.5, 724] failed. 
-        #  Poltergeist detected another element with CSS selector 'html body div.pushit' at this position. 
-        #  It may be overlapping the element you are trying to interact with. 
+        # "Firing a click at co-ordinates [48.5, 724] failed.
+        #  Poltergeist detected another element with CSS selector 'html body div.pushit' at this position.
+        #  It may be overlapping the element you are trying to interact with.
         #  If you don't care about overlapping elements, try using node.trigger('click')."
         ###
         # previous:

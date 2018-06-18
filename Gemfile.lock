@@ -123,10 +123,10 @@ GEM
       actionmailer (>= 4.0, < 6)
       activesupport (>= 4.0, < 6)
     execjs (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.10.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.10.0)
+      factory_bot (~> 4.10.0)
       railties (>= 3.0.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -348,8 +348,8 @@ DEPENDENCIES
   dotenv-rails
   exception_notification
   execjs
-  factory_girl
-  factory_girl_rails
+  factory_bot
+  factory_bot_rails
   faker!
   faraday
   fastercsv

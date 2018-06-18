@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 describe SubmissionsController, :type => :controller do
-
+  include Rails.application.routes.url_helpers
 
   context 'with a logged in user' do
     user_login
@@ -17,17 +17,8 @@ describe SubmissionsController, :type => :controller do
       end
     end
 
-    describe 'GET new' do
-      context 'without parameters' do
-        it 'redirects to projects_path' do
-          process :new, method: :get
-          expect(response).to redirect_to(projects_path)
-        end
-      end
-    end
-
     describe 'GET show' do
-      let(:submission) { FactoryGirl.create(:submission) }
+      let(:submission) { FactoryBot.create(:submission) }
       context 'where the current logged in user is associated with the submission' do
         before do
           allow(Submission).to receive(:associated_with_user).and_return([submission])
@@ -46,7 +37,7 @@ describe SubmissionsController, :type => :controller do
     end
 
     describe 'GET edit' do
-      let(:submission) { FactoryGirl.create(:submission) }
+      let(:submission) { FactoryBot.create(:submission) }
       it 'renders the page' do
         process :edit, method: :get, params: { id: submission }
         expect(response).to be_success

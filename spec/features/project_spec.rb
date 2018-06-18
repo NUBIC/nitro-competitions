@@ -3,15 +3,15 @@
 describe 'View for a System Admin', type: :feature do
   context 'With an open competition', js: true do
     before(:each) do
-      @program  = FactoryGirl.create(:program)
-      @project  = FactoryGirl.create(:project, project_title: 'Voucher Program',
+      @program  = FactoryBot.create(:program)
+      @project  = FactoryBot.create(:project, project_title: 'Voucher Program',
                                               program: @program,
                                               submission_close_date: 1.week.from_now,
                                               submission_open_date: 1.day.ago,
                                               initiation_date: 1.day.ago,
                                               visible: true)
-      @user     = FactoryGirl.create(:user)
-      @admin    = FactoryGirl.create(:user, system_admin: true)
+      @user     = FactoryBot.create(:user)
+      @admin    = FactoryBot.create(:user, system_admin: true)
     end
 
     context 'when user is not logged in as sponsor or system admin' do
@@ -29,8 +29,8 @@ describe 'View for a System Admin', type: :feature do
 
     context 'when user is logged in as sponsor admin' do
       before(:each) do
-        @role = FactoryGirl.create(:role, name: 'Admin')
-        FactoryGirl.create(:roles_user, program: @program, role: @role, user: @user)
+        @role = FactoryBot.create(:role, name: 'Admin')
+        FactoryBot.create(:roles_user, program: @program, role: @role, user: @user)
         login_as(@user)
       end
 

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 describe SubmissionReview, :type => :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:project_no_impact_score) { FactoryGirl.create(:project, show_impact_score: false) }
-  let(:unscored_review_zeros) { FactoryGirl.create(:submission_review, project: project, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0) }
-  let(:unscored_review_nils) { FactoryGirl.create(:submission_review, project: project, innovation_score: nil, scope_score: nil, team_score: nil, environment_score: nil, impact_score: nil, budget_score: nil, completion_score: nil, other_score: nil) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:project_no_impact_score) { FactoryBot.create(:project, show_impact_score: false) }
+  let(:unscored_review_zeros) { FactoryBot.create(:submission_review, project: project, innovation_score: 0, scope_score: 0, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 0, other_score: 0) }
+  let(:unscored_review_nils) { FactoryBot.create(:submission_review, project: project, innovation_score: nil, scope_score: nil, team_score: nil, environment_score: nil, impact_score: nil, budget_score: nil, completion_score: nil, other_score: nil) }
 
   it { is_expected.to belong_to(:submission) }
   it { is_expected.to have_one(:applicant) }
@@ -19,42 +19,42 @@ describe SubmissionReview, :type => :model do
   it {should validate_numericality_of(:overall_score) }
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:submission_review)).to be_an_instance_of(SubmissionReview)
+    expect(FactoryBot.build(:submission_review)).to be_an_instance_of(SubmissionReview)
   end
 
   it 'can be saved successfully' do
-    expect(FactoryGirl.create(:submission_review)).to be_persisted
+    expect(FactoryBot.create(:submission_review)).to be_persisted
   end
 
   describe '.incomplete?' do
     it 'returns false when all project criteria are scored' do
-      submission_review  = FactoryGirl.create(:submission_review, project: project_no_impact_score, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, other_score: 0)
+      submission_review  = FactoryBot.create(:submission_review, project: project_no_impact_score, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, other_score: 0)
       expect(submission_review.incomplete?).to be false
     end
 
     it 'returns true when not all project criteria are scored' do
-      submission_review  = FactoryGirl.create(:submission_review, project: project_no_impact_score, innovation_score: 5, scope_score: 4, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, other_score: 0)
+      submission_review  = FactoryBot.create(:submission_review, project: project_no_impact_score, innovation_score: 5, scope_score: 4, team_score: 0, environment_score: 0, impact_score: 0, budget_score: 0, completion_score: 0, other_score: 0)
       expect(submission_review.incomplete?).to be true
     end
   end
 
   describe '.unscored?' do
     it 'returns true for an unscored review' do
-      submission_review_nils  = FactoryGirl.create(:submission_review, project: project, innovation_score: nil, scope_score: nil, team_score: nil, environment_score: nil, impact_score: nil)
+      submission_review_nils  = FactoryBot.create(:submission_review, project: project, innovation_score: nil, scope_score: nil, team_score: nil, environment_score: nil, impact_score: nil)
       expect(unscored_review_zeros.unscored?).to be true
       expect(unscored_review_nils.unscored?).to be true
     end
 
     it 'returns false for a scored review' do
-      submission_review_complete = FactoryGirl.create(:submission_review, project: project, innovation_score: 3, scope_score: 3, team_score: 3, environment_score: 3, impact_score: 3)
-      submission_review_partial = FactoryGirl.create(:submission_review, project: project, innovation_score: nil, scope_score: 3, team_score: 3, environment_score: 3, impact_score: 3)
+      submission_review_complete = FactoryBot.create(:submission_review, project: project, innovation_score: 3, scope_score: 3, team_score: 3, environment_score: 3, impact_score: 3)
+      submission_review_partial = FactoryBot.create(:submission_review, project: project, innovation_score: nil, scope_score: 3, team_score: 3, environment_score: 3, impact_score: 3)
       expect(submission_review_complete.unscored?).to be false
       expect(submission_review_partial.unscored?).to be false
     end
   end
 
   describe '.this_project' do
-    let(:submission_review) { FactoryGirl.create(:submission_review) }
+    let(:submission_review) { FactoryBot.create(:submission_review) }
     let(:project) { submission_review.project }
     it 'returns SubmissionReviews for the given project' do
       submission_reviews = SubmissionReview.this_project(project.id)
@@ -68,7 +68,7 @@ describe SubmissionReview, :type => :model do
   end
 
   describe '.active' do
-    let(:submission_review) { FactoryGirl.create(:submission_review) }
+    let(:submission_review) { FactoryBot.create(:submission_review) }
     let!(:project) { submission_review.project }
     it 'returns SubmissionReviews for the given projects' do
       projects = Project.all
@@ -104,7 +104,7 @@ describe SubmissionReview, :type => :model do
 
     describe 'for an existing SubmissionReview' do
       it 'has non-zero values' do
-        submission_review = FactoryGirl.create(:submission_review, project: project)
+        submission_review = FactoryBot.create(:submission_review, project: project)
         scores.each do |s|
           score = submission_review.send(s)
           expect(score).not_to be_blank
@@ -118,10 +118,10 @@ describe SubmissionReview, :type => :model do
 
     describe 'calculating composite scoring' do
       it 'calculates review composite scores based on project criteria' do
-        submission_review  = FactoryGirl.create(:submission_review, project: project_no_impact_score, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 1, other_score: 0)
-        submission_review2 = FactoryGirl.create(:submission_review, project: project_no_impact_score, innovation_score: 9, scope_score: 3, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 1, other_score: 3)
-        submission_review3 = FactoryGirl.create(:submission_review, project: project_no_impact_score, innovation_score: 7, scope_score: 7, team_score: 7, environment_score: 7, impact_score: 1, budget_score: 1, completion_score: 1, overall_score: 1, other_score: 1)
-        submission_review4 = FactoryGirl.create(:submission_review, project: project_no_impact_score, innovation_score: 0, scope_score: 7, team_score: 8, environment_score: 8, impact_score: nil, budget_score: nil, completion_score: 1, overall_score: 1, other_score: 1)
+        submission_review  = FactoryBot.create(:submission_review, project: project_no_impact_score, innovation_score: 5, scope_score: 4, team_score: 1, environment_score: 1, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 1, other_score: 0)
+        submission_review2 = FactoryBot.create(:submission_review, project: project_no_impact_score, innovation_score: 9, scope_score: 3, team_score: 5, environment_score: 2, impact_score: 0, budget_score: 0, completion_score: 0, overall_score: 1, other_score: 3)
+        submission_review3 = FactoryBot.create(:submission_review, project: project_no_impact_score, innovation_score: 7, scope_score: 7, team_score: 7, environment_score: 7, impact_score: 1, budget_score: 1, completion_score: 1, overall_score: 1, other_score: 1)
+        submission_review4 = FactoryBot.create(:submission_review, project: project_no_impact_score, innovation_score: 0, scope_score: 7, team_score: 8, environment_score: 8, impact_score: nil, budget_score: nil, completion_score: 1, overall_score: 1, other_score: 1)
 
         expect(submission_review.composite_score).to  eq 11.fdiv(4).round(2)
         expect(submission_review2.composite_score).to eq 19.fdiv(4).round(2)

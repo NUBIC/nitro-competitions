@@ -6,7 +6,7 @@ describe AdminsController, :type => :controller do
     admin_login
 
     describe 'GET index' do
-      let(:project) { FactoryGirl.create(:project) }
+      let(:project) { FactoryBot.create(:project) }
       it 'assigns @sponsor' do
         process :index, method: :get, params: { project_id: project }
         expect(assigns[:sponsor]).not_to be_nil
@@ -22,7 +22,7 @@ describe AdminsController, :type => :controller do
     end
 
     describe 'GET view_activities' do
-      let(:project) { FactoryGirl.create(:project) }
+      let(:project) { FactoryBot.create(:project) }
       it 'redirects to projects_path' do
         process :view_activities, method: :get, params: { project_id: project }
         expect(response).to redirect_to(projects_path)
@@ -30,7 +30,7 @@ describe AdminsController, :type => :controller do
     end
 
     describe 'GET submissions' do
-      let(:project) { FactoryGirl.create(:project) }
+      let(:project) { FactoryBot.create(:project) }
       it 'redirects to projects_path' do
         process :submissions, method: :get, params: { project_id: project }
         expect(response).to redirect_to(projects_path)
@@ -38,7 +38,7 @@ describe AdminsController, :type => :controller do
     end
 
     describe 'PUT reviews' do
-      let(:project) { FactoryGirl.create(:project) }
+      let(:project) { FactoryBot.create(:project) }
       it 'redirects to projects_path' do
         process :reviews, method: :put, params: { project_id: project }
         expect(response).to redirect_to(projects_path)
@@ -47,8 +47,8 @@ describe AdminsController, :type => :controller do
   end
 
 
-  # TODO: This was brought in from the reviewers_controller_spec. When and where the 
-  # reviewer gets destroyed and how that is tested should be reviewed. 
+  # TODO: This was brought in from the reviewers_controller_spec. When and where the
+  # reviewer gets destroyed and how that is tested should be reviewed.
 
   # describe 'DELETE destroy' do
   #   it 'redirects to project_reviewers_path' do

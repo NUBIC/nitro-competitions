@@ -38,7 +38,7 @@ class RolesController < ApplicationController
 
   def add
     @sponsor = Program.find(params[:sponsor_id])
-    @role = Role.find(params[:role_id])
+    @role = Role.find(params[:id])
 
     if is_admin?(@sponsor)
       @roles_user = RolesUser.where("role_id = :role_id and user_id = :user_id and program_id = :program_id", { :user_id =>  params[:user_id], :role_id => params[:role_id], :program_id => params[:sponsor_id] }).first
@@ -76,7 +76,7 @@ class RolesController < ApplicationController
         format.xml  { render :xml => @role, :status => :deleted, :location => @role }
       end
     else
-      redirect_to(sponsor_role_url(:sponsor_id => params[:sponsor_id], :id => params[:role_id]))
+      redirect_to(sponsor_path(params[:sponsor_id]))
     end
   end
 

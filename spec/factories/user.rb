@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     sequence(:username) { |n| "username#{n}_#{Time.now.to_i}" }
     sequence(:email) { |n| "email#{n}_#{Time.now.to_i}@dev.null" }

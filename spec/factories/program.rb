@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-FactoryGirl.define do
+FactoryBot.define do
   factory :program do
     sequence(:program_name) { |n| "n#{n}_#{Time.now.to_i}" }
     program_title 'MyString'

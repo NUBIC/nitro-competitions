@@ -15,11 +15,11 @@ describe User, :type => :model do
   it { is_expected.to belong_to(:biosketch) }
 
   it 'can be instantiated' do
-    expect(FactoryGirl.build(:user)).to be_an_instance_of(User)
+    expect(FactoryBot.build(:user)).to be_an_instance_of(User)
   end
 
   it 'can be saved successfully' do
-    expect(FactoryGirl.create(:user)).to be_persisted
+    expect(FactoryBot.create(:user)).to be_persisted
   end
 
   context 'user validations' do
@@ -64,7 +64,7 @@ describe User, :type => :model do
   end
 
   describe '#key_personnel' do
-    let(:key_person) { FactoryGirl.create(:key_person) }
+    let(:key_person) { FactoryBot.create(:key_person) }
     let(:user) { key_person.user }
     it 'returns KeyPerson associations' do
       expect(user.key_personnel).not_to be_blank
@@ -73,7 +73,7 @@ describe User, :type => :model do
   end
 
   describe '#reviewers' do
-    let(:reviewer) { FactoryGirl.create(:reviewer) }
+    let(:reviewer) { FactoryBot.create(:reviewer) }
     let(:user) { reviewer.user }
     it 'returns Reviewer associations' do
       expect(user.reviewers).not_to be_blank
@@ -83,7 +83,7 @@ describe User, :type => :model do
   end
 
   describe '#submission_reviews' do
-    let(:submission_review) { FactoryGirl.create(:submission_review) }
+    let(:submission_review) { FactoryBot.create(:submission_review) }
     let(:user) { submission_review.reviewer }
     it 'returns SubmissionReview associations' do
       expect(user.submission_reviews).not_to be_blank
@@ -92,7 +92,7 @@ describe User, :type => :model do
   end
 
   describe '#reviewed_submissions' do
-    let(:submission_review) { FactoryGirl.create(:submission_review) }
+    let(:submission_review) { FactoryBot.create(:submission_review) }
     let(:user) { submission_review.reviewer }
     it 'returns SubmissionReview associations' do
       expect(user.reviewed_submissions).not_to be_blank
@@ -100,7 +100,7 @@ describe User, :type => :model do
   end
 
   describe '#roles_users' do
-    let(:ru) { FactoryGirl.create(:roles_user) }
+    let(:ru) { FactoryBot.create(:roles_user) }
     let(:user) { ru.user }
     it 'returns RolesUser associations' do
       expect(user.roles_users).not_to be_blank
@@ -108,17 +108,17 @@ describe User, :type => :model do
     end
   end
 
-  describe '#system_admin?' do 
-    it 'returns true for a system adminstrator' do 
-      expect(FactoryGirl.create(:user, system_admin: true)).to be_system_admin
+  describe '#system_admin?' do
+    it 'returns true for a system adminstrator' do
+      expect(FactoryBot.create(:user, system_admin: true)).to be_system_admin
     end
-    it 'returns false for a general user' do 
-      expect(FactoryGirl.create(:user)).to_not be_system_admin
+    it 'returns false for a general user' do
+      expect(FactoryBot.create(:user)).to_not be_system_admin
     end
   end
 
   context 'as applicant' do
-    let(:submission) { FactoryGirl.create(:submission) }
+    let(:submission) { FactoryBot.create(:submission) }
     let(:user) { submission.applicant }
     describe '#submissions' do
       it 'returns Submission associations' do
@@ -148,7 +148,7 @@ describe User, :type => :model do
   end
 
   context 'as reviewer' do
-    let(:reviewer) { FactoryGirl.create(:reviewer) }
+    let(:reviewer) { FactoryBot.create(:reviewer) }
     let(:user) { reviewer.user }
 
     describe '.program_reviewers' do
@@ -162,7 +162,7 @@ describe User, :type => :model do
 
   context 'as submitter' do
     describe '#proxy_submissions' do
-      let(:submission) { FactoryGirl.create(:submission) }
+      let(:submission) { FactoryBot.create(:submission) }
       let(:user) { submission.submitter }
       it 'returns Submission associations' do
         expect(user.proxy_submissions).not_to be_blank
@@ -174,10 +174,10 @@ describe User, :type => :model do
   end
 
   describe '#applicants' do
-    let(:submission) { FactoryGirl.create(:submission) }
+    let(:submission) { FactoryBot.create(:submission) }
     let!(:applicant) { submission.applicant }
     let!(:submitter) { submission.submitter }
-    let(:reviewer) { FactoryGirl.create(:reviewer) }
+    let(:reviewer) { FactoryBot.create(:reviewer) }
     let!(:user) { reviewer.user }
 
     it 'returns User records for Users who are applicants for Submissions' do

@@ -8,24 +8,24 @@ describe ApplicantsController, :type => :controller do
     describe 'GET index' do
       # cf. has_read_all?
       describe 'without having read all' do
-        let(:project) { FactoryGirl.create(:project) }
+        let(:project) { FactoryBot.create(:project) }
         it 'assigns @project' do
-          process :index, method: :get, params: { project: project }
+          process :index, method: :get, params: { project_id: project }
           expect(assigns[:project]).to eq project
         end
         it 'assigns @sponsor' do
-          process :index, method: :get, params: { project: project }
+          process :index, method: :get, params: { project_id: project }
           expect(assigns[:sponsor]).to eq project.program
         end
         it 'redirects to projects_path' do
-          process :index, method: :get, params: { project: project }
+          process :index, method: :get, params: { project_id: project }
           expect(response).to redirect_to(projects_path)
         end
       end
     end
 
     describe 'GET new' do
-      let(:project) { FactoryGirl.create(:project) }
+      let(:project) { FactoryBot.create(:project) }
       # FIXME: Spec fails with the following
       #        NoMethodError:
       #          undefined method `user' for nil:NilClass
@@ -37,7 +37,7 @@ describe ApplicantsController, :type => :controller do
 
       it 'renders the new template' do
         allow(controller).to receive(:handle_ldap).and_return(true)
-        process :new, method: :get, params: { project: project, username: 'spuds' }
+        process :new, method: :get, params: { project_id: project, username: 'spuds' }
         expect(response).to be_success
         expect(response).to render_template('applicants/new')
       end
@@ -45,8 +45,8 @@ describe ApplicantsController, :type => :controller do
 
     describe 'GET show' do
       context 'for a logged in user who is not an admin for the sponsor' do
-        let(:project) { FactoryGirl.create(:project) }
-        let(:user) { FactoryGirl.create(:user) }
+        let(:project) { FactoryBot.create(:project) }
+        let(:user) { FactoryBot.create(:user) }
         it 'redirects to the project_path' do
           process :show, method: :get, params: { id: user, project: project }
           expect(response).to redirect_to(project_path(project))
@@ -56,8 +56,8 @@ describe ApplicantsController, :type => :controller do
 
     describe 'GET edit' do
       context 'for a logged in user who is not an admin for the sponsor' do
-        let(:project) { FactoryGirl.create(:project) }
-        let(:user) { FactoryGirl.create(:user) }
+        let(:project) { FactoryBot.create(:project) }
+        let(:user) { FactoryBot.create(:user) }
         it 'redirects to the project_path' do
           process :edit, method: :get, params: { id: user, project: project }
           expect(response).to redirect_to(project_path(project))
