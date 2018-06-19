@@ -1,5 +1,4 @@
 NucatsAssist::Application.configure do
-#Rails.application.configure do
   # config.cache_classes = false # Removed in 5.2, defaults to false
 
   config.action_controller.perform_caching = false
@@ -23,6 +22,7 @@ NucatsAssist::Application.configure do
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
+  config.assets.digest = false
   config.assets.js_compressor = :uglifier # Added in upgrade to 5.2
   config.assets.css_compressor = :sass    # Compress JavaScripts and CSS.
   # config.assets.compress = false # Removed in upgrade to 5.2

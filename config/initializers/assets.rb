@@ -11,4 +11,4 @@ NucatsAssist::Application.config.assets.paths << Rails.root.join('node_modules')
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-# NucatsAssist::Application.config.assets.precompile += %w( add_me_example.css )
+NucatsAssist::Application.config.assets.precompile += %w( application-print.css )
