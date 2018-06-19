@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
   def create
     @sponsor = @project.program if @project
-    if is_admin?(@sponsor) || current_user.system_admin?
+    if is_admin?(@sponsor)
       @user = User.new(user_params)
       @user.password = Devise.friendly_token[0,20] # unused but required by devise
       respond_to do |format|

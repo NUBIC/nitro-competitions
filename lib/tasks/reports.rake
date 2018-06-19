@@ -106,7 +106,6 @@ namespace :reports do
   end
 
 
-
   def csv_export(competitions)
     puts "#{competitions.length} competitions to process."
     generate_projects_csv(competitions)
