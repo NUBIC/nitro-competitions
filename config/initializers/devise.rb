@@ -230,9 +230,9 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
 
-  # To handle issue with SSL in development 
+  # To handle issue with SSL in development
   # @see https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview#openssl
-  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development? 
+  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development?
 
   # https://code.google.com/apis/console
   # https://console.developers.google.com/

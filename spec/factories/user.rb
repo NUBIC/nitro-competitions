@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 FactoryBot.define do
   factory :user do
+    association :biosketch_document_id, factory: :file_document
     sequence(:username) { |n| "username#{n}_#{Time.now.to_i}" }
     sequence(:email) { |n| "email#{n}_#{Time.now.to_i}@dev.null" }
     first_name 'FName'
@@ -21,7 +22,6 @@ FactoryBot.define do
     country 'MyString'
     first_login_at Time.now
     last_login_at Time.now
-    biosketch_document_id 1
     created_ip '127.0.0.1'
     created_at Time.now
     password 'password'

@@ -10,7 +10,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, 
+         :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:northwestern_medicine, :facebook, :linkedin, :google_oauth2, :twitter]
 
   # Associations
@@ -32,13 +32,13 @@ class User < ApplicationRecord
   attr_accessor :validate_email_attr
 
   # Scopes
-  def self.project_applicants(*args) 
+  def self.project_applicants(*args)
     joins([:submissions]).where('submissions.project_id IN (:project_ids)', { project_ids: args.first })
   end
-  def self.program_reviewers(*args) 
+  def self.program_reviewers(*args)
     joins(:reviewers).where('reviewers.program_id = :program_id', { program_id: args.first })
   end
-  def self.applicants 
+  def self.applicants
     joins('join submissions on submissions.applicant_id = users.id')
   end
 
@@ -61,8 +61,8 @@ class User < ApplicationRecord
                       :message => 'Email address is not valid. Please correct',
                       :if => Proc.new { |c| !c.email.blank? }
 
-  validates_inclusion_of :system_admin, 
-                      :in => [true, false], 
+  validates_inclusion_of :system_admin,
+                      :in => [true, false],
                       :message => 'The value must be true or false'
 
 
@@ -130,7 +130,7 @@ class User < ApplicationRecord
     User.where(q).to_a
   end
 
-  ## 
+  ##
   # Find or create user
   # @param auth [OmniAuth::AuthHash]
   # @param signed_in_resource [Boolean]
@@ -167,10 +167,10 @@ class User < ApplicationRecord
     name, first_name, last_name, email = extract_user_info(auth)
     username = determine_username(auth)
     if !username.blank?
-      user = User.where(username: username).first 
+      user = User.where(username: username).first
       Rails.logger.error("~~~ create_user! - found user with username [#{username}]") if user
       if user && user.email.blank? && !email.blank?
-        user.email = email 
+        user.email = email
         user.save!
       end
     end

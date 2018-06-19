@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!, except: [:welcome] unless Rails.env == 'test'
 
-  # for lograge 
+  # for lograge
   # cf. http://ionrails.com/2013/03/26/how-to-add-the-request-parameters-along-with-full-url-request-in-lograge-outputted-files/
   def append_info_to_payload(payload)
     super

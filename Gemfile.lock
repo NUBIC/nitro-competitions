@@ -150,6 +150,10 @@ GEM
     json (2.1.0)
     jwt (1.5.6)
     libv8 (3.16.14.19)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     lograge (0.10.0)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -279,6 +283,7 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    ruby_dep (1.5.0)
     rubyzip (1.2.1)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
@@ -364,6 +369,7 @@ DEPENDENCIES
   haml
   highline
   jquery-rails
+  listen
   lograge
   mime-types (~> 2.6)
   net-ldap
