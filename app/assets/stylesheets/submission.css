@@ -1,5 +1,6 @@
 div#submissions_list {
   border-bottom: 1px solid black;
+  clear: both;
 }
 
 div#show_submission {

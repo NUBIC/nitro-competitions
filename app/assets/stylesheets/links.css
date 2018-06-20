@@ -70,6 +70,7 @@ a.warning_16:hover {
 
 div.links,
 div.admin_links {
+  clear: both;
   float: left;
   width: 100%;
 }
@@ -158,7 +159,7 @@ a.home_button :hover {
   display: inline-block;
   text-align: center;
   text-decoration: none;
-  
+
 }
 
 .big_button {
