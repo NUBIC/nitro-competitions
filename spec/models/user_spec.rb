@@ -63,6 +63,18 @@ describe User, :type => :model do
     end
   end
 
+  context 'new user creation' do
+    describe 'username with whitespace and Uppercase letters' do
+      let(:user) { FactoryBot.create(:user, username: '  99UPPERCASE99  ', email: '  99UPPER@CASE.COM  ')}
+      it 'strips whitespace and uppercase letters from username' do
+        expect(user.username).to eq '99uppercase99'
+      end
+      it 'strips whitespace and uppercase letters from email' do
+        expect(user.email).to eq '99upper@case.com'
+      end
+    end
+  end
+
   describe '#key_personnel' do
     let(:key_person) { FactoryBot.create(:key_person) }
     let(:user) { key_person.user }

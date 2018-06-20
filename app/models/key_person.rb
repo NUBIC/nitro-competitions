@@ -1,6 +1,8 @@
 # encoding: UTF-8
 
 class KeyPerson < ApplicationRecord
+  include PrepareUserBeforeSave
+  
   # Associations
   belongs_to :submission
   belongs_to :user
