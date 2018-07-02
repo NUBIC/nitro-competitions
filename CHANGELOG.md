@@ -1,7 +1,39 @@
 # NITRO Competitions Changelog
 =======
+## 5.1
+Released July 2, 2018
+
+# SYSTEM
+* Update to Rails 5.2, including config changes.
+* Remove dynamic routing.
+
+# GEMS
+* Add Puma gem.
+* Change FactoryGirl to FactoryBot.
+
+# NEW RAKE TASKS
+* Find emails by role.
+* Find and merge duplicate users.
+
+# UI
+* Add Require Effort Approver option.
+* Fix footer transparency.
+
+# PROJECTS
+* Change scoping class methods to scopes.
+* Add Project scopes: published, with_program, with_submissions.
+* Clear duplicated project rfa_url when it links to orig project.
+* Add simplified public project list view.
+
+# SUBMISSIONS
+* Add require_biosketch check.
+
+# MISCELLANEOUS
+* Purge unused methods.
+
+=======
 ## 5.0
-Released May 18,2018
+Released May 18, 2018
 
 # SYSTEM
 * Update to ruby 2.5.
@@ -23,18 +55,18 @@ Released May 18,2018
 * Standardize text_field and text_area field widths for project form and submission form.
 * Improve text_field and text_area validations for project form and submission form.
 * Limit footer contact information to project- and submission-related actions.
-* Update links to new NUCATS membership URL. 
+* Update links to new NUCATS membership URL.
 * Improve submission sorting exclusion on Files columns.
 
 # SCORING
 * Add with_scoring concern used in project, submission and submission_review models.
 * Update submission composite scoring calculation.
   * Individual review composite is an average of the review's scored criteria.
-  * Overall submission composite is an average of all reviews' scored criteria. 
+  * Overall submission composite is an average of all reviews' scored criteria.
 
 # PROJECTS
 * Remove project duplication logic from project#new.
-* Create service object for project duplication and add project/duplicate controller. 
+* Create service object for project duplication and add project/duplicate controller.
 * Add "Supporting Documents and Links" section to project display.
 * Add admin  "Manage this comptetition" section for admin links.
   * Add "Use this competition as a template" link to dupliate compeition.
@@ -42,10 +74,10 @@ Released May 18,2018
 # SUBMISSIONS
 * Add applicant to the submission#update method.
 * Add default text for submission files.
-* Check is_admin? once per submission for submission review table. 
+* Check is_admin? once per submission for submission review table.
 * Standardize the order of scores in submission_review model.
 * Add submission_category to submission_controller.
 
 
-## For prior release information please see commit history 
+## For prior release information please see commit history
 ## at https://github.com/NUBIC/nitro-competitions.
