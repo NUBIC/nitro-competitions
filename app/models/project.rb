@@ -76,7 +76,10 @@ class Project < ApplicationRecord
   validates_length_of :project_name, :within => 2..25, :too_short => "Project Name is too short (minimum is 2 characters)", :too_long => "Project Name is too long (maximum is 25 characters)"
   validates_length_of :project_title, :within => 10..255, :too_short => "Project Title is too short (minimum is 10 characters)", :too_long => "Project Title is too long (maximum is 255 characters)"
 
+  scope :initiated,        -> { where('projects.submission_open_date > :date and :date >= projects.initiation_date', { :date => Time.now || 1.day.ago }) }
   scope :open,              -> { where(':now between projects.submission_open_date and projects.submission_close_date', { :now => 1.hour.ago }) }
+  scope :open_and_initiated, -> { where(':now between projects.initiation_date and projects.submission_close_date', { :now => Time.now }) }
+
   scope :current,           -> (*date) { where('project_period_start_date >= :date and initiation_date <= :initiation_date', { :date => date.first || 1.day.ago, :initiation_date => 60.days.from_now }) }
   scope :recent,            -> (*date) { where('project_period_start_date >= :date and initiation_date <= :date', { :date => date.first || 3.months.ago }) }
   scope :ongoing_projects,  -> (*date) { where('project_period_end_date >= :date and project_period_start_date <= :date', { :date => date.first || 1.day.ago }) }

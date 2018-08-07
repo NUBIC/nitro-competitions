@@ -18,7 +18,7 @@ class PublicController < ApplicationController
     if current_user
       redirect_to home_path
     else
-      @projects = Project.with_program.published.open
+      @projects = Project.with_program.published.open_and_initiated
       @programs = @projects
                     .group_by { |project| project.program }
                       .sort_by  { |program, _| program[:program_title] }
