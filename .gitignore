@@ -15,6 +15,8 @@ db_dumps/*
 # DB Configuration
 config/database.yml
 
+config/ldap.yml
+
 # directories
 bin/
 log/
@@ -30,6 +32,8 @@ tmp/db_backups/*
 assets/files/
 coverage/
 coverage
+
+.byebug_history
 
 # Asset pipeline
 public/assets/
