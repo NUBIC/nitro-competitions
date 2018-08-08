@@ -157,7 +157,7 @@ class Project < ApplicationRecord
   # Status shown after initiation but
   # before submissions accepted
   def pre_submission_date_status
-    'New announcement'
+    'New Announcement'
   end
 
   ##
