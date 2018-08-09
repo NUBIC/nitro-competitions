@@ -25,5 +25,49 @@ FactoryBot.define do
     created_ip '127.0.0.1'
     created_at Time.now
     visible true
+
+    factory :pre_initiated_project do
+      project_title 'Pre-Initiated Project'
+      initiation_date 1.week.from_now
+      submission_open_date 2.week.from_now
+      submission_close_date 3.week.from_now
+      review_start_date 3.week.from_now
+      review_end_date 4.week.from_now
+      project_period_start_date 4.week.from_now
+      project_period_end_date 5.week.from_now
+    end
+
+    factory :initiated_project do 
+      project_title 'Initiated Project'
+      initiation_date 1.day.ago
+      submission_open_date 1.week.from_now
+      submission_close_date 2.week.from_now
+      review_start_date 2.week.from_now
+      review_end_date 3.week.from_now
+      project_period_start_date 3.week.from_now 
+      project_period_end_date 4.week.from_now
+    end
+
+    factory :open_project  do 
+      project_title 'Open Project'
+      initiation_date 1.day.ago
+      submission_open_date 1.day.ago
+      submission_close_date 1.week.from_now
+      review_start_date 1.week.from_now
+      review_end_date 2.week.from_now
+      project_period_start_date 2.week.from_now
+      project_period_end_date 3.week.from_now
+    end
+
+    factory :closed_project do 
+      project_title 'Closed Project'
+      initiation_date 3.week.ago
+      submission_open_date 2.week.ago
+      submission_close_date 1.day.ago
+      review_start_date 1.day.ago
+      review_end_date 1.week.from_now
+      project_period_start_date 1.week.from_now
+      project_period_end_date 2.week.from_now
+    end
   end
 end

@@ -3,7 +3,10 @@
 describe 'Public Section', :type => :feature do
 
   before :each do
-    FactoryBot.create(:project) if Project.count < 1
+    @pre_initiated_project  = FactoryBot.create(:pre_initiated_project)
+    @initiated_project  = FactoryBot.create(:initiated_project)
+    @open_project  = FactoryBot.create(:open_project)
+    @closed_project  = FactoryBot.create(:closed_project)
   end
 
   context 'for a person who has not logged in' do
@@ -12,11 +15,31 @@ describe 'Public Section', :type => :feature do
         visit welcome_path
       end
 
-      it 'shows the home page' do
+      it 'shows the navigation bar on the welcome page' do
         expect(page).to have_content(NucatsAssist::plain_app_name)
-        expect(page).to have_content('Welcome to NITRO Competitions')
         expect(page).to have_content('Login')
       end
+
+      it 'shows initiated competition on the welcome page' do
+        expect(page).to have_content 'New Announcement'
+        expect(page).to have_content 'Initiated Project'
+      end
+
+      it 'shows open competition on the welcome page' do
+        expect(page).to have_content 'Apply'
+        expect(page).to have_content 'Open Project'
+      end
+
+      it 'does not show pre-initiation competition on the welcome page' do
+        expect(page).to_not have_content 'Pre-announcement'
+        expect(page).to_not have_content 'Pre-Initiated Project'
+      end
+
+      it 'does not show closed competition on the welcome page' do
+        expect(page).to_not have_content 'Under Review'
+        expect(page).to_not have_content 'Closed Project'
+      end
+
     end
 
     describe 'visiting the login page' do

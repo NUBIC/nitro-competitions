@@ -1,13 +1,23 @@
 <% projects.each_with_index do |project, i| %>
   <div class="project">
     <div class="apply">
-      <div class="apply_link">
+      <% if !project.visible %>
         <% forwarding_url = new_project_applicant_path(project.id) %>
-        <%= link_to('Apply',
-            "/users/login?url=#{forwarding_url}",
-            title: "Log in to create an application for you or someone else for the competition '#{project.project_title}'") %>
-      </div>
-    </div>
+        <div class="not_published_link">
+          <%= link_to('Not Published',
+                      "/users/login?url=#{forwarding_url}",
+                      title: "Create a test application for this unpublished competition '#{project.project_title}'") %>
+        </div>
+      <% elsif project.current_status =~ /open for/i %>
+        <div class="apply_link">
+          <%= link_to('Apply',
+                      "/users/login?url=#{forwarding_url}",
+                      title: "Create an application for you or someone else for the competition '#{project.project_title}'") %>
+        </div>
+      <% else %>
+        <%= project.current_status %>
+      <% end %>
+    </div> 
     <div class="project_details">
       <div class="project_information">
         <div class="competition">

@@ -10,7 +10,8 @@
 <% if @projects.any? %>
   <div id="project_list">
     <%= render 'shared/project_selection_list',
-                programs: @programs %>
+                programs: @programs,
+                projects: @projects %>
   </div>
 <% else %>
   <p class="indented">
