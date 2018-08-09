@@ -1,5 +1,15 @@
 # NITRO Competitions Changelog
 =======
+## 5.1.1
+Released August 9, 2018
+
+# GEMS
+* Add chromedriver-helper gem.
+
+# UI
+* Add Initiated Studies to the welcome page.
+
+=======
 ## 5.1
 Released July 2, 2018
 
