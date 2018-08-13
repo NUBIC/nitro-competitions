@@ -1,5 +1,12 @@
 # NITRO Competitions Changelog
 =======
+## 5.1.2
+Released August 13, 2018
+
+# BUGFIX
+Implemented username downcasing.
+
+=======
 ## 5.1.1
 Released August 9, 2018
 
