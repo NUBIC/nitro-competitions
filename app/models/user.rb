@@ -44,6 +44,7 @@ class User < ApplicationRecord
   end
 
   # Callbacks
+  before_save :prepare_user
   after_save :save_documents
 
   # Validations
@@ -118,6 +119,15 @@ class User < ApplicationRecord
     end
     self.biosketch.uploaded_file = field
   end
+
+  def prepare_user
+    self.username = self.username.strip if self.username.respond_to?(:strip)
+    self.username.downcase!
+
+    self.email = self.email.strip if self.email.respond_to?(:strip)
+    self.email.downcase!
+  end
+
 
   def save_documents
     self.biosketch.save if !self.biosketch.nil? && self.biosketch.changed?
