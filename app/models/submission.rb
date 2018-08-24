@@ -118,11 +118,11 @@ class Submission < ApplicationRecord
   end
 
   def max_project_cost
-    max_budget_request || 50_000
+    max_budget_request || self.project.max_budget_request || 50_000
   end
 
   def min_project_cost
-    min_budget_request || 1000
+    min_budget_request || self.project.min_budget_request || 1000
   end
 
   def status
