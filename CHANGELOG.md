@@ -1,5 +1,12 @@
 # NITRO Competitions Changelog
 =======
+## 5.1.3
+Released August 24, 2018
+
+# HOTFIX
+Ensure submission max_project_cost is defined on validations.
+
+=======
 ## 5.1.2
 Released August 13, 2018
 

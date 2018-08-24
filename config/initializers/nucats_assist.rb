@@ -3,7 +3,7 @@
 ##
 # Project specific constants.
 module NucatsAssist
-  VERSION = '5.1.2'
+  VERSION = '5.1.3'
 
   class << self
     def plain_app_name
