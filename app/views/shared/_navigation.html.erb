@@ -120,7 +120,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
           <%= link_to 'Help', 'http://nucats.northwestern.edu/funding/pilot-funding/nitro-competitions.html', target: '_blank' %>
-        <%- unless current_user.blank? %>
+        <%- if user_signed_in? %>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" data-role="button" data-href="#">
               <%= current_user.name || current_user.username %>
@@ -131,13 +131,13 @@
                 <%= link_to "Edit your profile", edit_applicant_path(current_user.id) %>
               </li>
               <li>
-                <%= link_to "Logout", destroy_user_session_path, :method => :delete %>
+                <%= link_to "Logout", destroy_session_path, :method => :delete %>
               </li>
             </ul>
           </li>
         <%- else %>
           <li>
-            <%= link_to 'Login', '/users/login', :class => 'menu_link' %>
+            <%= link_to 'Login', new_session_path, :class => 'menu_link' %>
           </li>
         <% end %>
         </li>

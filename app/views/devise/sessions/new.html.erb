@@ -1,28 +1,26 @@
-<%- provide(:title_tag, 'Log In') -%>
-<%- if @motd %>
-  <div id="motd">
-    <%= @motd.html_safe %>
+<h2>Log in</h2>
+<%= form_for(resource, as: 'user', url: create_session_path) do |f| %>
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, autofocus: true, placeholder: 'NU NetID or External email address' %>
   </div>
-<% end -%>
-<%- if @client %>
-  <div id="client_authentication" class="login_form_header">
-    <%= t('login.authenticate_for_client', client_name: @client.name).html_safe %>
+
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
   </div>
-<% end -%>
-  <div class="login_form_header">
-<%- if session['terms_accepted'].nil? %>
-    <h2>
-      <%= t('devise.login_message') %>
-    </h2>
-<% else %>
-    <h2>
-      <%= t('registration.verify_account') %>
-    </h2>
-    <div class="login_instructions">
-      <%= t('login.instructions') %>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
     </div>
-<% end -%>
+  <% end -%>
+
+  <div class="actions">
+    <%= f.submit "Log in" %>
   </div>
-<div class="login_form">
-  <%= render "devise/shared/login", :button_text => t('login.sign_in') %>
-</div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+

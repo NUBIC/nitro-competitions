@@ -10,13 +10,16 @@ source 'https://rubygems.org'
 # gem 'omniauth-nucats-accounts'
 
 gem 'devise'
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-twitter'
-gem 'omniauth-yahoo'
-gem 'omniauth-linkedin'
-gem 'omniauth-facebook'
-gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.4'
+gem 'net-ldap'
+gem 'devise_ldap_authenticatable'
+
+# gem 'omniauth'
+# gem 'omniauth-google-oauth2'
+# gem 'omniauth-twitter'
+# gem 'omniauth-yahoo'
+# gem 'omniauth-linkedin'
+# gem 'omniauth-facebook'
+# gem 'omniauth-northwestern-medicine', path: 'vendor/gems/omniauth-northwestern-medicine-0.0.4'
 
 gem 'bundler'
 gem 'rails', '~> 5.2.0'
@@ -27,8 +30,6 @@ gem 'actionpack-action_caching'
 gem 'pg', '0.21.0'
 gem 'haml'
 gem 'fastercsv'
-
-gem 'net-ldap'
 
 # ActionView::Template::Error (Could not find a JavaScript runtime.
 # See https://github.com/sstephenson/execjs for a list of available runtimes.
@@ -51,6 +52,7 @@ gem 'whenever', require: false
 
 group :development, :test do
   gem 'pry'
+  gem 'byebug'
 end
 
 group :development do

@@ -1,7 +1,19 @@
 # -*- coding: utf-8 -*-
 NucatsAssist::Application.routes.draw do
   # omniauth and login/logout
-  devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
+  devise_for :ldap_users      #, skip: [ :sessions ]
+  devise_for :external_users, skip: [ :sessions ], controllers: { registrations: 'external_user/registrations', confirmations: 'external_user/confirmations', passwords: 'external_user/passwords' } #, :confirmation ]
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  devise_scope :ldap_user do
+    get 'sign-in' => 'sessions#new', as: :new_session
+    post 'sign-in' => 'sessions#create', as: :create_session
+    delete 'sign-out' => 'sessions#destroy', as: :destroy_session
+  end
+
+  devise_scope :external_user do
+    get 'sign-up' => 'external_user/registrations#new'
+  end
 
   # resources
   resources :file_documents, only: :show
@@ -140,7 +152,7 @@ NucatsAssist::Application.routes.draw do
   get 'disallowed' => 'public#disallowed', as: :disallowed
   get '/public/:name' => redirect('/%{name}', status: 302)
 
-  match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
+  # match 'auth' => 'public#auth', as: :auth, via: [:get, :post]
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   match 'competitions/:program_name/:project_name' => 'projects#show', as: :show_competition, via: [:get]
@@ -150,9 +162,6 @@ NucatsAssist::Application.routes.draw do
 
   match 'review/:id/update_item' => 'reviews#update_item', as: :update_review_item, via: [:get, :post]
   match 'username_lookup' => 'applicants#username_lookup', via: [:get, :post]
-
-  match '/users/login', to: 'users#login', via: [:get]
-  match '/users/create_user', to: 'users#create', via: [:post]
 
   match '/projects/:id/copy' => 'projects/duplications#new', as: :copy_project, via: [:get]
 

@@ -43,13 +43,6 @@ module ApplicationHelper
     signout_path
   end
 
-  # program and project session-oriented helpers
-
-  def is_logged_in?
-    return false unless defined?(current_user)
-    !current_user.blank?
-  end
-
   def current_program
     current_project.try(:program)
   end
@@ -183,7 +176,7 @@ module ApplicationHelper
     session[:user_era_commons_name] = user.era_commons_name.to_s
     session[:user_email] = user.email.to_s
     session[:user_id]    = user.id.to_s
-    session[:user_info]  = omniauth if omniauth
+    # session[:user_info]  = omniauth if omniauth
     @current_user_session = user
     act_as_admin if session[:act_as_admin].blank?
     log_request('login')
@@ -255,7 +248,7 @@ module ApplicationHelper
   end
 
   def logged_in?
-    !current_user.blank?
+    user_signed_in?
   end
 
   def is_current_user?(id)
@@ -385,6 +378,20 @@ module ApplicationHelper
 
   def footer_contact
     return render 'shared/sponsor_contact_information' if (controller_name == 'projects' && action_name != 'index') || controller_name == 'submissions' && action_name != 'all'
+  end
+
+  # New Devise additions 20180824
+
+  def user_signed_in?
+    ldap_user_signed_in? #|| external_user_signed_in?
+  end
+
+  def current_user
+    current_ldap_user  #|| current_external_user
+  end
+
+  def user_type?(resource, user_class)
+    resource.class == user_class
   end
 
 end

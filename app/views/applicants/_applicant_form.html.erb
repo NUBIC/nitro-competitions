@@ -1,11 +1,7 @@
 <%- if @applicant && !@applicant.try(:errors).blank? %>
   <%= render('shared/error_messages', object: @applicant) %>
 <% end %>
-<%- if !current_user.email_verified? %>
-  <div class="notice">
-    Please update your email address
-  </div>
-<% end %>
+
 
 <div class="hide">
   <%= @applicant.username %>
