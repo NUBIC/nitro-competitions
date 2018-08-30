@@ -10,13 +10,6 @@ class User < ApplicationRecord
 
   UNKNOWN = 'Unknown'
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :rememberable, :timeoutable, :trackable
-  # devise :ldap_authenticatable, :registerable,
-  #        :recoverable, :rememberable, :trackable, :validatable,
-       # :omniauthable, omniauth_providers: [:facebook, :linkedin, :google_oauth2, :twitter]
-
   # Associations
   has_many :reviewers  # really program reviewers since the reviewer model is a user + program
   belongs_to :biosketch, :class_name => 'FileDocument', :foreign_key => 'biosketch_document_id'

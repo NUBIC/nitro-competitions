@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ExternalUser::ConfirmationsController < Devise::ConfirmationsController
   # GET /resource/confirmation/new
   # def new

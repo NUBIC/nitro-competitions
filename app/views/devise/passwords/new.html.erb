@@ -1,12 +1,27 @@
-<h2>Forgot your password?</h2>
-
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+<%= form_for(resource, :as => "external_user", :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+  <div>
+    <h3>Forgot your NetID Password?</h3>
+    <div>
+      NITRO Competitions cannot cannot change your NetID password.<br /> 
+      <%= link_to "Visit NU IT's NetID password reset guidelines", 
+      'https://www.it.northwestern.edu/netid/resetguidelines.html' %>.
+    </div>
 
-  <div><%= f.submit "Send me reset password instructions" %></div>
+  </div><br />
+
+  <div>
+    <h3>All other users</h3>
+    <div>
+      <%= f.label :email %><br />
+      <%= f.email_field :email, :autofocus => true %>
+    </div>
+    <div>
+      <%= f.submit "Send me reset password instructions" %>
+      <%= link_to 'Cancel', new_session_url, class: 'cancel-link button warning' %>
+    </div>
+  </div><br />
 <% end %>
 
 <%= render "devise/shared/links" %>

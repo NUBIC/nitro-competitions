@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 NucatsAssist::Application.routes.draw do
   # omniauth and login/logout
-  devise_for :ldap_users      #, skip: [ :sessions ]
-  devise_for :external_users, skip: [ :sessions ], controllers: { registrations: 'external_user/registrations', confirmations: 'external_user/confirmations', passwords: 'external_user/passwords' } #, :confirmation ]
+  devise_for :external_users, skip: [ :sessions ], 
+              controllers: { registrations: 'external_user/registrations',
+              confirmations: 'external_user/confirmations', 
+              passwords: 'external_user/passwords' } 
+  devise_for :ldap_users, skip: [ :sessions ]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   devise_scope :ldap_user do
@@ -13,6 +16,11 @@ NucatsAssist::Application.routes.draw do
 
   devise_scope :external_user do
     get 'sign-up' => 'external_user/registrations#new'
+
+    # get 'passwords/new' => 'external_user/passwords#new', as: :new_password
+    # get 'passwords/edit' => 'external_user/passwords#edit', as: :edit_password
+    # patch 'passwords/update' => 'external_user/passwords#update', as: :update_password
+
   end
 
   # resources

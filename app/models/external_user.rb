@@ -1,8 +1,7 @@
 class ExternalUser < User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :confirmable, :registerable,
-         :recoverable, :validatable
+  devise :database_authenticatable, :confirmable, :registerable, :recoverable, :validatable
 
   before_create :set_username
   after_create :create_profile
