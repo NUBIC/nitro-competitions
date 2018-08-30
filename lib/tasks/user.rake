@@ -136,7 +136,7 @@ namespace :users do
   def merge_users(user,ldap_entry)
     user.update_attribute(:email, user.username)
     existing_user = User.where(username: ldap_entry.uid.first).first
-    Rake::Task["merge_users:replace_duplicate"].invoke(existing_user.id,user.id)
+    Rake::Task["users:process_duplicate_user"].invoke(existing_user.id,user.id)
     user.update_attribute(:type, 'ExternalUser')
   end
 

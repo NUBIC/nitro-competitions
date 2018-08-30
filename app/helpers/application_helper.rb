@@ -383,11 +383,11 @@ module ApplicationHelper
   # New Devise additions 20180824
 
   def user_signed_in?
-    ldap_user_signed_in? #|| external_user_signed_in?
+    ldap_user_signed_in? || external_user_signed_in?
   end
 
   def current_user
-    current_ldap_user  #|| current_external_user
+    current_ldap_user  || current_external_user
   end
 
   def user_type?(resource, user_class)
