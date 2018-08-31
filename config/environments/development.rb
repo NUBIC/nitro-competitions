@@ -76,7 +76,7 @@ NucatsAssist::Application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.app_domain = 'nitro-competitions.dev'
+  config.app_domain = 'localhost:3000'
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: config.app_domain }
   config.action_mailer.perform_deliveries = true
