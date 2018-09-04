@@ -2,8 +2,7 @@
 NucatsAssist::Application.routes.draw do
   # omniauth and login/logout
   devise_for :external_users, skip: [ :sessions ], 
-              controllers: { registrations: 'external_user/registrations',
-              confirmations: 'external_user/confirmations', 
+              controllers: { confirmations: 'external_user/confirmations', 
               passwords: 'external_user/passwords' } 
   devise_for :ldap_users, skip: [ :sessions ]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -14,14 +13,14 @@ NucatsAssist::Application.routes.draw do
     delete 'sign-out' => 'sessions#destroy', as: :destroy_session
   end
 
-  devise_scope :external_user do
-    get 'sign-up' => 'external_user/registrations#new'
+  # devise_scope :external_user do
+  #   get 'sign_up' => 'external_user/registrations#new'
 
     # get 'passwords/new' => 'external_user/passwords#new', as: :new_password
     # get 'passwords/edit' => 'external_user/passwords#edit', as: :edit_password
     # patch 'passwords/update' => 'external_user/passwords#update', as: :update_password
 
-  end
+  # end
 
   # resources
   resources :file_documents, only: :show

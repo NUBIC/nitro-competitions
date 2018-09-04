@@ -3,16 +3,13 @@ class ExternalUser < User
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :confirmable, :registerable, :recoverable, :validatable
 
-  before_create :set_username
-  after_create :create_profile
+  after_initialize :set_username
 
   private
   def set_username
-    self.username = self.email
-  end
-
-  def create_profile
-    Profile.create!(user_id: self.id)
+    if self.new_record?
+      self.username = self.email
+    end
   end
 end
 
