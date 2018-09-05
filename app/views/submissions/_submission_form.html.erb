@@ -1,9 +1,9 @@
 <% pronoun = 'your' %>
-<% pronoun = 'the' if current_user_session.try(:username) != applicant.try(:username) %>
+<% pronoun = 'the' if current_user.try(:username) != @applicant.try(:username) %>
 
 <% completion = '' %>
-<% completion = " for #{applicant.name}" if current_user_session.try(:username) != applicant.try(:username) %>
-<% ldap_name = [applicant.name, applicant.name_suffix].compact.join(',') %>
+<% completion = " for #{@applicant.name}" if current_user.try(:username) != @applicant.try(:username) %>
+<% ldap_name = [@applicant.name, @applicant.name_suffix].compact.join(',') %>
 <%= f.hidden_field :project_id %>
 
 <!-- need this for ajax calls to build the personnel associations -->
@@ -52,7 +52,7 @@
     <%= f.label :applicant_id, project.applicant_wording.html_safe %>
   </td>
   <td>
-    <i><%= applicant.name %></i>
+    <i><%= @applicant.name %></i>
     <%= f.hidden_field :applicant_id %>
   </td>
   <td class='notes'>

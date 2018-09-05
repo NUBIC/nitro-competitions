@@ -111,55 +111,55 @@ module ApplicationHelper
   # @see ApplicationController#set_current_user_session
   # @see make_user
   # @see make_user_from_login
-  def check_session
-    return unless session_exists?
-    begin
-      if current_user.username.blank?
-        puts 'rats'
-        logger.error('check_session. rats! current_user.username is blank!!!')
-      end
-    rescue
-      logger.error('check_session. current_user is nil!!!')
-    end
-    clear_session_attributes if current_user.blank? || current_user.username.blank?
+  # def check_session
+  #   return unless session_exists?
+  #   begin
+  #     if current_user.username.blank?
+  #       puts 'rats'
+  #       logger.error('check_session. rats! current_user.username is blank!!!')
+  #     end
+  #   rescue
+  #     logger.error('check_session. current_user is nil!!!')
+  #   end
+  #   clear_session_attributes if current_user.blank? || current_user.username.blank?
 
-    if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
-      user = User.find_by_username(current_user.username)
-      if user.blank? || user.name.blank?
-        #
-        # The current_user has logged in successfully but there is no user with that unique username in the users table
-        # so here we make a new user with that username
-        # and then call this method again
-        #
-        if make_user(current_user.username)
-          flash[:notice] = 'User account was successfully created.'
-          logger.error("check_session. current_user: #{current_user.username} was created")
-          check_session
-        else
-          logger.error("check_session. Unable to create user account from LDAP registry for current_user: #{current_user.username}")
-          flash[:notice] = 'Unable to create user account from LDAP registry.'
-          make_user_from_login(current_user)
-        end
-        user = User.find_by_username(current_user.username)
-      end
-      if !user.blank? || !user.id.blank?
-        set_session_attributes(user)
-      else
-        clear_session_attributes
-      end
-    else
-      if session[:username].blank? || session[:user_id].blank? || session[:name].blank? || session[:username] != current_user_session.try(:username)
-        user = User.find_by_username(current_user.try(:username))
-        set_session_attributes(user) unless user.blank?
-      end
-    end
-    if session[:program_id].blank?
-      program = Program.find_by_program_name(default_program_name)
-      session[:program_id] = program.id unless program.blank?
-    end
+  #   if !defined?(current_user_session) || current_user_session.blank? || current_user_session.try(:username) != current_user.try(:username)
+  #     user = User.find_by_username(current_user.username)
+  #     if user.blank? || user.name.blank?
+  #       #
+  #       # The current_user has logged in successfully but there is no user with that unique username in the users table
+  #       # so here we make a new user with that username
+  #       # and then call this method again
+  #       #
+  #       if make_user(current_user.username)
+  #         flash[:notice] = 'User account was successfully created.'
+  #         logger.error("check_session. current_user: #{current_user.username} was created")
+  #         check_session
+  #       else
+  #         logger.error("check_session. Unable to create user account from LDAP registry for current_user: #{current_user.username}")
+  #         flash[:notice] = 'Unable to create user account from LDAP registry.'
+  #         make_user_from_login(current_user)
+  #       end
+  #       user = User.find_by_username(current_user.username)
+  #     end
+  #     if !user.blank? || !user.id.blank?
+  #       set_session_attributes(user)
+  #     else
+  #       clear_session_attributes
+  #     end
+  #   else
+  #     if session[:username].blank? || session[:user_id].blank? || session[:name].blank? || session[:username] != current_user_session.try(:username)
+  #       user = User.find_by_username(current_user.try(:username))
+  #       set_session_attributes(user) unless user.blank?
+  #     end
+  #   end
+  #   if session[:program_id].blank?
+  #     program = Program.find_by_program_name(default_program_name)
+  #     session[:program_id] = program.id unless program.blank?
+  #   end
 
-    act_as_admin if session[:act_as_admin].blank?
-  end
+  #   act_as_admin if session[:act_as_admin].blank?
+  # end
 
   def session_exists?
     defined?(session) && ! session.nil?
@@ -261,21 +261,20 @@ module ApplicationHelper
 
   def handle_ldap(applicant)
     begin
-      # return applicant if already persisted in database
       applicant unless applicant.id.blank?
-      # or if we can locate applicant in the database
       applicant_in_db = find_user_in_db(applicant.username, applicant.email)
       return applicant_in_db unless applicant_in_db.blank? || applicant_in_db.id.blank?
-      # get data for user from LDAP
-      pi_data = GetLDAPentry(applicant.username) if do_ldap?
+      ldap_connection = Devise::LDAP::Connection.new.ldap
+      ldap_entry      = Devise::LDAP::Adapter.get_ldap_entry(applicant.username)
+      ldap_entry      = ldap_connection.search(filter: Net::LDAP::Filter.eq('mail', applicant.email)).first unless ldap_entry.present?
+      pi_data         = ldap_entry
       if pi_data.nil?
         logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
       elsif pi_data.blank?
         logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
       else
-        ldap_rec  = CleanPIfromLDAP(pi_data)
-        applicant = BuildPIobject(ldap_rec) if applicant.id.blank?
-        applicant = MergePIrecords(applicant, ldap_rec)
+        applicant = LdapUser.new
+        applicant.hydrate_from_ldap(pi_data) 
         if applicant.new_record?
           applicant.password = Devise.friendly_token[0,20] if applicant.password.blank?
           before_create(applicant)
@@ -299,10 +298,13 @@ module ApplicationHelper
   end
 
   def make_user(username, email = nil)
+    # Handle blank entries 
     return nil if username.blank? || username.length < 3
+    # Find users already in the system
     user = find_user_in_db(username, email)
     return user unless user.blank?
 
+    # Create a new users if not blank or found
     user = User.new(username: username)
     user.email = email unless email.blank?
     user = handle_ldap(user)
@@ -316,22 +318,22 @@ module ApplicationHelper
     false
   end
 
-  def make_user_from_login(current_user)
-    # for times when an authenticated user is not found in ldap!
-    user = User.where(username: current_user.username).first
-    return user unless user.blank?
-    email = current_user.email
-    email = current_user.username + '@unknown.edu' if email.blank?
-    create_user(current_user, email)
-  end
+  # def make_user_from_login(current_user)
+  #   # for times when an authenticated user is not found in ldap!
+  #   user = User.where(username: current_user.username).first
+  #   return user unless user.blank?
+  #   email = current_user.email
+  #   email = current_user.username + '@unknown.edu' if email.blank?
+  #   create_user(current_user, email)
+  # end
 
-  def create_user(user, email)
-    user = User.new(username: user.username,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: email)
-    user.save!
-  end
+  # def create_user(user, email)
+  #   user = User.new(username: user.username,
+  #                   first_name: user.first_name,
+  #                   last_name: user.last_name,
+  #                   email: email)
+  #   user.save!
+  # end
 
   def add_user(user)
     return user unless user.new_record?

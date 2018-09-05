@@ -36,7 +36,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) do |user_params|
       user_params.permit(:username, 
                       :password,
-                      :email)
+                      :email,
+                      :first_name,
+                      :last_name)
     end
 
     devise_parameter_sanitizer.permit(:sign_in) do |user_params|
@@ -53,14 +55,14 @@ class ApplicationController < ActionController::Base
   end
 
 
-#   helper :all # include all helpers, all the time
-#   protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  helper :all # include all helpers, all the time
+  protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-#   include RolesHelper
-#   include ApplicationHelper
+  include RolesHelper
+  include ApplicationHelper
 
 #   # make these accessible in a view
-#   helper_method :current_user_session
+  helper_method :current_user_session
 
 #   require 'ldap_utilities' # specific ldap methods
 #   require 'config' # adds program_name method

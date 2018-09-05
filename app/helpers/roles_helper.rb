@@ -6,17 +6,17 @@ module RolesHelper
   def is_admin?(program = current_program)
     return false unless session_exists?
     return true if current_user && current_user.system_admin?
-    user_signed_in? && (!session[:act_as_admin].blank? || has_role('Admin', program))
+    user_signed_in? && (current_user.system_admin? || has_role('Admin', program))
   end
 
   def is_admin_any_program?
     return false unless session_exists?
-    user_signed_in? && (!session[:act_as_admin].blank? || has_role_any_program('Admin'))
+    user_signed_in? && (current_user.system_admin? || has_role_any_program('Admin'))
   end
 
   def has_read_all?(program = current_program)
     return false unless session_exists?
-    user_signed_in? && (!session[:act_as_admin].blank? || has_role('Admin', program) || has_role('Full Read-only Access', program))
+    user_signed_in? && (current_user.system_admin? || has_role('Admin', program) || has_role('Full Read-only Access', program))
   end
 
   def is_super_admin?

@@ -47,7 +47,7 @@ module KeyPersonnelHelper
             key_user = make_user(key_person['username'], key_person['email'])
             if key_user.blank? 
               if !key_person['username'].blank? && !key_person['first_name'].blank? && !key_person['last_name'].blank?
-                key_user = User.new
+                key_user = ExternalUser.new
                 key_user.username       = key_person['username']
                 key_user.email          = key_person['email']
                 key_user.first_name     = key_person['first_name']
