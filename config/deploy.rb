@@ -55,5 +55,5 @@ namespace :deploy do
     end
   end
   before 'deploy:assets:precompile', 'deploy:symlink:database_config'
-  after 'deploy:symlink:ldap_config'
+  before 'deploy:assets:precompile', 'deploy:symlink:ldap_config'
 end
