@@ -48,6 +48,11 @@ namespace :deploy do
         execute "ln -nfs /etc/nubic/db/nitro_competitions.yml #{release_path}/config/database.yml"
       end
     end
+    task :ldap_config do
+      on roles(:web) do
+        execute "ln -nfs /etc/nubic/ldap.yml #{release_path}/config/ldap.yml"
+      end
+    end
   end
-  before 'deploy:assets:precompile', 'deploy:symlink:database_config'
+  before 'deploy:assets:precompile', 'deploy:symlink:database_config', 'deploy:symlink:ldap_config'
 end
