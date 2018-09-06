@@ -3,7 +3,7 @@ class ExternalUser < User
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :confirmable, :registerable, :recoverable, :validatable
 
-  after_initialize :set_username
+  after_initialize :set_username, if: :new_record?
 
   private
   def set_username
