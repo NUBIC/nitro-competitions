@@ -144,6 +144,7 @@ namespace :users do
   def set_external_user(user)
     user.type = 'ExternalUser'
     user.email = user.username
+    user.prepare_user
     user.save!
   end
 

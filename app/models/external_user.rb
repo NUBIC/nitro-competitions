@@ -7,9 +7,7 @@ class ExternalUser < User
 
   private
   def set_username
-    if self.new_record?
-      self.username = self.email
-    end
+    self.username = self.email
   end
 end
 
