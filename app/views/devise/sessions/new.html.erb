@@ -1,7 +1,7 @@
 <h2>Log in</h2>
 <%= form_for(resource, as: 'user', url: create_session_path) do |f| %>
   <div class="field">
-    <%= f.label :username %><br />
+    <%= f.label :username, "NetID or External email address" %><br />
     <%= f.text_field :username, autofocus: true, placeholder: 'NU NetID or External email address' %>
   </div>
 

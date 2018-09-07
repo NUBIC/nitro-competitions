@@ -3,16 +3,14 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :authenticate_user!, unless: :devise_controller?
+  before_action :authenticate_user!, except: [:welcome], unless: :devise_controller?
+  # except: [:welcome] unless Rails.env == 'test'
 
   rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
     render :text => exception, :status => 500
   end
   
   protect_from_forgery with: :exception
-
-
-
 
   def authenticate_user!
     unless (ldap_user_signed_in? || external_user_signed_in?)
