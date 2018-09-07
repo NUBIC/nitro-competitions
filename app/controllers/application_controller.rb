@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     unless (ldap_user_signed_in? || external_user_signed_in?)
-      flash[:alert] = 'redirected from authenticate_user! - application_controller.rb'
+      flash[:alert] = "You need to sign in or sign up before continuing."
       redirect_to new_session_url
     end
   end
