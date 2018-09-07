@@ -88,6 +88,7 @@ NucatsAssist::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  config.subdomain = 'grants.nubic'
   config.app_domain = 'northwestern.edu'
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true

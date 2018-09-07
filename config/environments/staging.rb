@@ -26,6 +26,7 @@ NucatsAssist::Application.configure do
 
   config.action_mailer.default_url_options = { host: 'https://grants.nubic.northwestern.edu' }
 
+  config.subdomain = 'nucats-assist-staging.nubic'
   config.app_domain = 'northwestern.edu'
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
