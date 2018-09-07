@@ -70,6 +70,11 @@ namespace :users do
     puts "Count: #{nil_users.count}"
   end
 
+  desc 'confirms all existing ExternalUser accounts'
+  task confirm_external_users: :environment do
+    User.where(type: 'ExternalUser').update_all confirmed_at: DateTime.now
+  end
+
   desc 'Assign user type to existing users'
   task assign_user_type: :environment do
     update_users_in_identity_table
