@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class RolesController < ApplicationController
+class RolesController < SecuredController
 
 # I have modified the routes in a non-standard way
 

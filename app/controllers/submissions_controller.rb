@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Controller for Submission model.
-class SubmissionsController < ApplicationController
+class SubmissionsController < SecuredController
 
   include KeyPersonnelHelper
   require 'submission_emails'

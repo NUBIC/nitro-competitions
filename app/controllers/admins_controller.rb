@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class AdminsController < ApplicationController
+class AdminsController < SecuredController
 
   include AdminsHelper
   before_action  :set_project

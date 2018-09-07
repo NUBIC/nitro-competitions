@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class ApplicantsController < ApplicationController
+class ApplicantsController < SecuredController
   helper :applicants
 
   before_action :set_project

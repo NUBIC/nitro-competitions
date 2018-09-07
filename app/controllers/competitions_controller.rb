@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class CompetitionsController < ApplicationController
+class CompetitionsController < SecuredController
   include ApplicationHelper
   include RolesHelper
 

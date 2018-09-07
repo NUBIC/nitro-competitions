@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # (Mostly) RESTful controller for the Project model
-class ProjectsController < ApplicationController
+class ProjectsController < SecuredController
   skip_before_action :check_authorization, raise: false
   before_action :set_project, except: [:index, :create, :new]
   require 'config' # specific configuration methods

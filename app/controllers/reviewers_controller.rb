@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Controller for Reviewers model
-class ReviewersController < ApplicationController
+class ReviewersController < SecuredController
   # GET /reviewers
   # GET /reviewers.xml
   before_action :set_project

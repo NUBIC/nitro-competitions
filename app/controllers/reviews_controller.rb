@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Controller for SubmissionReviews to be evaluated by Reviewers
-class ReviewsController < ApplicationController
+class ReviewsController < SecuredController
 
   before_action :set_project
   skip_before_action :verify_authenticity_token

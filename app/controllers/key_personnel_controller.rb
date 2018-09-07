@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class KeyPersonnelController < ApplicationController
+class KeyPersonnelController < SecuredController
   layout false
 
   include KeyPersonnelHelper

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class SponsorsController < ApplicationController
+class SponsorsController < SecuredController
 
   #sponsor is really a program in the database
   helper :sponsors 

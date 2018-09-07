@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class ApproversController < ApplicationController
+class ApproversController < SecuredController
   before_action  :set_project
 
   def index
