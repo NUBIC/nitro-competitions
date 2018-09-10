@@ -1,4 +1,7 @@
 <h2>Log in</h2>
+<p>
+Our authentication process has changed. If you previously logged in through an external provider (Google, Facebook, Twitter, etc.), click "Forgot your password?" and set your password. 
+</p>
 <%= form_for(resource, as: 'user', url: create_session_path) do |f| %>
   <div class="field">
     <%= f.label :username, "NetID or External email address" %><br />
