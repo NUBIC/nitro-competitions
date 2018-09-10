@@ -1,26 +1,36 @@
-<h2>Log in</h2>
-<p>
-Our authentication process has changed. If you previously logged in through an external provider (Google, Facebook, Twitter, etc.), click "Forgot your password?" and set your password. 
-</p>
+<%- provide(:title_tag, 'Log In') -%>
+<h2>
+  <%= t('devise.login_message') %>
+</h2>
+<hr/>
+<div class="alert">
+  <h3>We recently changed our log in process</h3>
+  <h4>
+    NU and Affiliate Users Log in below using your NetID.
+  </h4>
+
+  <h4>
+    Logged in using Google, Facebook, Twitter or LinkedIn? Please <%= link_to('set a new password', new_external_user_password_path) %>.
+  </h4>
+</div>
+
 <%= form_for(resource, as: 'user', url: create_session_path) do |f| %>
-  <div class="field">
-    <%= f.label :username, "NetID or External email address" %><br />
-    <%= f.text_field :username, autofocus: true, placeholder: 'NU NetID or External email address' %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+  <div id="login_fields">
+    <div>
+      <%= f.label :username, "NU NetID or<br/>External email".html_safe %>
+      <%= f.text_field :username, size: 30, autofocus: true, placeholder: 'NU NetID or External email address' %>
     </div>
-  <% end -%>
-  <div class="actions">
-    <%= f.submit "Log in" %>
+    <div>
+      <%= f.label :password %>
+      <%= f.password_field :password, size: 30, autocomplete: "off" %>
+    </div>
+      <div class="field">
+        <%= f.label :remember_me %>
+        <%= f.check_box :remember_me %>
+      </div>
+    <div class="actions">
+      <%= f.submit "Log in" %>
+    </div>
   </div>
 <% end %>
 

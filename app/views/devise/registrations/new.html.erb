@@ -1,27 +1,40 @@
+<% provide(:title_tag, 'Sign Up') %>
 <h2>Sign up as an external user.</h2>
+<p>Northwestern or NU affiliate user? <%= link_to 'Log in with your NetID', new_session_path %>.
 <p>
-  Please provide the following information to create a new account. If you already have an account, return to the sign in page.
+  Please provide the following information to create a new account. If you already have an account, <%= link_to 'return to the log in page', new_session_path %>.
 </p>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
+  <div id="login_fields">
+    <div>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name, :autofocus => true %>
+    </div>
 
-  <div><%= f.label :first_name %><br />
-  <%= f.text_field :first_name, :autofocus => true %></div>
+    <div>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+    </div>
 
-  <div><%= f.label :last_name %><br />
-  <%= f.text_field :last_name %></div>
+    <div>
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+    </div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+    <div>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+    <div>
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
+    </div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.submit "Sign up" %></div>
+    <div><%= f.submit "Sign up" %></div>
+  </div>
 <% end %>
 
 <%= render "devise/shared/links" %>

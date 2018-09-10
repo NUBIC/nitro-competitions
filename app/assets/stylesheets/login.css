@@ -1,50 +1,17 @@
-/*
-@mixin rounded-corners($radius) {
-  border-radius: $radius;
-  -moz-border-radius: $radius;
-  -webkit-border-radius: $radius;
-}
-
-@mixin common-button($fontsize, $padding) {
-  width: auto;
-  height: auto;
-  color: white;
-  font-size: $fontsize;
-  font-weight: bold;
-  padding: $padding;
-  line-height: auto;
-  display: inline-block;
-  text-align: center;
-  @include rounded-corners(.5em);
-}
-
-@mixin form-button($fontsize, $padding) {
-  background-color: $nu-purple !important;
-  @include common-button($fontsize, $padding);
-}
-
-@mixin disabled-form-button($fontsize, $padding) {
-  background-color: $disabled-gray !important;
-  @include common-button($fontsize, $padding);
-}
-
-@mixin selected-domain {
-  text-decoration: none;
-  background-color: inherit;
-  @include rounded-corners(.5em);
-  border: 3px solid $nu-purple;
-}
-*/
-
 div#login_fields {
   margin-top: 1em;
 }
-div#login_fields .field {
+div#login_fields div {
   margin-bottom: 0.5em;
 }
 div#login_fields label {
   display: inline-block;
-  width: 7em;
+  padding-right: .5em;
+  vertical-align: middle;
+  width: 7.5em;
+}
+div#login_fields input {
+  margin-bottom: 5px;
 }
 div#login_fields label.check_box {
  width: 15em;
@@ -65,94 +32,12 @@ div#login_fields input[type="submit"] {
   -moz-border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
 }
-div#login_fields input[disabled="disabled"] {
-  background-color: #bbb !important;
-  border: none;
-  width: auto;
-  height: auto;
-  color: white;
-  font-size: 1em;
-  font-weight: bold;
-  padding: 0.5em 2em;
-  line-height: auto;
-  display: inline-block;
-  text-align: center;
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-}
-div#login_fields #domain_view {
-  background-color: white;
-  text-align: left;
-  padding: 0;
-}
+
+div#login_fields input[type="email"],
 div#login_fields input[type="text"],
 div#login_fields input[type="password"] {
   width: 20em;
 }
 div#login_fields .buttons {
   margin-top: 2em;
-}
-
-.domains {
-  list-style-type: none;
-}
-.domains .domain_options {
-  margin: 0 4em;
-}
-.domains .domain_option {
-  text-align: center;
-  background-color: white;
-  display: inline-block;
-  width: 100px;
-}
-.domains .domain_option .image_button {
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  border: solid 2px #ccc;
-  padding: 0.25em;
-  margin: 0.5em;
-}
-.domains .domain_option .domain_name {
-  display: inline-block;
-}
-.domains .domain_option .domain_name:hover {
-  color: #520063;
-  text-decoration: underline;
-  cursor: pointer;
-}
-.domains .selected_domain .image_button {
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  text-decoration: none;
-  background-color: inherit;
-  border: 3px solid #520063;
-  padding: 0.25em;
-}
-.domains .domain_option_image {
-  display: inline-block;
-  text-align: center;
-  width: 105px;
-}
-.domains .domain_option_image a:hover {
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  text-decoration: none;
-  background-color: inherit;
-  padding: 1.5em 0em 1.875em 0;
-}
-.domains li {
-  padding: 0.5em 0 0.5em 0.25em;
-  margin-bottom: 0.25em;
-}
-.domains li input {
-  vertical-align: middle;
-  margin: 0;
-}
-.domains li label {
-  font-size: 1.125em;
-  padding-left: 0.25em;
 }
