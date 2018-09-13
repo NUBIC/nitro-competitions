@@ -20,8 +20,10 @@ class LdapUser < User
     self.title            = ldap_record[:title].first
     self.business_phone   = ldap_record[:telephonenumber].first
     
-    address_split         = ldap_record[:postaladdress].first.split('$')
-    self.campus           = address_split.last
-    self.campus_address   = address_split[0...-1].join("\n")
+    if ldap_record[:postaladdress].present?
+      address_split         = ldap_record[:postaladdress].first.split('$')
+      self.campus           = address_split.last
+      self.campus_address   = address_split[0...-1].join("\n")
+    end
   end
 end
