@@ -1,4 +1,4 @@
-class CreatePrograms < ActiveRecord::Migration
+class CreatePrograms < ActiveRecord::Migration[4.2]
   def self.up
     create_table :programs do |t|
       t.string :program_name

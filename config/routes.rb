@@ -3,7 +3,8 @@ NucatsAssist::Application.routes.draw do
   # omniauth and login/logout
   devise_for :external_users, skip: [ :sessions ], 
               controllers: { confirmations: 'external_user/confirmations', 
-              passwords: 'external_user/passwords' } 
+              passwords: 'external_user/passwords',
+              registrations: 'external_user/registrations' } 
   devise_for :ldap_users, skip: [ :sessions ]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

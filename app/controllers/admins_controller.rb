@@ -132,6 +132,7 @@ class AdminsController < SecuredController
 
   def reviewers
     @sponsor = @project.program
+    @reviewer_list = params[:reviewer_list]
     if has_read_all?(@sponsor)
       prep_reviewer_data
       respond_to do |format|
@@ -143,10 +144,54 @@ class AdminsController < SecuredController
     end
   end
 
+
   def user_lookup
-    @results = nil
-    @results = User.search(params) if request.post?
+    unless params[:email].blank? && params[:first_name].blank? && params[:last_name].blank?
+      @local_results = local_user_lookup(params)
+      ldap_return = ldap_user_lookup(params)
+      @ldap_results = []
+      unless ldap_return.blank?
+        @ldap_results = remove_users_from_ldap_array(ldap_return, @local_results)
+        @ldap_results = standardize_ldap_return_to_local(@ldap_results) unless @ldap_results.blank?
+      end
+      @results = (@local_results + @ldap_results).sort_by { |user| user.last_name }
+      # @results_temp.sort_by { |a|  a.last_name  }
+    end
   end
+
+  def local_user_lookup(params, results = [])
+    unless params[:email].blank? && params[:first_name].blank? && params[:last_name].blank?
+      results = User.search(params) if request.post?
+    end
+    results
+  end
+
+  def ldap_user_lookup(params, ldap_return = []) 
+    ldap_return = Ldap.instance.find_entries_by_email("#{params[:email]}*") unless params[:email].blank?
+    ldap_return = Ldap.instance.find_entries_by_full_name("#{params[:first_name]}*", "#{params[:last_name]}*") unless !ldap_return.blank? || (params[:first_name].blank? || params[:last_name].blank?)
+    ldap_return
+  end
+
+  def remove_users_from_ldap_array(ldap_records, user_records)
+    user_netids = []
+    user_netids = user_records.pluck(:username) unless user_records.blank?
+    limited_ldap_records = []
+    limited_ldap_records = ldap_records.reject { |ldap_entry| ldap_entry.uid.first.in? user_netids} unless ldap_records.blank?
+  end
+
+  def standardize_ldap_return_to_local ldap_results
+    standardized = Array.new
+    ldap_results.each do |ldap_result|
+      x = User.new
+      x.username    = ldap_result.uid.first
+      x.email       = ldap_result.mail.first
+      x.first_name  = ldap_result.givenName.first 
+      x.last_name   = ldap_result.sn.first 
+      standardized << x
+    end
+    standardized
+  end
+
 
   def add_reviewers
     @sponsor = @project.program
@@ -261,5 +306,4 @@ class AdminsController < SecuredController
       end
     end
   end
-
 end

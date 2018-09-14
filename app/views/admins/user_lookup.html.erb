@@ -3,7 +3,7 @@
 <p>Or search the <%= link_to 'Northwestern University Directory.', NucatsAssist.ldap_url, target: '_blank' %></p>
 
 <div class="search-form">
-  <%= form_tag ('/admins/user_lookup') do %>
+  <%= form_tag (user_lookup_project_admins_url) do %>
     <div class="search-param">
       <%= text_field_tag :first_name, params[:first_name], placeholder: 'First Name' %>
     </div>
@@ -16,32 +16,29 @@
     <div class="search-button">
       <%= submit_tag 'Search Accounts' %>
     </div>
+    <div>
+      <%= link_to "Return to reviewers for #{@project.project_title}.", reviewers_project_admins_path %><br />
+    </div>
   <% end %>
 </div>
 
 <div class="search-results">
-<%- if @results %>
-  <%- if @results.blank? %>
-    <div class="no-results">
-      <h5>
-        <p>No results matched your search criteria.</p>
-        <p>Please ask your reviewer to sign into the system to create an account.</p>
-      </h5>
-    </div>
-    <%# TODO %>
-    <%# This is the code for adding a new user. %>
-    <%# It is still not functional because of the username. %>
-    <%# %>
-    <%# %h5 %>
-    <%#   Add a new user account. %>
-    <%# %p %>
-    <%#   = form_for(User.new, url: '/users/create_user', method: :post) do |f| %>
-    <%#     = render('shared/error_messages', object: f.object) if f.object && !f.object.try(:errors).blank? %>
-    <%#     = render('/users/form_fields', f: f) %>
+<%- if @results.blank? && @ldap_results.blank? %>
+  <div class="no-results, indented"">
+    <h5>
+      <p>No results matched your search criteria.</p>
+      <p>Please ask your reviewer to sign into the system to create an account.</p>
+    </h5>
+  </div>
 
-  <%- else %>
+<%# TODO split the formatting of the results into a form. %>
+<%- else %>
+  <div>
+    <h4>Search Results</h4>
+  </div>
+  <%- if @results.present? %>
     <%- @results.each do |result| %>
-      <dl class="search-result">
+      <dl class="search-result, indented"">
         <dt class="result-data">
           Name:
         </dt>
@@ -64,8 +61,19 @@
             <%= mail_to result.email %>
           <% end %>
         </dd>
+        <dd>
+          <%= link_to '<button type="button">Add Reviewer</button>'.html_safe, reviewers_project_admins_path(project: @project.id, reviewer_list: result.username) %>
+        </dd>
       </dl>
     <% end %>
+  <%- else %>
+    <div class="no-results, indented"">
+      <h5>
+        <p>No results matched your search criteria for user in NITRO Competitions</p>
+      </h5>
+    </div>
   <% end %>
+  
+
 <% end %>
 </div>

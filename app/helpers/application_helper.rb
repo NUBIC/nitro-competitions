@@ -269,9 +269,9 @@ module ApplicationHelper
       ldap_entry      = ldap_connection.search(filter: Net::LDAP::Filter.eq('mail', applicant.email)).first unless ldap_entry.present?
       pi_data         = ldap_entry
       if pi_data.nil?
-        logger.warn("Probable error reaching the LDAP server in GetLDAPentry: GetLDAPentry returned null using netid #{applicant.username}.")
+        logger.warn("Probable error reaching the LDAP server in Devise::LDAP::Connection: Devise::LDAP::Connection returned null using netid #{applicant.username}.")
       elsif pi_data.blank?
-        logger.warn("Entry not found. GetLDAPentry returned null using netid #{applicant.username}.")
+        logger.warn("Entry not found. Devise::LDAP::Connection returned null using netid #{applicant.username}.")
       else
         applicant = LdapUser.new
         applicant.hydrate_from_ldap(pi_data) 
@@ -283,9 +283,9 @@ module ApplicationHelper
       end
      rescue Exception => error
        begin
-         logger.error("Probable error reaching the LDAP server in GetLDAPentry: #{error.message}")
+         logger.error("Probable error reaching the LDAP server in Devise::LDAP::Connection: #{error.message}")
        rescue
-         puts "Probable error reaching the LDAP server in GetLDAPentry: #{error.message}"
+         puts "Probable error reaching the LDAP server in Devise::LDAP::Connection: #{error.message}"
        end
     end
     applicant

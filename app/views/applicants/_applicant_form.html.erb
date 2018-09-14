@@ -27,6 +27,17 @@
   </div>
 </div>
 
+<%- if current_user.type === 'ExternalUser' %>
+  <div class="form-group">
+    <%= f.label :password, 'Password', {class: 'col-xs-3 control-label'} %>
+    <div class="col-xs-9">
+      <%= link_to 'Update your password', edit_external_user_registration_path, class: 'btn btn-default btn-info' %>
+    </div>
+  </div>
+<% end %>
+
+
+
 <div class="bottom_border">
   <%- if current_user.system_admin? %>
     <div class="form-group">
@@ -37,6 +48,7 @@
     </div>
   <% end %>
 </div>
+
 <h3>Contact</h3>
 <div class="form-group">
   <%= f.label :email, 'Email', {placeholder: 'email', class: 'col-xs-3 control-label'} %>

@@ -1,4 +1,4 @@
-class AddTotalAmountRequestedAmountAwardedAndTypeOfEquipmentToProjects < ActiveRecord::Migration
+class AddTotalAmountRequestedAmountAwardedAndTypeOfEquipmentToProjects < ActiveRecord::Migration[4.2]
   def change
     add_column :projects, :show_total_amount_requested, :boolean, default: false
     add_column :projects, :total_amount_requested_wording, :string, default: 'Total Amount Requested'

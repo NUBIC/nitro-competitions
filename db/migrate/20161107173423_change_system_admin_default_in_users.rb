@@ -1,4 +1,4 @@
-class ChangeSystemAdminDefaultInUsers < ActiveRecord::Migration
+class ChangeSystemAdminDefaultInUsers < ActiveRecord::Migration[4.2]
   def up
     change_column_default :users, :system_admin, false
   end

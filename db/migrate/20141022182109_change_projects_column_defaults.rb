@@ -1,4 +1,4 @@
-class ChangeProjectsColumnDefaults < ActiveRecord::Migration
+class ChangeProjectsColumnDefaults < ActiveRecord::Migration[4.2]
   def up
     change_column_default :projects, :how_to_url_block, '<a href="/docs/NITRO-Competitions_Instructions.pdf" title="NITRO-Competitions Web Site Instructions/Help/HowTo">Site instructions</a>'
     change_column_default :projects, :rfp_url_block, '<a href="/docs/CTI_RFA.pdf" title="Pilot Proposal Request for Applications">CTI RFA</a>'

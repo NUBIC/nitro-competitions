@@ -1,4 +1,4 @@
-class CreateFileDocuments < ActiveRecord::Migration
+class CreateFileDocuments < ActiveRecord::Migration[4.2]
   def self.up
     create_table :file_documents do |t|
       t.integer  :created_id

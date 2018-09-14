@@ -1,4 +1,4 @@
-class CreateKeyPersonnel < ActiveRecord::Migration
+class CreateKeyPersonnel < ActiveRecord::Migration[4.2]
   def self.up
     create_table :key_personnel do |t|
       t.integer :submission_id

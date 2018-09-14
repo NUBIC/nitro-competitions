@@ -1,4 +1,4 @@
-class CreateReviewers < ActiveRecord::Migration
+class CreateReviewers < ActiveRecord::Migration[4.2]
   def self.up
     create_table :reviewers do |t|
       t.integer :program_id

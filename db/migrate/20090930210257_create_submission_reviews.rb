@@ -1,4 +1,4 @@
-class CreateSubmissionReviews < ActiveRecord::Migration
+class CreateSubmissionReviews < ActiveRecord::Migration[4.2]
   def self.up
     create_table :submission_reviews do |t|
       t.integer :submission_id

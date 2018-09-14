@@ -34,7 +34,4 @@ NucatsAssist::Application.configure do
   config.action_mailer.smtp_settings = { address: 'smtprelay.northwestern.edu', port: 25, domain: 'northwestern.edu' }
 
   config.log_level = :info
-
-  OpenSSL::SSL::SSLContext::DEFAULT_PARAMS[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
-
 end
