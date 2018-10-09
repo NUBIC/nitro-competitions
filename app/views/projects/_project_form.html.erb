@@ -18,7 +18,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :visible, 'Visible' %>
         </td>
         <td class="notes" colspan="2">
@@ -46,7 +46,7 @@
           <%= f.label "Competition Name" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_name, :size => 25, :minlength => 2, :maxlength => 25, required: true %>
+          <%= f.text_field :project_name, :size => 25, :minlength => 2, :maxlength => 25 %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Short, no-space name for the competition, will appear in the URL.<br>
@@ -56,10 +56,10 @@
       </tr>
       <tr>
         <td class="title indented">
-          <%= f.label "Competition Title" %>
+          <%= f.label :project_title, "Competition Title" %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_title, :size => 70, :maxlength => 255, required: true %>
+          <%= f.text_field :project_title, :size => 70, :maxlength => 255 %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Descriptive Title. Required
@@ -89,7 +89,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_effort_approver %>
         </td>
         <td class="notes" colspan="2">
@@ -99,7 +99,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :require_effort_approver %>
         </td>
         <td class="notes" colspan="2">
@@ -109,7 +109,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :effort_approver_title %>
         </td>
         <td class="notes" colspan="2">
@@ -122,7 +122,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_department_administrator %>
         </td>
         <td class="notes" colspan="2">
@@ -132,7 +132,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :department_administrator_title %>
         </td>
         <td class="notes" colspan="2">
@@ -145,7 +145,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :require_era_commons_name, 'Require ERA Commons name' %>
         </td>
         <td class="notes" colspan="2">
@@ -165,7 +165,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :applicant_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -178,7 +178,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :applicant_abbreviation_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -191,7 +191,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :title_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -205,7 +205,7 @@
       </tr>
 
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_abstract_field %>
         </td>
         <td class="notes" colspan="2">
@@ -215,7 +215,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :abstract_text, "Abstract wording" %>
         </td>
         <td class="notes" colspan="2">
@@ -227,7 +227,7 @@
       </tr>
 
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_submission_category %>
         </td>
         <td class="notes" colspan="2">
@@ -238,7 +238,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :category_wording, "Submission category wording" %>
         </td>
         <td class="notes" colspan="2">
@@ -249,7 +249,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :submission_category_description %>
         </td>
         <td class="notes" colspan="2">
@@ -274,22 +274,22 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :initiation_date %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :initiation_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :initiation_date, :size=>15, class: 'datepicker' %>
           <div class='attribute_description'>
             Date this competition will first appear on this site
           </div>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :submission_open_date  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_open_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :submission_open_date, :size=>15, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Date when applicants can first start to apply for the competition
@@ -297,11 +297,11 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :submission_close_date  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :submission_close_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :submission_close_date, :size=>15, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Last date (at midnight) when applicants can submit their application
@@ -309,7 +309,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :strict_deadline, 'Strict deadline' %>
         </td>
         <td class="notes" colspan="2">
@@ -320,7 +320,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :submission_modification_date  %>
         </td>
         <td class="notes" colspan="2">
@@ -333,12 +333,12 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :review_start_date  %>
           <span class='required_marker'> * </span>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :review_start_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :review_start_date, :size=>15, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Date when reviewers can first access the review form.
@@ -346,12 +346,12 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
-          <%= f.label :review_end_date, required: true %>
+        <td class="title indented">
+          <%= f.label :review_end_date %>
           <span class='required_marker'> * </span>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :review_end_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :review_end_date, :size=>15, class: 'datepicker' %>
           <span class='required_marker'> * </span>
           <div class='attribute_description'>
             Final date that reviewers can change the review form.
@@ -359,23 +359,23 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :project_period_start_date, 'Project funding start date' %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_period_start_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :project_period_start_date, :size=>15, class: 'datepicker' %>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :project_period_end_date, 'Project funding end date'  %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.text_field :project_period_end_date, :size=>15, required: true, class: 'datepicker' %>
+          <%= f.text_field :project_period_end_date, :size=>15, class: 'datepicker' %>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :closed_status_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -406,7 +406,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_human_subjects_research, 'Is this human subjects research?' %>
         </td>
         <td class="notes" colspan="2">
@@ -416,7 +416,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :human_subjects_research_text, 'Help text for human subjects research question:' %>
         </td>
         <td class="notes" colspan="2">
@@ -434,7 +434,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_use_stem_cells, 'Will this research use stem cells?' %>
         </td>
         <td class="notes" colspan="2">
@@ -445,7 +445,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_use_embryonic_stem_cells, 'Will this research use embryonic stem cells?' %>
         </td>
         <td class="notes" colspan="2">
@@ -455,7 +455,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_use_vertebrate_animals, 'Will this research use vertebrate animals?' %>
         </td>
         <td class="notes" colspan="2">
@@ -465,7 +465,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_irb_approved, 'Is this research IRB approved?' %>
         </td>
         <td class="notes" colspan="2">
@@ -475,7 +475,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_irb_study_num, 'IRB study number:' %>
         </td>
         <td class="notes" colspan="2">
@@ -485,7 +485,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_iacuc_approved, 'Is this research IACUC approved?' %>
         </td>
         <td class="notes" colspan="2">
@@ -495,7 +495,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_iacuc_study_num, 'IACUC study number:' %>
         </td>
         <td class="notes" colspan="2">
@@ -505,7 +505,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_is_new %>
         </td>
         <td class="notes" colspan="2">
@@ -515,7 +515,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :is_new_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -526,7 +526,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_not_new_explanation, 'If this is not new work, please explain:' %>
         </td>
         <td class="notes" colspan="2">
@@ -536,7 +536,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_is_conflict, 'Are there any conflicts of interest?' %>
         </td>
         <td class="notes" colspan="2">
@@ -546,7 +546,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_conflict_explanation, 'Description of conflicts of interest:' %>
         </td>
         <td class="notes" colspan="2">
@@ -571,7 +571,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :membership_required, 'NUCATS Membership required?' %>
         </td>
         <td class="notes" colspan="2">
@@ -582,7 +582,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_use_nucats_cru, 'Will this research use the NUCATS Clinical Research Unit (CRU)?' %>
         </td>
         <td class="notes" colspan="2">
@@ -592,7 +592,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_nucats_cru_contact_name, 'Name of NUCATS CRU contact:' %>
         </td>
         <td class="notes" colspan="2">
@@ -602,14 +602,14 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <label>
             Will this study require use of facilities, staff, or patients at any of the following institutions? If so, check all that apply:
           </label>
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_use_nmh, 'Northwestern Memorial Health Care' %>
         </td>
         <td class="notes" colspan="2">
@@ -619,7 +619,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_use_va, 'Jesse Brown VA Medical Center' %>
         </td>
         <td class="notes" colspan="2">
@@ -629,7 +629,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_use_ric, 'Shirley Ryan AbilityLab' %>
         </td>
         <td class="notes" colspan="2">
@@ -639,7 +639,7 @@
         </td>
       </tr>
       <tr class='bottom_border'>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_use_cmh, 'Anne & Robert H. Lurie Children\'s Hospital of Chicago'  %>
         </td>
         <td class="notes" colspan="2">
@@ -664,7 +664,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_received_previous_support, 'Did this research receive Office of Research support in the past 2 years?' %>
         </td>
         <td class="notes" colspan="2">
@@ -674,7 +674,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_previous_support_description, 'Description of support:' %>
         </td>
         <td class="notes" colspan="2">
@@ -685,7 +685,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_core_manager, 'Core Manager NetID' %>
         </td>
         <td class="notes" colspan="2">
@@ -695,7 +695,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_cost_sharing_amount, 'Cost sharing amount' %>
         </td>
         <td class="notes" colspan="2">
@@ -705,7 +705,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_cost_sharing_organization, 'Cost sharing organization' %>
         </td>
         <td class="notes" colspan="2">
@@ -715,7 +715,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_committee_review_approval, 'Did this research receive approval of review committee for this request?' %>
         </td>
         <td class="notes" colspan="2">
@@ -725,7 +725,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_type_of_equipment %>
         </td>
         <td class="notes" colspan="2">
@@ -735,7 +735,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :type_of_equipment_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -760,7 +760,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_project_cost %>
         </td>
         <td class="notes" colspan="2">
@@ -770,7 +770,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :direct_project_cost_wording, 'Project cost wording' %>
         </td>
         <td class="notes" colspan="2">
@@ -781,7 +781,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_total_amount_requested %>
         </td>
         <td class="notes" colspan="2">
@@ -791,7 +791,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :total_amount_requested_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -802,7 +802,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :min_budget_request %>
         </td>
         <td class="notes" colspan="2">
@@ -810,7 +810,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :max_budget_request %>
         </td>
         <td class="notes" colspan="2">
@@ -827,7 +827,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_other_funding_sources %>
         </td>
         <td class="notes" colspan="2">
@@ -837,7 +837,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :other_funding_sources_wording %>
         </td>
         <td class="notes" colspan="2">
@@ -862,7 +862,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_manage_biosketches, 'Show NIH biosketch'  %>
         </td>
         <td class="notes" colspan="2">
@@ -873,7 +873,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_manage_coinvestigators, 'Show key personnel' %>
         </td>
         <td class="notes" colspan="2">
@@ -884,7 +884,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_manage_other_support, 'Show NIH other support document' %>
         </td>
         <td class="notes" colspan="2">
@@ -894,7 +894,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :manage_other_support_text, 'NIH other support description' %>
         </td>
         <td class="notes" colspan="2">
@@ -914,7 +914,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_application_doc %>
         </td>
         <td class="notes" colspan="2">
@@ -924,7 +924,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :application_doc_name %>
         </td>
         <td class="notes" colspan="2">
@@ -935,7 +935,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :application_doc_description %>
         </td>
         <td class="notes" colspan="2">
@@ -946,7 +946,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :application_template_url %>
         </td>
         <td class="notes" colspan="2">
@@ -957,7 +957,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :application_template_url_label %>
         </td>
         <td class="notes" colspan="2">
@@ -968,7 +968,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :application_info_url %>
         </td>
         <td class="notes" colspan="2">
@@ -979,7 +979,7 @@
         </td>
       </tr>
       <tr class='bottom_border'>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :application_info_url_label %>
         </td>
         <td class="notes" colspan="2">
@@ -999,7 +999,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_budget_form %>
         </td>
         <td class="notes" colspan="2">
@@ -1009,7 +1009,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :budget_template_url %>
         </td>
         <td class="notes" colspan="2">
@@ -1020,7 +1020,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :budget_template_url_label %>
         </td>
         <td class="notes" colspan="2">
@@ -1031,7 +1031,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :budget_info_url %>
         </td>
         <td class="notes" colspan="2">
@@ -1042,7 +1042,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :budget_info_url_label %>
         </td>
         <td class="notes" colspan="2">
@@ -1074,7 +1074,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document1_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
@@ -1085,7 +1085,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document1_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
@@ -1093,7 +1093,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document1_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1104,7 +1104,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document1_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1136,7 +1136,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document2_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
@@ -1147,7 +1147,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document2_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
@@ -1155,7 +1155,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document2_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1166,7 +1166,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document2_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1198,7 +1198,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document3_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
@@ -1209,7 +1209,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document3_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
@@ -1217,7 +1217,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document3_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1228,7 +1228,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document3_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1260,7 +1260,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document4_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
@@ -1271,7 +1271,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document4_description, 'Instructions/Description' %>
         </td>
         <td class="notes" colspan="2">
@@ -1279,7 +1279,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document4_template_url, 'Template URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1290,7 +1290,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented" >
+        <td class="title indented" >
           <%= f.label :document4_info_url, 'Info URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1310,7 +1310,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :supplemental_document_name, 'Name' %>
         </td>
         <td class="notes" colspan="2">
@@ -1321,7 +1321,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :supplemental_document_description, 'Description'  %>
         </td>
         <td class="notes" colspan="2">
@@ -1346,32 +1346,32 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :max_assigned_reviewers_per_proposal %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.number_field :max_assigned_reviewers_per_proposal, :size => 15, required: true %>
+          <%= f.number_field :max_assigned_reviewers_per_proposal, :size => 15 %>
           <span class='required_marker'> * </span>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :max_assigned_proposals_per_reviewer %>
         </td>
         <td class="notes" colspan="2">
-          <%= f.number_field :max_assigned_proposals_per_reviewer, :size => 15, required: true %>
+          <%= f.number_field :max_assigned_proposals_per_reviewer, :size => 15 %>
           <span class='required_marker'> * </span>
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <label>
             Show All Reviewers:
           </label>
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_review_summaries_to_reviewers, "All Reviewers' Summaries"  %>
         </td>
         <td class="notes" colspan="2">
@@ -1381,7 +1381,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_review_scores_to_reviewers, "All Reviewers' Scores" %>
         </td>
         <td class="notes" colspan="2">
@@ -1391,7 +1391,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_composite_scores_to_reviewers, 'All Composite Scores' %>
         </td>
         <td class="notes" colspan="2">
@@ -1401,14 +1401,14 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <label>
             Show Applicants:
           </label>
         </td>
       </tr>
       <tr>
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_review_summaries_to_applicants, "Their Reviewers' Summaries" %>
         </td>
         <td class="notes" colspan="2">
@@ -1418,7 +1418,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented2">
+        <td class="title indented2">
           <%= f.label :show_composite_scores_to_applicants, 'Their Composite Scores' %>
         </td>
         <td class="notes" colspan="2">
@@ -1437,7 +1437,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :show_review_guidance %>
         </td>
         <td class="notes" colspan="2">
@@ -1448,7 +1448,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :review_guidance_url, 'Additional guidance URL' %>
         </td>
         <td class="notes" colspan="2">
@@ -1456,7 +1456,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :custom_review_guidance %>
         </td>
         <td class="notes" colspan="2">
@@ -1470,7 +1470,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :comment_review_only, 'Comments only' %>
         </td>
         <td class="notes" colspan="2">
@@ -1481,7 +1481,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :overall_impact_title, 'Overall impact label' %>
         </td>
         <td class="notes" colspan="2">
@@ -1489,7 +1489,7 @@
         </td>
       </tr>
       <tr>
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :overall_impact_description %>
         </td>
         <td class="notes" colspan="2">
@@ -1500,7 +1500,7 @@
         </td>
       </tr>
       <tr class="border_bottom">
-        <td class="title, indented">
+        <td class="title indented">
           <%= f.label :overall_impact_direction, 'Overall impact directions' %>
         </td>
         <td class="notes" colspan="2">
@@ -1538,7 +1538,14 @@
 </div>
 
 <script>
-  jQuery(function() {
-    jQuery( "#tabs" ).tabs();
-  });
+  // jQuery(function() { -->
+    // jQuery( "#tabs" ).tabs();
+  // });
+  // jQuery( function() {
+    // jQuery(document).ready
+      // jQuery('#tabs').find("td.title div.field_with_errors").each(function() {
+      // var error_tab = jQuery(this).closest("[id$=_tab]").prop('id');
+      // jQuery('.ui-tabs-nav').find("li[aria-controls='" + error_tab + "'] a").css({ 'color': 'red', 'font-weight': 'bold' });
+    // });
+  // });
 </script>
