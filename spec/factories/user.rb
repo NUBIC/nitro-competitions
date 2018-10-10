@@ -24,8 +24,9 @@ FactoryBot.define do
     last_login_at Time.now
     created_ip '127.0.0.1'
     created_at Time.now
-    password 'password'
+    # password 'password'
     should_receive_submission_notifications true
     system_admin false
+    type 'LdapUser'
   end
 end
