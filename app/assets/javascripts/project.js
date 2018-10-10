@@ -4,27 +4,27 @@ jQuery( function() {
 jQuery('.project').validate({
   rules: {
     "project[project_title]": {
-      required: true,
+    //   //required: true,
       maxlength: 255,
       minlength: 10
     },
-    "project[project_name]": {
-      required: true,
-      maxlength: 25,
-      minlength: 2
-    },
-    "project[submission_open_date]": {
-      required: true,
-    },
-    "project[submission_close_date]": {
-      required: true,
-    },
-    "project[review_start_date]": {
-      required: true,
-    },
-    "project[review_end_date]": {
-      required: true,
-    },
+    // "project[project_name]": {
+    //   //required: true,
+    //   maxlength: 25,
+    //   minlength: 2
+    // },
+    // "project[submission_open_date]": {
+    //   //required: true,
+    // },
+    // "project[submission_close_date]": {
+    //   //required: true,
+    // },
+    // "project[review_start_date]": {
+    //   //required: true,
+    // },
+    // "project[review_end_date]": {
+    //   //required: true,
+    // },
     "project[project_url]": {
       maxlength: 255,
     },
@@ -159,6 +159,17 @@ jQuery('.project').validate({
     },
     "project[closed_status_wording]": {
       maxlength: 255,
-    },
+    }
   }
+});
+jQuery(function() {
+  jQuery( "#tabs" ).tabs();
+});
+jQuery( function() {
+  // Show Tab Errors
+  jQuery(document).ready
+    jQuery('#tabs').find("td.title div.field_with_errors").each(function() {
+    var error_tab = jQuery(this).closest("[id$=_tab]").prop('id');
+    jQuery('.ui-tabs-nav').find("li[aria-controls='" + error_tab + "'] a").css({'color': 'red', 'font-weight': 'bold'});
+  });
 });

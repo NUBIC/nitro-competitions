@@ -204,7 +204,6 @@ class Project < ApplicationRecord
   def clean_params
     # need the before_type_cast or else Rails 2.3 truncates after any comma. strange
     return unless defined?(self.project_name)
-
     txt = self.project_name
     return if txt.blank?
     txt = txt.downcase.gsub(/\s/, "").gsub(/[^a-z0-9]/, "_").gsub(/__+/, "_")

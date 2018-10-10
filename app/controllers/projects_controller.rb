@@ -158,7 +158,7 @@ class ProjectsController < SecuredController
       else
         admin = is_admin?(@program) ? 'Yes' : 'No'
         flash[:alert] = "Project record for #{@project.project_title} could not be updated; admin: #{admin}; errors: #{@project.errors.full_messages.join('; ')}"
-        format.html { render action: :show }
+        format.html { render action: :edit }
         format.xml { render xml: @project.errors, status: :unprocessable_entity }
       end
     end
