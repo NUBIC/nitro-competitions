@@ -1,9 +1,12 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -19,128 +22,15 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
-
---
--- Name: table_log_init(integer, text); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION table_log_init(integer, text) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$
-DECLARE
-    level        ALIAS FOR $1;
-    orig_name    ALIAS FOR $2;
-BEGIN
-    PERFORM table_log_init(level, orig_name, current_schema());
-    RETURN;
-END;
-$_$;
-
-
---
--- Name: table_log_init(integer, text, text); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION table_log_init(integer, text, text) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$
-DECLARE
-    level        ALIAS FOR $1;
-    orig_name    ALIAS FOR $2;
-    log_schema   ALIAS FOR $3;
-BEGIN
-    PERFORM table_log_init(level, current_schema(), orig_name, log_schema);
-    RETURN;
-END;
-$_$;
-
-
---
--- Name: table_log_init(integer, text, text, text); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION table_log_init(integer, text, text, text) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$
-DECLARE
-    level        ALIAS FOR $1;
-    orig_schema  ALIAS FOR $2;
-    orig_name    ALIAS FOR $3;
-    log_schema   ALIAS FOR $4;
-BEGIN
-    PERFORM table_log_init(level, orig_schema, orig_name, log_schema,
-        CASE WHEN orig_schema=log_schema 
-            THEN orig_name||'_log' ELSE orig_name END);
-    RETURN;
-END;
-$_$;
-
-
---
--- Name: table_log_init(integer, text, text, text, text); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION table_log_init(integer, text, text, text, text) RETURNS void
-    LANGUAGE plpgsql
-    AS $_$
-DECLARE
-    level        ALIAS FOR $1;
-    orig_schema  ALIAS FOR $2;
-    orig_name    ALIAS FOR $3;
-    log_schema   ALIAS FOR $4;
-    log_name     ALIAS FOR $5;
-    do_log_user  int = 0;
-    level_create text = '';
-    orig_qq      text;
-    log_qq       text;
-BEGIN
-    -- Quoted qualified names
-    orig_qq := quote_ident(orig_schema)||'.'||quote_ident(orig_name);
-    log_qq := quote_ident(log_schema)||'.'||quote_ident(log_name);
-
-    IF level <> 3 THEN
-        level_create := level_create
-            ||', trigger_id BIGSERIAL NOT NULL PRIMARY KEY';
-        IF level <> 4 THEN
-            level_create := level_create
-                ||', trigger_user VARCHAR(32) NOT NULL';
-            do_log_user := 1;
-            IF level <> 5 THEN
-                RAISE EXCEPTION 
-                    'table_log_init: First arg has to be 3, 4 or 5.';
-            END IF;
-        END IF;
-    END IF;
-    
-    EXECUTE 'CREATE TABLE '||log_qq
-          ||'(LIKE '||orig_qq
-          ||', trigger_mode VARCHAR(10) NOT NULL'
-          ||', trigger_tuple VARCHAR(5) NOT NULL'
-          ||', trigger_changed TIMESTAMPTZ NOT NULL'
-          ||level_create
-          ||')';
-            
-    EXECUTE 'CREATE TRIGGER "table_log_trigger" AFTER UPDATE OR INSERT OR DELETE ON '
-          ||orig_qq||' FOR EACH ROW EXECUTE PROCEDURE table_log('
-          ||quote_literal(log_name)||','
-          ||do_log_user||','
-          ||quote_literal(log_schema)||')';
-
-    RETURN;
-END;
-$_$;
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE ar_internal_metadata (
+CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
     created_at timestamp without time zone NOT NULL,
@@ -149,22 +39,22 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
--- Name: file_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: file_documents; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE file_documents (
+CREATE TABLE public.file_documents (
     id integer NOT NULL,
     created_id integer,
-    created_ip character varying(255),
+    created_ip character varying,
     updated_id integer,
-    updated_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    file_file_name character varying(255),
-    file_content_type character varying(255),
+    updated_ip character varying,
+    file_file_name character varying,
+    file_content_type character varying,
     file_file_size integer,
     file_updated_at timestamp without time zone,
-    last_updated_at timestamp without time zone
+    last_updated_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -172,7 +62,8 @@ CREATE TABLE file_documents (
 -- Name: file_documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE file_documents_id_seq
+CREATE SEQUENCE public.file_documents_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -184,14 +75,14 @@ CREATE SEQUENCE file_documents_id_seq
 -- Name: file_documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE file_documents_id_seq OWNED BY file_documents.id;
+ALTER SEQUENCE public.file_documents_id_seq OWNED BY public.file_documents.id;
 
 
 --
--- Name: identities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: identities; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE identities (
+CREATE TABLE public.identities (
     id integer NOT NULL,
     user_id integer,
     provider character varying,
@@ -205,7 +96,8 @@ CREATE TABLE identities (
 -- Name: identities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE identities_id_seq
+CREATE SEQUENCE public.identities_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -217,22 +109,22 @@ CREATE SEQUENCE identities_id_seq
 -- Name: identities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE identities_id_seq OWNED BY identities.id;
+ALTER SEQUENCE public.identities_id_seq OWNED BY public.identities.id;
 
 
 --
--- Name: key_personnel; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: key_personnel; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE key_personnel (
+CREATE TABLE public.key_personnel (
     id integer NOT NULL,
     submission_id integer,
     user_id integer,
-    role character varying(255),
-    username character varying(255),
-    first_name character varying(255),
-    last_name character varying(255),
-    email character varying(255),
+    role character varying,
+    username character varying,
+    first_name character varying,
+    last_name character varying,
+    email character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -242,7 +134,8 @@ CREATE TABLE key_personnel (
 -- Name: key_personnel_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE key_personnel_id_seq
+CREATE SEQUENCE public.key_personnel_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -254,23 +147,23 @@ CREATE SEQUENCE key_personnel_id_seq
 -- Name: key_personnel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE key_personnel_id_seq OWNED BY key_personnel.id;
+ALTER SEQUENCE public.key_personnel_id_seq OWNED BY public.key_personnel.id;
 
 
 --
--- Name: logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: logs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE logs (
+CREATE TABLE public.logs (
     id integer NOT NULL,
-    activity character varying(255),
+    activity character varying,
     user_id integer,
     program_id integer,
     project_id integer,
-    controller_name character varying(255),
-    action_name character varying(255),
+    controller_name character varying,
+    action_name character varying,
     params text,
-    created_ip character varying(255),
+    created_ip character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -280,7 +173,8 @@ CREATE TABLE logs (
 -- Name: logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE logs_id_seq
+CREATE SEQUENCE public.logs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -292,28 +186,28 @@ CREATE SEQUENCE logs_id_seq
 -- Name: logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE logs_id_seq OWNED BY logs.id;
+ALTER SEQUENCE public.logs_id_seq OWNED BY public.logs.id;
 
 
 --
--- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: programs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE programs (
+CREATE TABLE public.programs (
     id integer NOT NULL,
-    program_name character varying(255),
-    program_title character varying(255),
-    program_url character varying(255),
+    program_name character varying,
+    program_title character varying,
+    program_url character varying,
     created_id integer,
-    created_ip character varying(255),
+    created_ip character varying,
     updated_id integer,
-    updated_ip character varying(255),
+    updated_ip character varying,
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying(255),
+    deleted_ip character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    email character varying(255),
+    email character varying,
     allow_reviewer_notification boolean DEFAULT true
 );
 
@@ -322,7 +216,8 @@ CREATE TABLE programs (
 -- Name: programs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE programs_id_seq
+CREATE SEQUENCE public.programs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -334,38 +229,31 @@ CREATE SEQUENCE programs_id_seq
 -- Name: programs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
+ALTER SEQUENCE public.programs_id_seq OWNED BY public.programs.id;
 
 
 --
--- Name: projects; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: projects; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE projects (
+CREATE TABLE public.projects (
     id integer NOT NULL,
     program_id integer NOT NULL,
-    project_title character varying(255) NOT NULL,
+    project_title character varying NOT NULL,
+    project_name character varying NOT NULL,
     project_description text,
-    rfa_url character varying(255),
+    rfa_url character varying,
     initiation_date date,
     submission_open_date date,
     submission_close_date date,
+    submission_modification_date date,
     review_start_date date,
     review_end_date date,
     project_period_start_date date,
     project_period_end_date date,
-    status character varying(255),
-    created_id integer,
-    created_ip character varying(255),
-    updated_id integer,
-    updated_ip character varying(255),
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    min_budget_request double precision DEFAULT 1000,
-    max_budget_request double precision DEFAULT 50000,
+    status character varying,
+    min_budget_request double precision DEFAULT 1000.0,
+    max_budget_request double precision DEFAULT 50000.0,
     max_assigned_reviewers_per_proposal integer DEFAULT 2,
     max_assigned_proposals_per_reviewer integer DEFAULT 3,
     applicant_wording text DEFAULT 'Principal Investigator'::text,
@@ -416,8 +304,8 @@ CREATE TABLE projects (
     show_manage_coinvestigators boolean DEFAULT false,
     show_manage_biosketches boolean DEFAULT false,
     require_era_commons_name boolean DEFAULT false,
-    review_guidance_url character varying(255) DEFAULT '../docs/review_criteria.html'::character varying,
-    overall_impact_title character varying(255) DEFAULT 'Overall Impact'::character varying,
+    review_guidance_url character varying DEFAULT '/docs/review_criteria.html'::character varying,
+    overall_impact_title character varying DEFAULT 'Overall Impact'::character varying,
     overall_impact_description text DEFAULT 'Please summarize the strengths and weaknesses of the application; assess the potential benefit of the instrument requested for the overall research community and its potential impact on NIH-funded research; and provide comments on the overall need of the users which led to their final recommendation and level of enthusiasm.'::text,
     overall_impact_direction text DEFAULT 'Overall Strengths and Weaknesses:<br/>Please do not exceed 3 paragraphs'::text,
     show_impact_score boolean DEFAULT true,
@@ -428,72 +316,80 @@ CREATE TABLE projects (
     show_budget_score boolean DEFAULT false,
     show_completion_score boolean DEFAULT false,
     show_other_score boolean DEFAULT false,
-    impact_title character varying(255) DEFAULT 'Significance'::character varying,
+    impact_title character varying DEFAULT 'Significance'::character varying,
     impact_wording text DEFAULT 'Does the project address an important unmet health need? If the aims of the project are achieved, how will scientific knowledge, technical capability, and/or clinical practice be improved? How will successful completion of the aims change the methods, technologies, treatments, services, or preventative interventions that drive this field?'::text,
-    team_title character varying(255) DEFAULT 'Investigator(s)'::character varying,
+    team_title character varying DEFAULT 'Investigator(s)'::character varying,
     team_wording text DEFAULT 'Are the PIs, collaborators, and other researchers well suited to the project? If Early Stage Investigators or New Investigators, do they have appropriate experience and training? If established, have they demonstrated an ongoing record of accomplishments that have advanced their field(s)? If the project is collaborative, do the investigators have complementary and integrated expertise; are their leadership approach, governance and organizational structure appropriate for the project?'::text,
-    innovation_title character varying(255) DEFAULT 'Innovation'::character varying,
+    innovation_title character varying DEFAULT 'Innovation'::character varying,
     innovation_wording text DEFAULT 'Does the application challenge and seek to shift current clinical practice paradigms by utilizing novel approaches or methodologies, instrumentation, or interventions? Are the approaches or methodologies, instrumentation, or interventions novel to one field of research or novel in a broad sense? Is a refinement, improvement, or new application of approaches or methodologies, instrumentation, or interventions proposed?'::text,
-    scope_title character varying(255) DEFAULT 'Approach'::character varying,
+    scope_title character varying DEFAULT 'Approach'::character varying,
     scope_wording text DEFAULT 'Are the overall strategy, methodology, and analyses well-reasoned and appropriate to accomplish the specific aims of the project? Are potential problems, alternative strategies, and benchmarks for success presented? If the project is in the early stages of development, will the strategy establish feasibility and will particularly risky aspects be managed?'::text,
-    environment_title character varying(255) DEFAULT 'Environment'::character varying,
+    environment_title character varying DEFAULT 'Environment'::character varying,
     environment_wording text DEFAULT 'Will the scientific environment in which the work will be done contribute to the probability of success? Are the institutional support, equipment and other physical resources available to the investigators adequate for the project proposed? Will the project benefit from unique features of the scientific environment, subject populations, or collaborative arrangements?'::text,
-    other_title character varying(255) DEFAULT 'Additional Review Criteria'::character varying,
+    other_title character varying DEFAULT 'Additional Review Criteria'::character varying,
     other_wording text DEFAULT 'Are the responses to comments from the previous review group adequate? Are the improvements in the resubmission application appropriate? Are there other issues that should be considered when scoring this application?'::text,
-    budget_title character varying(255) DEFAULT 'Budget'::character varying,
+    budget_title character varying DEFAULT 'Budget'::character varying,
     budget_wording text DEFAULT 'Is the budget reasonable and appropriate for the request?'::text,
-    completion_title character varying(255) DEFAULT 'Completion'::character varying,
+    completion_title character varying DEFAULT 'Completion'::character varying,
     completion_wording text DEFAULT 'Is the project plan laid out so that the majority of the specific aims can be carried out in the specified time? Is there a reasonable expectation that the aims are reasonable and well tied into the objectives and approach?'::text,
-    project_name character varying(255) NOT NULL,
-    submission_modification_date date,
     show_abstract_field boolean DEFAULT true,
-    abstract_text character varying(255) DEFAULT 'Please include an abstract of your proposal, not to exceed 200 words.'::character varying,
+    abstract_text character varying DEFAULT 'Please include an abstract of your proposal, not to exceed 200 words.'::character varying,
     show_manage_other_support boolean DEFAULT true,
-    manage_other_support_text character varying(255) DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
+    projects character varying DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
+    manage_other_support_text character varying DEFAULT 'Please include your NIH Other Support document. You can download a sample NIH Other Support document <a href=''http://grants.nih.gov/grants/funding/phs398/othersupport.doc''>here</a>.'::character varying,
     show_document1 boolean DEFAULT false,
-    document1_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document1_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document1_template_url character varying(255),
-    document1_info_url character varying(255),
-    project_url_label character varying(255) DEFAULT 'Competition RFA'::character varying,
-    application_template_url character varying(255),
-    application_template_url_label character varying(255) DEFAULT 'Application template'::character varying,
-    application_info_url character varying(255),
-    application_info_url_label character varying(255) DEFAULT 'Application instructions'::character varying,
-    budget_template_url character varying(255),
-    budget_template_url_label character varying(255) DEFAULT 'Budget template'::character varying,
-    budget_info_url character varying(255),
-    budget_info_url_label character varying(255) DEFAULT 'Budget instructions'::character varying,
+    document1_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document1_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document1_template_url character varying,
+    document1_info_url character varying,
+    project_url_label character varying DEFAULT 'Competition RFA'::character varying,
+    application_template_url character varying,
+    application_template_url_label character varying DEFAULT 'Application template'::character varying,
+    application_info_url character varying,
+    application_info_url_label character varying DEFAULT 'Application instructions'::character varying,
+    budget_template_url character varying,
+    budget_template_url_label character varying DEFAULT 'Budget template'::character varying,
+    budget_info_url character varying,
+    budget_info_url_label character varying DEFAULT 'Budget instructions'::character varying,
     only_allow_pdfs boolean DEFAULT false,
     show_document2 boolean DEFAULT false,
-    document2_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document2_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document2_template_url character varying(255),
-    document2_info_url character varying(255),
+    document2_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document2_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document2_template_url character varying,
+    document2_info_url character varying,
     show_document3 boolean DEFAULT false,
-    document3_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document3_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document3_template_url character varying(255),
-    document3_info_url character varying(255),
+    document3_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document3_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document3_template_url character varying,
+    document3_info_url character varying,
     show_document4 boolean DEFAULT false,
-    document4_name character varying(255) DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
-    document4_description character varying(255) DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
-    document4_template_url character varying(255),
-    document4_info_url character varying(255),
+    document4_name character varying DEFAULT 'Replace with document name, like ''OSR-1 form'''::character varying,
+    document4_description character varying DEFAULT 'Replace with detailed description of the document, the url for a template for the document, etc.'::character varying,
+    document4_template_url character varying,
+    document4_info_url character varying,
     show_project_cost boolean DEFAULT true,
     show_composite_scores_to_applicants boolean DEFAULT false,
     show_composite_scores_to_reviewers boolean DEFAULT true,
     show_review_summaries_to_applicants boolean DEFAULT true,
     show_review_summaries_to_reviewers boolean DEFAULT true,
-    submission_category_description character varying(255) DEFAULT 'Please enter the core you are making this submission for.'::character varying,
-    human_subjects_research_text character varying(255) DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::character varying,
+    submission_category_description character varying DEFAULT 'Please enter the core you are making this submission for.'::character varying,
+    human_subjects_research_text text DEFAULT 'Human subjects research typically includes direct contact with research participants and/or patients. Aggregate data or ''counts'' of patients matching criteria, such as for proposal preparation, it is not typically considered human subjects research.'::text,
     show_application_doc boolean DEFAULT true,
-    application_doc_name character varying(255) DEFAULT 'Application'::character varying,
-    application_doc_description character varying(255) DEFAULT 'Please upload the completed application here.'::character varying,
+    application_doc_name character varying DEFAULT 'Application'::character varying,
+    application_doc_description character varying DEFAULT 'Please upload the completed application here.'::character varying,
+    created_id integer,
+    created_ip character varying,
+    updated_id integer,
+    updated_ip character varying,
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     membership_required boolean DEFAULT false,
-    supplemental_document_name character varying(255) DEFAULT 'Supplemental Document (Optional)'::character varying,
-    supplemental_document_description character varying(255) DEFAULT 'Please upload any supplemental information here. (Optional)'::character varying,
-    closed_status_wording character varying(255) DEFAULT 'Awarded'::character varying,
+    supplemental_document_name character varying DEFAULT 'Supplemental Document (Optional)'::character varying,
+    supplemental_document_description character varying DEFAULT 'Please upload any supplemental information here. (Optional)'::character varying,
+    closed_status_wording character varying DEFAULT 'Awarded'::character varying,
     show_review_guidance boolean DEFAULT true,
     comment_review_only boolean DEFAULT false,
     custom_review_guidance text,
@@ -516,7 +412,8 @@ CREATE TABLE projects (
 -- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE projects_id_seq
+CREATE SEQUENCE public.projects_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -528,24 +425,24 @@ CREATE SEQUENCE projects_id_seq
 -- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
 
 
 --
--- Name: reviewers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: reviewers; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE reviewers (
+CREATE TABLE public.reviewers (
     id integer NOT NULL,
     program_id integer,
     user_id integer,
     created_id integer,
-    created_ip character varying(255),
+    created_ip character varying,
     updated_id integer,
-    updated_ip character varying(255),
+    updated_ip character varying,
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying(255),
+    deleted_ip character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -555,7 +452,8 @@ CREATE TABLE reviewers (
 -- Name: reviewers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE reviewers_id_seq
+CREATE SEQUENCE public.reviewers_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -567,18 +465,18 @@ CREATE SEQUENCE reviewers_id_seq
 -- Name: reviewers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE reviewers_id_seq OWNED BY reviewers.id;
+ALTER SEQUENCE public.reviewers_id_seq OWNED BY public.reviewers.id;
 
 
 --
--- Name: rights; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: rights; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE rights (
+CREATE TABLE public.rights (
     id integer NOT NULL,
-    name character varying(255),
-    controller character varying(255),
-    action character varying(255),
+    name character varying,
+    controller character varying,
+    action character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -588,7 +486,8 @@ CREATE TABLE rights (
 -- Name: rights_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE rights_id_seq
+CREATE SEQUENCE public.rights_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -600,14 +499,14 @@ CREATE SEQUENCE rights_id_seq
 -- Name: rights_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE rights_id_seq OWNED BY rights.id;
+ALTER SEQUENCE public.rights_id_seq OWNED BY public.rights.id;
 
 
 --
--- Name: rights_roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: rights_roles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE rights_roles (
+CREATE TABLE public.rights_roles (
     right_id integer,
     role_id integer,
     created_at timestamp without time zone,
@@ -616,12 +515,12 @@ CREATE TABLE rights_roles (
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: roles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE roles (
+CREATE TABLE public.roles (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -631,7 +530,8 @@ CREATE TABLE roles (
 -- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE roles_id_seq
+CREATE SEQUENCE public.roles_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -643,14 +543,14 @@ CREATE SEQUENCE roles_id_seq
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 
 --
--- Name: roles_users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: roles_users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE roles_users (
+CREATE TABLE public.roles_users (
     id integer NOT NULL,
     role_id integer,
     user_id integer,
@@ -658,12 +558,12 @@ CREATE TABLE roles_users (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     created_id integer,
-    created_ip character varying(255),
+    created_ip character varying,
     updated_id integer,
-    updated_ip character varying(255),
+    updated_ip character varying,
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying(255)
+    deleted_ip character varying
 );
 
 
@@ -671,7 +571,8 @@ CREATE TABLE roles_users (
 -- Name: roles_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE roles_users_id_seq
+CREATE SEQUENCE public.roles_users_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -683,28 +584,28 @@ CREATE SEQUENCE roles_users_id_seq
 -- Name: roles_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE roles_users_id_seq OWNED BY roles_users.id;
+ALTER SEQUENCE public.roles_users_id_seq OWNED BY public.roles_users.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
 );
 
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE sessions (
+CREATE TABLE public.sessions (
     id integer NOT NULL,
-    session_id character varying(255) NOT NULL,
+    session_id character varying NOT NULL,
     data text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -712,7 +613,8 @@ CREATE TABLE sessions (
 -- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE sessions_id_seq
+CREATE SEQUENCE public.sessions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -724,31 +626,22 @@ CREATE SEQUENCE sessions_id_seq
 -- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
--- Name: submission_reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: submission_reviews; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE submission_reviews (
+CREATE TABLE public.submission_reviews (
     id integer NOT NULL,
     submission_id integer,
     reviewer_id integer,
     review_score double precision,
     review_text text,
     review_doc bytea,
-    review_status character varying(255),
+    review_status character varying,
     review_completed_at timestamp without time zone,
-    created_id integer,
-    created_ip character varying(255),
-    updated_id integer,
-    updated_ip character varying(255),
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
     innovation_score integer DEFAULT 0,
     impact_score integer DEFAULT 0,
     scope_score integer DEFAULT 0,
@@ -773,6 +666,15 @@ CREATE TABLE submission_reviews (
     overall_text text,
     other_score integer DEFAULT 0,
     other_text text,
+    created_id integer,
+    created_ip character varying,
+    updated_id integer,
+    updated_ip character varying,
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     completion_text text
 );
 
@@ -781,7 +683,8 @@ CREATE TABLE submission_reviews (
 -- Name: submission_reviews_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE submission_reviews_id_seq
+CREATE SEQUENCE public.submission_reviews_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -793,29 +696,29 @@ CREATE SEQUENCE submission_reviews_id_seq
 -- Name: submission_reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE submission_reviews_id_seq OWNED BY submission_reviews.id;
+ALTER SEQUENCE public.submission_reviews_id_seq OWNED BY public.submission_reviews.id;
 
 
 --
--- Name: submissions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: submissions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE submissions (
+CREATE TABLE public.submissions (
     id integer NOT NULL,
     project_id integer,
     applicant_id integer,
-    submission_title character varying(255),
-    submission_status character varying(255),
+    submission_title character varying,
+    submission_status character varying,
     is_human_subjects_research boolean,
     is_irb_approved boolean,
-    irb_study_num character varying(255),
+    irb_study_num character varying,
     use_nucats_cru boolean,
-    nucats_cru_contact_name character varying(255),
+    nucats_cru_contact_name character varying,
     use_stem_cells boolean,
     use_embryonic_stem_cells boolean,
     use_vertebrate_animals boolean,
     is_iacuc_approved boolean,
-    iacuc_study_num character varying(255),
+    iacuc_study_num character varying,
     direct_project_cost double precision,
     is_new boolean,
     use_nmh boolean,
@@ -827,31 +730,22 @@ CREATE TABLE submissions (
     other_funding_sources text,
     is_conflict boolean,
     conflict_explanation text,
-    effort_approver_ip character varying(255),
+    effort_approver_ip character varying,
     submission_at timestamp without time zone,
     completion_at timestamp without time zone,
-    effort_approver_username character varying(255),
-    department_administrator_username character varying(255),
+    effort_approver_username character varying,
+    department_administrator_username character varying,
     effort_approval_at timestamp without time zone,
-    created_id integer,
-    created_ip character varying(255),
-    updated_id integer,
-    updated_ip character varying(255),
-    deleted_at timestamp without time zone,
-    deleted_id integer,
-    deleted_ip character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
     submission_reviews_count integer DEFAULT 0,
-    application_document_id integer,
-    budget_document_id integer,
-    submission_category character varying(255),
-    core_manager_username character varying(255),
+    submission_category character varying,
+    core_manager_username character varying,
     cost_sharing_amount double precision,
     cost_sharing_organization text,
-    received_previous_support boolean,
+    received_previous_support boolean DEFAULT false,
     previous_support_description text,
-    committee_review_approval boolean,
+    committee_review_approval boolean DEFAULT false,
+    application_document_id integer,
+    budget_document_id integer,
     abstract text,
     other_support_document_id integer,
     document1_id integer,
@@ -862,7 +756,16 @@ CREATE TABLE submissions (
     notification_cnt integer DEFAULT 0,
     notification_sent_at timestamp without time zone,
     notification_sent_by_id integer,
-    notification_sent_to character varying(255),
+    notification_sent_to character varying,
+    created_id integer,
+    created_ip character varying,
+    updated_id integer,
+    updated_ip character varying,
+    deleted_at timestamp without time zone,
+    deleted_id integer,
+    deleted_ip character varying,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     supplemental_document_id integer,
     total_amount_requested double precision,
     amount_awarded double precision,
@@ -874,7 +777,8 @@ CREATE TABLE submissions (
 -- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE submissions_id_seq
+CREATE SEQUENCE public.submissions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -886,55 +790,55 @@ CREATE SEQUENCE submissions_id_seq
 -- Name: submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
+ALTER SEQUENCE public.submissions_id_seq OWNED BY public.submissions.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
-    username character varying(255) NOT NULL,
-    era_commons_name character varying(255),
-    first_name character varying(255) NOT NULL,
-    last_name character varying(255) NOT NULL,
-    middle_name character varying(255),
-    email character varying(255),
-    degrees character varying(255),
-    name_suffix character varying(255),
-    business_phone character varying(255),
-    fax character varying(255),
-    title character varying(255),
+    username character varying NOT NULL,
+    era_commons_name character varying,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    middle_name character varying,
+    email character varying,
+    degrees character varying,
+    name_suffix character varying,
+    business_phone character varying,
+    fax character varying,
+    title character varying,
     employee_id integer,
-    primary_department character varying(255),
-    campus character varying(255),
+    primary_department character varying,
+    campus character varying,
     campus_address text,
     address text,
-    city character varying(255),
-    postal_code character varying(255),
-    state character varying(255),
-    country character varying(255),
-    photo_content_type character varying(255),
-    photo_file_name character varying(255),
+    city character varying,
+    postal_code character varying,
+    state character varying,
+    country character varying,
+    photo_content_type character varying,
+    photo_file_name character varying,
     photo bytea,
+    biosketch_document_id integer,
     first_login_at timestamp without time zone,
     last_login_at timestamp without time zone,
-    password_salt character varying(255),
-    password_hash character varying(255),
+    password_salt character varying,
+    password_hash character varying,
     password_changed_at timestamp without time zone,
     password_changed_id integer,
-    password_changed_ip character varying(255),
+    password_changed_ip character varying,
     created_id integer,
-    created_ip character varying(255),
+    created_ip character varying,
     updated_id integer,
-    updated_ip character varying(255),
+    updated_ip character varying,
     deleted_at timestamp without time zone,
     deleted_id integer,
-    deleted_ip character varying(255),
+    deleted_ip character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    biosketch_document_id integer,
     notify_on_new_submission boolean DEFAULT true,
     notify_on_complete_submission boolean DEFAULT true,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
@@ -949,7 +853,12 @@ CREATE TABLE users (
     oauth_name character varying,
     remember_token character varying,
     should_receive_submission_notifications boolean DEFAULT true,
-    system_admin boolean DEFAULT false NOT NULL
+    system_admin boolean DEFAULT false NOT NULL,
+    type character varying,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying
 );
 
 
@@ -957,7 +866,8 @@ CREATE TABLE users (
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -969,14 +879,14 @@ CREATE SEQUENCE users_id_seq
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: versions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: versions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE versions (
+CREATE TABLE public.versions (
     id integer NOT NULL,
     item_type character varying NOT NULL,
     item_id integer NOT NULL,
@@ -992,7 +902,8 @@ CREATE TABLE versions (
 -- Name: versions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE versions_id_seq
+CREATE SEQUENCE public.versions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1004,372 +915,340 @@ CREATE SEQUENCE versions_id_seq
 -- Name: versions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE versions_id_seq OWNED BY versions.id;
+ALTER SEQUENCE public.versions_id_seq OWNED BY public.versions.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: file_documents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY file_documents ALTER COLUMN id SET DEFAULT nextval('file_documents_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY identities ALTER COLUMN id SET DEFAULT nextval('identities_id_seq'::regclass);
+ALTER TABLE ONLY public.file_documents ALTER COLUMN id SET DEFAULT nextval('public.file_documents_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: identities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY key_personnel ALTER COLUMN id SET DEFAULT nextval('key_personnel_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY logs ALTER COLUMN id SET DEFAULT nextval('logs_id_seq'::regclass);
+ALTER TABLE ONLY public.identities ALTER COLUMN id SET DEFAULT nextval('public.identities_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: key_personnel id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq'::regclass);
+ALTER TABLE ONLY public.key_personnel ALTER COLUMN id SET DEFAULT nextval('public.key_personnel_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: logs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY reviewers ALTER COLUMN id SET DEFAULT nextval('reviewers_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY rights ALTER COLUMN id SET DEFAULT nextval('rights_id_seq'::regclass);
+ALTER TABLE ONLY public.logs ALTER COLUMN id SET DEFAULT nextval('public.logs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: programs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY roles_users ALTER COLUMN id SET DEFAULT nextval('roles_users_id_seq'::regclass);
+ALTER TABLE ONLY public.programs ALTER COLUMN id SET DEFAULT nextval('public.programs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY submission_reviews ALTER COLUMN id SET DEFAULT nextval('submission_reviews_id_seq'::regclass);
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: reviewers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.reviewers ALTER COLUMN id SET DEFAULT nextval('public.reviewers_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: rights id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY versions ALTER COLUMN id SET DEFAULT nextval('versions_id_seq'::regclass);
+ALTER TABLE ONLY public.rights ALTER COLUMN id SET DEFAULT nextval('public.rights_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ar_internal_metadata
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
+
+
+--
+-- Name: roles_users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.roles_users ALTER COLUMN id SET DEFAULT nextval('public.roles_users_id_seq'::regclass);
+
+
+--
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: submission_reviews id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_reviews ALTER COLUMN id SET DEFAULT nextval('public.submission_reviews_id_seq'::regclass);
+
+
+--
+-- Name: submissions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submissions ALTER COLUMN id SET DEFAULT nextval('public.submissions_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: versions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.versions ALTER COLUMN id SET DEFAULT nextval('public.versions_id_seq'::regclass);
+
+
+--
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
 
 
 --
--- Name: file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: file_documents file_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY file_documents
+ALTER TABLE ONLY public.file_documents
     ADD CONSTRAINT file_documents_pkey PRIMARY KEY (id);
 
 
 --
--- Name: identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: identities identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY identities
+ALTER TABLE ONLY public.identities
     ADD CONSTRAINT identities_pkey PRIMARY KEY (id);
 
 
 --
--- Name: key_personnel_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: key_personnel key_personnel_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY key_personnel
+ALTER TABLE ONLY public.key_personnel
     ADD CONSTRAINT key_personnel_pkey PRIMARY KEY (id);
 
 
 --
--- Name: logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: logs logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY logs
+ALTER TABLE ONLY public.logs
     ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: programs programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY programs
+ALTER TABLE ONLY public.programs
     ADD CONSTRAINT programs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY projects
+ALTER TABLE ONLY public.projects
     ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
 
 
 --
--- Name: reviewers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: reviewers reviewers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY reviewers
+ALTER TABLE ONLY public.reviewers
     ADD CONSTRAINT reviewers_pkey PRIMARY KEY (id);
 
 
 --
--- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: rights rights_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY rights
+ALTER TABLE ONLY public.rights
     ADD CONSTRAINT rights_pkey PRIMARY KEY (id);
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY roles
+ALTER TABLE ONLY public.roles
     ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
 
 
 --
--- Name: roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: roles_users roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY roles_users
+ALTER TABLE ONLY public.roles_users
     ADD CONSTRAINT roles_users_pkey PRIMARY KEY (id);
 
 
 --
--- Name: sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sessions
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: submission_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: submission_reviews submission_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY submission_reviews
+ALTER TABLE ONLY public.submission_reviews
     ADD CONSTRAINT submission_reviews_pkey PRIMARY KEY (id);
 
 
 --
--- Name: submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: submissions submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY submissions
+ALTER TABLE ONLY public.submissions
     ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
--- Name: versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: versions versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY versions
+ALTER TABLE ONLY public.versions
     ADD CONSTRAINT versions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_identities_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_identities_on_user_id ON identities USING btree (user_id);
-
-
---
--- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
+CREATE INDEX index_identities_on_user_id ON public.identities USING btree (user_id);
 
 
 --
--- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
-
-
---
--- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_era_commons_name ON users USING btree (era_commons_name);
+CREATE INDEX index_sessions_on_session_id ON public.sessions USING btree (session_id);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
-
-
---
--- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_username ON users USING btree (username);
+CREATE INDEX index_sessions_on_updated_at ON public.sessions USING btree (updated_at);
 
 
 --
--- Name: index_versions_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_versions_on_item_type_and_item_id ON versions USING btree (item_type, item_id);
-
-
---
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON public.users USING btree (confirmation_token);
 
 
 --
--- Name: fk_rails_5373344100; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY identities
-    ADD CONSTRAINT fk_rails_5373344100 FOREIGN KEY (user_id) REFERENCES users(id);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_era_commons_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_era_commons_name ON public.users USING btree (era_commons_name);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_username ON public.users USING btree (username);
+
+
+--
+-- Name: index_versions_on_item_type_and_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_versions_on_item_type_and_item_id ON public.versions USING btree (item_type, item_id);
+
+
+--
+-- Name: identities fk_rails_5373344100; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.identities
+    ADD CONSTRAINT fk_rails_5373344100 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20090929015447'),
 ('20090929015448'),
 ('20090929015449'),
-('20090929015450'),
 ('20090929015451'),
-('20090929015452'),
-('20090929015453'),
 ('20090929015454'),
-('20090929015457'),
-('20090929015458'),
-('20090929015459'),
-('20090929030346'),
 ('20090930210257'),
 ('20091031200204'),
-('20091121144825'),
-('20091201231100'),
 ('20091222043643'),
-('20091222044652'),
-('20091222061310'),
-('20091223143616'),
-('20100215201031'),
-('20100228161645'),
-('20100406170739'),
-('20100419182006'),
-('20100427221413'),
-('20100428162531'),
-('20100511175244'),
 ('20100526152236'),
-('20100709151356'),
-('20100713031353'),
-('20100713045334'),
-('20100713232424'),
 ('20100714211311'),
-('20100903204448'),
-('20100923102236'),
-('20101015232023'),
-('20110105042007'),
-('20110612035350'),
-('20110621194552'),
-('20110902205400'),
-('20110905133538'),
-('20111005032653'),
-('20111114041303'),
-('20111115153048'),
-('20111116160833'),
-('20120314202945'),
-('20120406134913'),
-('20120911200945'),
-('20120921155653'),
-('20121026195117'),
-('20130114160152'),
-('20130123222811'),
-('20130511121216'),
-('20140213161624'),
-('20140320142240'),
 ('20140327162328'),
 ('20140418191443'),
-('20140516203330'),
-('20140529184813'),
 ('20140908190758'),
 ('20141022182109'),
 ('20141031150750'),
@@ -1395,6 +1274,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170104212020'),
 ('20170221205919'),
 ('20170228172406'),
-('20180604213601');
+('20180604213601'),
+('20180816184836'),
+('20180830194757');
 
 
