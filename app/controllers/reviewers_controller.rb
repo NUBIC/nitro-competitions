@@ -20,7 +20,7 @@ class ReviewersController < SecuredController
 
   def all
     @include_sponsor_and_competition = true
-    @submission_reviews = current_user_session.submission_reviews.order('updated_at DESC')
+    @submission_reviews = current_user_session.submission_reviews.with_submissions_and_projects
     respond_to do |format|
       format.html { render action: 'all' } # all.html.erb
     end
