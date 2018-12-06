@@ -1,0 +1,7 @@
+opendlap-data/*
+
+base.ldif
+clear.ldif
+server.pem
+slapd-test.conf
+slapd-ssl-test.conf

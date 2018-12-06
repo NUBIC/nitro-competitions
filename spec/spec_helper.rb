@@ -80,7 +80,13 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include Devise::Test::ControllerHelpers, :type => :controller
+  config.include Warden::Test::Helpers
   config.extend ControllerMacros, :type => :controller
+
+  config.before(:each, js: true) do
+    Warden.test_mode!
+    Capybara.page.current_window.resize_to(1280, 800)
+  end
 end
 
 Capybara.register_driver :chrome do |app|
