@@ -21,7 +21,7 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '02d66dd839eb36759f77819608ead1fe9aaa22bdcb52e485436e1e9363eaa501f7a003b4b5521f63b9da0799c79b6fddc41842feda09111018cbc0c8ad44cd91'
-  
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -32,7 +32,7 @@ Devise.setup do |config|
   # with default "from" parameter.
   # config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
   config.mailer_sender = 'nitro-noreply@northwestern.edu'
-  
+
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -188,6 +188,7 @@ Devise.setup do |config|
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
+  config.timeout_in = 8.hours
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
@@ -296,8 +297,8 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
   Devise.setup do |config|
-    config.mailer.class_eval do 
-      helper :subdomain 
+    config.mailer.class_eval do
+      helper :subdomain
     end
   end
 end
