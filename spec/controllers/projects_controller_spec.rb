@@ -3,28 +3,28 @@
 describe ProjectsController, :type => :controller do
 
 
-  context 'for a non-admin user' do
-    # hir = FactoryBot.create(:ldap_user, username: 'mjb0760', first_name: 'Matthew', last_name: 'Baumann', email: 'matthew.baumann@northwestern.edu')
-    hir = FactoryBot.create(:mjb_user)
+  # context 'for a non-admin user' do
+  #   # hir = FactoryBot.create(:ldap_user, username: 'mjb0760', first_name: 'Matthew', last_name: 'Baumann', email: 'matthew.baumann@northwestern.edu')
+  #   hir = FactoryBot.build(:ldap_user)
 
-    allow(hir).to receive(:get_ldap_entry)
-      .with(hir.username)
-      .and_return(
-        [LdapResult.new([hir.username], [hir.first_name], [hir.last_name], [hir.email])]
-      )
+  #   allow(hir).to receive(:get_ldap_entry)
+  #     .with(hir.username)
+  #     .and_return(
+  #       [LdapResult.new([hir.username], [hir.first_name], [hir.last_name], [hir.email])]
+  #     )
 
 
-    puts "#{hir.inspect}"
-    # login(her)
-    # login_as(hir, scope: :ldap_user)
+  #   puts "#{hir.inspect}"
+  #   # login(her)
+  #   # login_as(hir, scope: :ldap_user)
 
-    # describe 'GET new' do
-    #   it 'redirects to projects_path' do
-    #     process :new, method: :get
-    #     expect(response).to redirect_to(projects_path)
-    #   end
-    # end
-  end
+  #   # describe 'GET new' do
+  #   #   it 'redirects to projects_path' do
+  #   #     process :new, method: :get
+  #   #     expect(response).to redirect_to(projects_path)
+  #   #   end
+  #   # end
+  # end
 
   context 'with a logged in user' do
     user_login

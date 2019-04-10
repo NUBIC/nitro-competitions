@@ -144,7 +144,8 @@ describe Submission, :type => :model do
   end
 
   context 'cost' do
-    let (:sub) { FactoryBot.build(:submission) }
+    let (:project) { FactoryBot.create(:project, min_budget_request: nil, max_budget_request: nil) }
+    let (:sub) { FactoryBot.build(:submission, project: project) }
     describe '.max_project_cost' do
       it 'defaults to 50,000' do
         expect(sub.max_budget_request).to be_nil

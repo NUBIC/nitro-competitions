@@ -37,7 +37,7 @@ class User < ApplicationRecord
   end
 
   # Callbacks
-  before_save :prepare_user
+  before_validation :prepare_user
   after_save :save_documents
 
   # Validations

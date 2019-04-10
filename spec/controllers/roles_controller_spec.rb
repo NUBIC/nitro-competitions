@@ -4,7 +4,9 @@ describe RolesController, :type => :controller do
   include Rails.application.routes.url_helpers
 
   context 'with a logged in non-admin user' do
-    user_login
+    @user = FactoryBot.create(:user)
+
+    login_as(@user)
 
     describe 'GET index' do
       let(:program) { FactoryBot.create(:program) }

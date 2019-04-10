@@ -64,13 +64,16 @@ describe User, :type => :model do
   end
 
   context 'new user creation' do
+    before do
+      @user =  FactoryBot.create(:user, email: '  99UPPER@CASE.COM  ')
+    end
+
     describe 'username with whitespace and Uppercase letters' do
-      let(:user) { FactoryBot.create(:user, username: '  99UPPERCASE99  ', email: '  99UPPER@CASE.COM  ')}
       it 'strips whitespace and uppercase letters from username' do
-        expect(user.username).to eq '99uppercase99'
+        expect(@user.username).to eq '99upper@case.com'
       end
       it 'strips whitespace and uppercase letters from email' do
-        expect(user.email).to eq '99upper@case.com'
+        expect(@user.email).to eq '99upper@case.com'
       end
     end
   end
@@ -134,6 +137,7 @@ describe User, :type => :model do
     let(:user) { submission.applicant }
     describe '#submissions' do
       it 'returns Submission associations' do
+        byebug
         expect(user.submissions).not_to be_blank
         user.submissions.each do |submission|
           expect(submission.applicant).to eq user
