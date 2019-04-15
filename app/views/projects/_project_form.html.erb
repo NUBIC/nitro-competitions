@@ -1529,7 +1529,7 @@
           <%= f.check_box "show_#{criterion}_score".to_sym %><%= f.text_field "#{criterion}_title".to_sym, :size => 40 %>
         </td>
         <td>
-          <%= f.text_area "#{criterion}_wording".to_sym, {:rows => 5, :cols => 70, :maxlength => 255, :wrap => "virtual"} %>
+          <%= f.text_area "#{criterion}_wording".to_sym, {:rows => 5, :cols => 70, :wrap => "virtual"} %>
         </td>
       </tr>
       <% end %>
