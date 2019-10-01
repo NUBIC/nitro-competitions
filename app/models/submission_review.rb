@@ -9,9 +9,11 @@ class SubmissionReview < ApplicationRecord
   belongs_to  :reviewer,   :class_name => 'User', :foreign_key => 'reviewer_id'
   belongs_to  :user,       :foreign_key => 'reviewer_id'
 
-  scope :load_all,      lambda { joins([:applicant]) }
-  scope :this_project,  lambda { |*args| joins(:submission).where('submissions.project_id = :project_id', { :project_id => args.first }) }
-  scope :active,        lambda { |*args| joins(:submission).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
+  scope :with_applicants,                 -> { joins([:applicant]) }
+  scope :with_submissions,                -> { joins([:submission]) }
+  scope :with_submissions_and_projects,   -> { with_submissions.joins([:project]) }
+  scope :this_project,                    lambda { |*args| joins(:submission).where('submissions.project_id = :project_id', { :project_id => args.first }) }
+  scope :active,                          lambda { |*args| joins(:submission).where('submissions.project_id IN (:project_ids)', { :project_ids => args.first }) }
 
   WithScoring::COMPOSITE_CRITERIA.each do |criterion|
     validates_numericality_of "#{criterion}_score".to_sym, :allow_nil => true, :only_integer => true, :less_than_or_equal_to => 9, :greater_than_or_equal_to => 0

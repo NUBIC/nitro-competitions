@@ -1,7 +1,7 @@
 <%= fields_for "key_personnel[#{index}]", key_person do |f| %>
   <p>
     <%= f.hidden_field :id %>
-    <%= f.text_field(:username, size: 14, required: true) %> Enter a NetID <%= netid_lookup_tag %> for NU people or email address for non NU personnel
+    <%= f.text_field(:username, size: 14, required: true) %> Enter a NetID <%= netid_lookup_tag %> for NU people or email address for non NU personnel. (lowercase)
     <!-- %# = key_personnel_lookup_observer(submission.id, "key_personnel_#{index}", "#{index}").html_safe % -->
     <span id="key_personnel_#{index}_username_id"></span>
     <br />
