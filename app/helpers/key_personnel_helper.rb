@@ -34,22 +34,27 @@ module KeyPersonnelHelper
   end
 
   def handle_key_personnel_param(submission)
-      key_personnel_usernames = Array.new
+      incoming_key_personnel_usernames = Array.new
       if defined?(params)
         unless params[:key_personnel].blank?
-          params[:key_personnel].each { |_, person| key_personnel_usernames << person[:username] }
-          submission.key_personnel.each do |key_person|
-            key_person.destroy if key_personnel_usernames.blank? || !key_personnel_usernames.include?(key_person.username)
+          params[:key_personnel].each { |_, new_person| incoming_key_personnel_usernames << new_person[:username].strip.downcase! }
+          submission.key_personnel.each do |existing_key_person|
+            existing_key_person.destroy if incoming_key_personnel_usernames.blank? || !incoming_key_personnel_usernames.include?(existing_key_person.username)
           end
           params[:key_personnel].each do |_, key_person|
           unless key_person['username'].blank?
-            # check if we have this user
-            key_user = make_user(key_person['username'], key_person['email'])
-            if key_user.blank? 
-              if !key_person['username'].blank? && !key_person['first_name'].blank? && !key_person['last_name'].blank?
+
+            prepared_email = key_person['email'].strip if key_person['email'].respond_to?(:strip)
+            prepared_email = prepared_email.downcase!
+            prepared_username = key_person['username'].strip if key_person['username'].respond_to?(:strip)
+            prepared_username = prepared_username.downcase!
+
+            key_user = make_user(prepared_username, prepared_email)
+            if key_user.blank?
+              if !prepared_username.blank? && !key_person['first_name'].blank? && !key_person['last_name'].blank?
                 key_user = ExternalUser.new
-                key_user.username       = key_person['username']
-                key_user.email          = key_person['email']
+                key_user.username       = prepared_username
+                key_user.email          = prepared_email
                 key_user.first_name     = key_person['first_name']
                 key_user.last_name      = key_person['last_name']
                 key_user.password       = Devise.friendly_token[0,20]
@@ -62,7 +67,7 @@ module KeyPersonnelHelper
                 end
               end
             else
-              key_user.email            = key_person['email'] unless key_person['email'].blank?
+              key_user.email            = prepared_email unless prepared_email.blank?
               key_user.first_name       = key_person['first_name']
               key_user.last_name        = key_person['last_name']
               before_update(key_user)
