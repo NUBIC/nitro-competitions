@@ -31,7 +31,7 @@
     <%= form_tag(new_project_applicant_path(project_id: params[:project_id]), method: :get, id: "username_form") do %>
       <tr>
         <td class="title">
-          <%= "#{@project.applicant_abbreviation_wording.html_safe} Username" -%>
+          <%= "#{@project.applicant_abbreviation_wording&.html_safe} Username" -%>
         </td>
         <td>
           <%= text_field_tag :username, @applicant.username %>
@@ -41,10 +41,10 @@
                                "jQuery('#username_form').submit()") -%>
           <%# FIXME: Why does this only work for NU personnel? %>
           Username <%= netid_lookup_tag %> for the
-          <%= @project.applicant_wording.html_safe -%>
+          <%= @project.applicant_wording&.html_safe -%>
           <em>
             (currently this change
-            <%= @project.applicant_abbreviation_wording.html_safe -%>
+            <%= @project.applicant_abbreviation_wording&.html_safe -%>
             feature works only for NU-afflilated personnel.)
           </em>
         </td>
