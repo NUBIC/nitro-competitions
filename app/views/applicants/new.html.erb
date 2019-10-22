@@ -30,7 +30,9 @@
   <table  class="lined">
     <%= form_tag(new_project_applicant_path(project_id: params[:project_id]), method: :get, id: "username_form") do %>
       <tr>
-        <td class="title">PI Username</td>
+        <td class="title">
+          <%= "#{@project.applicant_abbreviation_wording.html_safe} Username" -%>
+        </td>
         <td>
           <%= text_field_tag :username, @applicant.username %>
           <%= link_to_function(image_tag("arrow_refresh.png",
@@ -38,8 +40,13 @@
                                title: "click here to reload this page with a new #{NucatsAssist.institute_id_name}"),
                                "jQuery('#username_form').submit()") -%>
           <%# FIXME: Why does this only work for NU personnel? %>
-          Username <%= netid_lookup_tag %> for the Principal Investigator
-          <em>(currently this change PI feature works only for NU-afflilated personnel.)</em>
+          Username <%= netid_lookup_tag %> for the
+          <%= @project.applicant_wording.html_safe -%>
+          <em>
+            (currently this change
+            <%= @project.applicant_abbreviation_wording.html_safe -%>
+            feature works only for NU-afflilated personnel.)
+          </em>
         </td>
       </tr>
     <% end %>
