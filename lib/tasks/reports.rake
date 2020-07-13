@@ -40,6 +40,11 @@ namespace :reports do
     generate_projects_with_submissions_csv(competitions)
   end
 
+  task :nucats_projects => :environment do
+    competitions = Program.find(12).projects
+    csv_export(competitions)
+  end
+
   # New competitions (if any are added since our last data pull).
   # To run $rake reports:new_projects[2016,1,1]
   # http://stackoverflow.com/questions/825748/how-to-pass-command-line-arguments-to-a-rake-task
