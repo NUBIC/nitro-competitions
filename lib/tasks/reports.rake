@@ -155,7 +155,7 @@ namespace :reports do
   end
 
   def generate_applicants_csv(applicants, extension = '')
-    user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
+    user_cols = ["username", "email", "era_commons_name", "first_name", "last_name", "middle_name", "name_suffix", "primary_department", "title", "degrees"]
     file_name = "#{Rails.root}/tmp/applicants_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing applicants file to " + file_name
     CSV.open(file_name, "w") do |csv|
