@@ -83,12 +83,12 @@ namespace :reports do
 
 
   task :monthly_report => :environment do
-    test_date = (Date.current - (1.month)).beginning_of_month 
+    test_date = (Date.current - (1.month)).beginning_of_month
     new_competitions = Project.includes(:program).where("created_at >= '%#{test_date}%'")
     updated_competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'")
 
     file_name_new = generate_projects_with_submissions_csv(new_competitions, '_new')
-    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')    
+    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')
     file_names = [file_name_new, file_name_updated]
     GeneralMailer.monthly_report_message(file_names).deliver
   end
@@ -168,7 +168,7 @@ namespace :reports do
   end
 
   def generate_key_personnel_csv(key_personnel, extension = '')
-    user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
+    user_cols = ["username", "email", "era_commons_name", "first_name", "last_name", "middle_name", "name_suffix", "primary_department", "title", "degrees"]
     cols = ["submission_id", "user_id", "role"]
     file_name = "#{Rails.root}/tmp/key_personnel_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing key_personnel file to " + file_name
