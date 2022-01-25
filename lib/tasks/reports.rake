@@ -40,6 +40,25 @@ namespace :reports do
     generate_projects_with_submissions_csv(competitions)
   end
 
+  task :nucats_projects => :environment do
+    competitions = Program.find(12).projects
+    csv_export(competitions)
+  end
+
+  task :vpor_projects => :environment do
+    competitions = Program.find(4).projects
+    csv_export(competitions)
+  end
+
+  # Runs the above tasks but with a passible argument for the sponsor
+  # To run $rake reports:projects_by_sponsor[12]
+  task :projects_by_sponsor, [:sponsor] => [:environment] do |t, args|
+    args.with_defaults(:sponsor => 12)
+    competitions = Program.find(args.sponsor.to_i).projects
+    csv_export(competitions)
+  end
+
+
   # New competitions (if any are added since our last data pull).
   # To run $rake reports:new_projects[2016,1,1]
   # http://stackoverflow.com/questions/825748/how-to-pass-command-line-arguments-to-a-rake-task
@@ -83,12 +102,12 @@ namespace :reports do
 
 
   task :monthly_report => :environment do
-    test_date = (Date.current - (1.month)).beginning_of_month 
+    test_date = (Date.current - (1.month)).beginning_of_month
     new_competitions = Project.includes(:program).where("created_at >= '%#{test_date}%'")
     updated_competitions = Project.includes(:program).where("updated_at >= '%#{test_date}%'")
 
     file_name_new = generate_projects_with_submissions_csv(new_competitions, '_new')
-    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')    
+    file_name_updated = generate_projects_with_submissions_csv(updated_competitions, '_updated')
     file_names = [file_name_new, file_name_updated]
     GeneralMailer.monthly_report_message(file_names).deliver
   end
@@ -142,7 +161,8 @@ namespace :reports do
    end
 
   def generate_submissions_csv(submissions, extension = '')
-    cols = ["project_id", "applicant_id", "submission_title"]
+    # cols = ["project_id", "applicant_id", "submission_title"]
+    cols = ["id", "project_id", "applicant_id", "submission_title", "submission_status", "is_human_subjects_research", "is_irb_approved", "irb_study_num", "use_nucats_cru", "nucats_cru_contact_name", "use_stem_cells", "use_embryonic_stem_cells", "use_vertebrate_animals", "is_iacuc_approved", "iacuc_study_num", "direct_project_cost", "is_new", "use_nmh", "use_nmff", "use_va", "use_ric", "use_cmh", "not_new_explanation", "other_funding_sources", "is_conflict", "conflict_explanation", "effort_approver_ip", "submission_at", "completion_at", "effort_approver_username", "department_administrator_username", "effort_approval_at", "created_id", "created_ip", "updated_id", "updated_ip", "deleted_at", "deleted_id", "deleted_ip", "created_at", "updated_at", "submission_reviews_count", "application_document_id", "budget_document_id", "submission_category", "core_manager_username", "cost_sharing_amount", "cost_sharing_organization", "received_previous_support", "previous_support_description", "committee_review_approval", "abstract", "other_support_document_id", "document1_id", "document2_id", "document3_id", "document4_id", "applicant_biosketch_document_id", "notification_cnt", "notification_sent_at", "notification_sent_by_id", "notification_sent_to", "supplemental_document_id", "total_amount_requested", "amount_awarded", "type_of_equipment"]
     file_name = "#{Rails.root}/tmp/submissions#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing submissions file to " + file_name
     CSV.open(file_name, "w") do |csv|
@@ -155,7 +175,7 @@ namespace :reports do
   end
 
   def generate_applicants_csv(applicants, extension = '')
-    user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
+    user_cols = ["username", "email", "era_commons_name", "first_name", "last_name", "middle_name", "name_suffix", "primary_department", "title", "degrees"]
     file_name = "#{Rails.root}/tmp/applicants_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing applicants file to " + file_name
     CSV.open(file_name, "w") do |csv|
@@ -168,7 +188,7 @@ namespace :reports do
   end
 
   def generate_key_personnel_csv(key_personnel, extension = '')
-    user_cols = ["username", "era_commons_name", "first_name", "last_name", "middle_name", "email", "degrees", "name_suffix"]
+    user_cols = ["username", "email", "era_commons_name", "first_name", "last_name", "middle_name", "name_suffix", "primary_department", "title", "degrees"]
     cols = ["submission_id", "user_id", "role"]
     file_name = "#{Rails.root}/tmp/key_personnel_#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}#{extension}.csv"
     puts "Writing key_personnel file to " + file_name
