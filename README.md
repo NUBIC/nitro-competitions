@@ -1,3 +1,9 @@
+**This project is no longer maintained and we have migrated to using a new version of Competitions.**
+https://github.com/NUARIG/competitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
 **NITRO**Competitions is a web-based application for managing institutional funding
 competitions.
 
